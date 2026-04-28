@@ -61,6 +61,16 @@ class Guest_invoices extends REST_Controller
         return $this->guestCheckoutService;
     }
 
+    private function guest_checkout_service()
+    {
+        if ($this->guestCheckoutService === null) {
+            $this->load->library('api/Guest_checkout_service');
+            $this->guestCheckoutService = $this->guest_checkout_service;
+        }
+
+        return $this->guestCheckoutService;
+    }
+
     private function get_payload(): array
     {
         $payload = $this->input->post(null, true);
@@ -210,6 +220,30 @@ class Guest_invoices extends REST_Controller
         }
 
         return (bool)$default;
+    }
+
+    private function resolve_request_id(array $payload): string
+    {
+        $rid = trim((string)($payload['request_id'] ?? $payload['correlation_id'] ?? ''));
+        if ($rid !== '') {
+            return substr($rid, 0, 64);
+        }
+
+        if (function_exists('random_bytes')) {
+            return 'gchk_' . bin2hex(random_bytes(6));
+        }
+
+        return 'gchk_' . uniqid();
+    }
+
+    private function log_checkout_event(string $requestId, string $event, array $context = []): void
+    {
+        $line = [
+            'request_id' => $requestId,
+            'event'      => $event,
+            'context'    => $context,
+        ];
+        log_message('error', '[API Guest Checkout] ' . json_encode($line));
     }
 
     private function apply_auto_number(array &$invoice_data, bool &$didAutoNumber): void
@@ -453,9 +487,12 @@ class Guest_invoices extends REST_Controller
     {
         $payload = $this->get_payload();
         $this->normalize_items($payload);
+        $requestId = $this->resolve_request_id($payload);
+        $this->log_checkout_event($requestId, 'data_post_started');
 
         if (empty($payload['email'])) {
-            return $this->response(['status' => false, 'message' => 'email is required'], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+            $this->log_checkout_event($requestId, 'data_post_failed', ['reason' => 'missing_email']);
+            return $this->response(['status' => false, 'message' => 'email is required', 'request_id' => $requestId], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         // Allow items[{id,qty}] -> build newitems from tblitems
@@ -466,7 +503,8 @@ class Guest_invoices extends REST_Controller
         }
 
         if (!isset($payload['newitems']) || !is_array($payload['newitems']) || count($payload['newitems']) === 0) {
-            return $this->response(['status' => false, 'message' => 'items or newitems is required'], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+            $this->log_checkout_event($requestId, 'data_post_failed', ['reason' => 'missing_items']);
+            return $this->response(['status' => false, 'message' => 'items or newitems is required', 'request_id' => $requestId], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         // Create/find guest
@@ -475,7 +513,8 @@ class Guest_invoices extends REST_Controller
             'update_existing_name' => $updateExistingName,
         ]);
         if ($client_id <= 0 || $contact_id <= 0) {
-            return $this->response(['status' => false, 'message' => $err ?: 'Unable to create/find guest'], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+            $this->log_checkout_event($requestId, 'data_post_failed', ['reason' => 'guest_create_failed', 'error' => $err]);
+            return $this->response(['status' => false, 'message' => $err ?: 'Unable to create/find guest', 'request_id' => $requestId], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         // Create invoice
@@ -513,6 +552,7 @@ class Guest_invoices extends REST_Controller
                 'status'   => false,
                 'message'  => 'Invoice not created',
                 'db_error' => $db_err,
+                'request_id' => $requestId,
             ], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
         }
 
@@ -527,6 +567,7 @@ class Guest_invoices extends REST_Controller
             'invoice_number' => (int)$invoice_data['number'],
             'invoice_prefix' => get_option('invoice_prefix'),
             'update_existing_name' => (bool)$updateExistingName,
+            'request_id'     => $requestId,
         ], REST_Controller::HTTP_CREATED);
     }
 
@@ -538,21 +579,26 @@ class Guest_invoices extends REST_Controller
     {
         $payload = $this->get_payload();
         $this->normalize_items($payload);
+        $requestId = $this->resolve_request_id($payload);
+        $this->log_checkout_event($requestId, 'checkout_started');
 
         if (empty($payload['email'])) {
-            return $this->response(['status'=>false,'message'=>'email is required'], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+            $this->log_checkout_event($requestId, 'checkout_failed', ['reason' => 'missing_email']);
+            return $this->response(['status'=>false,'message'=>'email is required', 'request_id' => $requestId], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $items = $payload['items'] ?? [];
         if (is_string($items)) $items = json_decode($items, true);
         if (!is_array($items) || count($items) === 0) {
-            return $this->response(['status'=>false,'message'=>'items is required'], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+            $this->log_checkout_event($requestId, 'checkout_failed', ['reason' => 'missing_items']);
+            return $this->response(['status'=>false,'message'=>'items is required', 'request_id' => $requestId], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         // payment_mode is required
         $paymentmode = (int)($payload['payment_mode'] ?? $payload['paymentmode'] ?? $payload['payment_mode_id'] ?? 0);
         if ($paymentmode <= 0) {
-            return $this->response(['status'=>false,'message'=>'payment_mode is required'], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+            $this->log_checkout_event($requestId, 'checkout_failed', ['reason' => 'missing_payment_mode']);
+            return $this->response(['status'=>false,'message'=>'payment_mode is required', 'request_id' => $requestId], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         // 1) guest
@@ -561,13 +607,15 @@ class Guest_invoices extends REST_Controller
             'update_existing_name' => $updateExistingName,
         ]);
         if ($client_id <= 0 || $contact_id <= 0) {
-            return $this->response(['status'=>false,'message'=>$err ?: 'Unable to create/find guest'], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+            $this->log_checkout_event($requestId, 'checkout_failed', ['reason' => 'guest_create_failed', 'error' => $err]);
+            return $this->response(['status'=>false,'message'=>$err ?: 'Unable to create/find guest', 'request_id' => $requestId], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         // 2) invoice items
         $newitems = $this->build_newitems_from_mixed($items);
         if (count($newitems) === 0) {
-            return $this->response(['status'=>false,'message'=>'No valid items provided'], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+            $this->log_checkout_event($requestId, 'checkout_failed', ['reason' => 'invalid_items']);
+            return $this->response(['status'=>false,'message'=>'No valid items provided', 'request_id' => $requestId], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         // 3) invoice create
@@ -597,7 +645,8 @@ class Guest_invoices extends REST_Controller
 
         $invoice_id = $this->invoices_model->add($invoice_data);
         if (!$invoice_id) {
-            return $this->response(['status'=>false,'message'=>'Invoice not created','db_error'=>$this->db->error()], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+            $this->log_checkout_event($requestId, 'checkout_failed', ['reason' => 'invoice_create_failed']);
+            return $this->response(['status'=>false,'message'=>'Invoice not created','db_error'=>$this->db->error(), 'request_id' => $requestId], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $this->bump_next_invoice_number_if_needed($didAutoNumber, $invoice_data['number']);
@@ -606,6 +655,10 @@ class Guest_invoices extends REST_Controller
         $this->load->model('payments_model');
 
         $amount = !empty($payload['amount']) ? (float)$payload['amount'] : (float)$invoice_data['total'];
+        if ($amount <= 0) {
+            $this->log_checkout_event($requestId, 'checkout_failed', ['reason' => 'invalid_amount', 'amount' => $amount]);
+            return $this->response(['status'=>false,'message'=>'amount must be greater than zero', 'request_id' => $requestId], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
         $payment_data = [
             'invoiceid'     => $invoice_id,
@@ -622,7 +675,8 @@ class Guest_invoices extends REST_Controller
 
         $payment_id = $this->payments_model->add($payment_data);
         if (!$payment_id) {
-            return $this->response(['status'=>false,'message'=>'Payment not created','db_error'=>$this->db->error()], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+            $this->log_checkout_event($requestId, 'checkout_failed', ['reason' => 'payment_create_failed']);
+            return $this->response(['status'=>false,'message'=>'Payment not created','db_error'=>$this->db->error(), 'request_id' => $requestId], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         // 5) email
@@ -641,6 +695,13 @@ class Guest_invoices extends REST_Controller
         if ($send_email_mode === 'combined') {
             $email_sent = $this->send_invoice_and_receipt_email((int)$invoice_id, (int)$payment_id, (int)$contact_id);
         }
+        $this->log_checkout_event($requestId, 'checkout_completed', [
+            'client_id' => (int)$client_id,
+            'invoice_id' => (int)$invoice_id,
+            'payment_id' => (int)$payment_id,
+            'email_sent' => (bool)$email_sent,
+            'send_email_mode' => $send_email_mode,
+        ]);
 
         return $this->response([
             'status'         => true,
@@ -656,6 +717,7 @@ class Guest_invoices extends REST_Controller
             'invoice_number' => (int)($invoice_data['number'] ?? 0),
             'tax_total'      => $totals['tax_total'],
             'update_existing_name' => (bool)$updateExistingName,
+            'request_id'     => $requestId,
         ], REST_Controller::HTTP_CREATED);
     }
 
