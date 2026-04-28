@@ -25,7 +25,9 @@ require_once __DIR__ . '/REST_Controller.php';
  * - payment_mode (required)  // maps to tblinvoicepaymentrecords.paymentmode
  * - payment_date (optional)  // default today
  * - transaction_id (optional)
- * - send_email (optional, default 1)
+ * - send_email (optional, legacy bool; default 1)
+ * - send_email_mode (optional: combined|none; default combined)
+ * - update_existing_name (optional bool; default true)
  *
  * IMPORTANT:
  * - This controller follows your current server setup approach:
@@ -178,11 +180,36 @@ class Guest_invoices extends REST_Controller
      * - else create client + primary contact
      * - if no name/company provided, rename to Guest{client_id} (like your Guest Invoices module behavior)
      */
-    private function get_or_create_guest(array $payload): array
+    private function get_or_create_guest(array $payload, array $options = []): array
     {
+        $updateExistingName = array_key_exists('update_existing_name', $options)
+            ? (bool)$options['update_existing_name']
+            : true;
+
         return $this->guest_checkout_service()->findOrCreateGuest($payload, [
-            'update_existing_name' => true,
+            'update_existing_name' => $updateExistingName,
         ]);
+    }
+
+    private function to_bool($value, $default = false): bool
+    {
+        if ($value === null || $value === '') {
+            return (bool)$default;
+        }
+
+        if (is_bool($value)) {
+            return $value;
+        }
+
+        $value = strtolower(trim((string)$value));
+        if (in_array($value, ['1', 'true', 'yes', 'y', 'on'], true)) {
+            return true;
+        }
+        if (in_array($value, ['0', 'false', 'no', 'n', 'off'], true)) {
+            return false;
+        }
+
+        return (bool)$default;
     }
 
     private function apply_auto_number(array &$invoice_data, bool &$didAutoNumber): void
@@ -443,7 +470,10 @@ class Guest_invoices extends REST_Controller
         }
 
         // Create/find guest
-        [$client_id, $contact_id, $err] = $this->get_or_create_guest($payload);
+        $updateExistingName = $this->to_bool($payload['update_existing_name'] ?? null, true);
+        [$client_id, $contact_id, $err] = $this->get_or_create_guest($payload, [
+            'update_existing_name' => $updateExistingName,
+        ]);
         if ($client_id <= 0 || $contact_id <= 0) {
             return $this->response(['status' => false, 'message' => $err ?: 'Unable to create/find guest'], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -496,6 +526,7 @@ class Guest_invoices extends REST_Controller
             'contact_id'     => (int)$contact_id,
             'invoice_number' => (int)$invoice_data['number'],
             'invoice_prefix' => get_option('invoice_prefix'),
+            'update_existing_name' => (bool)$updateExistingName,
         ], REST_Controller::HTTP_CREATED);
     }
 
@@ -525,7 +556,10 @@ class Guest_invoices extends REST_Controller
         }
 
         // 1) guest
-        [$client_id, $contact_id, $err] = $this->get_or_create_guest($payload);
+        $updateExistingName = $this->to_bool($payload['update_existing_name'] ?? null, true);
+        [$client_id, $contact_id, $err] = $this->get_or_create_guest($payload, [
+            'update_existing_name' => $updateExistingName,
+        ]);
         if ($client_id <= 0 || $contact_id <= 0) {
             return $this->response(['status'=>false,'message'=>$err ?: 'Unable to create/find guest'], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -592,10 +626,19 @@ class Guest_invoices extends REST_Controller
         }
 
         // 5) email
-        $send_email = isset($payload['send_email']) ? (int)$payload['send_email'] : 1;
+        $send_email_mode = strtolower(trim((string)($payload['send_email_mode'] ?? 'combined')));
+        if (!in_array($send_email_mode, ['combined', 'none'], true)) {
+            $send_email_mode = 'combined';
+        }
+
+        // legacy compatibility
+        if (isset($payload['send_email']) && !$this->to_bool($payload['send_email'], true)) {
+            $send_email_mode = 'none';
+        }
+
         $email_sent = false;
 
-        if ($send_email === 1) {
+        if ($send_email_mode === 'combined') {
             $email_sent = $this->send_invoice_and_receipt_email((int)$invoice_id, (int)$payment_id, (int)$contact_id);
         }
 
@@ -608,9 +651,11 @@ class Guest_invoices extends REST_Controller
             'payment_id'     => (int)$payment_id,
             'paymentmode'    => (int)$paymentmode,
             'email_sent'     => (bool)$email_sent,
+            'send_email_mode'=> $send_email_mode,
             'invoice_prefix' => get_option('invoice_prefix'),
             'invoice_number' => (int)($invoice_data['number'] ?? 0),
             'tax_total'      => $totals['tax_total'],
+            'update_existing_name' => (bool)$updateExistingName,
         ], REST_Controller::HTTP_CREATED);
     }
 
