@@ -25,7 +25,9 @@ require_once __DIR__ . '/REST_Controller.php';
  * - payment_mode (required)  // maps to tblinvoicepaymentrecords.paymentmode
  * - payment_date (optional)  // default today
  * - transaction_id (optional)
- * - send_email (optional, default 1)
+ * - send_email (optional, legacy bool; default 1)
+ * - send_email_mode (optional: combined|none; default combined)
+ * - update_existing_name (optional bool; default true)
  *
  * IMPORTANT:
  * - This controller follows your current server setup approach:
@@ -35,6 +37,9 @@ require_once __DIR__ . '/REST_Controller.php';
 
 class Guest_invoices extends REST_Controller
 {
+    /** @var Guest_checkout_service|null */
+    private $guestCheckoutService = null;
+
     public function __construct()
     {
         parent::__construct();
@@ -44,6 +49,16 @@ class Guest_invoices extends REST_Controller
 
         // Your current approach: silence notices/warnings
         error_reporting(0);
+    }
+
+    private function guest_checkout_service()
+    {
+        if ($this->guestCheckoutService === null) {
+            $this->load->library('api/Guest_checkout_service');
+            $this->guestCheckoutService = $this->guest_checkout_service;
+        }
+
+        return $this->guestCheckoutService;
     }
 
     private function get_payload(): array
@@ -141,26 +156,7 @@ class Guest_invoices extends REST_Controller
      */
     private function taxname_from_ids($taxes_id): array
     {
-        if (empty($taxes_id)) {
-            return [];
-        }
-
-        if (!is_array($taxes_id)) {
-            $taxes_id = array_filter(array_map('trim', explode(',', (string)$taxes_id)));
-        }
-
-        $out = [];
-        foreach ($taxes_id as $tid) {
-            $tid = (int)$tid;
-            if ($tid <= 0) continue;
-
-            $tax = $this->db->where('id', $tid)->get(db_prefix().'taxes')->row();
-            if ($tax) {
-                $out[] = $tax->name . '|' . number_format((float)$tax->taxrate, 2, '.', '');
-            }
-        }
-
-        return $out;
+        return $this->guest_checkout_service()->taxnameFromIds($taxes_id);
     }
 
     /**
@@ -170,85 +166,12 @@ class Guest_invoices extends REST_Controller
      */
     private function build_newitems_from_mixed(array $items): array
     {
-        $newitems = [];
-        $order = 1;
-
-        foreach ($items as $it) {
-            if (!is_array($it)) continue;
-
-            $qty = isset($it['qty']) ? (float)$it['qty'] : 1.0;
-            if ($qty <= 0) $qty = 1.0;
-
-            $itemId = (int)($it['item_id'] ?? $it['id'] ?? $it['itemid'] ?? 0);
-            if ($itemId > 0) {
-                $row = $this->db->where('id', $itemId)->get(db_prefix().'items')->row();
-                if (!$row) continue;
-
-                $newitems[] = [
-                    'itemid'           => (string)$itemId,
-                    'description'      => (string)$row->description,
-                    'long_description' => (string)$row->long_description,
-                    'qty'              => (string)$qty,
-                    'rate'             => (string)$row->rate,
-                    'unit'             => isset($row->unit) ? (string)$row->unit : '',
-                    'order'            => (string)$order,
-                    'taxname'          => $this->taxname_from_ids($it['taxes_id'] ?? []),
-                ];
-                $order++;
-                continue;
-            }
-
-            $desc = trim((string)($it['description'] ?? ''));
-            if ($desc === '') continue;
-
-            $rate = isset($it['rate']) ? (float)$it['rate'] : 0.0;
-
-            $newitems[] = [
-                'description'      => $desc,
-                'long_description' => (string)($it['long_description'] ?? ''),
-                'qty'              => (string)$qty,
-                'rate'             => (string)$rate,
-                'unit'             => (string)($it['unit'] ?? ''),
-                'order'            => (string)$order,
-                'taxname'          => $this->taxname_from_ids($it['taxes_id'] ?? []),
-            ];
-            $order++;
-        }
-
-        return $newitems;
+        return $this->guest_checkout_service()->buildNewItemsFromMixed($items);
     }
 
     private function compute_totals_with_taxes(array $newitems): array
     {
-        $subtotal = 0.0;
-        $tax_total = 0.0;
-
-        foreach ($newitems as $it) {
-            $qty  = (float)($it['qty'] ?? 0);
-            $rate = (float)($it['rate'] ?? 0);
-            $line = $qty * $rate;
-            $subtotal += $line;
-
-            if (!empty($it['taxname']) && is_array($it['taxname'])) {
-                foreach ($it['taxname'] as $tx) {
-                    $parts = explode('|', (string)$tx);
-                    $pct = isset($parts[1]) ? (float)$parts[1] : 0.0;
-                    if ($pct > 0) {
-                        $tax_total += ($line * $pct / 100.0);
-                    }
-                }
-            }
-        }
-
-        $subtotal = round($subtotal, 2);
-        $tax_total = round($tax_total, 2);
-        $total = round($subtotal + $tax_total, 2);
-
-        return [
-            'subtotal'  => number_format($subtotal, 2, '.', ''),
-            'total'     => number_format($total, 2, '.', ''),
-            'tax_total' => number_format($tax_total, 2, '.', ''),
-        ];
+        return $this->guest_checkout_service()->computeTotalsWithTaxes($newitems);
     }
 
     /**
@@ -257,173 +180,46 @@ class Guest_invoices extends REST_Controller
      * - else create client + primary contact
      * - if no name/company provided, rename to Guest{client_id} (like your Guest Invoices module behavior)
      */
-    private function get_or_create_guest(array $payload): array
+    private function get_or_create_guest(array $payload, array $options = []): array
     {
-        $this->load->model('clients_model');
+        $updateExistingName = array_key_exists('update_existing_name', $options)
+            ? (bool)$options['update_existing_name']
+            : true;
 
-        $email = trim((string)($payload['email'] ?? ''));
-        if ($email === '') {
-            return [0, 0, 'Missing guest email'];
-        }
-		 // Optional single-field name from API form
-        $name = trim((string)($payload['name'] ?? $payload['full_name'] ?? ''));
-        $contact = $this->db->where('email', $email)->get(db_prefix().'contacts')->row();
-        if ($contact) {
-            $client_id  = (int)$contact->userid;
-            $contact_id = (int)$contact->id;
+        return $this->guest_checkout_service()->findOrCreateGuest($payload, [
+            'update_existing_name' => $updateExistingName,
+        ]);
+    }
 
-            if ($name !== '') {
-                $parts = preg_split('/\s+/', $name, 2);
-                $firstname = trim($parts[0] ?? $name);
-                $lastname  = trim($parts[1] ?? '');
-
-                $this->db->where('userid', $client_id)->update(db_prefix().'clients', [
-                    'company' => $name,
-                ]);
-
-                $this->db->where('id', $contact_id)->update(db_prefix().'contacts', [
-                    'firstname' => $firstname,
-                    'lastname'  => $lastname,
-                ]);
-            }
-
-            return [$client_id, $contact_id, ''];
+    private function to_bool($value, $default = false): bool
+    {
+        if ($value === null || $value === '') {
+            return (bool)$default;
         }
 
-
-        $company   = trim((string)($payload['company'] ?? $payload['company_name'] ?? ''));
-        $firstname = trim((string)($payload['firstname'] ?? ''));
-        $lastname  = trim((string)($payload['lastname'] ?? ''));
-
-         // If only "name" provided, use it as company and contact name
-        if ($name !== '' && $company === '' && $firstname === '' && $lastname === '') {
-            $company = $name;
-            $parts = preg_split('/\s+/', $name, 2);
-            $firstname = trim($parts[0] ?? $name);
-            $lastname  = trim($parts[1] ?? '');
+        if (is_bool($value)) {
+            return $value;
         }
 
-        if ($company === '') {
-            $company = trim($firstname . ' ' . $lastname);
-            if ($company === '') {
-                $company = $email;
-            }
+        $value = strtolower(trim((string)$value));
+        if (in_array($value, ['1', 'true', 'yes', 'y', 'on'], true)) {
+            return true;
+        }
+        if (in_array($value, ['0', 'false', 'no', 'n', 'off'], true)) {
+            return false;
         }
 
-        $clientData = [
-            'company'     => $company,
-            'phonenumber' => (string)($payload['phonenumber'] ?? ''),
-            'website'     => (string)($payload['website'] ?? ''),
-            'address'     => (string)($payload['address'] ?? ''),
-            'city'        => (string)($payload['city'] ?? ''),
-            'state'       => (string)($payload['state'] ?? ''),
-            'zip'         => (string)($payload['zip'] ?? ''),
-            'country'     => (string)($payload['country'] ?? ''),
-            'active'      => 1,
-        ];
-
-        $client_id = (int)$this->clients_model->add($clientData);
-        if ($client_id <= 0) {
-            return [0, 0, 'Failed to create client'];
-        }
-
-        $contactData = [
-            'firstname' => $firstname !== '' ? $firstname : $company,
-            'lastname'  => $lastname,
-            'email'     => $email,
-            'phonenumber' => (string)($payload['phonenumber'] ?? ''),
-            'title'     => 'Guest',
-            'is_primary'=> 1,
-            'donotsendwelcomeemail' => 1,
-        ];
-
-        $contact_id = (int)$this->clients_model->add_contact($contactData, $client_id);
-        if ($contact_id <= 0) {
-            return [$client_id, 0, 'Failed to create contact'];
-        }
-		// If name provided, enforce it now (company + contact name)
-        if ($name !== '') {
-            $parts = preg_split('/\s+/', $name, 2);
-            $fn = trim($parts[0] ?? $name);
-            $ln = trim($parts[1] ?? '');
-
-            $this->db->where('userid', $client_id)->update(db_prefix().'clients', [
-                'company' => $name,
-            ]);
-
-            $this->db->where('id', $contact_id)->update(db_prefix().'contacts', [
-                'firstname' => $fn,
-                'lastname'  => $ln,
-            ]);
-
-        } else {
-
-            // If nothing provided, use Guest{ID}
-            $needsGuestName = (trim((string)($payload['company'] ?? '')) === ''
-                && trim((string)($payload['firstname'] ?? '')) === ''
-                && trim((string)($payload['lastname'] ?? '')) === '');
-
-            if ($needsGuestName) {
-                $guestName = 'Guest' . $client_id;
-
-                $this->db->where('userid', $client_id)->update(db_prefix().'clients', [
-                    'company' => $guestName,
-                ]);
-
-                $this->db->where('id', $contact_id)->update(db_prefix().'contacts', [
-                    'firstname' => $guestName,
-                    'lastname'  => '',
-                ]);
-            }
-        }
-
-        /* Match Guest Invoices module: if no provided name/company -> Guest{client_id}
-        $needsGuestName = (trim((string)($payload['company'] ?? '')) === ''
-            && trim((string)($payload['firstname'] ?? '')) === ''
-            && trim((string)($payload['lastname'] ?? '')) === '');
-
-        if ($needsGuestName) {
-            $guestName = 'Guest' . $client_id;
-
-            $this->db->where('userid', $client_id)->update(db_prefix().'clients', [
-                'company' => $guestName,
-            ]);
-
-            $this->db->where('id', $contact_id)->update(db_prefix().'contacts', [
-                'firstname' => $guestName,
-                'lastname'  => '',
-            ]);
-        }*/
-
-        return [$client_id, $contact_id, ''];
+        return (bool)$default;
     }
 
     private function apply_auto_number(array &$invoice_data, bool &$didAutoNumber): void
     {
-        $didAutoNumber = false;
-
-        if (!empty($invoice_data['number'])) {
-            return;
-        }
-
-        $next = (int)get_option('next_invoice_number');
-        if ($next <= 0) $next = 1;
-
-        $invoice_data['number'] = $next;
-        $didAutoNumber = true;
+        $this->guest_checkout_service()->applyAutoNumber($invoice_data, $didAutoNumber);
     }
 
     private function bump_next_invoice_number_if_needed(bool $didAutoNumber, $usedNumber): void
     {
-        if (!$didAutoNumber) return;
-
-        $usedNumber = (int)$usedNumber;
-        if ($usedNumber <= 0) return;
-
-        $current = (int)get_option('next_invoice_number');
-        if ($current <= $usedNumber) {
-            update_option('next_invoice_number', $usedNumber + 1);
-        }
+        $this->guest_checkout_service()->bumpNextInvoiceNumberIfNeeded($didAutoNumber, $usedNumber);
     }
 
     /**
@@ -674,7 +470,10 @@ class Guest_invoices extends REST_Controller
         }
 
         // Create/find guest
-        [$client_id, $contact_id, $err] = $this->get_or_create_guest($payload);
+        $updateExistingName = $this->to_bool($payload['update_existing_name'] ?? null, true);
+        [$client_id, $contact_id, $err] = $this->get_or_create_guest($payload, [
+            'update_existing_name' => $updateExistingName,
+        ]);
         if ($client_id <= 0 || $contact_id <= 0) {
             return $this->response(['status' => false, 'message' => $err ?: 'Unable to create/find guest'], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -727,6 +526,7 @@ class Guest_invoices extends REST_Controller
             'contact_id'     => (int)$contact_id,
             'invoice_number' => (int)$invoice_data['number'],
             'invoice_prefix' => get_option('invoice_prefix'),
+            'update_existing_name' => (bool)$updateExistingName,
         ], REST_Controller::HTTP_CREATED);
     }
 
@@ -756,7 +556,10 @@ class Guest_invoices extends REST_Controller
         }
 
         // 1) guest
-        [$client_id, $contact_id, $err] = $this->get_or_create_guest($payload);
+        $updateExistingName = $this->to_bool($payload['update_existing_name'] ?? null, true);
+        [$client_id, $contact_id, $err] = $this->get_or_create_guest($payload, [
+            'update_existing_name' => $updateExistingName,
+        ]);
         if ($client_id <= 0 || $contact_id <= 0) {
             return $this->response(['status'=>false,'message'=>$err ?: 'Unable to create/find guest'], REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -823,10 +626,19 @@ class Guest_invoices extends REST_Controller
         }
 
         // 5) email
-        $send_email = isset($payload['send_email']) ? (int)$payload['send_email'] : 1;
+        $send_email_mode = strtolower(trim((string)($payload['send_email_mode'] ?? 'combined')));
+        if (!in_array($send_email_mode, ['combined', 'none'], true)) {
+            $send_email_mode = 'combined';
+        }
+
+        // legacy compatibility
+        if (isset($payload['send_email']) && !$this->to_bool($payload['send_email'], true)) {
+            $send_email_mode = 'none';
+        }
+
         $email_sent = false;
 
-        if ($send_email === 1) {
+        if ($send_email_mode === 'combined') {
             $email_sent = $this->send_invoice_and_receipt_email((int)$invoice_id, (int)$payment_id, (int)$contact_id);
         }
 
@@ -839,9 +651,11 @@ class Guest_invoices extends REST_Controller
             'payment_id'     => (int)$payment_id,
             'paymentmode'    => (int)$paymentmode,
             'email_sent'     => (bool)$email_sent,
+            'send_email_mode'=> $send_email_mode,
             'invoice_prefix' => get_option('invoice_prefix'),
             'invoice_number' => (int)($invoice_data['number'] ?? 0),
             'tax_total'      => $totals['tax_total'],
+            'update_existing_name' => (bool)$updateExistingName,
         ], REST_Controller::HTTP_CREATED);
     }
 
