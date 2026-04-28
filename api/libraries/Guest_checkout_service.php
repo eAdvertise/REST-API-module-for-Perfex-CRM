@@ -14,6 +14,7 @@ class Guest_checkout_service
     public function findOrCreateGuest(array $payload, array $options = [])
     {
         $this->CI->load->model('clients_model');
+        $payload = $this->normalizeGuestPayload($payload);
 
         $email = trim((string)($payload['email'] ?? ''));
         if ($email === '') {
@@ -64,24 +65,14 @@ class Guest_checkout_service
             }
         }
 
-        $clientData = [
-            'company'         => $company,
-            'phonenumber'     => (string)($payload['phonenumber'] ?? ''),
-            'website'         => (string)($payload['website'] ?? ''),
-            'billing_street'  => (string)($payload['address'] ?? ''),
-            'billing_city'    => (string)($payload['city'] ?? ''),
-            'billing_state'   => (string)($payload['state'] ?? ''),
-            'billing_zip'     => (string)($payload['zip'] ?? ''),
-            'billing_country' => (string)($payload['country'] ?? ''),
-            'active'          => 1,
-        ];
+        $clientData = $this->buildClientDataFromPayload($payload, $company);
 
         $client_id = (int)$this->CI->clients_model->add($clientData);
         if ($client_id <= 0) {
             return [0, 0, 'Failed to create client'];
         }
 
-        $contactData = [
+        $contactData = array_merge([
             'firstname' => $firstname !== '' ? $firstname : $company,
             'lastname'  => $lastname,
             'email'     => $email,
@@ -89,7 +80,7 @@ class Guest_checkout_service
             'title'     => 'Guest',
             'is_primary'=> 1,
             'donotsendwelcomeemail' => 1,
-        ];
+        ], $this->extractContactEmailPreferenceFlags($payload));
 
         $contact_id = (int)$this->CI->clients_model->add_contact($contactData, $client_id);
         if ($contact_id <= 0) {
@@ -129,6 +120,104 @@ class Guest_checkout_service
         }
 
         return [$client_id, $contact_id, ''];
+    }
+
+    private function normalizeGuestPayload(array $payload)
+    {
+        $normalized = $payload;
+
+        $normalized['address'] = $this->firstFilled($payload, ['address', 'billing_street', 'street']);
+        $normalized['city'] = $this->firstFilled($payload, ['city', 'billing_city']);
+        $normalized['state'] = $this->firstFilled($payload, ['state', 'billing_state']);
+        $normalized['zip'] = $this->firstFilled($payload, ['zip', 'billing_zip', 'postcode']);
+        $normalized['country'] = $this->normalizeCountryValue($this->firstFilled($payload, ['country', 'billing_country', 'country_id']));
+        $normalized['website'] = $this->firstFilled($payload, ['website', 'site']);
+        $normalized['phonenumber'] = $this->firstFilled($payload, ['phonenumber', 'phone', 'telephone']);
+
+        if (!isset($normalized['company']) || trim((string)$normalized['company']) === '') {
+            $normalized['company'] = $this->firstFilled($payload, ['company', 'company_name', 'organization']);
+        }
+
+        if (!isset($normalized['firstname']) || trim((string)$normalized['firstname']) === '') {
+            $normalized['firstname'] = $this->firstFilled($payload, ['firstname', 'first_name']);
+        }
+
+        if (!isset($normalized['lastname']) || trim((string)$normalized['lastname']) === '') {
+            $normalized['lastname'] = $this->firstFilled($payload, ['lastname', 'last_name']);
+        }
+
+        return $normalized;
+    }
+
+    private function firstFilled(array $payload, array $keys)
+    {
+        foreach ($keys as $key) {
+            if (!array_key_exists($key, $payload)) {
+                continue;
+            }
+
+            $value = $payload[$key];
+            if (is_string($value)) {
+                $value = trim($value);
+            }
+
+            if ($value !== null && $value !== '') {
+                return $value;
+            }
+        }
+
+        return '';
+    }
+
+    private function normalizeCountryValue($country)
+    {
+        if ($country === '' || $country === null) {
+            return null;
+        }
+
+        if (is_numeric($country)) {
+            $intCountry = (int)$country;
+            return $intCountry > 0 ? $intCountry : null;
+        }
+
+        return null;
+    }
+
+    private function buildClientDataFromPayload(array $payload, $company)
+    {
+        return [
+            'company'         => $company,
+            'phonenumber'     => (string)($payload['phonenumber'] ?? ''),
+            'website'         => (string)($payload['website'] ?? ''),
+            'billing_street'  => (string)($payload['address'] ?? ''),
+            'billing_city'    => (string)($payload['city'] ?? ''),
+            'billing_state'   => (string)($payload['state'] ?? ''),
+            'billing_zip'     => (string)($payload['zip'] ?? ''),
+            'billing_country' => $payload['country'] ?? null,
+            'active'          => 1,
+        ];
+    }
+
+    private function extractContactEmailPreferenceFlags(array $payload)
+    {
+        $flags = [];
+        $knownFlags = [
+            'estimate_emails',
+            'credit_note_emails',
+            'contract_emails',
+            'invoice_emails',
+            'project_emails',
+            'ticket_emails',
+            'task_emails',
+        ];
+
+        foreach ($knownFlags as $flag) {
+            if (array_key_exists($flag, $payload)) {
+                $flags[$flag] = (int)((bool)$payload[$flag]);
+            }
+        }
+
+        return $flags;
     }
 
     public function taxnameFromIds($taxes_id)

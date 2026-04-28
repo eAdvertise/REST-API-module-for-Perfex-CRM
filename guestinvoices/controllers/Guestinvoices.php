@@ -31,19 +31,24 @@ class Guestinvoices extends AdminController
 			echo json_encode(['success'=>false, 'message'=>_l('email_is_required') ?: 'Email is required']); die;
 		}
 
-		$payload = [
-			'email'       => $email,
-			'firstname'   => $firstname,
-			'lastname'    => $lastname,
-			'company'     => $company,
+			$payload = [
+				'email'       => $email,
+				'firstname'   => $firstname,
+				'lastname'    => $lastname,
+				'company'     => $company,
 			'phonenumber' => (string)$this->input->post('phonenumber') ?: '',
 			'website'     => (string)$this->input->post('website') ?: '',
 			'address'     => (string)$this->input->post('address') ?: '',
 			'city'        => (string)$this->input->post('city') ?: '',
-			'state'       => (string)$this->input->post('state') ?: '',
-			'zip'         => (string)$this->input->post('zip') ?: '',
-			'country'     => (string)$this->input->post('country') ?: '',
-		];
+				'state'       => (string)$this->input->post('state') ?: '',
+				'zip'         => (string)$this->input->post('zip') ?: '',
+				'country'     => (string)$this->input->post('country') ?: '',
+				'estimate_emails'    => 1,
+				'credit_note_emails' => 1,
+				'contract_emails'    => 1,
+				'invoice_emails'     => 1,
+				'project_emails'     => 1,
+			];
 
 		$this->load->library('api/Guest_checkout_service');
 		[$client_id, $contact_id, $err] = $this->guest_checkout_service->findOrCreateGuest($payload, [
