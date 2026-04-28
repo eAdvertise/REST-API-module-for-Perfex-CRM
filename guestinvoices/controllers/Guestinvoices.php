@@ -31,93 +31,49 @@ class Guestinvoices extends AdminController
 			echo json_encode(['success'=>false, 'message'=>_l('email_is_required') ?: 'Email is required']); die;
 		}
 
-		// Αν υπάρχει ήδη contact με αυτό το email → επέστρεψε τον πελάτη
-		$this->db->select('userid')->where('email', $email);
-		$existing = $this->db->get(db_prefix().'contacts')->row();
-		if ($existing && !empty($existing->userid)) {
-			$cid = (int)$existing->userid;
-			echo json_encode([
-				'success'   => true,
-				'client_id' => $cid,
-				'company'   => $company ?: trim($firstname.' '.$lastname) ?: 'Existing Client',
-				'message'   => _l('client_exists'),
-			]); die;
-		}
-
-		// Fallback κανόνες:
-		// 1) Αν δεν δοθεί company → company = "First Last" (trim, μπορεί και μόνο First ή μόνο Last)
-		if ($company === '') {
-			$company = trim($firstname.' '.$lastname);
-		}
-
-		// 2) Αν δεν δοθούν ΟΛΑ (first, last, company) → θα χρησιμοποιήσουμε Guest+ID ΜΕΤΑ τη δημιουργία
-		$useGuestIdName = ($company === '' && $firstname === '' && $lastname === '');
-
-		// ---------------- 1) Δημιουργία Client ----------------
-		$billing_country = $this->input->post('country');
-		$billing_country = ($billing_country === '' || $billing_country === null) ? null : (int)$billing_country;
-
-		$clientData = [
-			'company'         => $useGuestIdName ? 'Guest' : $company,  // προσωρινό "Guest", θα ενημερωθεί μετά
-			'website'         => (string)$this->input->post('website') ?: '',
-			'billing_street'  => (string)$this->input->post('address') ?: '',
-			'billing_city'    => (string)$this->input->post('city') ?: '',
-			'billing_state'   => (string)$this->input->post('state') ?: '',
-			'billing_zip'     => (string)$this->input->post('zip') ?: '',
-			'billing_country' => $billing_country,
-			'active'          => 1,
-		];
-
-		$client_id = $this->clients_model->add($clientData);
-		if (!$client_id) {
-			echo json_encode(['success'=>false, 'message'=>_l('something_went_wrong')]); die;
-		}
-
-		// Αν λείπουν όλα → μετονόμασε client σε Guest+ID
-		if ($useGuestIdName) {
-			$guestName = 'Guest'.$client_id;
-			$this->clients_model->update(['company' => $guestName], $client_id);
-			$company   = $guestName;        // από εδώ και πέρα αυτό είναι το οριστικό company
-			$firstname = $guestName;        // και ο contact θα πάρει αυτό
-			$lastname  = '';
-		} else {
-			// Αν έχουμε company (είτε δόθηκε είτε προέκυψε από First/Last) αλλά δεν έχουμε First/Last → φτιάξε contact name από company
-			if ($firstname === '' && $lastname === '') {
-				$firstname = $company;
-				$lastname  = '';
-			}
-		}
-
-		// ---------------- 2) Δημιουργία Primary Contact ----------------
-		$contactData = [
-			'userid'      => $client_id,
+		$payload = [
+			'email'       => $email,
 			'firstname'   => $firstname,
 			'lastname'    => $lastname,
-			'email'       => $email,
+			'company'     => $company,
 			'phonenumber' => (string)$this->input->post('phonenumber') ?: '',
-			'is_primary'  => 1,
-			'donotsendwelcomeemail' => 1,
-			'estimate_emails' => 1,
-			'credit_note_emails' => 1,
-			'contract_emails' => 1,
-			'invoice_emails' => 1,
-			'project_emails' => 1,
-			// Θες να παραμένει το welcome/setup email; ΑΦΗΣΕ τα ως έχουν (στέλνονται)
-			// Αν κάποτε θέλεις να μην στέλνεται, βάλε: 'donotsendwelcomeemail' => 1, 'send_set_password_email' => 0,
-			// Εδώ τα αφήνουμε default (να φύγει welcome) όπως είπες ότι σε καλύπτει.
+			'website'     => (string)$this->input->post('website') ?: '',
+			'address'     => (string)$this->input->post('address') ?: '',
+			'city'        => (string)$this->input->post('city') ?: '',
+			'state'       => (string)$this->input->post('state') ?: '',
+			'zip'         => (string)$this->input->post('zip') ?: '',
+			'country'     => (string)$this->input->post('country') ?: '',
 		];
 
-		$contact_id = $this->clients_model->add_contact($contactData, $client_id);
-		if (!$contact_id) {
+		$this->load->library('api/Guest_checkout_service');
+		[$client_id, $contact_id, $err] = $this->guest_checkout_service->findOrCreateGuest($payload, [
+			'update_existing_name' => false,
+		]);
+
+		if ((int)$client_id <= 0) {
+			echo json_encode(['success'=>false, 'message'=>$err ?: (_l('something_went_wrong') ?: 'Something went wrong')]); die;
+		}
+
+		if ((int)$contact_id <= 0) {
 			log_activity('GI WARNING: Contact NOT created for client ID '.$client_id.' (email '.$email.')');
 		} else {
-			log_activity('GI: Guest contact created (ID '.$contact_id.') for client '.$client_id);
+			log_activity('GI: Guest contact created/found (ID '.$contact_id.') for client '.$client_id);
+		}
+
+		$dbCompany = '';
+		$this->db->select('company')->where('userid', (int)$client_id);
+		$cRow = $this->db->get(db_prefix().'clients')->row();
+		if ($cRow && isset($cRow->company)) {
+			$dbCompany = (string)$cRow->company;
+		}
+		if ($dbCompany === '') {
+			$dbCompany = $company ?: trim($firstname.' '.$lastname) ?: ('Guest'.$client_id);
 		}
 
 		echo json_encode([
 			'success'   => true,
 			'client_id' => $client_id,
-			'company'   => $company,
+			'company'   => $dbCompany,
 			'message'   => _l('added_successfully', _l('client')),
 		]); die;
 	}
