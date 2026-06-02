@@ -49,6 +49,9 @@ class Guest_invoices extends REST_Controller
 
         // Your current approach: silence notices/warnings
         error_reporting(0);
+
+        $this->load->library('api/Guest_checkout_service');
+        $this->guestCheckoutService = $this->guest_checkout_service;
     }
 
     private function get_guest_checkout_service()
@@ -186,7 +189,7 @@ class Guest_invoices extends REST_Controller
      */
     private function taxname_from_ids($taxes_id): array
     {
-        return $this->get_guest_checkout_service()->taxnameFromIds($taxes_id);
+        return $this->guestCheckoutService->taxnameFromIds($taxes_id);
     }
 
     /**
@@ -196,12 +199,12 @@ class Guest_invoices extends REST_Controller
      */
     private function build_newitems_from_mixed(array $items): array
     {
-        return $this->get_guest_checkout_service()->buildNewItemsFromMixed($items);
+        return $this->guestCheckoutService->buildNewItemsFromMixed($items);
     }
 
     private function compute_totals_with_taxes(array $newitems): array
     {
-        return $this->get_guest_checkout_service()->computeTotalsWithTaxes($newitems);
+        return $this->guestCheckoutService->computeTotalsWithTaxes($newitems);
     }
 
     /**
@@ -216,7 +219,7 @@ class Guest_invoices extends REST_Controller
             ? (bool)$options['update_existing_name']
             : true;
 
-        return $this->get_guest_checkout_service()->findOrCreateGuest($payload, [
+        return $this->guestCheckoutService->findOrCreateGuest($payload, [
             'update_existing_name' => $updateExistingName,
         ]);
     }
@@ -268,12 +271,12 @@ class Guest_invoices extends REST_Controller
 
     private function apply_auto_number(array &$invoice_data, bool &$didAutoNumber): void
     {
-        $this->get_guest_checkout_service()->applyAutoNumber($invoice_data, $didAutoNumber);
+        $this->guestCheckoutService->applyAutoNumber($invoice_data, $didAutoNumber);
     }
 
     private function bump_next_invoice_number_if_needed(bool $didAutoNumber, $usedNumber): void
     {
-        $this->get_guest_checkout_service()->bumpNextInvoiceNumberIfNeeded($didAutoNumber, $usedNumber);
+        $this->guestCheckoutService->bumpNextInvoiceNumberIfNeeded($didAutoNumber, $usedNumber);
     }
 
     /**
