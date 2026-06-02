@@ -54,6 +54,46 @@ class Guest_invoices extends REST_Controller
         $this->guestCheckoutService = $this->guest_checkout_service;
     }
 
+    private function get_guest_checkout_service()
+    {
+        if ($this->guestCheckoutService === null) {
+            $this->load->library('api/Guest_checkout_service');
+            $this->guestCheckoutService = $this->guest_checkout_service;
+        }
+
+        return $this->guestCheckoutService;
+    }
+
+    private function guest_checkout_service()
+    {
+        if ($this->guestCheckoutService === null) {
+            $this->load->library('api/Guest_checkout_service');
+            $this->guestCheckoutService = $this->guest_checkout_service;
+        }
+
+        return $this->guestCheckoutService;
+    }
+
+    private function guest_checkout_service()
+    {
+        if ($this->guestCheckoutService === null) {
+            $this->load->library('api/Guest_checkout_service');
+            $this->guestCheckoutService = $this->guest_checkout_service;
+        }
+
+        return $this->guestCheckoutService;
+    }
+
+    private function guest_checkout_service()
+    {
+        if ($this->guestCheckoutService === null) {
+            $this->load->library('api/Guest_checkout_service');
+            $this->guestCheckoutService = $this->guest_checkout_service;
+        }
+
+        return $this->guestCheckoutService;
+    }
+
     private function get_payload(): array
     {
         $payload = $this->input->post(null, true);
