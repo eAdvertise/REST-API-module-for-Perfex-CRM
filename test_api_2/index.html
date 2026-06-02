@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="el">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Guest Checkout Demo</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    body{font-family:Arial,sans-serif;max-width:980px;margin:28px auto;padding:0 12px}
+    .card{border:1px solid #e5e5e5;border-radius:10px;padding:14px;margin:14px 0}
+    label{display:block;margin:10px 0 6px;font-weight:700}
+    input,select,textarea{padding:10px;box-sizing:border-box;width:100%}
+    textarea{min-height:70px}
+    .row{display:flex;gap:10px}
+    .col{flex:1}
+    .btn{padding:10px 14px;cursor:pointer}
+    pre{background:#f6f6f6;padding:12px;border-radius:6px;overflow:auto}
+    .ok{color:#0a7a0a;font-weight:700}
+    .bad{color:#a10000;font-weight:700}
+    .line{border:1px dashed #ddd;border-radius:8px;padding:10px;margin:10px 0}
+    .small{max-width:170px}
+  </style>
+</head>
+<body>
+
+<h2>Guest Checkout Demo</h2>
+
+<div class="card">
+  Endpoint: <code>POST /api/guest_invoices/checkout</code><br>
+  Required: <b>email</b>, <b>payment_mode</b>, <b>items</b><br>
+  Items can be by <b>Item ID</b> or <b>Manual</b> (description/qty/rate/taxes_id).
+</div>
+
+<form id="frm" class="card">
+  <div class="row">
+    <div class="col">
+      <label>Email (required)</label>
+      <input id="email" type="email" value="guest@example.com" required />
+    </div>
+    <div class="col">
+      <label>Όνομα (optional)</label>
+      <input id="name" type="text" placeholder="π.χ. John Smith" />
+    </div>
+    <div class="col small">
+      <label>Payment mode</label>
+      <input id="payment_mode" type="number" value="1" required />
+    </div>
+    <div class="col small">
+      <label>Send email</label>
+      <select id="send_email">
+        <option value="1" selected>Yes</option>
+        <option value="0">No</option>
+      </select>
+    </div>
+  </div>
+
+  <h3>Items</h3>
+  <div id="items"></div>
+
+  <button type="button" class="btn" id="addById">+ Add Item by ID</button>
+  <button type="button" class="btn" id="addManual">+ Add Manual Item</button>
+  <button type="submit" class="btn">Checkout</button>
+</form>
+
+<div class="card">
+  <h3 style="margin-top:0">Response</h3>
+  <div id="status"></div>
+  <pre id="out">{}</pre>
+</div>
+
+<script>
+function lineById(){
+  return `
+  <div class="line" data-type="id">
+    <div class="row">
+      <div class="col small"><label>Item ID</label><input class="item_id" type="number" value="1" required></div>
+      <div class="col small"><label>Qty</label><input class="qty" type="number" step="0.01" value="1" required></div>
+      <div class="col"><label>Taxes ID (optional)</label><input class="taxes_id" placeholder="e.g. 1,2"></div>
+      <div class="col small"><label>&nbsp;</label><button type="button" class="btn rm">Remove</button></div>
+    </div>
+  </div>`;
+}
+function lineManual(){
+  return `
+  <div class="line" data-type="manual">
+    <div class="row">
+      <div class="col"><label>Description</label><input class="description" placeholder="Service A" required></div>
+      <div class="col small"><label>Qty</label><input class="qty" type="number" step="0.01" value="1"></div>
+      <div class="col small"><label>Rate</label><input class="rate" type="number" step="0.01" value="100" required></div>
+      <div class="col small"><label>&nbsp;</label><button type="button" class="btn rm">Remove</button></div>
+    </div>
+    <label>Long description (optional)</label>
+    <textarea class="long_description"></textarea>
+    <div class="row">
+      <div class="col"><label>Taxes ID (optional)</label><input class="taxes_id" placeholder="e.g. 1,2"></div>
+    </div>
+  </div>`;
+}
+function parseCsvIds(v){
+  return String(v||"").split(",").map(s=>s.trim()).filter(Boolean).map(x=>parseInt(x,10)).filter(n=>Number.isFinite(n)&&n>0);
+}
+
+$("#items").append(lineById());
+
+$(document).on("click",".rm",function(){ $(this).closest(".line").remove(); });
+
+$("#addById").on("click", ()=> $("#items").append(lineById()));
+$("#addManual").on("click", ()=> $("#items").append(lineManual()));
+
+$("#frm").on("submit", function(e){
+  e.preventDefault();
+
+  const email = ($("#email").val()||"").trim();
+  const name  = ($("#name").val()||"").trim();
+  const payment_mode = parseInt($("#payment_mode").val(),10);
+  const send_email = parseInt($("#send_email").val(),10);
+
+  const items = [];
+  $("#items .line").each(function(){
+    const type = $(this).data("type");
+    const taxes = parseCsvIds($(this).find(".taxes_id").val());
+
+    if(type==="id"){
+      const item_id = parseInt($(this).find(".item_id").val(),10);
+      const qty = parseFloat($(this).find(".qty").val());
+      if(Number.isFinite(item_id) && item_id>0 && Number.isFinite(qty) && qty>0){
+        const it = { item_id, qty };
+        if(taxes.length) it.taxes_id = taxes;
+        items.push(it);
+      }
+    } else {
+      const description = ($(this).find(".description").val()||"").trim();
+      const long_description = ($(this).find(".long_description").val()||"").trim();
+      const qty = parseFloat($(this).find(".qty").val()||"1");
+      const rate = parseFloat($(this).find(".rate").val());
+      if(description && Number.isFinite(rate)){
+        const it = { description, rate };
+        if(Number.isFinite(qty) && qty>0) it.qty = qty;
+        if(long_description) it.long_description = long_description;
+        if(taxes.length) it.taxes_id = taxes;
+        items.push(it);
+      }
+    }
+  });
+
+  if(!email){ $("#status").html('<span class="bad">Email required</span>'); return; }
+  if(!items.length){ $("#status").html('<span class="bad">Add at least 1 item</span>'); return; }
+  if(!Number.isFinite(payment_mode) || payment_mode<=0){ $("#status").html('<span class="bad">payment_mode required</span>'); return; }
+
+  const payload = { email, payment_mode, send_email, items };
+  if(name) payload.name = name;
+
+  $("#status").text("Calling proxy…");
+  $("#out").text("...");
+
+  $.ajax({
+    url: "create_guest_invoice.php",
+    method: "POST",
+    contentType: "application/json",
+    dataType: "json",
+    data: JSON.stringify(payload),
+    success: function(res){
+      $("#status").html(res && res.status ? '<span class="ok">OK</span>' : '<span class="bad">ERROR</span>');
+      $("#out").text(JSON.stringify(res, null, 2));
+    },
+    error: function(xhr){
+      let txt = xhr.responseText || "";
+      try { txt = JSON.stringify(JSON.parse(txt), null, 2); } catch(e){}
+      $("#status").html('<span class="bad">HTTP '+xhr.status+'</span>');
+      $("#out").text(txt);
+    }
+  });
+});
+</script>
+
+</body>
+</html>
