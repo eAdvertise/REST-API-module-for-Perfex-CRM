@@ -129,6 +129,21 @@ function api_ensure_guest_checkout_email_template()
 
 
 	
+// Register permissions for custom Guest Invoices API endpoints.
+hooks()->add_filter('api_permissions', 'api_guest_invoices_permissions');
+function api_guest_invoices_permissions($apiPermissions)
+{
+    $apiPermissions['guest_invoices'] = [
+        'name'         => 'Guest Invoices',
+        'capabilities' => [
+            'post'          => _l('permission_create'),
+            'checkout_post' => 'Checkout',
+        ],
+    ];
+
+    return $apiPermissions;
+}
+
 /**
  * Init api module menu items in setup in admin_init hook
  * @return null
