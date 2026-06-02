@@ -23,6 +23,16 @@ $config['jwt_algorithm'] = 'HS256';
 */
 $config['token_header'] = 'authtoken';
 
+/*
+|-----------------------
+| Backward-compatible Token Request Header Aliases
+|--------------------------------------------------------------------------
+| Some integrations/Postman collections confused the REST config key
+| `rest_enable_keys` with the token header name. Keep accepting it as an alias
+| while `authtoken` remains the documented canonical header.
+*/
+$config['token_header_aliases'] = ['rest_enable_keys'];
+
 
 /*
 |-----------------------
