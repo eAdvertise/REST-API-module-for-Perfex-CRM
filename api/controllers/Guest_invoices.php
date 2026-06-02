@@ -712,28 +712,48 @@ class Guest_invoices extends REST_Controller
      */
     private function ensure_app_hooks(): void
     {
-        if (isset($this->app_hooks) && $this->app_hooks) {
-            return;
+        $CI =& get_instance();
+
+        if (isset($CI->app_hooks) && $CI->app_hooks) {
+            $this->app_hooks = $CI->app_hooks;
         }
 
-        // If the library exists in this Perfex build, load it.
-        $possible = [
-            APPPATH . 'libraries/App_hooks.php',
-            APPPATH . 'libraries/App_Hooks.php',
-            APPPATH . 'libraries/app_hooks.php',
-        ];
+        if (!isset($this->app_hooks) || !$this->app_hooks) {
+            // If the library exists in this Perfex build, load it.
+            $possible = [
+                APPPATH . 'libraries/App_hooks.php',
+                APPPATH . 'libraries/App_Hooks.php',
+                APPPATH . 'libraries/app_hooks.php',
+            ];
 
-        foreach ($possible as $p) {
-            if (is_file($p)) {
-                // Safe to load only when file exists, otherwise CI will show_error and exit.
-                $this->load->library('app_hooks');
-                break;
+            foreach ($possible as $p) {
+                if (is_file($p)) {
+                    // Safe to load only when file exists, otherwise CI will show_error and exit.
+                    $this->load->library('app_hooks');
+                    break;
+                }
             }
         }
 
         // If still not available, inject stub.
         if (!isset($this->app_hooks) || !$this->app_hooks) {
             $this->app_hooks = new Api_Null_Hooks();
+        }
+
+        $CI->app_hooks = $this->app_hooks;
+        $this->attach_app_hooks_to_loaded_models();
+    }
+
+    private function attach_app_hooks_to_loaded_models(): void
+    {
+        $setAppHooks = function ($hooks) {
+            $this->app_hooks = $hooks;
+        };
+
+        foreach (['payments_model', 'invoices_model'] as $modelProperty) {
+            if (isset($this->{$modelProperty}) && is_object($this->{$modelProperty})) {
+                $setAppHooks->call($this->{$modelProperty}, $this->app_hooks);
+            }
         }
     }
 
