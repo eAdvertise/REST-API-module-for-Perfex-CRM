@@ -28,6 +28,11 @@ class Authorization_Token
     protected $token_header;
 
     /**
+     * Backward-compatible token request header aliases
+     */
+    protected $token_header_aliases = [];
+
+    /**
      * Token Expire Time
      * ------------------
      * (1 day) : 60 * 60 * 24 = 86400
@@ -51,6 +56,7 @@ class Authorization_Token
         $this->token_key        = $this->CI->config->item('jwt_key');
         $this->token_algorithm  = $this->CI->config->item('jwt_algorithm');
         $this->token_header  = $this->CI->config->item('token_header');
+        $this->token_header_aliases = $this->normalize_token_header_aliases($this->CI->config->item('token_header_aliases'));
         $this->token_expire_time  = $this->CI->config->item('token_expire_time');
     }
 
@@ -162,11 +168,53 @@ class Authorization_Token
      * Token Header Check
      * @param: request headers
      */
+
+    private function is_token_header($header_name)
+    {
+        $header_name = strtolower(trim((string)$header_name));
+        if ($header_name === strtolower(trim((string)$this->token_header))) {
+            return true;
+        }
+
+        foreach ($this->token_header_aliases as $alias) {
+            if ($header_name === strtolower(trim((string)$alias))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function normalize_token_header_aliases($aliases)
+    {
+        if (empty($aliases)) {
+            return [];
+        }
+
+        if (is_string($aliases)) {
+            $aliases = explode(',', $aliases);
+        }
+
+        if (!is_array($aliases)) {
+            return [];
+        }
+
+        $normalized = [];
+        foreach ($aliases as $alias) {
+            $alias = trim((string)$alias);
+            if ($alias !== '' && strtolower($alias) !== strtolower(trim((string)$this->token_header))) {
+                $normalized[] = $alias;
+            }
+        }
+
+        return array_values(array_unique($normalized));
+    }
+
     private function tokenIsExist($headers)
     {
         if(!empty($headers) AND is_array($headers)) {
             foreach ($headers as $header_name => $header_value) {
-                if (strtolower(trim($header_name)) == strtolower(trim($this->token_header)))
+                if ($this->is_token_header($header_name))
                     return ['status' => TRUE, 'token' => $header_value];
             }
         }
@@ -177,7 +225,7 @@ class Authorization_Token
     {
         if(!empty($headers) AND is_array($headers)) {
             foreach ($headers as $header_name => $header_value) {
-                if (strtolower(trim($header_name)) == strtolower(trim($this->token_header)))
+                if ($this->is_token_header($header_name))
                     return $header_value;
             }
         }
