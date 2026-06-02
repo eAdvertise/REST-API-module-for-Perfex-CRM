@@ -28,10 +28,11 @@ $config['token_header'] = 'authtoken';
 | Backward-compatible Token Request Header Aliases
 |--------------------------------------------------------------------------
 | Some integrations/Postman collections confused the REST config key
-| `rest_enable_keys` with the token header name. Keep accepting it as an alias
-| while `authtoken` remains the documented canonical header.
+| `rest_enable_keys` with the token header name. Keep accepting legacy aliases
+| while `authtoken` remains the documented canonical header. Prefer the
+| hyphenated `rest-enable-keys` alias if a web server drops underscore headers.
 */
-$config['token_header_aliases'] = ['rest_enable_keys'];
+$config['token_header_aliases'] = ['rest_enable_keys', 'rest-enable-keys', 'authorization', 'x-api-key', 'x-auth-token'];
 
 
 /*

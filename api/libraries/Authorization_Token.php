@@ -171,18 +171,23 @@ class Authorization_Token
 
     private function is_token_header($header_name)
     {
-        $header_name = strtolower(trim((string)$header_name));
-        if ($header_name === strtolower(trim((string)$this->token_header))) {
+        $header_name = $this->normalize_header_name($header_name);
+        if ($header_name === $this->normalize_header_name($this->token_header)) {
             return true;
         }
 
         foreach ($this->token_header_aliases as $alias) {
-            if ($header_name === strtolower(trim((string)$alias))) {
+            if ($header_name === $this->normalize_header_name($alias)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private function normalize_header_name($header_name)
+    {
+        return str_replace('_', '-', strtolower(trim((string)$header_name)));
     }
 
     private function normalize_token_header_aliases($aliases)
@@ -202,7 +207,7 @@ class Authorization_Token
         $normalized = [];
         foreach ($aliases as $alias) {
             $alias = trim((string)$alias);
-            if ($alias !== '' && strtolower($alias) !== strtolower(trim((string)$this->token_header))) {
+            if ($alias !== '' && $this->normalize_header_name($alias) !== $this->normalize_header_name($this->token_header)) {
                 $normalized[] = $alias;
             }
         }
@@ -210,25 +215,87 @@ class Authorization_Token
         return array_values(array_unique($normalized));
     }
 
-    private function tokenIsExist($headers)
+    private function extract_token_from_header($header_name, $header_value)
+    {
+        if (!$this->is_token_header($header_name)) {
+            return null;
+        }
+
+        $header_value = trim((string)$header_value);
+        if ($header_value === '') {
+            return null;
+        }
+
+        if ($this->normalize_header_name($header_name) === 'authorization' && stripos($header_value, 'bearer ') === 0) {
+            return trim(substr($header_value, 7));
+        }
+
+        return $header_value;
+    }
+
+    private function find_token($headers)
     {
         if(!empty($headers) AND is_array($headers)) {
             foreach ($headers as $header_name => $header_value) {
-                if ($this->is_token_header($header_name))
-                    return ['status' => TRUE, 'token' => $header_value];
+                $token = $this->extract_token_from_header($header_name, $header_value);
+                if ($token !== null) {
+                    return $token;
+                }
             }
         }
-        return ['status' => FALSE, 'message' => 'Token is not defined.'];
+
+        foreach ($this->server_token_header_keys() as $server_key) {
+            if (!empty($_SERVER[$server_key])) {
+                $header_name = preg_replace('/^REDIRECT_/', '', $server_key);
+                $header_name = preg_replace('/^HTTP_/', '', $header_name);
+                $token = $this->extract_token_from_header(str_replace('_', '-', $header_name), $_SERVER[$server_key]);
+                if ($token !== null) {
+                    return $token;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private function server_token_header_keys()
+    {
+        $headers = array_merge([$this->token_header], $this->token_header_aliases);
+        $keys = [];
+
+        foreach ($headers as $header) {
+            $key = strtoupper(str_replace('-', '_', trim((string)$header)));
+            if ($key === '') {
+                continue;
+            }
+
+            $keys[] = 'HTTP_' . $key;
+            $keys[] = 'REDIRECT_HTTP_' . $key;
+        }
+
+        $keys[] = 'HTTP_AUTHORIZATION';
+        $keys[] = 'REDIRECT_HTTP_AUTHORIZATION';
+
+        return array_values(array_unique($keys));
+    }
+
+    private function tokenIsExist($headers)
+    {
+        $token = $this->find_token($headers);
+        if ($token !== null) {
+            return ['status' => TRUE, 'token' => $token];
+        }
+
+        return ['status' => FALSE, 'message' => 'Token is not defined. Send the token in the authtoken header. If you use a legacy alias, prefer rest-enable-keys because some web servers drop headers that contain underscores.'];
     }
 
     private function token($headers)
     {
-        if(!empty($headers) AND is_array($headers)) {
-            foreach ($headers as $header_name => $header_value) {
-                if ($this->is_token_header($header_name))
-                    return $header_value;
-            }
+        $token = $this->find_token($headers);
+        if ($token !== null) {
+            return $token;
         }
+
         return 'Token is not defined.';
     }
 }
