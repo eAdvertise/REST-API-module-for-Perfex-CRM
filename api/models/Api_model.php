@@ -716,12 +716,57 @@ class Api_model extends App_Model
                 if (isset($permission)) {
                     return true;
                 }
+
+                if ('guest_invoices' === $feature && $this->check_guest_invoices_permission_alias((int) $user->id, $capability)) {
+                    return true;
+                }
             } else {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private function check_guest_invoices_permission_alias($api_id, $capability)
+    {
+        $required_permissions = [];
+
+        if ('checkout_post' === $capability) {
+            $required_permissions = [
+                ['customers', 'post'],
+                ['contacts', 'post'],
+                ['invoices', 'post'],
+                ['payments', 'post'],
+            ];
+        } elseif ('post' === $capability) {
+            $required_permissions = [
+                ['customers', 'post'],
+                ['contacts', 'post'],
+                ['invoices', 'post'],
+            ];
+        }
+
+        if (!$required_permissions) {
+            return false;
+        }
+
+        foreach ($required_permissions as $permission) {
+            if (!$this->api_permission_exists($api_id, $permission[0], $permission[1])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function api_permission_exists($api_id, $feature, $capability)
+    {
+        $this->db->where('api_id', $api_id);
+        $this->db->where('feature', $feature);
+        $this->db->where('capability', $capability);
+
+        return $this->db->count_all_results(db_prefix() . 'user_api_permissions') > 0;
     }
 
     public function user_api_exists()
