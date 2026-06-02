@@ -255,7 +255,57 @@ class Authorization_Token
             }
         }
 
+        return $this->find_token_in_request();
+    }
+
+    private function find_token_in_request()
+    {
+        foreach ($this->token_input_names() as $input_name) {
+            $token = $this->CI->input->get($input_name, true);
+            if (!empty($token)) {
+                return trim((string)$token);
+            }
+
+            $token = $this->CI->input->post($input_name, true);
+            if (!empty($token)) {
+                return trim((string)$token);
+            }
+        }
+
+        $raw = $this->CI->input->raw_input_stream;
+        if (!empty($raw)) {
+            $json = json_decode($raw, true);
+            if (is_array($json)) {
+                foreach ($this->token_input_names() as $input_name) {
+                    if (!empty($json[$input_name])) {
+                        return trim((string)$json[$input_name]);
+                    }
+                }
+            }
+        }
+
         return null;
+    }
+
+    private function token_input_names()
+    {
+        $names = array_merge(
+            [$this->token_header, 'token', 'api_token'],
+            $this->token_header_aliases
+        );
+
+        $normalized = [];
+        foreach ($names as $name) {
+            $name = trim((string)$name);
+            if ($name === '') {
+                continue;
+            }
+
+            $normalized[] = $name;
+            $normalized[] = str_replace('-', '_', $name);
+        }
+
+        return array_values(array_unique($normalized));
     }
 
     private function server_token_header_keys()
@@ -286,7 +336,7 @@ class Authorization_Token
             return ['status' => TRUE, 'token' => $token];
         }
 
-        return ['status' => FALSE, 'message' => 'Token is not defined. Send the token in the authtoken header. If you use a legacy alias, prefer rest-enable-keys because some web servers drop headers that contain underscores.'];
+        return ['status' => FALSE, 'message' => 'Token is not defined. Send the token in the authtoken header. If the hosting strips custom headers, send authtoken as a query/body field or use Authorization: Bearer <token>.'];
     }
 
     private function token($headers)
