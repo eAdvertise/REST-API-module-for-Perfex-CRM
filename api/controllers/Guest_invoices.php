@@ -280,6 +280,13 @@ class Guest_invoices extends REST_Controller
             $payPdfObj = null;
             $payPdfStr = '';
 
+            // Perfex payment PDFs expect the related invoice to be present on the
+            // payment object. Without it, the receipt table can render blank invoice
+            // details and zero invoice/due amounts in the email attachment.
+            $payment->invoiceid = (int)($payment->invoiceid ?? $invoice_id);
+            $payment->invoice_data = $invoice;
+            $payment->invoice = $invoice;
+
             if (function_exists('payment_pdf')) {
                 try {
                     $payPdfObj = payment_pdf($payment);
