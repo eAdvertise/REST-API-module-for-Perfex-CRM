@@ -82,6 +82,14 @@ $route['api/notes']                        = 'notes/data';
 $route['api/tasks/(:num)/comments/(:num)'] = 'tasks/comments_id/$1/$2';
 $route['api/tasks/(:num)/comments']        = 'tasks/comments/$1';
 
+
+// Guest invoices endpoint (create/find guest by email + create invoice)
+// Must be before generic routes
+$route['api/guest_invoices']            = 'guest_invoices/data';
+$route['api/guest_invoices/(:num)']     = 'guest_invoices/data/$1';
+$route['api/guest_invoices/checkout']   = 'guest_invoices/checkout';
+$route['api/guestinvoices/checkout']    = 'guest_invoices/checkout';
+
 // Generic API routes (must come after specific routes)
 $route['api/tickets/reply/(:num)'] = 'tickets/data_reply/$1';
 $route['api/delete/(:any)/(:num)'] = '$1/data/$2';

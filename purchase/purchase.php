@@ -103,10 +103,6 @@ hooks()->add_filter('get_styling_areas', 'purchase_before_load_theme_style');
 hooks()->add_filter('expenses_table_columns', 'purchase_add_vendor_column');
 hooks()->add_filter('expenses_table_sql_columns', 'purchase_add_vendor_sql_column');
 hooks()->add_filter('expenses_table_row_data', 'purchase_add_vendor_row_data', 10, 2);
-hooks()->add_action('purchase_init',PURCHASE_MODULE_NAME.'_appint');
-hooks()->add_action('pre_activate_module', PURCHASE_MODULE_NAME.'_preactivate');
-hooks()->add_action('pre_deactivate_module', PURCHASE_MODULE_NAME.'_predeactivate');
-hooks()->add_action('pre_uninstall_module', PURCHASE_MODULE_NAME.'_uninstall');
 //Purchase mail template
 register_merge_fields('purchase/merge_fields/purchase_order_merge_fields');
 register_merge_fields('purchase/merge_fields/purchase_request_merge_fields');
@@ -1801,43 +1797,14 @@ function purchase_add_vendor_row_data($row, $arow){
     return $row;
 }
 function purchase_appint(){
-    $CI = & get_instance();    
-    require_once 'libraries/gtsslib.php';
-    $purchase_api = new PurchaseLic();
-    $purchase_gtssres = $purchase_api->verify_license(true);    
-    if(!$purchase_gtssres || ($purchase_gtssres && isset($purchase_gtssres['status']) && !$purchase_gtssres['status'])){
-         $CI->app_modules->deactivate(PURCHASE_MODULE_NAME);
-        set_alert('danger', "One of your modules failed its verification and got deactivated. Please reactivate or contact support.");
-        redirect(admin_url('modules'));
-    }    
+    return true;
 }
 function purchase_preactivate($module_name){
-    if ($module_name['system_name'] == PURCHASE_MODULE_NAME) {             
-        require_once 'libraries/gtsslib.php';
-        $purchase_api = new PurchaseLic();
-        $purchase_gtssres = $purchase_api->verify_license();          
-        if(!$purchase_gtssres || ($purchase_gtssres && isset($purchase_gtssres['status']) && !$purchase_gtssres['status'])){
-             $CI = & get_instance();
-            $data['submit_url'] = $module_name['system_name'].'/gtsverify/activate'; 
-            $data['original_url'] = admin_url('modules/activate/'.PURCHASE_MODULE_NAME); 
-            $data['module_name'] = PURCHASE_MODULE_NAME; 
-            $data['title'] = "Module License Activation"; 
-            echo $CI->load->view($module_name['system_name'].'/activate', $data, true);
-            exit();
-        }        
-    }
+    return true;
 }
 function purchase_predeactivate($module_name){
-    if ($module_name['system_name'] == PURCHASE_MODULE_NAME) {
-        require_once 'libraries/gtsslib.php';
-        $purchase_api = new PurchaseLic();
-        $purchase_api->deactivate_license();
-    }
+    return true;
 }
 function purchase_uninstall($module_name){
-    if ($module_name['system_name'] == PURCHASE_MODULE_NAME) {
-        require_once 'libraries/gtsslib.php';
-        $purchase_api = new PurchaseLic();
-        $purchase_api->deactivate_license();
-    }
+    return true;
 }
