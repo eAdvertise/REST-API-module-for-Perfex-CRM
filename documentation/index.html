@@ -14,6 +14,9 @@
       --card: #ffffff;
       --border: #d9e0ea;
       --accent: #2563eb;
+      --ok: #047857;
+      --warn: #b45309;
+      --error: #b91c1c;
     }
 
     * { box-sizing: border-box; }
@@ -27,14 +30,18 @@
     }
 
     header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
       padding: 16px 20px;
-      background: var(--card);
+      background: rgba(255, 255, 255, 0.96);
       border-bottom: 1px solid var(--border);
       box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+      backdrop-filter: blur(8px);
     }
 
     h1 {
@@ -49,7 +56,8 @@
       font-size: 13px;
     }
 
-    a.button {
+    a.button,
+    button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -57,30 +65,118 @@
       padding: 10px 14px;
       color: #ffffff;
       background: var(--accent);
+      border: 0;
       border-radius: 8px;
       text-decoration: none;
       font-weight: 700;
       font-size: 14px;
+      cursor: pointer;
     }
 
     main {
-      height: calc(100vh - 74px);
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 22px;
     }
 
-    iframe {
-      display: block;
-      width: 100%;
-      height: 100%;
-      border: 0;
-      background: #ffffff;
-    }
-
-    .fallback {
-      padding: 20px;
+    .notice,
+    .doc-shell {
       background: var(--card);
-      border-bottom: 1px solid var(--border);
-      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(16, 24, 40, 0.08);
+    }
+
+    .notice {
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+
+    .notice strong { color: var(--text); }
+    .notice.ok strong { color: var(--ok); }
+    .notice.warn strong { color: var(--warn); }
+    .notice.error strong { color: var(--error); }
+
+    .doc-shell {
+      padding: 22px;
+      overflow: auto;
+    }
+
+    #doc-root :is(h1, h2, h3, h4) {
+      scroll-margin-top: 96px;
+    }
+
+    #doc-root h1 {
+      margin: 24px 0 12px;
+      font-size: 30px;
+    }
+
+    #doc-root h2 {
+      margin: 28px 0 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 23px;
+    }
+
+    #doc-root h3 {
+      margin: 22px 0 10px;
+      font-size: 19px;
+    }
+
+    #doc-root p,
+    #doc-root li {
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.58;
+    }
+
+    #doc-root a {
+      color: var(--accent);
+    }
+
+    #doc-root table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 18px;
       font-size: 14px;
+    }
+
+    #doc-root th,
+    #doc-root td {
+      padding: 10px;
+      border: 1px solid var(--border);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    #doc-root th {
+      background: #eef4ff;
+    }
+
+    #doc-root pre,
+    #doc-root code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+    }
+
+    #doc-root pre {
+      padding: 14px;
+      overflow: auto;
+      color: #e5e7eb;
+      background: #111827;
+      border-radius: 10px;
+      line-height: 1.45;
+    }
+
+    #doc-root code {
+      padding: 2px 5px;
+      background: #eef2f7;
+      border-radius: 4px;
+    }
+
+    #doc-root pre code {
+      padding: 0;
+      background: transparent;
+      border-radius: 0;
     }
   </style>
 </head>
@@ -88,24 +184,91 @@
   <header>
     <div>
       <h1>Perfex CRM REST API Guide</h1>
-      <p>Local documentation entry point for the official Themesic API guide.</p>
+      <p>HTML documentation page that imports the official guide into this document (no iframe).</p>
     </div>
-    <a class="button" href="https://perfexcrm.themesic.com/apiguide/" target="_blank" rel="noopener noreferrer">Open original</a>
+    <div>
+      <button type="button" id="reload-doc">Reload guide</button>
+      <a class="button" href="https://perfexcrm.themesic.com/apiguide/" target="_blank" rel="noopener noreferrer">Open original</a>
+    </div>
   </header>
+
   <main>
-    <noscript>
-      <div class="fallback">
-        JavaScript is disabled. Open the original documentation at
-        <a href="https://perfexcrm.themesic.com/apiguide/">https://perfexcrm.themesic.com/apiguide/</a>.
-      </div>
-    </noscript>
-    <iframe
-      title="Perfex CRM REST API Guide"
-      src="https://perfexcrm.themesic.com/apiguide/"
-      loading="eager"
-      referrerpolicy="no-referrer-when-downgrade"
-      allowfullscreen>
-    </iframe>
+    <section id="status" class="notice warn">
+      <strong>Loading documentation…</strong>
+      <p>The page is fetching the official API guide and injecting its HTML into this local document.</p>
+    </section>
+
+    <article id="doc-root" class="doc-shell">
+      <h1>Perfex CRM REST API Guide</h1>
+      <p>If the automatic import does not load, use the “Open original” button above.</p>
+    </article>
   </main>
+
+  <script>
+    const sourceUrl = 'https://perfexcrm.themesic.com/apiguide/';
+    const proxies = [
+      'https://api.allorigins.win/raw?url=' + encodeURIComponent(sourceUrl),
+      'https://r.jina.ai/http://r.jina.ai/http://' + sourceUrl.replace(/^https?:\/\//, '')
+    ];
+
+    const statusEl = document.getElementById('status');
+    const docRoot = document.getElementById('doc-root');
+    const reloadBtn = document.getElementById('reload-doc');
+
+    function setStatus(type, title, message) {
+      statusEl.className = 'notice ' + type;
+      statusEl.innerHTML = '<strong>' + title + '</strong><p>' + message + '</p>';
+    }
+
+    function absolutizeUrl(value) {
+      if (!value || value.startsWith('#') || value.startsWith('data:') || value.startsWith('mailto:') || value.startsWith('tel:')) {
+        return value;
+      }
+      return new URL(value, sourceUrl).href;
+    }
+
+    function cleanAndInject(html) {
+      const parsed = new DOMParser().parseFromString(html, 'text/html');
+      const imported = parsed.querySelector('main') || parsed.body;
+
+      imported.querySelectorAll('script, iframe').forEach((node) => node.remove());
+      imported.querySelectorAll('[src]').forEach((node) => node.setAttribute('src', absolutizeUrl(node.getAttribute('src'))));
+      imported.querySelectorAll('[href]').forEach((node) => node.setAttribute('href', absolutizeUrl(node.getAttribute('href'))));
+      imported.querySelectorAll('a[href^="http"]').forEach((node) => {
+        node.setAttribute('target', '_blank');
+        node.setAttribute('rel', 'noopener noreferrer');
+      });
+
+      docRoot.innerHTML = imported.innerHTML;
+      setStatus('ok', 'Documentation loaded.', 'The official guide was copied into this page as HTML content, without an iframe.');
+    }
+
+    async function loadDocumentation() {
+      setStatus('warn', 'Loading documentation…', 'Trying to fetch and inject the official guide as HTML content.');
+
+      let lastError = null;
+      for (const url of proxies) {
+        try {
+          const response = await fetch(url, { cache: 'no-store' });
+          if (!response.ok) {
+            throw new Error('HTTP ' + response.status);
+          }
+          cleanAndInject(await response.text());
+          return;
+        } catch (error) {
+          lastError = error;
+        }
+      }
+
+      setStatus(
+        'error',
+        'Documentation could not be imported automatically.',
+        'The browser or network blocked the remote HTML fetch. Open the original guide, or run an offline mirror command from a network that can access the source. Last error: ' + (lastError ? lastError.message : 'unknown')
+      );
+    }
+
+    reloadBtn.addEventListener('click', loadDocumentation);
+    loadDocumentation();
+  </script>
 </body>
 </html>
