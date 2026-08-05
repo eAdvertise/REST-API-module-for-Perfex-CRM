@@ -13,10 +13,22 @@
         pre { padding: 16px; overflow: auto; }
         .method { display:inline-block; min-width:58px; text-align:center; color:#fff; border-radius:6px; padding:3px 8px; font-weight:700; font-size:12px; }
         .post { background:#315efb; } .get { background:#12b76a; } .put { background:#f79009; } .delete { background:#f04438; }
+        .quick-nav .nav-link { color: #172033; text-decoration: none; padding: 8px 12px; border-radius:6px; }
+        .quick-nav .nav-link:hover { background:#e9eefb; }
     </style>
 </head>
 <body>
 <div class="container py-4">
+    <div class="quick-nav mb-3">
+        <div class="d-flex gap-2">
+            <a href="#authentication" class="nav-link">Authentication</a>
+            <a href="#guest-invoices" class="nav-link">Guest Invoices</a>
+            <a href="#resources" class="nav-link">Core Resources</a>
+            <a href="#tooling" class="nav-link">Tooling</a>
+            <a href="<?php echo base_url('api/playground/swagger'); ?>" class="nav-link">Swagger UI</a>
+        </div>
+    </div>
+
     <div class="hero mb-4">
         <h1 class="mb-2">eAD-CRM REST API Documentation</h1>
         <p class="lead mb-0">Official local guide for our fork, including Guest Invoice checkout and a path for future custom endpoints.</p>
@@ -71,5 +83,21 @@
         <a href="<?php echo base_url('api/openapi.json'); ?>" class="btn btn-outline-primary ms-2" target="_blank">Open OpenAPI JSON</a>
     </div>
 </div>
+
+<!-- Smooth scrolling for quick navigation (non-intrusive) -->
+<script>
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
