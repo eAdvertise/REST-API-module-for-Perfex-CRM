@@ -255,7 +255,6 @@ class Contracts extends REST_Controller {
      *
      */
     public function data_post() {
-        \modules\api\core\Apiinit::the_da_vinci_code('api');
         
         $data = $this->input->post();
         $this->form_validation->set_rules('id', 'Contract ID', 'trim|numeric|greater_than[0]');
