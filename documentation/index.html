@@ -79,7 +79,15 @@
       padding: 22px;
     }
 
+    .content-layout {
+      display: grid;
+      grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
     .notice,
+    .side-menu,
     .doc-shell {
       background: var(--card);
       border: 1px solid var(--border);
@@ -96,6 +104,47 @@
     .notice.ok strong { color: var(--ok); }
     .notice.warn strong { color: var(--warn); }
     .notice.error strong { color: var(--error); }
+
+    .side-menu {
+      position: sticky;
+      top: 92px;
+      max-height: calc(100vh - 114px);
+      padding: 16px;
+      overflow: auto;
+    }
+
+    .side-menu h2 {
+      margin: 0 0 12px;
+      font-size: 16px;
+    }
+
+    .side-menu ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .side-menu li {
+      margin: 0;
+      padding: 0;
+    }
+
+    .side-menu a {
+      display: block;
+      padding: 7px 8px;
+      color: var(--text);
+      border-radius: 7px;
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .side-menu a:hover,
+    .side-menu a:focus {
+      color: var(--accent);
+      background: #eef4ff;
+      outline: none;
+    }
 
     .doc-shell {
       padding: 22px;
@@ -178,6 +227,22 @@
       background: transparent;
       border-radius: 0;
     }
+
+    @media (max-width: 900px) {
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .content-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .side-menu {
+        position: static;
+        max-height: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -198,10 +263,19 @@
       <p>The page is fetching the official API guide and injecting its HTML into this local document.</p>
     </section>
 
-    <article id="doc-root" class="doc-shell">
-      <h1>Perfex CRM REST API Guide</h1>
-      <p>If the automatic import does not load, use the “Open original” button above.</p>
-    </article>
+    <div class="content-layout">
+      <aside id="side-menu" class="side-menu" aria-label="Documentation navigation">
+        <h2>Contents</h2>
+        <ul id="side-menu-list">
+          <li><a href="#doc-root">Loading guide…</a></li>
+        </ul>
+      </aside>
+
+      <article id="doc-root" class="doc-shell">
+        <h1>Perfex CRM REST API Guide</h1>
+        <p>If the automatic import does not load, use the “Open original” button above.</p>
+      </article>
+    </div>
   </main>
 
   <script>
@@ -213,6 +287,7 @@
 
     const statusEl = document.getElementById('status');
     const docRoot = document.getElementById('doc-root');
+    const sideMenuList = document.getElementById('side-menu-list');
     const reloadBtn = document.getElementById('reload-doc');
 
     function setStatus(type, title, message) {
@@ -225,6 +300,42 @@
         return value;
       }
       return new URL(value, sourceUrl).href;
+    }
+
+    function slugify(value, fallback) {
+      const slug = value
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+
+      return slug || fallback;
+    }
+
+    function buildSideMenu() {
+      const headings = Array.from(docRoot.querySelectorAll('h1, h2, h3'))
+        .filter((heading) => heading.textContent.trim() !== '');
+
+      sideMenuList.innerHTML = '';
+
+      if (headings.length === 0) {
+        sideMenuList.innerHTML = '<li><a href="#doc-root">Documentation</a></li>';
+        return;
+      }
+
+      headings.forEach((heading, index) => {
+        if (!heading.id) {
+          heading.id = slugify(heading.textContent, 'section-' + (index + 1));
+        }
+
+        const item = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = '#' + heading.id;
+        link.textContent = heading.textContent.trim();
+        link.style.paddingLeft = heading.tagName === 'H3' ? '20px' : '8px';
+        item.appendChild(link);
+        sideMenuList.appendChild(item);
+      });
     }
 
     function cleanAndInject(html) {
@@ -240,6 +351,7 @@
       });
 
       docRoot.innerHTML = imported.innerHTML;
+      buildSideMenu();
       setStatus('ok', 'Documentation loaded.', 'The official guide was copied into this page as HTML content, without an iframe.');
     }
 
