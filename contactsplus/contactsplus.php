@@ -6,8 +6,8 @@ Module Name: Contacts Plus
 Description: Connect Contact with multiple Companies and create contact without email.
 Version: 2.0.0
 Requires at least: 3.0.*
-Author: eAdvertise
-Author URI: https://www.eadvertise.eu/
+Author: eAdvertise.eu
+Author URI: https://www.eadvertise.eu
 */
 
 define('CONTACTSPLUS_MODULE_NAME', 'contactsplus');

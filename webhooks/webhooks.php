@@ -3,9 +3,11 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 /*
     Module Name: Webhooks
-    Description: Connect your Perfex CRM with every service out there, that supports webhook integration.
+    Description: Connect your eAD-CRM with every service out there, that supports webhook integration.
     Version: 2.0.0
     Requires at least: 3.0.*
+    Author: eAdvertise.eu
+    Author URI: https://www.eadvertise.eu
 */
 
 use WpOrg\Requests\Requests as Webhooks_Requests;

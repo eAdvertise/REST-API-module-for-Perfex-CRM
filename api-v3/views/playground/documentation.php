@@ -87,8 +87,8 @@
     <div class="documentation-container">
         <!-- Header Section -->
         <div class="header-section text-center">
-            <h1><i class="fas fa-book"></i> Perfex CRM API Documentation</h1>
-            <p class="lead">Complete guide to using the Perfex CRM REST API</p>
+            <h1><i class="fas fa-book"></i> eAD-CRM API Documentation</h1>
+            <p class="lead">Complete guide to using the eAD-CRM REST API</p>
         </div>
 
         <!-- Navigation -->
@@ -120,11 +120,11 @@
                 <h4><i class="fas fa-key"></i> Authentication</h4>
             </div>
             <div class="section-body">
-                <p>The Perfex CRM API uses JWT (JSON Web Token) authentication. You need to include your API key in the Authorization header of each request.</p>
+                <p>The eAD-CRM API uses JWT (JSON Web Token) authentication. You need to include your API key in the Authorization header of each request.</p>
                 
                 <h5>Getting Your API Key</h5>
                 <ol>
-                    <li>Log in to your Perfex CRM admin panel</li>
+                    <li>Log in to your eAD-CRM admin panel</li>
                     <li>Go to <strong>API</strong> → <strong>API Keys</strong></li>
                     <li>Create a new API key or use an existing one</li>
                     <li>Copy the API key for use in your requests</li>

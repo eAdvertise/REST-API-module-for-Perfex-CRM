@@ -6,9 +6,9 @@ defined("BASEPATH") or exit("No direct script access allowed");
 Module Name: ACCOUNT BALANCES
 Description: View the total balance and account transactions of your cash/bank accounts.
 
+Version: 1.0.5
 Author: eAdvertise.eu
 Author URI: https://www.eadvertise.eu
-Version: 1.0.5
 */
 
 

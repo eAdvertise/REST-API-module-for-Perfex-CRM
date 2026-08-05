@@ -46,10 +46,10 @@ class Openapi extends App_Controller
             // 3.0-compatible (simple types + oneOf), so we declare 3.0.3.
             'openapi' => '3.0.3',
             'info'    => [
-                'title'       => 'Perfex CRM REST API',
+                'title'       => 'eAD-CRM REST API',
                 // Sourced from the module version so the spec never drifts.
                 'version'     => defined('API_MODULE_VERSION') ? API_MODULE_VERSION : '3.0.3',
-                'description' => 'REST API for Perfex CRM by Themesic Interactive. '
+                'description' => 'REST API for eAD-CRM by eAdvertise.eu. '
                     . 'Authenticate every request with the authtoken header. '
                     . 'Lists support page/per_page pagination, sort, fields selection and date-range filters. '
                     . 'An MCP server for AI agents is available at POST /api/mcp.',
