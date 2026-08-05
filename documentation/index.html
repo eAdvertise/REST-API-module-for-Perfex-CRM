@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer-when-downgrade">
+  <title>Perfex CRM REST API Guide</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7fb;
+      --text: #172033;
+      --muted: #667085;
+      --card: #ffffff;
+      --border: #d9e0ea;
+      --accent: #2563eb;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 20px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.3;
+    }
+
+    p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    a.button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      padding: 10px 14px;
+      color: #ffffff;
+      background: var(--accent);
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    main {
+      height: calc(100vh - 74px);
+    }
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #ffffff;
+    }
+
+    .fallback {
+      padding: 20px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Perfex CRM REST API Guide</h1>
+      <p>Local documentation entry point for the official Themesic API guide.</p>
+    </div>
+    <a class="button" href="https://perfexcrm.themesic.com/apiguide/" target="_blank" rel="noopener noreferrer">Open original</a>
+  </header>
+  <main>
+    <noscript>
+      <div class="fallback">
+        JavaScript is disabled. Open the original documentation at
+        <a href="https://perfexcrm.themesic.com/apiguide/">https://perfexcrm.themesic.com/apiguide/</a>.
+      </div>
+    </noscript>
+    <iframe
+      title="Perfex CRM REST API Guide"
+      src="https://perfexcrm.themesic.com/apiguide/"
+      loading="eager"
+      referrerpolicy="no-referrer-when-downgrade"
+      allowfullscreen>
+    </iframe>
+  </main>
+</body>
+</html>
