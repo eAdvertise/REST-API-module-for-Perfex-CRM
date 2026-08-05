@@ -3,29 +3,47 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Shopify_model extends App_Model
 {
+    private function table_exists($table)
+    {
+        return $this->db->table_exists(db_prefix() . $table);
+    }
+
+    private function get_table_rows($table)
+    {
+        if (!$this->table_exists($table)) {
+            return [];
+        }
+
+        return $this->db->get(db_prefix() . $table)->result_array();
+    }
+
     public function get_products()
     {
-        return $this->db->get(db_prefix().'myshopify_products')->result_array();
+        return $this->get_table_rows('myshopify_products');
     }
     public function get_customers()
     {
-        return $this->db->get(db_prefix().'mymyshopify_customers')->result_array();
+        return $this->get_table_rows('myshopify_customers');
     }
     public function get_orders()
     {
-        return $this->db->get(db_prefix().'myshopify_orders')->result_array();
+        return $this->get_table_rows('myshopify_orders');
     }
     public function get_order_by_id($id)
     {
+        if (!$this->table_exists('myshopify_orders')) {
+            return null;
+        }
+
         return $this->db->get_where(db_prefix().'myshopify_orders', ['id' => $id])->row_array();
     }
     public function get_categories()
     {
-        return $this->db->get(db_prefix().'myshopify_categories')->result_array();
+        return $this->get_table_rows('myshopify_categories');
     }
     public function get_discounts()
     {
-        return $this->db->get(db_prefix().'myshopify_discounts')->result_array();
+        return $this->get_table_rows('myshopify_discounts');
     }
     public function import_product($product)
     {

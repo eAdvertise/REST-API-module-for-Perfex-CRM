@@ -25,7 +25,7 @@ $route['api/zapier/test/(:any)'] = 'zapier/test/$1';
 $route['api/zapier/resources'] = 'zapier/resources';
 $route['api/zapier'] = 'zapier/resources';
 
-// Keep original /api/connectors/ routes for backwards compatibility (may not work due to Perfex CRM interception)
+// Keep original /api/connectors/ routes for backwards compatibility (may not work due to eAD-CRM interception)
 $route['api/connectors/poll/(:any)'] = 'connector_polling/poll/$1';
 $route['api/connectors/test/(:any)'] = 'connector_polling/test/$1';
 $route['api/connectors/resources'] = 'connector_polling/resources';
@@ -81,6 +81,14 @@ $route['api/notes']                        = 'notes/data';
 // Task comments v3.0.3 (must come before generic routes)
 $route['api/tasks/(:num)/comments/(:num)'] = 'tasks/comments_id/$1/$2';
 $route['api/tasks/(:num)/comments']        = 'tasks/comments/$1';
+
+
+// Guest invoices endpoint (create/find guest by email + create invoice)
+// Must be before generic routes
+$route['api/guest_invoices']            = 'guest_invoices/data';
+$route['api/guest_invoices/(:num)']     = 'guest_invoices/data/$1';
+$route['api/guest_invoices/checkout']   = 'guest_invoices/checkout';
+$route['api/guestinvoices/checkout']    = 'guest_invoices/checkout';
 
 // Generic API routes (must come after specific routes)
 $route['api/tickets/reply/(:num)'] = 'tickets/data_reply/$1';
