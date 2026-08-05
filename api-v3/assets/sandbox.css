@@ -1,0 +1,247 @@
+/* Sandbox Styles */
+.endpoint-category {
+    margin-bottom: 20px;
+}
+
+.endpoint-category h6 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.endpoint-link {
+    display: block;
+    padding: 5px 0;
+    text-decoration: none;
+    color: #3498db;
+    transition: color 0.3s ease;
+}
+
+.endpoint-link:hover {
+    color: #2980b9;
+    text-decoration: none;
+}
+
+.endpoint-link code {
+    background: #f8f9fa;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+    color: #e74c3c;
+}
+
+.sample-request-card {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: box-shadow 0.3s ease;
+}
+
+.sample-request-card:hover {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.sample-request-card h6 {
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.sample-request-card h6 code {
+    background: #e74c3c;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+.response-success {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.response-error {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.response-success h6,
+.response-error h6 {
+    margin-bottom: 10px;
+}
+
+.response-success pre,
+.response-error pre {
+    background: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 3px;
+    padding: 10px;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.response-success pre code,
+.response-error pre code {
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+#request-data,
+#request-headers {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+}
+
+#response-content {
+    min-height: 200px;
+}
+
+.load-sample-btn {
+    margin-top: 10px;
+}
+
+.endpoint-link small {
+    display: block;
+    margin-top: 3px;
+    color: #6c757d;
+}
+
+/* Panel customizations */
+.panel-heading {
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.panel-title {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* Form styling */
+.form-group label {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.form-control:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+/* Button styling */
+.btn-outline-primary {
+    color: #3498db;
+    border-color: #3498db;
+}
+
+.btn-outline-primary:hover {
+    background-color: #3498db;
+    border-color: #3498db;
+}
+
+/* Scrollbar styling */
+.panel-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.panel-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.panel-body::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.panel-body::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .col-md-3,
+    .col-md-6 {
+        margin-bottom: 20px;
+    }
+    
+    .sample-request-card {
+        margin-bottom: 10px;
+    }
+}
+
+/* Loading animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.fa-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* Status labels */
+.label {
+    display: inline-block;
+    padding: 0.25em 0.6em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+}
+
+.label-success {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.label-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+/* Code highlighting */
+pre code {
+    color: #333;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+/* Endpoint method colors */
+.endpoint-link code[data-method="GET"] {
+    background-color: #28a745;
+    color: white;
+}
+
+.endpoint-link code[data-method="POST"] {
+    background-color: #007bff;
+    color: white;
+}
+
+.endpoint-link code[data-method="PUT"] {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.endpoint-link code[data-method="DELETE"] {
+    background-color: #dc3545;
+    color: white;
+}
+
+.endpoint-link code[data-method="PATCH"] {
+    background-color: #6f42c1;
+    color: white;
+}

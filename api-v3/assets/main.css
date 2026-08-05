@@ -1,0 +1,172 @@
+.apitable td {
+    max-width: 300px;
+    word-wrap: break-word;
+}
+
+/* Action buttons in table rows - show on row hover */
+table tbody tr .row-options {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+table tbody tr:hover .row-options {
+    opacity: 1;
+}
+
+.row-options .btn-icon {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    border-radius: 3px;
+    min-width: 32px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    margin: 0;
+}
+
+.row-options .btn-icon:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+/* Ensure proper button colors and contrast - override any gray defaults */
+.row-options .btn-default.btn-icon {
+    background-color: #f4f4f4 !important;
+    border-color: #ddd !important;
+    color: #333 !important;
+}
+
+.row-options .btn-default.btn-icon:hover {
+    background-color: #e8e8e8 !important;
+    border-color: #ccc !important;
+    color: #000 !important;
+}
+
+.row-options .btn-info.btn-icon {
+    background-color: #5bc0de !important;
+    border-color: #46b8da !important;
+    color: #fff !important;
+}
+
+.row-options .btn-info.btn-icon:hover {
+    background-color: #46b8da !important;
+    border-color: #31b0d5 !important;
+    color: #fff !important;
+}
+
+.row-options .btn-success.btn-icon {
+    background-color: #5cb85c !important;
+    border-color: #4cae4c !important;
+    color: #fff !important;
+}
+
+.row-options .btn-success.btn-icon:hover {
+    background-color: #4cae4c !important;
+    border-color: #449d44 !important;
+    color: #fff !important;
+}
+
+.row-options .btn-danger.btn-icon {
+    background-color: #d9534f !important;
+    border-color: #d43f3a !important;
+    color: #fff !important;
+}
+
+.row-options .btn-danger.btn-icon:hover {
+    background-color: #d43f3a !important;
+    border-color: #c9302c !important;
+    color: #fff !important;
+}
+
+.row-options .btn-icon i {
+    font-size: 14px;
+    margin: 0;
+    line-height: 1;
+    color: inherit !important;
+}
+
+/* Override dataTables default link colors for colored buttons */
+.dataTables_wrapper table tbody .row-options .btn-info:active,
+.dataTables_wrapper table tbody .row-options .btn-info:focus,
+.dataTables_wrapper table tbody .row-options .btn-info:hover,
+.dataTables_wrapper table tbody .row-options .btn-success:active,
+.dataTables_wrapper table tbody .row-options .btn-success:focus,
+.dataTables_wrapper table tbody .row-options .btn-success:hover,
+.dataTables_wrapper table tbody .row-options .btn-danger:active,
+.dataTables_wrapper table tbody .row-options .btn-danger:focus,
+.dataTables_wrapper table tbody .row-options .btn-danger:hover {
+    color: #fff !important;
+}
+
+/* Ensure default button keeps its color too */
+.dataTables_wrapper table tbody .row-options .btn-default:active,
+.dataTables_wrapper table tbody .row-options .btn-default:focus,
+.dataTables_wrapper table tbody .row-options .btn-default:hover {
+    color: #000 !important;
+}
+
+table td.options {
+    white-space: nowrap;
+    width: 1%;
+    text-align: right;
+}
+
+table th.options {
+    text-align: right;
+}
+
+/* Ensure consistent button sizes across all action columns */
+table .row-options .btn {
+    margin: 0;
+}
+
+/* Consistent table header styling */
+table.dt-table thead th {
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 12px 8px;
+}
+
+table.dt-table tbody td {
+    padding: 10px 8px;
+    vertical-align: middle;
+}
+
+/* Connectors page - ensure all buttons are equal size */
+.connectors-page .btn-group {
+    display: inline-block;
+    width: auto;
+    margin: 0;
+    vertical-align: middle;
+}
+
+.connectors-page .btn-group .btn {
+    width: auto;
+    min-width: auto;
+    padding: 6px 12px;
+    font-size: 12px;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+
+.connectors-page .btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.connectors-page .btn-group .dropdown-toggle {
+    padding-right: 25px;
+}
