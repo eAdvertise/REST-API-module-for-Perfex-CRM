@@ -31,7 +31,7 @@ require_once __DIR__ . '/REST_Controller.php';
  *
  * IMPORTANT:
  * - This controller follows your current server setup approach:
- *   licensing call + error_reporting(0) (you chose to keep it for now).
+ *   error_reporting(0) (you chose to keep it for now).
  *   When you want, we will restore proper authtoken validation.
  */
 
@@ -43,9 +43,6 @@ class Guest_invoices extends REST_Controller
     public function __construct()
     {
         parent::__construct();
-
-        // Keep licensing intact
-        \modules\api\core\Apiinit::the_da_vinci_code('api');
 
         // Your current approach: silence notices/warnings
         error_reporting(0);

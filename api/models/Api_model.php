@@ -13,7 +13,6 @@ class Api_model extends App_Model
 
     public function get_table($name, $id)
     {
-        \modules\api\core\Apiinit::the_da_vinci_code('api');
         switch ($name) {
             case 'projects':
                 $this->load->model('Projects_model');
@@ -265,7 +264,6 @@ class Api_model extends App_Model
 
     public function search($type, $key)
     {
-        \modules\api\core\Apiinit::the_da_vinci_code('api');
 
         return $this->get_relation_data_api($type, $key);
     }
@@ -824,7 +822,6 @@ class Api_model extends App_Model
 
     public function get_relation_data_api($type, $search = '')
     {
-        \modules\api\core\Apiinit::the_da_vinci_code('api');
         $q  = '';
         if ('' != $search) {
             $q = $search;
