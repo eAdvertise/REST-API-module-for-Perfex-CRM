@@ -1,0 +1,5 @@
+{
+    "require": {
+        "phpclassic/php-shopify": "^1.2"
+    }
+}
