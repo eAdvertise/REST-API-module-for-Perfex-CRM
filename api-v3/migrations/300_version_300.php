@@ -57,6 +57,7 @@ class Migration_Version_300 extends App_module_migration
         if (!$this->db->table_exists(db_prefix() . 'api_idempotency_keys')) {
             $this->db->query("
                 CREATE TABLE `" . db_prefix() . "api_idempotency_keys` (
+                    `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
                     `idem_key` VARCHAR(191) NOT NULL,
                     `api_key` VARCHAR(255) NOT NULL DEFAULT '',
                     `method` VARCHAR(10) NOT NULL DEFAULT 'post',
@@ -64,7 +65,8 @@ class Migration_Version_300 extends App_module_migration
                     `response_code` INT(11) NOT NULL DEFAULT 200,
                     `response_body` LONGTEXT NULL,
                     `created_at` DATETIME NOT NULL,
-                    PRIMARY KEY (`idem_key`, `api_key`),
+                    PRIMARY KEY (`id`),
+                    UNIQUE KEY `idx_idem_lookup` (`idem_key`(100), `api_key`(64)),
                     KEY `idx_created` (`created_at`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
             ");
