@@ -11,9 +11,8 @@
             <div class="panel_s">
                <div class="panel-body">
                  
-                  <?php echo render_input('settings[myshopify_purchase_code]', 'purchase_code', get_option('myshopify_purchase_code'), 'text',['required'=>'required']); ?>
                   <label for="show_subscriptions_in_customers_area" class="control-label clearfix">
-        <i class="fa-regular fa-circle-question" data-toggle="tooltip" data-title="How to find your purchase code" data-original-title="" title=""></i> <a href="https://help.market.envato.com/hc/en-us/articles/202822600-Where-Is-My-Purchase-Code" target="_blank">Where Is My Purchase Code?</a></label>
+       </label><p class="text-muted">Purchase-code verification is disabled for this fork.</p>
                </div>
                <div class="panel-footer text-right">
                   <button class="btn btn-primary"
