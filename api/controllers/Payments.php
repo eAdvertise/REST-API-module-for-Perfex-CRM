@@ -246,7 +246,6 @@ class Payments extends REST_Controller {
 
 
     public function data_post() {
-        \modules\api\core\Apiinit::the_da_vinci_code('api');
         
         // form validation
         $this->form_validation->set_rules('invoiceid', 'Payment Name', 'trim|required|max_length[600]', array('is_unique' => 'This %s already exists please enter another Payment Name'));

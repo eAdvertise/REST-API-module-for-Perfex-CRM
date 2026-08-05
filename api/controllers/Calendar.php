@@ -146,7 +146,6 @@ class Calendar extends REST_Controller
      */
     public function data_post()
     {
-        \modules\api\core\Apiinit::the_da_vinci_code('api');
         
         $data = $this->input->post();
 
