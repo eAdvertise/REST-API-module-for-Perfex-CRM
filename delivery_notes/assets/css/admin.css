@@ -1,0 +1,19 @@
+@media (min-width: 1024px) {
+	.lg\:tw-grid-cols-4 {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}
+
+.delivery-note-pad .signature-pad--body {
+	border-radius: 4px;
+	position: relative;
+	-webkit-box-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+	border: 1px solid #c0cbda;
+}
+
+.delivery-note-pad label {
+	display: flex !important;
+	padding-top: 0 !important;
+}
