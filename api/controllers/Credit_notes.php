@@ -386,7 +386,6 @@ class Credit_notes extends REST_Controller {
      *
      */
     public function data_post() {
-        \modules\api\core\Apiinit::the_da_vinci_code('api');
         
         $data = $this->input->post();
         $this->form_validation->set_rules('clientid', 'Customer', 'trim|required|numeric|greater_than[0]');

@@ -354,7 +354,6 @@ class Proposals extends REST_Controller {
      *
      */
     public function data_post() {
-        \modules\api\core\Apiinit::the_da_vinci_code('api');
         
 		error_reporting(0);
         $data = $this->input->post();
