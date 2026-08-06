@@ -1,0 +1,23 @@
+# Local environment and secret files
+.env
+.env.*
+!.env.example
+
+# Database dumps and backups
+*.sql
+*.sql.gz
+*.dump
+*.bak
+*.backup
+
+# Local archives that may contain deployments or customer data
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+
+# Editor and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

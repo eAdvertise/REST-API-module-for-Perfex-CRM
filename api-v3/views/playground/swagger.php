@@ -50,7 +50,7 @@
 <body>
     <!-- Header -->
     <div class="swagger-header">
-        <h1><i class="fas fa-code"></i> Perfex CRM API - Swagger UI</h1>
+        <h1><i class="fas fa-code"></i> eAD-CRM API - Swagger UI</h1>
         <p class="lead">Interactive API documentation and testing</p>
     </div>
 

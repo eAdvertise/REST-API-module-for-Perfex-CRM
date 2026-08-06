@@ -18,7 +18,7 @@
                   <h3>
                      <i class="fa fa-bolt" style="color: #FF4A00;"></i> Zapier
                   </h3>
-                  <p>Connect Perfex CRM with 5000+ apps via Zapier</p>
+                  <p>Connect eAD-CRM with 5000+ apps via Zapier</p>
                   
                   <a href="<?php echo site_url('modules/api/download_manifest.php?platform=zapier'); ?>" class="btn btn-warning btn-sm" target="_blank" download>
                      <i class="fa fa-download"></i> Download Manifest

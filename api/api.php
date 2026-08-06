@@ -7,8 +7,8 @@ Module Name: API
 Module URI: https://www.eadvertise.eu
 Description: Rest API module for Perfex CRM
 Version: 2.0.8
-Author: Themesic Interactive
-Author URI: https://1.envato.market/themesic
+Author: eAdvertise.eu
+Author URI: https://www.eadvertise.eu
 */
 
 require_once __DIR__.'/vendor/autoload.php';
