@@ -646,7 +646,7 @@ html[data-theme="dark"] .method-badge--delete { background: #451c2b; color: #ff8
 .prose a { color: var(--brand-strong); font-weight: 650; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--brand) 32%, transparent); text-underline-offset: 3px; }
 .prose a:hover { text-decoration-color: var(--brand); }
 .prose strong { color: var(--ink); }
-.prose code:not(pre code) { padding: 2px 5px; border: 1px solid var(--line); border-radius: 5px; background: var(--surface-2); color: var(--brand-strong); font-size: .84em; }
+.prose code:not(pre code) { padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--brand-strong); font-size: .84em; }
 .prose pre { position: relative; margin: 18px 0; padding: 20px; overflow: auto; border: 1px solid #26304b; border-radius: 13px; background: var(--code-bg); color: var(--code-ink); font-size: 11px; line-height: 1.75; box-shadow: var(--shadow-sm); }
 .prose blockquote { margin: 20px 0; padding: 14px 17px; border-left: 3px solid var(--brand); border-radius: 0 10px 10px 0; background: var(--brand-soft); color: var(--ink-soft); }
 .prose blockquote p { margin: 0; }
@@ -806,5 +806,15 @@ html[data-theme="dark"] .method-badge--delete { background: #451c2b; color: #ff8
 .operation-description > :last-child { margin-bottom: 0; }
 .operation-description p { margin: 10px 0; }
 .operation-description ul, .operation-description ol { padding-left: 21px; }
-.operation-description code { padding: 2px 5px; border: 1px solid var(--line); border-radius: 5px; background: var(--surface-2); color: var(--brand-strong); }
+.operation-description code { padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--brand-strong); }
 .operation-description a { color: var(--brand-strong); text-decoration: underline; text-underline-offset: 3px; }
+
+/* Accessibility and printable-reference refinements. */
+:where(a, button, input, summary):focus-visible { outline: 3px solid var(--brand); outline-offset: 3px; }
+@media print {
+  .topbar, .sidebar, .sidebar-scrim, .search-dialog, .toast, .reading-progress, .code-block button, .copy-inline { display: none !important; }
+  .page-shell, .main, .guide-layout, .operation-layout { display: block; width: auto; max-width: none; margin: 0; padding: 0; }
+  body { background: #fff; color: #000; font-size: 11pt; }
+  a { color: #000; text-decoration: underline; }
+  pre, .code-block, .code-panel { break-inside: avoid; white-space: pre-wrap; }
+}
