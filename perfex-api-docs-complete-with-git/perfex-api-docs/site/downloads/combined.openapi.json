@@ -3,7 +3,7 @@
   "info": {
     "title": "Your Company API",
     "version": "0.1.0",
-    "description": "Perfex CRM REST API and custom module reference"
+    "description": "eAD-CRM REST API and custom module reference"
   },
   "servers": [
     {
@@ -519,7 +519,7 @@
   "tags": [
     {
       "name": "Your Module",
-      "description": "Example operations supplied by your custom Perfex CRM module. Replace this tag and its paths with your implementation."
+      "description": "Example operations supplied by your custom eAD-CRM module. Replace this tag and its paths with your implementation."
     }
   ],
   "x-docs-source": "custom",

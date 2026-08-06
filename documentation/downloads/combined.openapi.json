@@ -1,0 +1,527 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "eAD-CRM API",
+    "version": "0.1.0",
+    "description": "eAD-CRM REST API and custom module reference"
+  },
+  "servers": [
+    {
+      "url": "https://crm.example.com/api"
+    }
+  ],
+  "security": [
+    {
+      "authtoken": []
+    }
+  ],
+  "paths": {
+    "/your-module/items": {
+      "get": {
+        "tags": [
+          "Your Module"
+        ],
+        "summary": "List module items",
+        "description": "Returns a paginated collection of records managed by the custom module.",
+        "operationId": "yourModuleListItems",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "One-based page number.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Maximum number of records returned per page.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Optional free-text search value.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "onboarding"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Items returned successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/YourModuleItemList"
+                },
+                "example": {
+                  "status": true,
+                  "data": [
+                    {
+                      "id": 42,
+                      "name": "Customer onboarding",
+                      "description": "Initial onboarding workflow",
+                      "active": true,
+                      "created_at": "2026-08-06T12:00:00Z",
+                      "updated_at": "2026-08-06T12:00:00Z"
+                    }
+                  ],
+                  "meta": {
+                    "page": 1,
+                    "per_page": 25,
+                    "total": 1
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/YourModuleUnauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/YourModuleServerError"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Your Module"
+        ],
+        "summary": "Create a module item",
+        "description": "Creates a new custom-module record and returns the stored resource.",
+        "operationId": "yourModuleCreateItem",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/YourModuleItemInput"
+              },
+              "example": {
+                "name": "Customer onboarding",
+                "description": "Initial onboarding workflow",
+                "active": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Item created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/YourModuleItem"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/YourModuleUnauthorized"
+          },
+          "422": {
+            "$ref": "#/components/responses/YourModuleValidationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/YourModuleServerError"
+          }
+        }
+      }
+    },
+    "/your-module/items/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "Numeric item identifier.",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "example": 42
+        }
+      ],
+      "get": {
+        "tags": [
+          "Your Module"
+        ],
+        "summary": "Get a module item",
+        "description": "Returns one custom-module record by identifier.",
+        "operationId": "yourModuleGetItem",
+        "responses": {
+          "200": {
+            "description": "Item returned successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/YourModuleItem"
+                    }
+                  }
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "id": 42,
+                    "name": "Customer onboarding",
+                    "description": "Initial onboarding workflow",
+                    "active": true,
+                    "created_at": "2026-08-06T12:00:00Z",
+                    "updated_at": "2026-08-06T12:00:00Z"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/YourModuleUnauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/YourModuleNotFound"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Your Module"
+        ],
+        "summary": "Update a module item",
+        "description": "Updates an existing custom-module record.",
+        "operationId": "yourModuleUpdateItem",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/YourModuleItemInput"
+              },
+              "example": {
+                "name": "Updated onboarding workflow",
+                "description": "Revised workflow description",
+                "active": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Item updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/YourModuleItem"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/YourModuleUnauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/YourModuleNotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/YourModuleValidationError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Your Module"
+        ],
+        "summary": "Delete a module item",
+        "description": "Permanently removes a custom-module record.",
+        "operationId": "yourModuleDeleteItem",
+        "responses": {
+          "200": {
+            "description": "Item deleted successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": true,
+                  "message": "Item deleted successfully."
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/YourModuleUnauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/YourModuleNotFound"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "authtoken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "authtoken",
+        "description": "API token sent with every request."
+      }
+    },
+    "schemas": {
+      "YourModuleItem": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "active",
+          "created_at",
+          "updated_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "example": 42
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 191,
+            "example": "Customer onboarding"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "example": "Initial onboarding workflow"
+          },
+          "active": {
+            "type": "boolean",
+            "example": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "example": "2026-08-06T12:00:00Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "example": "2026-08-06T12:00:00Z"
+          }
+        }
+      },
+      "YourModuleItemInput": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 191,
+            "description": "Human-readable item name.",
+            "example": "Customer onboarding"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "Optional long description.",
+            "example": "Initial onboarding workflow"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Whether the item is currently active.",
+            "default": true,
+            "example": true
+          }
+        }
+      },
+      "YourModuleItemList": {
+        "type": "object",
+        "required": [
+          "status",
+          "data",
+          "meta"
+        ],
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/YourModuleItem"
+            }
+          },
+          "meta": {
+            "type": "object",
+            "required": [
+              "page",
+              "per_page",
+              "total"
+            ],
+            "properties": {
+              "page": {
+                "type": "integer",
+                "example": 1
+              },
+              "per_page": {
+                "type": "integer",
+                "example": 25
+              },
+              "total": {
+                "type": "integer",
+                "example": 1
+              }
+            }
+          }
+        }
+      },
+      "YourModuleError": {
+        "type": "object",
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "example": false
+          },
+          "message": {
+            "type": "string",
+            "example": "The requested item was not found."
+          },
+          "errors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "YourModuleUnauthorized": {
+        "description": "The API token is missing or invalid.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/YourModuleError"
+            },
+            "example": {
+              "status": false,
+              "message": "Unauthorized request."
+            }
+          }
+        }
+      },
+      "YourModuleNotFound": {
+        "description": "The requested item does not exist.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/YourModuleError"
+            },
+            "example": {
+              "status": false,
+              "message": "The requested item was not found."
+            }
+          }
+        }
+      },
+      "YourModuleValidationError": {
+        "description": "One or more request values are invalid.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/YourModuleError"
+            },
+            "example": {
+              "status": false,
+              "message": "Validation failed.",
+              "errors": {
+                "name": [
+                  "The name field is required."
+                ]
+              }
+            }
+          }
+        }
+      },
+      "YourModuleServerError": {
+        "description": "An unexpected server error occurred.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/YourModuleError"
+            },
+            "example": {
+              "status": false,
+              "message": "Internal server error."
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Your Module",
+      "description": "Example operations supplied by your custom eAD-CRM module. Replace this tag and its paths with your implementation."
+    }
+  ],
+  "x-docs-source": "custom",
+  "x-docs-vendor-state": "not imported; custom-only build"
+}

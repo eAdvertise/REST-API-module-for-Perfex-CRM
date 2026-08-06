@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#0b1020">
+  <title>Get a module item · eAD-CRM API</title>
+  <meta name="description" content="Returns one custom-module record by identifier.">
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script>
+    (function () {
+      var saved = localStorage.getItem('docs-theme');
+      if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
+    })();
+  </script>
+</head>
+<body data-current-url="/reference/yourmodulegetitem/">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="reading-progress" aria-hidden="true"><span></span></div>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <button class="icon-button mobile-nav-button" type="button" aria-label="Open navigation" aria-controls="docs-sidebar" aria-expanded="false" data-nav-toggle>
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+
+      <a class="brand" href="/" aria-label="eAD-CRM API home">
+        <span class="brand__mark" aria-hidden="true">eAD</span>
+        <span class="brand__copy">
+          <strong>eAD-CRM API</strong>
+          <small>Developer docs</small>
+        </span>
+      </a>
+
+      <div class="topbar__actions">
+        <button class="search-trigger" type="button" data-search-open aria-haspopup="dialog">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+          <span>Search documentation</span>
+          <kbd>⌘ K</kbd>
+        </button>
+        <a class="topbar-link" href="/downloads/combined.openapi.json" download>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"/></svg>
+          <span>OpenAPI</span>
+        </a>
+        <button class="icon-button" type="button" data-theme-toggle aria-label="Toggle colour theme">
+          <svg class="theme-icon theme-icon--sun" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+          <svg class="theme-icon theme-icon--moon" aria-hidden="true" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-shell">
+    <div class="sidebar-scrim" data-nav-close></div>
+    <aside class="sidebar" id="docs-sidebar" aria-label="Documentation navigation">
+      <nav class="sidebar__nav">
+        <a class="sidebar-home" href="/">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3Z"/></svg>
+          Overview
+        </a>
+
+        <div class="sidebar-section">
+          <p class="sidebar-label">Guides</p>
+          <details class="sidebar-group" open>
+            <summary>Custom<span>6</span></summary>
+            <div class="sidebar-group__items">
+              <a href="/guides/custom/getting-started/">Getting started</a>
+              <a href="/guides/custom/add-endpoints/">Adding custom endpoints</a>
+              <a href="/guides/custom/branding/">Branding and design</a>
+              <a href="/guides/custom/deployment/">Deployment</a>
+              <a href="/guides/custom/importing-the-upstream/">Importing the upstream reference</a>
+              <a href="/guides/custom/upstream-updates/">Updating the upstream base</a>
+            </div>
+          </details>
+          <details class="sidebar-group" open>
+            <summary>Overview<span>1</span></summary>
+            <div class="sidebar-group__items">
+              <a href="/guides/overview/">Documentation architecture</a>
+            </div>
+          </details>
+          <details class="sidebar-group">
+            <summary>Vendor<span>1</span></summary>
+            <div class="sidebar-group__items">
+              <a href="/guides/vendor/readme/">Upstream guides</a>
+            </div>
+          </details>
+        </div>
+
+        <div class="sidebar-section">
+          <p class="sidebar-label">Complete API</p>
+          <a class="sidebar-home" href="/guides/api-reference/">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg>
+            API &amp; API-V3 reference
+          </a>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label-row">
+            <p class="sidebar-label">API Reference</p>
+            <a href="/reference/">All</a>
+          </div>
+          <details class="sidebar-group" open>
+            <summary class="is-current">Your Module<span>5</span></summary>
+            <div class="sidebar-group__items sidebar-group__items--operations">
+              <a href="/reference/yourmodulelistitems/">
+                <span class="method-mini method-mini--get">GET</span>
+                <span>List module items</span>
+              </a>
+              <a href="/reference/yourmodulecreateitem/">
+                <span class="method-mini method-mini--post">POST</span>
+                <span>Create a module item</span>
+              </a>
+              <a href="/reference/yourmodulegetitem/" class="is-active" aria-current="page">
+                <span class="method-mini method-mini--get">GET</span>
+                <span>Get a module item</span>
+              </a>
+              <a href="/reference/yourmoduleupdateitem/">
+                <span class="method-mini method-mini--put">PUT</span>
+                <span>Update a module item</span>
+              </a>
+              <a href="/reference/yourmoduledeleteitem/">
+                <span class="method-mini method-mini--delete">DELETE</span>
+                <span>Delete a module item</span>
+              </a>
+            </div>
+          </details>
+        </div>
+      </nav>
+
+      <div class="sidebar__footer">
+        <p>eAdvertise</p>
+        <span>Self-hosted documentation</span>
+      </div>
+    </aside>
+
+    <main class="main" id="main-content">
+<div class="operation-layout">
+  <article class="operation-doc">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/reference/">API Reference</a><span>/</span><span>Your Module</span>
+    </nav>
+
+    <header class="operation-header">
+      <div class="operation-header__topline">
+        <span class="method-badge method-badge--get">GET</span>
+        <code>/your-module/items/{id}</code>
+        <button class="copy-inline" type="button" data-copy="/your-module/items/{id}" aria-label="Copy path">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>
+        </button>
+      </div>
+      <h1>Get a module item</h1>
+<div class="operation-description"><p>Returns one custom-module record by identifier.</p>
+</div>      <div class="operation-header__chips">
+        <a href="#request">Request</a><a href="#responses">Responses</a>
+<span>operationId: <code>yourModuleGetItem</code></span>      </div>
+    </header>
+
+    <section class="doc-section" id="authentication">
+      <div class="doc-section__heading"><span>01</span><div><h2>Authentication</h2><p>This endpoint requires an API token.</p></div></div>
+      <div class="auth-card">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        <div><strong>Request header</strong><code>authtoken: YOUR_API_TOKEN</code></div>
+        <button type="button" data-copy="authtoken: YOUR_API_TOKEN">Copy</button>
+      </div>
+    </section>
+
+    <section class="doc-section" id="request">
+      <div class="doc-section__heading"><span>02</span><div><h2>Request</h2><p>Path, query and body values accepted by this operation.</p></div></div>
+
+      <h3 class="subheading">Parameters</h3>
+      <div class="parameter-list">
+        <article class="parameter-row">
+          <div class="parameter-row__name"><code>id</code><span>required</span></div>
+          <div class="parameter-row__meta"><span>integer</span><span>path</span></div>
+<p>Numeric item identifier.</p><div class="parameter-row__example"><small>Example</small><code>42</code></div>        </article>
+      </div>
+
+    </section>
+
+    <section class="doc-section" id="responses">
+      <div class="doc-section__heading"><span>03</span><div><h2>Responses</h2><p>HTTP outcomes documented for this operation.</p></div></div>
+      <div class="response-list">
+        <details class="response-card" open>
+          <summary>
+            <span class="status-code status-code--2">200</span>
+            <strong>Item returned successfully.</strong>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><button type="button" data-copy-target>Copy</button><pre><code>{
+  &#34;status&#34;: true,
+  &#34;data&#34;: {
+    &#34;id&#34;: 42,
+    &#34;name&#34;: &#34;Customer onboarding&#34;,
+    &#34;description&#34;: &#34;Initial onboarding workflow&#34;,
+    &#34;active&#34;: true,
+    &#34;created_at&#34;: &#34;2026-08-06T12:00:00Z&#34;,
+    &#34;updated_at&#34;: &#34;2026-08-06T12:00:00Z&#34;
+  }
+}</code></pre></div>
+          </div>
+        </details>
+        <details class="response-card">
+          <summary>
+            <span class="status-code status-code--4">401</span>
+            <strong>The API token is missing or invalid.</strong>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><button type="button" data-copy-target>Copy</button><pre><code>{
+  &#34;status&#34;: false,
+  &#34;message&#34;: &#34;Unauthorized request.&#34;
+}</code></pre></div>
+          </div>
+        </details>
+        <details class="response-card">
+          <summary>
+            <span class="status-code status-code--4">404</span>
+            <strong>The requested item does not exist.</strong>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><button type="button" data-copy-target>Copy</button><pre><code>{
+  &#34;status&#34;: false,
+  &#34;message&#34;: &#34;The requested item was not found.&#34;
+}</code></pre></div>
+          </div>
+        </details>
+      </div>
+    </section>
+  </article>
+
+  <aside class="code-panel" aria-label="Request example">
+    <div class="code-panel__sticky">
+      <div class="code-panel__header"><div><span class="status-dot"></span><strong>Example request</strong></div><span>cURL</span></div>
+      <div class="code-block code-block--panel"><button type="button" data-copy-target>Copy</button><pre><code>curl -X GET &#34;https://crm.example.com/api/your-module/items/42&#34; \
+  -H &#34;authtoken: YOUR_API_TOKEN&#34;</code></pre></div>
+      <div class="code-panel__tips">
+        <p><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg><span>Replace the base URL and token before running the request.</span></p>
+        <a href="/guides/custom/getting-started/">Getting started <span>→</span></a>
+      </div>
+    </div>
+  </aside>
+</div>
+      <footer class="site-footer">
+        <div>
+          <strong>eAD-CRM API</strong>
+          <p>Copyright 2026 eAdvertise</p>
+        </div>
+        <div class="site-footer__links">
+          <a href="/reference/">API Reference</a>
+          <a href="/downloads/combined.openapi.json">OpenAPI JSON</a>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <dialog class="search-dialog" data-search-dialog aria-label="Search documentation">
+    <div class="search-dialog__panel">
+      <div class="search-dialog__header">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input type="search" autocomplete="off" spellcheck="false" placeholder="Search guides, endpoints and paths…" aria-label="Search" data-search-input>
+        <button type="button" data-search-close aria-label="Close search">Esc</button>
+      </div>
+      <div class="search-dialog__meta">
+        <span data-search-status>Start typing to search</span>
+        <span><kbd>↑</kbd><kbd>↓</kbd> navigate · <kbd>↵</kbd> open</span>
+      </div>
+      <div class="search-results" data-search-results></div>
+    </div>
+  </dialog>
+
+  <div class="toast" role="status" aria-live="polite" data-toast></div>
+  <script src="/assets/js/site.js" defer></script>
+</body>
+</html>

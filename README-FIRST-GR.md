@@ -1,6 +1,6 @@
 # Ξεκινήστε από εδώ
 
-Αυτός είναι ένας πλήρης, Git-ready φάκελος για self-hosted API documentation. Δεν είναι απλό HTML mirror: κρατά ξεχωριστά το επίσημο Perfex REST API, τα endpoints του δικού σας module, τα Markdown guides και το καινούργιο theme.
+Αυτός είναι ένας πλήρης, Git-ready φάκελος για self-hosted API documentation. Δεν είναι απλό HTML mirror: κρατά ξεχωριστά το επίσημο eAD-CRM REST API, τα endpoints του δικού σας module, τα Markdown guides και το καινούργιο theme.
 
 ## Γρήγορη εκκίνηση
 
@@ -37,7 +37,7 @@ http://127.0.0.1:8080
 
 ```bash
 make install
-make bootstrap-local UPSTREAM_LOCAL_PATH=../perfex-rest-api-examples
+make bootstrap-local UPSTREAM_LOCAL_PATH=../eAD-CRM-rest-api-examples
 make build
 ```
 
@@ -52,8 +52,8 @@ cp .env.example .env
 Άλλαξε στο `.env`:
 
 ```dotenv
-PERFEX_BASE_URL=https://crm.example.com
-PERFEX_API_TOKEN=YOUR_REAL_TOKEN
+EAD_CRM_BASE_URL=https://crm.example.com
+EAD_CRM_API_TOKEN=YOUR_REAL_TOKEN
 ```
 
 Μετά:

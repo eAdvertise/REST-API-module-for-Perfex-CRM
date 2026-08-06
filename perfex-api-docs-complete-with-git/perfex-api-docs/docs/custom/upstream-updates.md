@@ -1,6 +1,6 @@
 # Updating the upstream base
 
-Treat the public Perfex companion repository as a vendor dependency. Update it deliberately, review the result, and keep your custom material isolated.
+Treat the public eAD-CRM companion repository as a vendor dependency. Update it deliberately, review the result, and keep your custom material isolated.
 
 ## Check the current import
 
@@ -69,7 +69,7 @@ After accepting an upstream version, update `locked_ref` in `config/upstream.jso
 ```bash
 git add config/upstream.json vendor/UPSTREAM_METADATA.json
 # Add vendor files too only if your repository policy tracks them.
-git commit -m "Update Perfex API documentation base"
+git commit -m "Update eAD-CRM API documentation base"
 ```
 
 The starter ignores the large cached checkout and imported OpenAPI file by default. This keeps your repository small and allows CI or developers to re-import the pinned source.

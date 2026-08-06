@@ -1,6 +1,6 @@
 {
   "status": "not imported in the bundled custom-only preview",
-  "repository": "https://github.com/themesic/perfex-rest-api-examples.git",
+  "repository": "https://github.com/eAdvertise/eAD-CRM-rest-api-examples.git",
   "requested_ref": "032d9008aebd66f14a63a7796a82e1ef2938b470",
   "source": "configured",
   "next_command": "make bootstrap"
