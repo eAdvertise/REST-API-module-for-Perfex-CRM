@@ -3,176 +3,384 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>eAD-CRM REST API Documentation</title>
+  <meta name="referrer" content="no-referrer-when-downgrade">
+  <title>Perfex CRM REST API Guide</title>
   <style>
-    :root{--bg:#f5f7fb;--panel:#fff;--ink:#172033;--muted:#667085;--brand:#315efb;--brand2:#0ea5e9;--line:#e4e7ec;--code:#0f172a;--ok:#12b76a;--warn:#f79009;--danger:#f04438}
-    *{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}.layout{display:grid;grid-template-columns:300px 1fr;min-height:100vh}.sidebar{position:sticky;top:0;height:100vh;overflow:auto;background:#0b1220;color:#d0d5dd;padding:28px 22px}.brand{font-size:22px;font-weight:800;color:#fff;margin:0 0 6px}.version{font-size:13px;color:#98a2b3;margin-bottom:20px}.search{width:100%;border:1px solid #344054;border-radius:10px;background:#111827;color:#fff;padding:11px 12px;margin-bottom:18px}.nav-group{margin:18px 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#98a2b3}.nav a{display:block;color:#d0d5dd;text-decoration:none;padding:7px 8px;border-radius:8px;font-size:14px}.nav a:hover{background:#1f2937;color:#fff}.main{padding:44px;max-width:1220px}.hero{background:linear-gradient(135deg,var(--brand),var(--brand2));border-radius:24px;color:#fff;padding:40px;margin-bottom:28px;box-shadow:0 18px 40px rgba(49,94,251,.22)}.hero h1{font-size:42px;line-height:1.1;margin:0 0 12px}.hero p{max-width:850px;font-size:18px;margin:0;color:#eef4ff}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.card,section{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px;margin-bottom:18px;box-shadow:0 8px 26px rgba(16,24,40,.04)}h2{font-size:28px;margin:0 0 12px}h3{font-size:20px;margin:24px 0 10px}.muted{color:var(--muted)}.pill{display:inline-flex;gap:6px;align-items:center;border-radius:999px;background:#eef4ff;color:#2646c4;padding:5px 10px;font-weight:700;font-size:12px;margin:0 6px 6px 0}.method{display:inline-block;min-width:56px;text-align:center;border-radius:7px;padding:3px 8px;color:#fff;font-weight:800;font-size:12px;margin-right:8px}.get{background:var(--ok)}.post{background:var(--brand)}.put{background:var(--warn)}.delete{background:var(--danger)}.endpoint{border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0;background:#fcfcfd}.endpoint code{font-size:14px}pre{background:var(--code);color:#e5e7eb;padding:18px;border-radius:14px;overflow:auto;font-size:13px}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.table{width:100%;border-collapse:collapse;margin:12px 0}.table th,.table td{border-bottom:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}.table th{font-size:13px;color:#475467;background:#f9fafb}.note{border-left:4px solid var(--brand);background:#eef4ff;padding:12px 14px;border-radius:10px;margin:14px 0}.warning{border-left-color:var(--warn);background:#fffaeb}.hidden{display:none!important}@media(max-width:980px){.layout{display:block}.sidebar{position:relative;height:auto}.main{padding:22px}.grid{grid-template-columns:1fr}.hero h1{font-size:32px}}
+    :root {
+      color-scheme: light;
+      --bg: #f5f7fb;
+      --text: #172033;
+      --muted: #667085;
+      --card: #ffffff;
+      --border: #d9e0ea;
+      --accent: #2563eb;
+      --ok: #047857;
+      --warn: #b45309;
+      --error: #b91c1c;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+      backdrop-filter: blur(8px);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.3;
+    }
+
+    p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    a.button,
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      padding: 10px 14px;
+      color: #ffffff;
+      background: var(--accent);
+      border: 0;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 22px;
+    }
+
+    .content-layout {
+      display: grid;
+      grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .notice,
+    .side-menu,
+    .doc-shell {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(16, 24, 40, 0.08);
+    }
+
+    .notice {
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+
+    .notice strong { color: var(--text); }
+    .notice.ok strong { color: var(--ok); }
+    .notice.warn strong { color: var(--warn); }
+    .notice.error strong { color: var(--error); }
+
+    .side-menu {
+      position: sticky;
+      top: 92px;
+      max-height: calc(100vh - 114px);
+      padding: 16px;
+      overflow: auto;
+    }
+
+    .side-menu h2 {
+      margin: 0 0 12px;
+      font-size: 16px;
+    }
+
+    .side-menu ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .side-menu li {
+      margin: 0;
+      padding: 0;
+    }
+
+    .side-menu a {
+      display: block;
+      padding: 7px 8px;
+      color: var(--text);
+      border-radius: 7px;
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .side-menu a:hover,
+    .side-menu a:focus {
+      color: var(--accent);
+      background: #eef4ff;
+      outline: none;
+    }
+
+    .doc-shell {
+      padding: 22px;
+      overflow: auto;
+    }
+
+    #doc-root :is(h1, h2, h3, h4) {
+      scroll-margin-top: 96px;
+    }
+
+    #doc-root h1 {
+      margin: 24px 0 12px;
+      font-size: 30px;
+    }
+
+    #doc-root h2 {
+      margin: 28px 0 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 23px;
+    }
+
+    #doc-root h3 {
+      margin: 22px 0 10px;
+      font-size: 19px;
+    }
+
+    #doc-root p,
+    #doc-root li {
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.58;
+    }
+
+    #doc-root a {
+      color: var(--accent);
+    }
+
+    #doc-root table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 18px;
+      font-size: 14px;
+    }
+
+    #doc-root th,
+    #doc-root td {
+      padding: 10px;
+      border: 1px solid var(--border);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    #doc-root th {
+      background: #eef4ff;
+    }
+
+    #doc-root pre,
+    #doc-root code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+    }
+
+    #doc-root pre {
+      padding: 14px;
+      overflow: auto;
+      color: #e5e7eb;
+      background: #111827;
+      border-radius: 10px;
+      line-height: 1.45;
+    }
+
+    #doc-root code {
+      padding: 2px 5px;
+      background: #eef2f7;
+      border-radius: 4px;
+    }
+
+    #doc-root pre code {
+      padding: 0;
+      background: transparent;
+      border-radius: 0;
+    }
+
+    @media (max-width: 900px) {
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .content-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .side-menu {
+        position: static;
+        max-height: none;
+      }
+    }
   </style>
 </head>
 <body>
-<div class="layout">
-  <aside class="sidebar">
-    <div class="brand">eAD-CRM REST API</div>
-    <div class="version">Documentation maintained by eAdvertise.eu</div>
-    <input class="search" id="docSearch" placeholder="Filter sections and endpoints..." aria-label="Filter documentation">
-    <nav class="nav">
-      <div class="nav-group">Start</div>
-      <a href="#overview">Overview</a><a href="#authentication">Authentication</a><a href="#formats">Requests & responses</a><a href="#pagination">Pagination & filters</a><a href="#errors">Errors</a>
-      <div class="nav-group">New eAD endpoints</div>
-      <a href="#guest-invoices">Guest invoices</a><a href="#future-docs">Adding future endpoints</a>
-      <div class="nav-group">Resources</div>
-      <a href="#core-resources">Core CRM resources</a><a href="#lookups">Common lookups</a><a href="#automation">Automation, MCP & webhooks</a><a href="#tooling">OpenAPI & tooling</a>
-    </nav>
-  </aside>
-  <main class="main">
-    <div class="hero doc-block" id="overview">
-      <h1>eAD-CRM API Guide</h1>
-      <p>Our own API documentation hub for the REST API module. It keeps the familiar structure of the existing guide, removes vendor/license onboarding, and gives us a clear place to document Guest Invoice checkout plus every new endpoint we add later.</p>
+  <header>
+    <div>
+      <h1>Perfex CRM REST API Guide</h1>
+      <p>HTML documentation page that imports the official guide into this document (no iframe).</p>
     </div>
-
-    <div class="grid">
-      <div class="card doc-block"><span class="pill">Base URL</span><br><code>https://your-domain.com/api</code></div>
-      <div class="card doc-block"><span class="pill">Auth</span><br><code>authtoken: YOUR_API_TOKEN</code></div>
-      <div class="card doc-block"><span class="pill">Formats</span><br>JSON or <code>multipart/form-data</code></div>
+    <div>
+      <button type="button" id="reload-doc">Reload guide</button>
+      <a class="button" href="https://perfexcrm.themesic.com/apiguide/" target="_blank" rel="noopener noreferrer">Open original</a>
     </div>
+  </header>
 
-    <section class="doc-block" id="authentication">
-      <h2>Authentication</h2>
-      <p>Every protected endpoint expects an API token in the <code>authtoken</code> header. Create and scope tokens from the API management area, then grant only the resources/capabilities the integration needs.</p>
-      <pre><code>curl -X GET "https://your-domain.com/api/customers" \
-  -H "authtoken: YOUR_API_TOKEN" \
-  -H "Accept: application/json"</code></pre>
-      <div class="note warning">This fork does not require external vendor activation. API access is controlled by eAD-CRM users, API tokens and permissions.</div>
+  <main>
+    <section id="status" class="notice warn">
+      <strong>Loading documentation…</strong>
+      <p>The page is fetching the official API guide and injecting its HTML into this local document.</p>
     </section>
 
-    <section class="doc-block" id="formats">
-      <h2>Requests & responses</h2>
-      <p>Write endpoints accept JSON payloads and legacy form-data payloads. Responses are JSON. Some legacy list endpoints return a plain array when no pagination parameters are present; paginated calls return a <code>{data, meta}</code> envelope.</p>
-      <pre><code>{
-  "data": [],
-  "meta": {
-    "page": 1,
-    "per_page": 25,
-    "total": 0,
-    "total_pages": 0,
-    "has_more": false
-  }
-}</code></pre>
-    </section>
+    <div class="content-layout">
+      <aside id="side-menu" class="side-menu" aria-label="Documentation navigation">
+        <h2>Contents</h2>
+        <ul id="side-menu-list">
+          <li><a href="#doc-root">Loading guide…</a></li>
+        </ul>
+      </aside>
 
-    <section class="doc-block" id="pagination">
-      <h2>Pagination, sorting, field selection and date filters</h2>
-      <table class="table"><thead><tr><th>Parameter</th><th>Purpose</th></tr></thead><tbody>
-        <tr><td><code>page</code></td><td>1-based page number; enables the paginated response envelope.</td></tr>
-        <tr><td><code>per_page</code></td><td>Rows per page. Use sensible page sizes for large CRM datasets.</td></tr>
-        <tr><td><code>sort</code></td><td>Comma-separated columns; prefix a column with <code>-</code> for descending order.</td></tr>
-        <tr><td><code>fields</code></td><td>Comma-separated response fields when a controller supports projection.</td></tr>
-        <tr><td><code>created_after</code>, <code>created_before</code></td><td>ISO date bounds for resources with a date column.</td></tr>
-      </tbody></table>
-      <pre><code>curl "https://your-domain.com/api/invoices?page=1&amp;per_page=25&amp;sort=-date&amp;fields=id,number,total,status" \
-  -H "authtoken: YOUR_API_TOKEN"</code></pre>
-    </section>
-
-
-    <section class="doc-block" id="errors">
-      <h2>Errors</h2>
-      <p>Validation failures return JSON with a status flag, message and optional field-level errors. Missing permissions or missing records return an error object with the relevant HTTP status.</p>
-      <pre><code>{
-  "status": false,
-  "message": "Validation failed",
-  "errors": {
-    "email": "The email field is required."
-  }
-}</code></pre>
-    </section>
-
-    <section class="doc-block" id="guest-invoices">
-      <h2>Guest Invoices / Checkout</h2>
-      <p>The Guest Invoice flow creates or reuses a guest customer/contact by email, creates an invoice, optionally records a payment, and can send a single email with invoice and receipt PDFs.</p>
-      <div class="endpoint"><span class="method post">POST</span><code>/api/guest_invoices</code><p>Create/reuse guest + create invoice.</p></div>
-      <div class="endpoint"><span class="method post">POST</span><code>/api/guest_invoices/checkout</code><p>Create/reuse guest + invoice + payment, with optional email attachments.</p></div>
-      <h3>Minimal checkout payload</h3>
-      <pre><code>{
-  "email": "guest@example.com",
-  "name": "Guest Customer",
-  "payment_mode": 1,
-  "send_email": true,
-  "items": [
-    {
-      "description": "Online order #1001",
-      "long_description": "Guest checkout order",
-      "qty": 1,
-      "rate": 49.90,
-      "taxname": ["VAT|24.00"]
-    }
-  ],
-  "transaction_id": "web-1001"
-}</code></pre>
-      <table class="table"><thead><tr><th>Field</th><th>Required</th><th>Notes</th></tr></thead><tbody>
-        <tr><td><code>email</code></td><td>Yes</td><td>Primary lookup key for the guest contact.</td></tr>
-        <tr><td><code>items</code></td><td>Yes</td><td>Array of invoice items. Each item should include description, quantity and rate.</td></tr>
-        <tr><td><code>payment_mode</code></td><td>Checkout only</td><td>Payment mode id used when recording the payment.</td></tr>
-        <tr><td><code>send_email</code></td><td>No</td><td>When true, sends the editable Guest Checkout email template with invoice and receipt PDFs where available.</td></tr>
-        <tr><td><code>company</code>, address fields, <code>phone</code></td><td>No</td><td>Used when creating the guest client or enriching existing data.</td></tr>
-      </tbody></table>
-      <pre><code>curl -X POST "https://your-domain.com/api/guest_invoices/checkout" \
-  -H "authtoken: YOUR_API_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d @guest-checkout.json</code></pre>
-    </section>
-
-    <section class="doc-block" id="core-resources">
-      <h2>Core CRM resources</h2>
-      <p>The REST module exposes standard CRUD-style routes for the main CRM resources. Most resources support <code>GET /{resource}</code>, <code>POST /{resource}</code>, <code>GET /{resource}/{id}</code>, <code>PUT /{resource}/{id}</code>, <code>DELETE /{resource}/{id}</code> and <code>GET /{resource}/search/{keyword}</code>.</p>
-      <div class="grid">
-        <div class="card"><strong>Sales</strong><br>Invoices, estimates, proposals, credit notes, payments, payment modes, taxes, subscriptions.</div>
-        <div class="card"><strong>CRM</strong><br>Customers, contacts, leads, staff, calendar events, notes, custom fields.</div>
-        <div class="card"><strong>Work</strong><br>Projects, tasks, milestones, timesheets, tickets, contracts, expenses, items, knowledge base.</div>
-      </div>
-      <h3>Standard route pattern</h3>
-      <div class="endpoint"><span class="method get">GET</span><code>/api/{resource}</code></div>
-      <div class="endpoint"><span class="method post">POST</span><code>/api/{resource}</code></div>
-      <div class="endpoint"><span class="method get">GET</span><code>/api/{resource}/{id}</code></div>
-      <div class="endpoint"><span class="method put">PUT</span><code>/api/{resource}/{id}</code></div>
-      <div class="endpoint"><span class="method delete">DELETE</span><code>/api/{resource}/{id}</code></div>
-    </section>
-
-    <section class="doc-block" id="lookups">
-      <h2>Common lookups</h2>
-      <p>Use lookup endpoints/tools for ids that are needed by write payloads: countries, currencies, taxes, payment modes, expense categories, lead sources/statuses and departments.</p>
-    </section>
-
-    <section class="doc-block" id="automation">
-      <h2>Automation, MCP and webhooks</h2>
-      <p>Automation endpoints include batch-style integrations, webhook management and the MCP JSON-RPC server for AI agents. The MCP surface is permission-filtered so a token only exposes tools it can actually call.</p>
-      <div class="endpoint"><span class="method post">POST</span><code>/api/mcp</code><p>JSON-RPC endpoint for initialize, ping, tools/list and tools/call.</p></div>
-      <div class="endpoint"><span class="method get">GET</span><code>/api/webhooks/events</code><p>Event catalog for webhook subscriptions.</p></div>
-    </section>
-
-    <section class="doc-block" id="tooling">
-      <h2>OpenAPI, Swagger UI and generated clients</h2>
-      <p>The machine-readable contract is available at <code>/api/openapi.json</code>. Use Swagger UI from the module, import the spec into Postman/Insomnia, or generate integration clients from the same source.</p>
-      <pre><code>curl "https://your-domain.com/api/openapi.json" -H "Accept: application/json"</code></pre>
-    </section>
-
-    <section class="doc-block" id="future-docs">
-      <h2>Adding future endpoints</h2>
-      <ol>
-        <li>Add the controller, routes and token permissions.</li>
-        <li>Add OpenAPI paths/schemas so Swagger and generated clients update.</li>
-        <li>Add a short section here with purpose, required fields and a cURL example.</li>
-        <li>Document compatibility notes and migration requirements beside the endpoint, not in chat history.</li>
-      </ol>
-    </section>
+      <article id="doc-root" class="doc-shell">
+        <h1>Perfex CRM REST API Guide</h1>
+        <p>If the automatic import does not load, use the “Open original” button above.</p>
+      </article>
+    </div>
   </main>
-</div>
-<script>
-  const search = document.getElementById('docSearch');
-  const blocks = Array.from(document.querySelectorAll('.doc-block, section'));
-  search.addEventListener('input', () => {
-    const q = search.value.trim().toLowerCase();
-    blocks.forEach(block => block.classList.toggle('hidden', q && !block.textContent.toLowerCase().includes(q)));
-  });
-</script>
+
+  <script>
+    const sourceUrl = 'https://perfexcrm.themesic.com/apiguide/';
+    const proxies = [
+      'https://api.allorigins.win/raw?url=' + encodeURIComponent(sourceUrl),
+      'https://r.jina.ai/http://r.jina.ai/http://' + sourceUrl.replace(/^https?:\/\//, '')
+    ];
+
+    const statusEl = document.getElementById('status');
+    const docRoot = document.getElementById('doc-root');
+    const sideMenuList = document.getElementById('side-menu-list');
+    const reloadBtn = document.getElementById('reload-doc');
+
+    function setStatus(type, title, message) {
+      statusEl.className = 'notice ' + type;
+      statusEl.innerHTML = '<strong>' + title + '</strong><p>' + message + '</p>';
+    }
+
+    function absolutizeUrl(value) {
+      if (!value || value.startsWith('#') || value.startsWith('data:') || value.startsWith('mailto:') || value.startsWith('tel:')) {
+        return value;
+      }
+      return new URL(value, sourceUrl).href;
+    }
+
+    function slugify(value, fallback) {
+      const slug = value
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+
+      return slug || fallback;
+    }
+
+    function buildSideMenu() {
+      const headings = Array.from(docRoot.querySelectorAll('h1, h2, h3'))
+        .filter((heading) => heading.textContent.trim() !== '');
+
+      sideMenuList.innerHTML = '';
+
+      if (headings.length === 0) {
+        sideMenuList.innerHTML = '<li><a href="#doc-root">Documentation</a></li>';
+        return;
+      }
+
+      headings.forEach((heading, index) => {
+        if (!heading.id) {
+          heading.id = slugify(heading.textContent, 'section-' + (index + 1));
+        }
+
+        const item = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = '#' + heading.id;
+        link.textContent = heading.textContent.trim();
+        link.style.paddingLeft = heading.tagName === 'H3' ? '20px' : '8px';
+        item.appendChild(link);
+        sideMenuList.appendChild(item);
+      });
+    }
+
+    function cleanAndInject(html) {
+      const parsed = new DOMParser().parseFromString(html, 'text/html');
+      const imported = parsed.querySelector('main') || parsed.body;
+
+      imported.querySelectorAll('script, iframe').forEach((node) => node.remove());
+      imported.querySelectorAll('[src]').forEach((node) => node.setAttribute('src', absolutizeUrl(node.getAttribute('src'))));
+      imported.querySelectorAll('[href]').forEach((node) => node.setAttribute('href', absolutizeUrl(node.getAttribute('href'))));
+      imported.querySelectorAll('a[href^="http"]').forEach((node) => {
+        node.setAttribute('target', '_blank');
+        node.setAttribute('rel', 'noopener noreferrer');
+      });
+
+      docRoot.innerHTML = imported.innerHTML;
+      buildSideMenu();
+      setStatus('ok', 'Documentation loaded.', 'The official guide was copied into this page as HTML content, without an iframe.');
+    }
+
+    async function loadDocumentation() {
+      setStatus('warn', 'Loading documentation…', 'Trying to fetch and inject the official guide as HTML content.');
+
+      let lastError = null;
+      for (const url of proxies) {
+        try {
+          const response = await fetch(url, { cache: 'no-store' });
+          if (!response.ok) {
+            throw new Error('HTTP ' + response.status);
+          }
+          cleanAndInject(await response.text());
+          return;
+        } catch (error) {
+          lastError = error;
+        }
+      }
+
+      setStatus(
+        'error',
+        'Documentation could not be imported automatically.',
+        'The browser or network blocked the remote HTML fetch. Open the original guide, or run an offline mirror command from a network that can access the source. Last error: ' + (lastError ? lastError.message : 'unknown')
+      );
+    }
+
+    reloadBtn.addEventListener('click', loadDocumentation);
+    loadDocumentation();
+  </script>
 </body>
 </html>

@@ -4,10 +4,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 Module Name: PaymentsOnAccount
-Description: Manage customer Receipts and apply payments to invoices (eAD-CRM module)
-Version: 3.1.1
+Description: Manage customer Receipts and apply payments to invoices (Perfex CRM module)
 Author: eAdvertise.eu
-Author URI: https://www.eadvertise.eu
+Author URI: https://www.eadvertise.eu/
+Version: 3.1.1
 */
 
 define('PAYMENTS_ON_ACCOUNT_MODULE_NAME', 'paymentsonaccount');

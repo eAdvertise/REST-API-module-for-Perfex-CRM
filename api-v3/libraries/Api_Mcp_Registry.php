@@ -254,7 +254,7 @@ class Api_Mcp_Registry
         }
         if ($name === 'get_server_info') {
             return [
-                'name'    => 'eAD-CRM REST API - MCP Server',
+                'name'    => 'Perfex CRM REST API - MCP Server',
                 'version' => defined('API_MODULE_VERSION') ? API_MODULE_VERSION : '3.0.0',
                 'tools'   => count(self::buildTools($granted)),
             ];

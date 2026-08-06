@@ -6,8 +6,8 @@ Module Name: Sales Commission
 Description: Set up a commission program so staffs can earn money promoting products.
 Version: 1.0.7
 Requires at least: 2.3.*
-Author: eAdvertise.eu
-Author URI: https://www.eadvertise.eu
+Author: GreenTech Solutions
+Author URI: https://codecanyon.net/user/greentech_solutions
  */
 
 define('COMMISSION_MODULE_NAME', 'commission');

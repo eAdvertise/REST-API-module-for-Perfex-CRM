@@ -45,6 +45,8 @@ if (function_exists('delete_option')) {
         // License / verification state (also cleared on deactivate)
         'api_verification_id',
         'api_last_verification',
+        'api_product_token',
+        'api_heartbeat',
         'api_supported_until',
     ];
 

@@ -5,10 +5,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: API
 Module URI: https://codecanyon.net/item/rest-api-for-perfex-crm/25278359
-Description: Rest API module for eAD-CRM
+Description: Rest API module for Perfex CRM
 Version: 2.0.8
-Author: eAdvertise.eu
-Author URI: https://www.eadvertise.eu
+Author: Themesic Interactive
+Author URI: https://1.envato.market/themesic
 */
 
 require_once __DIR__.'/vendor/autoload.php';
@@ -167,5 +167,11 @@ function api_init_menu_items()
             'position' => 5,
         ]);
         
+        $CI->app_menu->add_sidebar_children_item('api-options', [
+            'slug'     => 'api-guide-options',
+            'name'     => _l('api_guide'),
+            'href'     => 'https://perfexcrm.themesic.com/apiguide/',
+            'position' => 10,
+        ]);
     }
 }

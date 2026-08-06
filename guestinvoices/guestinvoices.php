@@ -7,8 +7,7 @@ Module Name: Guest Invoices
 Description: Invoicing on Guest
 Version: 1.0.0
 Requires at least: 3.4.*
-Author: eAdvertise.eu
-Author URI: https://www.eadvertise.eu
+Author: eAdvertise
 */
 
 define('GUESTINVOICES_MODULE', 'guestinvoices');

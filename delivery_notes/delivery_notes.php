@@ -7,8 +7,8 @@ Module Name: Delivery Note
 Description: Delivery note module for sales. It allows  you to create delivery notes (DN). You can convert Purhcase order (PO) and Estimates to DVL and DVL can be converted to PO and invoices. 
 Version: 2.0.1
 Requires at least: 3.0.*
-Author: eAdvertise.eu
-Author URI: https://www.eadvertise.eu
+Author: eAdvertise
+Author URI: https://www.eadvertise.eu/
 */
 
 defined('DELIVERY_NOTE_MODULE_NAME') or define('DELIVERY_NOTE_MODULE_NAME', 'delivery_notes');

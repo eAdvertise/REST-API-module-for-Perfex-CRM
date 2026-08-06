@@ -2,7 +2,7 @@
 <div class="panel_s">
     <div class="panel-body">
         <h4>Module activation</h4>
-        <p>Activation verification is disabled for this fork.</p>
+        <p>This module no longer requires a purchase code.</p>
         <a href="<?php echo admin_url('modules'); ?>" class="btn btn-primary">
             <?php echo _l('close'); ?>
         </a>

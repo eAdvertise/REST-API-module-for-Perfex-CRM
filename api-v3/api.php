@@ -5,10 +5,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: API
 Module URI: https://codecanyon.net/item/rest-api-for-perfex-crm/25278359
-Description: Rest API module for eAD-CRM
+Description: Rest API module for Perfex CRM
 Version: 3.0.3
-Author: eAdvertise.eu
-Author URI: https://www.eadvertise.eu
+Author: Themesic Interactive
+Author URI: https://1.envato.market/themesic
 */
 
 // Silence the PSR-0 `Requests_...` deprecation notice emitted by the bundled
@@ -27,6 +27,8 @@ define('API_MODULE_NAME', 'api');
 // self-heal and by install.php to record the installed schema version.
 define('API_MODULE_VERSION', '3.0.3');
 hooks()->add_action('admin_init', 'api_init_menu_items');
+
+modules\api\core\Apiinit::the_da_vinci_code(API_MODULE_NAME);
 
 /**
 * Load the module helper
@@ -185,7 +187,7 @@ function api_ensure_guest_checkout_email_template()
 }
 
 
-	
+
 // Register permissions for custom Guest Invoices API endpoints.
 hooks()->add_filter('api_permissions', 'api_guest_invoices_permissions');
 function api_guest_invoices_permissions($apiPermissions)
@@ -202,7 +204,8 @@ function api_guest_invoices_permissions($apiPermissions)
 }
 
 
-	
+
+
 /**
  * Init api module menu items in setup in admin_init hook
  * @return null
@@ -227,7 +230,7 @@ function api_init_menu_items()
             'href'     => admin_url('api/api_management'),
             'position' => 10,
         ]);
-        
+
         // 2. Webhooks
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-webhooks-options',
@@ -235,7 +238,7 @@ function api_init_menu_items()
             'href'     => admin_url('api/event_webhooks'),
             'position' => 20,
         ]);
-        
+
         // 3. Sandbox
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-sandbox-options',
@@ -243,7 +246,7 @@ function api_init_menu_items()
             'href'     => site_url('api/playground'),
             'position' => 30,
         ]);
-        
+
         // 4. Statistics
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-user-stats-options',
@@ -251,7 +254,7 @@ function api_init_menu_items()
             'href'     => admin_url('api/user_stats'),
             'position' => 40,
         ]);
-        
+
         // 5. Reports
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-reporting-options',
@@ -259,7 +262,7 @@ function api_init_menu_items()
             'href'     => admin_url('api/reporting'),
             'position' => 50,
         ]);
-        
+
         // 6. Settings
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-settings-options',
@@ -267,7 +270,7 @@ function api_init_menu_items()
             'href'     => admin_url('api/settings'),
             'position' => 60,
         ]);
-        
+
         // 7. Automation Connectors
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-connectors-options',
@@ -275,15 +278,32 @@ function api_init_menu_items()
             'href'     => admin_url('api/automation_connectors'),
             'position' => 65,
         ]);
-        
-        // Documentation menu entry will be restored when the official eAD-CRM URL is available.
+
+        // 8. Documentation
+        $CI->app_menu->add_sidebar_children_item('api-options', [
+            'slug'     => 'api-guide-options',
+            'name'     => _l('api_guide'),
+            'href'     => 'https://perfexcrm.themesic.com/apiguide/',
+            'position' => 70,
+        ]);
+    }
+}
+
+hooks()->add_action('app_init', API_MODULE_NAME . '_actLib');
+function api_actLib()
+{
+    $CI = &get_instance();
+    $CI->load->library(API_MODULE_NAME . '/api_aeiou');
+    $license_valid = $CI->api_aeiou->validatePurchase(API_MODULE_NAME);
+    if (!$license_valid) {
+        set_alert('danger', 'One of your modules failed its verification and got deactivated. Please reactivate or contact support.');
     }
 }
 
 // REMOVED: Zapier route interception - now handled by CodeIgniter routing directly
 // Routes are defined in config/routes.php and handled by Zapier controller
 
-// Register connector routes early to ensure they're loaded before eAD-CRM core routing
+// Register connector routes early to ensure they're loaded before Perfex CRM core routing
 hooks()->add_action('pre_system', API_MODULE_NAME . '_register_connector_routes');
 function api_register_connector_routes()
 {
@@ -294,6 +314,24 @@ function api_register_connector_routes()
     }
 }
 
+hooks()->add_action('pre_activate_module', API_MODULE_NAME . '_sidecheck');
+function api_sidecheck($module_name)
+{
+    if (API_MODULE_NAME == $module_name['system_name']) {
+        modules\api\core\Apiinit::activate($module_name);
+    }
+}
+
+hooks()->add_action('pre_deactivate_module', API_MODULE_NAME . '_deregister');
+function api_deregister($module_name)
+{
+    if (API_MODULE_NAME == $module_name['system_name']) {
+        delete_option(API_MODULE_NAME . '_verification_id');
+        delete_option(API_MODULE_NAME . '_last_verification');
+        delete_option(API_MODULE_NAME . '_product_token');
+        delete_option(API_MODULE_NAME . '_heartbeat');
+    }
+}
 
 
 // "Support period over" notice removed (provider-neutral).
@@ -478,12 +516,23 @@ function api_process_webhook_queue()
 hooks()->add_action('admin_init', 'api_webhook_queue_fallback');
 
 /**
- * Vendor self-update checks are disabled intentionally.
- * This fork is maintained in-repo and should not contact the upstream vendor.
+ * v3: daily fire-and-forget update-availability check (cached in options,
+ * 5s network budget at most once per day, never blocks or errors the admin).
  */
+hooks()->add_action('admin_init', 'api_daily_update_check');
 function api_daily_update_check()
 {
-    return null;
+    try {
+        $last = (int)get_option('api_update_last_check');
+        if (time() - $last < 86400) {
+            return;
+        }
+        require_once __DIR__ . '/libraries/Api_Self_Update.php';
+        $updater = new Api_Self_Update();
+        $updater->checkForUpdate();
+    } catch (Exception $e) {
+        // Never let the update check surface in the admin
+    }
 }
 function api_webhook_queue_fallback()
 {

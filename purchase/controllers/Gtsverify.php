@@ -2,6 +2,7 @@
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
+require_once __DIR__ .'/../libraries/gtsslib.php';
 
 /**
  * GTSSolution verify
@@ -24,10 +25,23 @@ class Gtsverify extends AdminController{
      * @return json
      */
     public function activate(){
-        echo json_encode([
-            'status' => true,
-            'message' => 'License verification disabled for this fork.',
-            'original_url' => $this->input->post('original_url'),
-        ]);
+        $license_code = strip_tags(trim($_POST["purchase_key"]));
+        $client_name = strip_tags(trim($_POST["username"])); 
+        $api = new PurchaseLic();
+        $activate_response = $api->activate_license($license_code, $client_name);
+        $msg = '';
+        if(empty($activate_response)){
+          $msg = 'Server is unavailable.';
+        }else{
+          $msg = $activate_response['message'];
+        }
+
+        $res = array();
+        $res['status'] = $activate_response['status'];
+        $res['message'] = $msg;
+        if ($res['status']) {
+            $res['original_url']= $this->input->post('original_url');
+        }
+        echo json_encode($res);
     }    
 }

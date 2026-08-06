@@ -29,7 +29,10 @@ require_once __DIR__ . '/REST_Controller.php';
  * - send_email_mode (optional: combined|none; default combined)
  * - update_existing_name (optional bool; default true)
  *
- * Authentication and runtime errors are handled by the shared REST controller.
+ * IMPORTANT:
+ * - This controller follows your current server setup approach:
+ *   error_reporting(0) (you chose to keep it for now).
+ *   When you want, we will restore proper authtoken validation.
  */
 
 class Guest_invoices extends REST_Controller
@@ -40,6 +43,9 @@ class Guest_invoices extends REST_Controller
     public function __construct()
     {
         parent::__construct();
+
+        // Your current approach: silence notices/warnings
+        error_reporting(0);
 
         $this->load->library('api/Guest_checkout_service');
         $this->guestCheckoutService = $this->guest_checkout_service;

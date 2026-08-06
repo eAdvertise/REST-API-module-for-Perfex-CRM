@@ -25,7 +25,7 @@ $route['api/zapier/test/(:any)'] = 'zapier/test/$1';
 $route['api/zapier/resources'] = 'zapier/resources';
 $route['api/zapier'] = 'zapier/resources';
 
-// Keep original /api/connectors/ routes for backwards compatibility (may not work due to eAD-CRM interception)
+// Keep original /api/connectors/ routes for backwards compatibility (may not work due to Perfex CRM interception)
 $route['api/connectors/poll/(:any)'] = 'connector_polling/poll/$1';
 $route['api/connectors/test/(:any)'] = 'connector_polling/test/$1';
 $route['api/connectors/resources'] = 'connector_polling/resources';

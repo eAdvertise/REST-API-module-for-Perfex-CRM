@@ -21,8 +21,8 @@ class Migration_Version_211 extends App_module_migration
                 `last_triggered` DATETIME DEFAULT NULL,
                 `success_count` INT(11) DEFAULT 0,
                 `failure_count` INT(11) DEFAULT 0,
-                `date_created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                `date_updated` TIMESTAMP NULL DEFAULT NULL,
+                `date_created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+                `date_updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 PRIMARY KEY (`id`),
                 INDEX `idx_active` (`active`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
@@ -40,7 +40,7 @@ class Migration_Version_211 extends App_module_migration
                 `error_message` TEXT DEFAULT NULL,
                 `attempt_number` INT(11) DEFAULT 1,
                 `status` ENUM("pending", "success", "failed") DEFAULT "pending",
-                `triggered_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                `triggered_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
                 PRIMARY KEY (`id`),
                 INDEX `idx_webhook_id` (`webhook_id`),
                 INDEX `idx_status` (`status`),

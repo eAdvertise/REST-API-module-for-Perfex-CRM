@@ -785,4 +785,3 @@ class Api_Null_Hooks
         return $arguments[1] ?? null;
     }
 }
-
