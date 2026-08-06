@@ -12,18 +12,10 @@ class Env_ver extends AdminController {
     }
 
     public function activate() {
-        $res = modules\api\core\Apiinit::pre_validate($this->input->post('module_name'), $this->input->post('purchase_key'));
-        if ($res['status']) {
-            $res['original_url'] = $this->input->post('original_url');
-        }
-        echo json_encode($res);
+        echo json_encode(['status' => true, 'original_url' => $this->input->post('original_url')]);
     }
-    
+
     public function upgrade_database() {
-        $res = modules\api\core\Apiinit::pre_validate($this->input->post('module_name'), $this->input->post('purchase_key'));
-        if ($res['status']) {
-            $res['original_url'] = $this->input->post('original_url');
-        }
-        echo json_encode($res);
+        echo json_encode(['status' => true, 'original_url' => $this->input->post('original_url')]);
     }
 }
