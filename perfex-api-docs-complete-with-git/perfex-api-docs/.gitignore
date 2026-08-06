@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.cache/
+site/
+openapi/combined.openapi.json
+openapi/vendor/perfex.openapi.json
+vendor/upstream/
+.DS_Store
+*.log
+
+# Build output and packages
+dist/
