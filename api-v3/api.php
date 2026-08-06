@@ -4,8 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 Module Name: API
-Module URI: https://codecanyon.net/item/rest-api-for-perfex-crm/25278359
-Description: Rest API module for eAD-CRM
+Module URI: https://www.eadvertise.eu
+Description: Rest API module for Perfex CRM
 Version: 3.0.3
 Author: eAdvertise.eu
 Author URI: https://www.eadvertise.eu
@@ -277,14 +277,7 @@ function api_init_menu_items()
             'href'     => admin_url('api/automation_connectors'),
             'position' => 65,
         ]);
-
-        // 8. Documentation
-        $CI->app_menu->add_sidebar_children_item('api-options', [
-            'slug'     => 'api-guide-options',
-            'name'     => _l('api_guide'),
-            'href'     => 'https://perfexcrm.themesic.com/apiguide/',
-            'position' => 70,
-        ]);
+        
     }
 }
 
