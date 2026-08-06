@@ -1,0 +1,4 @@
+Choose and place your own project license here before public distribution.
+
+Imported third-party material remains subject to the notices in
+THIRD_PARTY_NOTICES.md and vendor/licenses/.

@@ -1,0 +1,35 @@
+Perfex API Documentation Starter - Build Report
+================================================
+Generated: 2026-08-06
+Starter version: 0.1.0
+
+Bundled preview mode:
+- Custom-only preview (the public upstream OpenAPI is imported on demand)
+- 2 paths
+- 5 custom module operations
+- 8 Markdown guides
+- 15 generated HTML pages
+- 13 search index entries
+
+Quality checks:
+- Python syntax: passed
+- Custom OpenAPI JSON parsing: passed
+- OpenAPI structural validation: 0 errors, 0 warnings
+- Generated local links/assets: 0 errors
+- Root-domain build: passed
+- /developers subpath build: passed
+- Local downloaded-Git import workflow: passed
+- JavaScript syntax: passed
+- CSS top-level parsing: 0 errors
+
+Upstream import:
+- Repository: themesic/perfex-rest-api-examples
+- Locked commit: 032d9008aebd66f14a63a7796a82e1ef2938b470
+- Online import: make bootstrap
+- Existing local clone: make bootstrap-local UPSTREAM_LOCAL_PATH=../perfex-rest-api-examples
+- Exact CRM installation: make bootstrap-crm
+
+The full public upstream reference is intentionally not embedded in the initial
+Git history. The importer retrieves the pinned source, preserves its MIT notice,
+and keeps it separate from custom material. A prebuilt custom-module preview is
+included under site/ for immediate inspection or hosting.

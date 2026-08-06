@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#0b1020">
+  <title>Getting started · Your Company API</title>
+  <meta name="description" content="Use this checklist to turn the starter into your own self-hosted API documentation project.">
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script>
+    (function () {
+      var saved = localStorage.getItem('docs-theme');
+      if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
+    })();
+  </script>
+</head>
+<body data-current-url="/guides/custom/getting-started/">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="reading-progress" aria-hidden="true"><span></span></div>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <button class="icon-button mobile-nav-button" type="button" aria-label="Open navigation" aria-controls="docs-sidebar" aria-expanded="false" data-nav-toggle>
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+
+      <a class="brand" href="/" aria-label="Your Company API home">
+        <span class="brand__mark" aria-hidden="true">YC</span>
+        <span class="brand__copy">
+          <strong>Your Company API</strong>
+          <small>Developer docs</small>
+        </span>
+      </a>
+
+      <div class="topbar__actions">
+        <button class="search-trigger" type="button" data-search-open aria-haspopup="dialog">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+          <span>Search documentation</span>
+          <kbd>⌘ K</kbd>
+        </button>
+        <a class="topbar-link" href="/downloads/combined.openapi.json" download>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"/></svg>
+          <span>OpenAPI</span>
+        </a>
+        <button class="icon-button" type="button" data-theme-toggle aria-label="Toggle colour theme">
+          <svg class="theme-icon theme-icon--sun" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+          <svg class="theme-icon theme-icon--moon" aria-hidden="true" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-shell">
+    <div class="sidebar-scrim" data-nav-close></div>
+    <aside class="sidebar" id="docs-sidebar" aria-label="Documentation navigation">
+      <nav class="sidebar__nav">
+        <a class="sidebar-home" href="/">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3Z"/></svg>
+          Overview
+        </a>
+
+        <div class="sidebar-section">
+          <p class="sidebar-label">Guides</p>
+          <details class="sidebar-group" open>
+            <summary>Custom<span>6</span></summary>
+            <div class="sidebar-group__items">
+              <a href="/guides/custom/getting-started/" class="is-active" aria-current="page">Getting started</a>
+              <a href="/guides/custom/add-endpoints/">Adding custom endpoints</a>
+              <a href="/guides/custom/branding/">Branding and design</a>
+              <a href="/guides/custom/deployment/">Deployment</a>
+              <a href="/guides/custom/importing-the-upstream/">Importing the upstream reference</a>
+              <a href="/guides/custom/upstream-updates/">Updating the upstream base</a>
+            </div>
+          </details>
+          <details class="sidebar-group" open>
+            <summary>Overview<span>1</span></summary>
+            <div class="sidebar-group__items">
+              <a href="/guides/overview/">Documentation architecture</a>
+            </div>
+          </details>
+          <details class="sidebar-group">
+            <summary>Vendor<span>1</span></summary>
+            <div class="sidebar-group__items">
+              <a href="/guides/vendor/readme/">Upstream guides</a>
+            </div>
+          </details>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label-row">
+            <p class="sidebar-label">API Reference</p>
+            <a href="/reference/">All</a>
+          </div>
+          <details class="sidebar-group">
+            <summary>Your Module<span>5</span></summary>
+            <div class="sidebar-group__items sidebar-group__items--operations">
+              <a href="/reference/yourmodulelistitems/">
+                <span class="method-mini method-mini--get">GET</span>
+                <span>List module items</span>
+              </a>
+              <a href="/reference/yourmodulecreateitem/">
+                <span class="method-mini method-mini--post">POST</span>
+                <span>Create a module item</span>
+              </a>
+              <a href="/reference/yourmodulegetitem/">
+                <span class="method-mini method-mini--get">GET</span>
+                <span>Get a module item</span>
+              </a>
+              <a href="/reference/yourmoduleupdateitem/">
+                <span class="method-mini method-mini--put">PUT</span>
+                <span>Update a module item</span>
+              </a>
+              <a href="/reference/yourmoduledeleteitem/">
+                <span class="method-mini method-mini--delete">DELETE</span>
+                <span>Delete a module item</span>
+              </a>
+            </div>
+          </details>
+        </div>
+      </nav>
+
+      <div class="sidebar__footer">
+        <p>Your Company</p>
+        <span>Self-hosted documentation</span>
+      </div>
+    </aside>
+
+    <main class="main" id="main-content">
+<div class="guide-layout">
+  <article class="guide-document">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Documentation</a><span>/</span><span>Custom</span></nav>
+    <div class="guide-meta"><span>Custom</span><span>Guide</span></div>
+    <div class="prose" data-prose><h1>Getting started</h1>
+<p>Use this checklist to turn the starter into your own self-hosted API documentation project.</p>
+<h2>Prerequisites</h2>
+<p>You need:</p>
+<ul>
+<li>Python 3.10 or newer;</li>
+<li>Git;</li>
+<li>network access when importing the public upstream repository;</li>
+<li>optional Docker and Docker Compose for containerised hosting.</li>
+</ul>
+<p>No Node.js application or database is required. The final site consists only of HTML, CSS, JavaScript, JSON, and copied downloadable resources.</p>
+<h2>First build</h2>
+<p>Create the Python environment and install the two lightweight build dependencies:</p>
+<pre><code class="language-bash">make install
+</code></pre>
+<p>Build the included custom-module example:</p>
+<pre><code class="language-bash">make build
+</code></pre>
+<p>Start the local preview server:</p>
+<pre><code class="language-bash">make serve
+</code></pre>
+<p>Visit <code>http://127.0.0.1:8080</code>.</p>
+<blockquote>
+<p>The ZIP includes a prebuilt <code>site/</code> directory, so you can inspect or upload the starter immediately. Rebuilding is still the normal workflow after edits.</p>
+</blockquote>
+<h2>Import the standard API</h2>
+<p>To add the complete public Perfex API reference and the upstream Markdown guides:</p>
+<pre><code class="language-bash">make bootstrap
+make build
+</code></pre>
+<p>For an exact match with your installed module version, import from your CRM:</p>
+<pre><code class="language-bash">export PERFEX_BASE_URL=&quot;https://crm.example.com&quot;
+export PERFEX_API_TOKEN=&quot;your-token&quot;
+make bootstrap-crm
+make build
+</code></pre>
+<p>The token is read from the environment and is never written to the generated site.</p>
+<h2>Set your identity</h2>
+<p>Edit <code>config/site.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;site_name&quot;: &quot;Acme CRM API&quot;,
+  &quot;company_name&quot;: &quot;Acme Ltd&quot;,
+  &quot;default_api_server&quot;: &quot;https://crm.acme.example/api&quot;,
+  &quot;logo_text&quot;: &quot;AC&quot;,
+  &quot;copyright&quot;: &quot;Copyright 2026 Acme Ltd&quot;
+}
+</code></pre>
+<p>Then rebuild:</p>
+<pre><code class="language-bash">make build
+</code></pre>
+<h2>Replace the sample module</h2>
+<p>The file <code>openapi/custom/your-module.openapi.json</code> demonstrates five operations, reusable schemas, shared responses, authentication, pagination, examples, and validation errors.</p>
+<p>Rename the file and replace:</p>
+<ul>
+<li>the <code>Your Module</code> tag;</li>
+<li><code>/your-module/items</code> paths;</li>
+<li><code>yourModule...</code> operation IDs;</li>
+<li><code>YourModule...</code> component names;</li>
+<li>payload and response examples.</li>
+</ul>
+<p>Keep custom component names unique to prevent collisions with the vendor specification.</p>
+<h2>Create your new Git repository</h2>
+<pre><code class="language-bash">git init -b main
+git add .
+git commit -m &quot;Initial API documentation platform&quot;
+git remote add origin git@github.com:YOUR-ORG/YOUR-REPOSITORY.git
+git push -u origin main
+</code></pre>
+<p>The generated <code>site/</code> directory is ignored by Git by default. The included GitHub Actions workflow builds it and publishes it as a CI artifact on every push.</p>
+</div>
+    <div class="guide-next">
+      <p>Continue exploring</p>
+      <a href="/reference/"><span>API Reference</span><strong>Browse every documented operation</strong><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+    </div>
+  </article>
+  <aside class="toc-panel">
+    <div class="toc-panel__sticky"><p>On this page</p><nav data-toc></nav></div>
+  </aside>
+</div>
+      <footer class="site-footer">
+        <div>
+          <strong>Your Company API</strong>
+          <p>Copyright 2026 Your Company</p>
+        </div>
+        <div class="site-footer__links">
+          <a href="/reference/">API Reference</a>
+          <a href="/downloads/combined.openapi.json">OpenAPI JSON</a>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <dialog class="search-dialog" data-search-dialog aria-label="Search documentation">
+    <div class="search-dialog__panel">
+      <div class="search-dialog__header">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input type="search" autocomplete="off" spellcheck="false" placeholder="Search guides, endpoints and paths…" aria-label="Search" data-search-input>
+        <button type="button" data-search-close aria-label="Close search">Esc</button>
+      </div>
+      <div class="search-dialog__meta">
+        <span data-search-status>Start typing to search</span>
+        <span><kbd>↑</kbd><kbd>↓</kbd> navigate · <kbd>↵</kbd> open</span>
+      </div>
+      <div class="search-results" data-search-results></div>
+    </div>
+  </dialog>
+
+  <div class="toast" role="status" aria-live="polite" data-toast></div>
+  <script src="/assets/js/site.js" defer></script>
+</body>
+</html>

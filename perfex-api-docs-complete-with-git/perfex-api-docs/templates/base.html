@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#0b1020">
+  <title>{{ page_title }}{% if page_title != site.site_name %} · {{ site.site_name }}{% endif %}</title>
+  <meta name="description" content="{{ page_description|default(site.site_description, true) }}">
+  <link rel="icon" href="{{ url('assets/img/favicon.svg') }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ url('assets/css/site.css') }}">
+  <script>
+    (function () {
+      var saved = localStorage.getItem('docs-theme');
+      if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
+    })();
+  </script>
+  {% block head %}{% endblock %}
+</head>
+<body data-current-url="{{ current_url }}">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="reading-progress" aria-hidden="true"><span></span></div>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <button class="icon-button mobile-nav-button" type="button" aria-label="Open navigation" aria-controls="docs-sidebar" aria-expanded="false" data-nav-toggle>
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+
+      <a class="brand" href="{{ url('/') }}" aria-label="{{ site.site_name }} home">
+        <span class="brand__mark" aria-hidden="true">{{ site.logo_text }}</span>
+        <span class="brand__copy">
+          <strong>{{ site.site_name }}</strong>
+          <small>Developer docs</small>
+        </span>
+      </a>
+
+      <div class="topbar__actions">
+        <button class="search-trigger" type="button" data-search-open aria-haspopup="dialog">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+          <span>Search documentation</span>
+          <kbd>⌘ K</kbd>
+        </button>
+        <a class="topbar-link" href="{{ url('downloads/combined.openapi.json') }}" download>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"/></svg>
+          <span>OpenAPI</span>
+        </a>
+        {% if site.repository_url %}
+        <a class="icon-button" href="{{ site.repository_url }}" target="_blank" rel="noopener" aria-label="Source repository">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3M12 12 21 3m0 0h-6m6 0v6"/></svg>
+        </a>
+        {% endif %}
+        <button class="icon-button" type="button" data-theme-toggle aria-label="Toggle colour theme">
+          <svg class="theme-icon theme-icon--sun" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+          <svg class="theme-icon theme-icon--moon" aria-hidden="true" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-shell">
+    <div class="sidebar-scrim" data-nav-close></div>
+    <aside class="sidebar" id="docs-sidebar" aria-label="Documentation navigation">
+      <nav class="sidebar__nav">
+        <a class="sidebar-home{% if current_url == url('/') %} is-active{% endif %}" href="{{ url('/') }}">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3Z"/></svg>
+          Overview
+        </a>
+
+        {% if nav_guides %}
+        <div class="sidebar-section">
+          <p class="sidebar-label">Guides</p>
+          {% for section, section_guides in nav_guides|groupby('section') %}
+          <details class="sidebar-group"{% if section == 'Custom' or section == 'Overview' %} open{% endif %}>
+            <summary>{{ section }}<span>{{ section_guides|length }}</span></summary>
+            <div class="sidebar-group__items">
+              {% for guide in section_guides %}
+              <a href="{{ guide.url }}"{% if current_url == guide.url %} class="is-active" aria-current="page"{% endif %}>{{ guide.title }}</a>
+              {% endfor %}
+            </div>
+          </details>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="sidebar-section">
+          <div class="sidebar-label-row">
+            <p class="sidebar-label">API Reference</p>
+            <a href="{{ url('reference/') }}">All</a>
+          </div>
+          {% for group in nav_groups %}
+          {% set state = namespace(active=false) %}
+          {% for operation in group.operations %}{% if current_url == operation.url %}{% set state.active = true %}{% endif %}{% endfor %}
+          <details class="sidebar-group"{% if state.active %} open{% endif %}>
+            <summary{% if state.active %} class="is-current"{% endif %}>{{ group.name }}<span>{{ group.operations|length }}</span></summary>
+            <div class="sidebar-group__items sidebar-group__items--operations">
+              {% for operation in group.operations %}
+              <a href="{{ operation.url }}"{% if current_url == operation.url %} class="is-active" aria-current="page"{% endif %}>
+                <span class="method-mini method-mini--{{ operation.method }}">{{ operation.method|upper }}</span>
+                <span>{{ operation.summary }}</span>
+              </a>
+              {% endfor %}
+            </div>
+          </details>
+          {% endfor %}
+        </div>
+      </nav>
+
+      <div class="sidebar__footer">
+        <p>{{ site.company_name }}</p>
+        <span>Self-hosted documentation</span>
+      </div>
+    </aside>
+
+    <main class="main" id="main-content">
+      {% block content %}{% endblock %}
+      <footer class="site-footer">
+        <div>
+          <strong>{{ site.site_name }}</strong>
+          <p>{{ site.copyright }}</p>
+        </div>
+        <div class="site-footer__links">
+          <a href="{{ url('reference/') }}">API Reference</a>
+          <a href="{{ url('downloads/combined.openapi.json') }}">OpenAPI JSON</a>
+          {% if site.support_url %}<a href="{{ site.support_url }}">Support</a>{% endif %}
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <dialog class="search-dialog" data-search-dialog aria-label="Search documentation">
+    <div class="search-dialog__panel">
+      <div class="search-dialog__header">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input type="search" autocomplete="off" spellcheck="false" placeholder="Search guides, endpoints and paths…" aria-label="Search" data-search-input>
+        <button type="button" data-search-close aria-label="Close search">Esc</button>
+      </div>
+      <div class="search-dialog__meta">
+        <span data-search-status>Start typing to search</span>
+        <span><kbd>↑</kbd><kbd>↓</kbd> navigate · <kbd>↵</kbd> open</span>
+      </div>
+      <div class="search-results" data-search-results></div>
+    </div>
+  </dialog>
+
+  <div class="toast" role="status" aria-live="polite" data-toast></div>
+  <script src="{{ url('assets/js/site.js') }}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

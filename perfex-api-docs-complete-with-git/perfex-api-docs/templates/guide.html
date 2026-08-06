@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="guide-layout">
+  <article class="guide-document">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{{ url('/') }}">Documentation</a><span>/</span><span>{{ guide.section }}</span></nav>
+    <div class="guide-meta"><span>{{ guide.section }}</span><span>Guide</span></div>
+    <div class="prose" data-prose>{{ guide_html|safe }}</div>
+    <div class="guide-next">
+      <p>Continue exploring</p>
+      <a href="{{ url('reference/') }}"><span>API Reference</span><strong>Browse every documented operation</strong><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+    </div>
+  </article>
+  <aside class="toc-panel">
+    <div class="toc-panel__sticky"><p>On this page</p><nav data-toc></nav></div>
+  </aside>
+</div>
+{% endblock %}
