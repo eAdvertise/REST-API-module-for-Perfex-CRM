@@ -6,6 +6,7 @@
   const body = doc.body;
   const scriptUrl = doc.currentScript ? doc.currentScript.src : '/assets/js/site.js';
   const searchIndexUrl = new URL('../search-index.json', scriptUrl).href;
+  const siteRootUrl = new URL('../../', scriptUrl);
   const toast = doc.querySelector('[data-toast]');
   let toastTimer = 0;
 
@@ -231,7 +232,7 @@
       const icon = operation
         ? '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m8 9-4 3 4 3m8-6 4 3-4 3M14 5l-4 14"/></svg>'
         : '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/></svg>';
-      return `<a class="search-result" href="${escapeHtml(entry.url)}"><span class="search-result__icon">${icon}</span><span class="search-result__body"><strong>${escapeHtml(entry.title)}</strong><span>${escapeHtml(entry.subtitle || '')}</span></span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>`;
+      return `<a class="search-result" href="${escapeHtml(new URL(entry.url.replace(/^\//, ''), siteRootUrl).href)}"><span class="search-result__icon">${icon}</span><span class="search-result__body"><strong>${escapeHtml(entry.title)}</strong><span>${escapeHtml(entry.subtitle || '')}</span></span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>`;
     }).join('');
   }
 
