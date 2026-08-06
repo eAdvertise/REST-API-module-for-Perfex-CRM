@@ -44,7 +44,7 @@ class Connector_Manifest_Generator
                         'label' => 'API Token',
                         'type' => 'string',
                         'required' => true,
-                        'help_text' => 'Your Perfex CRM API token'
+                        'help_text' => 'Your eAD-CRM API token'
                     ],
                     [
                         'key' => 'base_url',
@@ -52,7 +52,7 @@ class Connector_Manifest_Generator
                         'type' => 'string',
                         'required' => true,
                         'default' => rtrim($this->baseUrl, '/'),
-                        'help_text' => 'Your Perfex CRM API base URL'
+                        'help_text' => 'Your eAD-CRM API base URL'
                     ]
                 ],
                 'test' => [
@@ -226,8 +226,8 @@ class Connector_Manifest_Generator
     {
         return [
             'version' => '1.0.0',
-            'name' => 'Perfex CRM',
-            'description' => 'Connect Perfex CRM with Make.com',
+            'name' => 'eAD-CRM',
+            'description' => 'Connect eAD-CRM with Make.com',
             'baseUrl' => rtrim($this->baseUrl, '/'),
             'authentication' => [
                 'type' => 'custom',
@@ -309,13 +309,13 @@ class Connector_Manifest_Generator
     public function generateN8nManifest()
     {
         return [
-            'name' => 'Perfex CRM',
+            'name' => 'eAD-CRM',
             'version' => '1.0.0',
-            'description' => 'Perfex CRM API integration for n8n',
+            'description' => 'eAD-CRM API integration for n8n',
             'credentials' => [
                 [
                     'name' => 'perfexCrmApi',
-                    'displayName' => 'Perfex CRM API',
+                    'displayName' => 'eAD-CRM API',
                     'properties' => [
                         [
                             'displayName' => 'API Token',
@@ -352,7 +352,7 @@ class Connector_Manifest_Generator
         
         foreach ($resources as $resource) {
             $triggers[] = [
-                'name' => 'Perfex CRM: ' . ucfirst($resource) . ' Trigger',
+                'name' => 'eAD-CRM: ' . ucfirst($resource) . ' Trigger',
                 'type' => 'n8n-nodes-base.httpRequest',
                 'properties' => [
                     'url' => $this->baseUrl . 'connectors/poll/' . $resource,
@@ -378,7 +378,7 @@ class Connector_Manifest_Generator
         
         foreach ($resources as $resource) {
             $actions[] = [
-                'name' => 'Perfex CRM: Create ' . ucfirst($resource),
+                'name' => 'eAD-CRM: Create ' . ucfirst($resource),
                 'type' => 'n8n-nodes-base.httpRequest',
                 'properties' => [
                     'url' => $this->baseUrl . $resource,

@@ -36,7 +36,7 @@ class Playground extends AdminController
      */
     public function index()
     {
-        $data['title'] = 'API Playground - Test Perfex CRM API';
+        $data['title'] = 'API Playground - Test eAD-CRM API';
         $data['base_url'] = base_url();
         $data['api_base_url'] = base_url('api/');
         
@@ -49,7 +49,7 @@ class Playground extends AdminController
      */
     public function sandbox()
     {
-        $data['title'] = 'API Sandbox Playground - Test Perfex CRM API';
+        $data['title'] = 'API Sandbox Playground - Test eAD-CRM API';
         $data['base_url'] = base_url();
         $data['api_base_url'] = base_url('api/');
         
