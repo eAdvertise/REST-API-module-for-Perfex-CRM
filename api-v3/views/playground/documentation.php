@@ -274,15 +274,6 @@ curl -X POST "https://yourdomain.com/api/tickets" \
                 </a>
             </div>
         </div>
-
-        <!-- Footer -->
-        <div class="text-center mt-4">
-            <p class="text-muted">
-                <a href="https://perfexcrm.themesic.com/apiguide/" target="_blank" class="btn btn-outline-primary">
-                    <i class="fas fa-external-link-alt"></i> View Full API Documentation
-                </a>
-            </p>
-        </div>
     </div>
 
     <!-- Scripts -->

@@ -53,7 +53,7 @@ class Openapi extends App_Controller
                     . 'Authenticate every request with the authtoken header. '
                     . 'Lists support page/per_page pagination, sort, fields selection and date-range filters. '
                     . 'An MCP server for AI agents is available at POST /api/mcp.',
-                'contact' => ['url' => 'https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/'],
+                'contact' => ['url' => 'https://www.eadvertise.eu'],
             ],
             'servers'  => [['url' => $base]],
             'security' => [['authtoken' => []]],

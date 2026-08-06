@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 Module Name: API
-Module URI: https://codecanyon.net/item/rest-api-for-perfex-crm/25278359
+Module URI: https://www.eadvertise.eu
 Description: Rest API module for Perfex CRM
 Version: 3.0.3
 Author: Themesic Interactive
@@ -171,13 +171,6 @@ function api_init_menu_items()
             'position' => 65,
         ]);
         
-        // 8. Documentation
-        $CI->app_menu->add_sidebar_children_item('api-options', [
-            'slug'     => 'api-guide-options',
-            'name'     => _l('api_guide'),
-            'href'     => 'https://perfexcrm.themesic.com/apiguide/',
-            'position' => 70,
-        ]);
     }
 }
 
