@@ -5,10 +5,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: API
 Module URI: https://codecanyon.net/item/rest-api-for-perfex-crm/25278359
-Description: Rest API module for Perfex CRM
+Description: Rest API module for eAD-CRM
 Version: 3.0.3
-Author: Themesic Interactive
-Author URI: https://1.envato.market/themesic
+Author: eAdvertise.eu
+Author URI: https://www.eadvertise.eu
 */
 
 // Silence the PSR-0 `Requests_...` deprecation notice emitted by the bundled
@@ -96,7 +96,115 @@ function api_schema_self_heal()
 */
 register_language_files(API_MODULE_NAME, [API_MODULE_NAME]);
 
-	
+// Ensure custom email template exists for Guest Checkout (Invoice + Receipt)
+hooks()->add_action('admin_init', 'api_ensure_guest_checkout_email_template');
+function api_ensure_guest_checkout_email_template()
+{
+    if (!is_admin()) {
+        return;
+    }
+
+    // One-time guard
+    if (get_option('api_guest_checkout_email_template_installed') == '1') {
+        return;
+    }
+
+    $CI = &get_instance();
+    $table = db_prefix() . 'emailtemplates';
+
+    if (!$CI->db->table_exists($table)) {
+        return;
+    }
+
+    $slug = 'api_guest_invoice_checkout';
+
+    $languages = [];
+    if ($CI->db->field_exists('language', $table)) {
+        $activeLang = (string)(get_option('active_language') ?: 'english');
+        $languages[] = $activeLang;
+        if ($activeLang !== 'english') {
+            $languages[] = 'english';
+        }
+    } else {
+        $languages[] = null;
+    }
+
+    $ok = false;
+
+    foreach ($languages as $lang) {
+        $CI->db->where('slug', $slug);
+        if ($lang !== null) {
+            $CI->db->where('language', $lang);
+        }
+        $exists = $CI->db->get($table)->row();
+        if ($exists) {
+            $ok = true;
+            continue;
+        }
+
+        $data = [];
+        if ($CI->db->field_exists('type', $table)) {
+            $data['type'] = 'invoices';
+        }
+        if ($CI->db->field_exists('slug', $table)) {
+            $data['slug'] = $slug;
+        }
+        if ($CI->db->field_exists('name', $table)) {
+            $data['name'] = 'API Guest Checkout (Invoice & Receipt)';
+        }
+        if ($CI->db->field_exists('subject', $table)) {
+            $data['subject'] = 'Your Invoice {invoice_number} & Receipt';
+        }
+        if ($CI->db->field_exists('message', $table)) {
+            $data['message'] = 'Hello {contact_firstname},<br><br>Thank you for your payment. Please find attached your invoice <b>{invoice_number}</b> and your receipt.<br><br>Regards,<br>{companyname}';
+        }
+        if ($lang !== null && $CI->db->field_exists('language', $table)) {
+            $data['language'] = $lang;
+        }
+        if ($CI->db->field_exists('active', $table)) {
+            $data['active'] = 1;
+        }
+        if ($CI->db->field_exists('plaintext', $table)) {
+            $data['plaintext'] = 0;
+        }
+        if ($CI->db->field_exists('order', $table)) {
+            $data['order'] = 999;
+        }
+
+        // Insert only if we have at least slug+message/subject
+        if (!empty($data)) {
+            $CI->db->insert($table, $data);
+            if ($CI->db->affected_rows() > 0) {
+                $ok = true;
+            }
+        }
+    }
+
+    if ($ok) {
+        update_option('api_guest_checkout_email_template_installed', '1');
+    }
+}
+
+
+
+// Register permissions for custom Guest Invoices API endpoints.
+hooks()->add_filter('api_permissions', 'api_guest_invoices_permissions');
+function api_guest_invoices_permissions($apiPermissions)
+{
+    $apiPermissions['guest_invoices'] = [
+        'name'         => 'Guest Invoices',
+        'capabilities' => [
+            'post'          => _l('permission_create'),
+            'checkout_post' => 'Checkout',
+        ],
+    ];
+
+    return $apiPermissions;
+}
+
+
+
+
 /**
  * Init api module menu items in setup in admin_init hook
  * @return null
@@ -121,7 +229,7 @@ function api_init_menu_items()
             'href'     => admin_url('api/api_management'),
             'position' => 10,
         ]);
-        
+
         // 2. Webhooks
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-webhooks-options',
@@ -129,7 +237,7 @@ function api_init_menu_items()
             'href'     => admin_url('api/event_webhooks'),
             'position' => 20,
         ]);
-        
+
         // 3. Sandbox
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-sandbox-options',
@@ -137,7 +245,7 @@ function api_init_menu_items()
             'href'     => site_url('api/playground'),
             'position' => 30,
         ]);
-        
+
         // 4. Statistics
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-user-stats-options',
@@ -145,7 +253,7 @@ function api_init_menu_items()
             'href'     => admin_url('api/user_stats'),
             'position' => 40,
         ]);
-        
+
         // 5. Reports
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-reporting-options',
@@ -153,7 +261,7 @@ function api_init_menu_items()
             'href'     => admin_url('api/reporting'),
             'position' => 50,
         ]);
-        
+
         // 6. Settings
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-settings-options',
@@ -161,7 +269,7 @@ function api_init_menu_items()
             'href'     => admin_url('api/settings'),
             'position' => 60,
         ]);
-        
+
         // 7. Automation Connectors
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-connectors-options',
@@ -169,7 +277,7 @@ function api_init_menu_items()
             'href'     => admin_url('api/automation_connectors'),
             'position' => 65,
         ]);
-        
+
         // 8. Documentation
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-guide-options',
@@ -183,7 +291,7 @@ function api_init_menu_items()
 // REMOVED: Zapier route interception - now handled by CodeIgniter routing directly
 // Routes are defined in config/routes.php and handled by Zapier controller
 
-// Register connector routes early to ensure they're loaded before Perfex CRM core routing
+// Register connector routes early to ensure they're loaded before eAD-CRM core routing
 hooks()->add_action('pre_system', API_MODULE_NAME . '_register_connector_routes');
 function api_register_connector_routes()
 {

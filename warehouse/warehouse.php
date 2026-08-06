@@ -7,7 +7,7 @@ Module Name: Warehouse
 Description: Module manage warehouse, stock imported, stock export, Loss and adjustment,report...
 Version: 1.3.9
 Requires at least: 2.3.*
-Author: eAdvertise Creative Digital Agency
+Author: eAdvertise.eu
 Author URI: https://www.eadvertise.eu
 */
 
@@ -154,10 +154,6 @@ hooks()->add_action('proposals_manage_add_input', 'wh_proposals_manage_add_input
 hooks()->add_action('proposals_manage_add_li', 'wh_proposals_manage_add_li');
 
 }
-hooks()->add_action('warehouse_init',WAREHOUSE_MODULE_NAME.'_appint');
-hooks()->add_action('pre_activate_module', WAREHOUSE_MODULE_NAME.'_preactivate');
-hooks()->add_action('pre_deactivate_module', WAREHOUSE_MODULE_NAME.'_predeactivate');
-hooks()->add_action('pre_uninstall_module', WAREHOUSE_MODULE_NAME.'_uninstall');
 /**
 * Register activation module hook
 */
@@ -1916,46 +1912,14 @@ function warehouse_before_invoice_deleted($invoice_id)
 }
 
 function warehouse_appint(){
-    $CI = & get_instance();    
-    require_once 'libraries/gtsslib.php';
-    $warehouse_api = new WarehouseLic();
-    $warehouse_gtssres = $warehouse_api->verify_license(true);    
-    if(!$warehouse_gtssres || ($warehouse_gtssres && isset($warehouse_gtssres['status']) && !$warehouse_gtssres['status'])){
-         $CI->app_modules->deactivate(WAREHOUSE_MODULE_NAME);
-        set_alert('danger', "One of your modules failed its verification and got deactivated. Please reactivate or contact support.");
-        redirect(admin_url('modules'));
-    }    
+    return true;
 }
-
 function warehouse_preactivate($module_name){
-    if ($module_name['system_name'] == WAREHOUSE_MODULE_NAME) {             
-        require_once 'libraries/gtsslib.php';
-        $warehouse_api = new WarehouseLic();
-        $warehouse_gtssres = $warehouse_api->verify_license();          
-        if(!$warehouse_gtssres || ($warehouse_gtssres && isset($warehouse_gtssres['status']) && !$warehouse_gtssres['status'])){
-             $CI = & get_instance();
-            $data['submit_url'] = $module_name['system_name'].'/gtsverify/activate'; 
-            $data['original_url'] = admin_url('modules/activate/'.WAREHOUSE_MODULE_NAME); 
-            $data['module_name'] = WAREHOUSE_MODULE_NAME; 
-            $data['title'] = "Module License Activation"; 
-            echo $CI->load->view($module_name['system_name'].'/activate', $data, true);
-            exit();
-        }        
-    }
+    return true;
 }
-
 function warehouse_predeactivate($module_name){
-    if ($module_name['system_name'] == WAREHOUSE_MODULE_NAME) {
-        require_once 'libraries/gtsslib.php';
-        $warehouse_api = new WarehouseLic();
-        $warehouse_api->deactivate_license();
-    }
+    return true;
 }
-
 function warehouse_uninstall($module_name){
-    if ($module_name['system_name'] == WAREHOUSE_MODULE_NAME) {
-        require_once 'libraries/gtsslib.php';
-        $warehouse_api = new WarehouseLic();
-        $warehouse_api->deactivate_license();
-    }
+    return true;
 }
