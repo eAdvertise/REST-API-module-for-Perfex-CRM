@@ -6,8 +6,8 @@ Module Name: Accounting Export
 Description: Export invoices, payments and credit notes to accounting-friendly CSV/XLSX files.
 Version: 1.0.0
 Requires at least: 3.0.*
-Author: eAdvertise
-Author URI: https://www.eadvertise.eu/
+Author: eAdvertise.eu
+Author URI: https://www.eadvertise.eu
 */
 
 define('ACCOUNTING_EXPORT_MODULE_NAME', 'accounting_export');

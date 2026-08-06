@@ -213,7 +213,7 @@ class Myshopify extends AdminController
             // Save orders
             if (!empty($all_orders)) {
                 foreach ($all_orders as $order) {
-                    $exists = $this->db->where('shopify_order_id', $order['id'])->get('tblmyshopify_orders')->row();
+                    $exists = $this->db->where('shopify_order_id', $order['id'])->get(db_prefix().'myshopify_orders')->row();
                     if ($exists) {
                         continue;
                     }
@@ -246,7 +246,7 @@ class Myshopify extends AdminController
                         'line_items' => json_encode($order['line_items']),
                     ];
 
-                    $this->db->insert('tblmyshopify_orders', $data);
+                    $this->db->insert(db_prefix().'myshopify_orders', $data);
                 }
 
                 set_alert('success', 'All orders imported successfully.');

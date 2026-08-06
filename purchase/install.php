@@ -1295,7 +1295,7 @@ if (!$CI->db->table_exists(db_prefix() . 'currency_rates')) {
     `to_currency_id` int(11) NULL,
     `to_currency_name` VARCHAR(100) NULL,
     `to_currency_rate` decimal(15,6) NOT NULL DEFAULT '0.000000',
-    `date_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `date_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }
