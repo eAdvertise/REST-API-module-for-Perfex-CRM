@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#0b1020">
+  <title>API Reference · eAD-CRM API</title>
+  <meta name="description" content="5 API operations grouped by resource.">
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script>
+    (function () {
+      var saved = localStorage.getItem('docs-theme');
+      if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
+    })();
+  </script>
+</head>
+<body data-current-url="/reference/">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="reading-progress" aria-hidden="true"><span></span></div>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <button class="icon-button mobile-nav-button" type="button" aria-label="Open navigation" aria-controls="docs-sidebar" aria-expanded="false" data-nav-toggle>
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+
+      <a class="brand" href="/" aria-label="eAD-CRM API home">
+        <span class="brand__mark" aria-hidden="true">eAD</span>
+        <span class="brand__copy">
+          <strong>eAD-CRM API</strong>
+          <small>Developer docs</small>
+        </span>
+      </a>
+
+      <div class="topbar__actions">
+        <button class="search-trigger" type="button" data-search-open aria-haspopup="dialog">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+          <span>Search documentation</span>
+          <kbd>⌘ K</kbd>
+        </button>
+        <a class="topbar-link" href="/downloads/combined.openapi.json" download>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"/></svg>
+          <span>OpenAPI</span>
+        </a>
+        <button class="icon-button" type="button" data-theme-toggle aria-label="Toggle colour theme">
+          <svg class="theme-icon theme-icon--sun" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+          <svg class="theme-icon theme-icon--moon" aria-hidden="true" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-shell">
+    <div class="sidebar-scrim" data-nav-close></div>
+    <aside class="sidebar" id="docs-sidebar" aria-label="Documentation navigation">
+      <nav class="sidebar__nav">
+        <a class="sidebar-home" href="/">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3Z"/></svg>
+          Overview
+        </a>
+
+        <div class="sidebar-section">
+          <p class="sidebar-label">Guides</p>
+          <details class="sidebar-group" open>
+            <summary>Custom<span>6</span></summary>
+            <div class="sidebar-group__items">
+              <a href="/guides/custom/getting-started/">Getting started</a>
+              <a href="/guides/custom/add-endpoints/">Adding custom endpoints</a>
+              <a href="/guides/custom/branding/">Branding and design</a>
+              <a href="/guides/custom/deployment/">Deployment</a>
+              <a href="/guides/custom/importing-the-upstream/">Importing the upstream reference</a>
+              <a href="/guides/custom/upstream-updates/">Updating the upstream base</a>
+            </div>
+          </details>
+          <details class="sidebar-group" open>
+            <summary>Overview<span>1</span></summary>
+            <div class="sidebar-group__items">
+              <a href="/guides/overview/">Documentation architecture</a>
+            </div>
+          </details>
+          <details class="sidebar-group">
+            <summary>Vendor<span>1</span></summary>
+            <div class="sidebar-group__items">
+              <a href="/guides/vendor/readme/">Upstream guides</a>
+            </div>
+          </details>
+        </div>
+
+        <div class="sidebar-section">
+          <p class="sidebar-label">Complete API</p>
+          <a class="sidebar-home" href="/guides/api-reference/">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg>
+            API &amp; API-V3 reference
+          </a>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label-row">
+            <p class="sidebar-label">API Reference</p>
+            <a href="/reference/">All</a>
+          </div>
+          <details class="sidebar-group">
+            <summary>Your Module<span>5</span></summary>
+            <div class="sidebar-group__items sidebar-group__items--operations">
+              <a href="/reference/yourmodulelistitems/">
+                <span class="method-mini method-mini--get">GET</span>
+                <span>List module items</span>
+              </a>
+              <a href="/reference/yourmodulecreateitem/">
+                <span class="method-mini method-mini--post">POST</span>
+                <span>Create a module item</span>
+              </a>
+              <a href="/reference/yourmodulegetitem/">
+                <span class="method-mini method-mini--get">GET</span>
+                <span>Get a module item</span>
+              </a>
+              <a href="/reference/yourmoduleupdateitem/">
+                <span class="method-mini method-mini--put">PUT</span>
+                <span>Update a module item</span>
+              </a>
+              <a href="/reference/yourmoduledeleteitem/">
+                <span class="method-mini method-mini--delete">DELETE</span>
+                <span>Delete a module item</span>
+              </a>
+            </div>
+          </details>
+        </div>
+      </nav>
+
+      <div class="sidebar__footer">
+        <p>eAdvertise</p>
+        <span>Self-hosted documentation</span>
+      </div>
+    </aside>
+
+    <main class="main" id="main-content">
+<div class="content-container content-container--wide">
+  <header class="page-header page-header--reference">
+    <p class="eyebrow eyebrow--small"><span></span>Complete specification</p>
+    <h1>API Reference</h1>
+    <p>5 API operations grouped by resource.</p>
+    <div class="page-header__meta">
+      <span>5 operations</span>
+      <span>1 groups</span>
+      <span>OpenAPI 3.0.3</span>
+<span>API 0.1.0</span>    </div>
+  </header>
+
+  <div class="inline-notice">
+    <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>
+    <div><strong>Custom-only preview</strong><p>Run <code>make bootstrap</code> and rebuild to include the complete eAD-CRM REST API reference.</p></div>
+  </div>
+
+  <div class="reference-toolbar">
+    <label class="filter-input">
+      <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <input type="search" placeholder="Filter endpoints…" data-reference-filter>
+    </label>
+    <a class="button button--compact button--secondary" href="/downloads/combined.openapi.json" download>Download OpenAPI</a>
+  </div>
+
+  <div class="reference-groups" data-reference-groups>
+    <section class="reference-group" data-reference-group data-searchable="your module list module items get /your-module/items create a module item post /your-module/items get a module item get /your-module/items/{id} update a module item put /your-module/items/{id} delete a module item delete /your-module/items/{id} ">
+      <div class="reference-group__header">
+        <div><span class="resource-card__monogram">YO</span><div><h2>Your Module</h2><p>5 documented operations</p></div></div>
+        <button type="button" data-collapse-group aria-expanded="true" aria-label="Toggle Your Module">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+      </div>
+      <div class="endpoint-list">
+        <a class="endpoint-row" href="/reference/yourmodulelistitems/" data-endpoint-row data-searchable="list module items get /your-module/items your module">
+          <span class="method-badge method-badge--get">GET</span>
+          <code>/your-module/items</code>
+          <span class="endpoint-row__summary">List module items</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
+        </a>
+        <a class="endpoint-row" href="/reference/yourmodulecreateitem/" data-endpoint-row data-searchable="create a module item post /your-module/items your module">
+          <span class="method-badge method-badge--post">POST</span>
+          <code>/your-module/items</code>
+          <span class="endpoint-row__summary">Create a module item</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
+        </a>
+        <a class="endpoint-row" href="/reference/yourmodulegetitem/" data-endpoint-row data-searchable="get a module item get /your-module/items/{id} your module">
+          <span class="method-badge method-badge--get">GET</span>
+          <code>/your-module/items/{id}</code>
+          <span class="endpoint-row__summary">Get a module item</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
+        </a>
+        <a class="endpoint-row" href="/reference/yourmoduleupdateitem/" data-endpoint-row data-searchable="update a module item put /your-module/items/{id} your module">
+          <span class="method-badge method-badge--put">PUT</span>
+          <code>/your-module/items/{id}</code>
+          <span class="endpoint-row__summary">Update a module item</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
+        </a>
+        <a class="endpoint-row" href="/reference/yourmoduledeleteitem/" data-endpoint-row data-searchable="delete a module item delete /your-module/items/{id} your module">
+          <span class="method-badge method-badge--delete">DELETE</span>
+          <code>/your-module/items/{id}</code>
+          <span class="endpoint-row__summary">Delete a module item</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
+        </a>
+      </div>
+    </section>
+    <div class="empty-state" data-reference-empty hidden>
+      <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <h2>No endpoints found</h2><p>Try another method, path or resource name.</p>
+    </div>
+  </div>
+</div>
+      <footer class="site-footer">
+        <div>
+          <strong>eAD-CRM API</strong>
+          <p>Copyright 2026 eAdvertise</p>
+        </div>
+        <div class="site-footer__links">
+          <a href="/reference/">API Reference</a>
+          <a href="/downloads/combined.openapi.json">OpenAPI JSON</a>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <dialog class="search-dialog" data-search-dialog aria-label="Search documentation">
+    <div class="search-dialog__panel">
+      <div class="search-dialog__header">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input type="search" autocomplete="off" spellcheck="false" placeholder="Search guides, endpoints and paths…" aria-label="Search" data-search-input>
+        <button type="button" data-search-close aria-label="Close search">Esc</button>
+      </div>
+      <div class="search-dialog__meta">
+        <span data-search-status>Start typing to search</span>
+        <span><kbd>↑</kbd><kbd>↓</kbd> navigate · <kbd>↵</kbd> open</span>
+      </div>
+      <div class="search-results" data-search-results></div>
+    </div>
+  </dialog>
+
+  <div class="toast" role="status" aria-live="polite" data-toast></div>
+  <script src="/assets/js/site.js" defer></script>
+</body>
+</html>
