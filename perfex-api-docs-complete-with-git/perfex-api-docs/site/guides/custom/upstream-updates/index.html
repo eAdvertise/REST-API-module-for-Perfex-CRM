@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#0b1020">
   <title>Updating the upstream base · Your Company API</title>
-  <meta name="description" content="Treat the public Perfex companion repository as a vendor dependency. Update it deliberately, review the result, and keep your custom material isolated.">
+  <meta name="description" content="Treat the public eAD-CRM companion repository as a vendor dependency. Update it deliberately, review the result, and keep your custom material isolated.">
   <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/site.css">
   <script>
@@ -133,7 +133,7 @@
     <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Documentation</a><span>/</span><span>Custom</span></nav>
     <div class="guide-meta"><span>Custom</span><span>Guide</span></div>
     <div class="prose" data-prose><h1>Updating the upstream base</h1>
-<p>Treat the public Perfex companion repository as a vendor dependency. Update it deliberately, review the result, and keep your custom material isolated.</p>
+<p>Treat the public eAD-CRM companion repository as a vendor dependency. Update it deliberately, review the result, and keep your custom material isolated.</p>
 <h2>Check the current import</h2>
 <p>After <code>make bootstrap</code>, inspect:</p>
 <pre><code class="language-text">vendor/UPSTREAM_METADATA.json
@@ -176,7 +176,7 @@ git diff
 <h2>Commit the dependency update</h2>
 <pre><code class="language-bash">git add config/upstream.json vendor/UPSTREAM_METADATA.json
 # Add vendor files too only if your repository policy tracks them.
-git commit -m &quot;Update Perfex API documentation base&quot;
+git commit -m &quot;Update eAD-CRM API documentation base&quot;
 </code></pre>
 <p>The starter ignores the large cached checkout and imported OpenAPI file by default. This keeps your repository small and allows CI or developers to re-import the pinned source.</p>
 </div>

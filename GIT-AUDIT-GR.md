@@ -46,3 +46,12 @@ assets). Δεν πρέπει να θεωρούνται ένδειξη ότι τ�
 μόνο ένας extracted φάκελος documentation στο κύριο repository. Το bundle
 μπορεί να διατηρηθεί ως ανεξάρτητο backup/history ή να μεταφερθεί μαζί με τα
 δύο ZIP στα Release assets.
+
+## Σημείωση για Pull Requests
+
+Το `perfex-api-docs.bundle` παραμένει αμετάβλητο στο Git repository. Η αλλαγή
+ενός bundle εμφανίζεται ως binary diff και το περιβάλλον δημιουργίας PR
+επιστρέφει `Binary files are not supported`. Το νέο branding εφαρμόζεται στα
+δύο extracted documentation projects, τα οποία είναι τα αρχεία που χτίζονται
+και δημοσιεύονται. Αν χρειάζεται branded bundle, πρέπει να δημιουργηθεί μετά το
+merge και να διανεμηθεί ως GitHub Release asset αντί να συμπεριληφθεί στο PR.

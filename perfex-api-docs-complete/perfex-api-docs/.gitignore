@@ -5,7 +5,7 @@ __pycache__/
 .cache/
 site/
 openapi/combined.openapi.json
-openapi/vendor/perfex.openapi.json
+openapi/vendor/eAD-CRM.openapi.json
 vendor/upstream/
 .DS_Store
 *.log
