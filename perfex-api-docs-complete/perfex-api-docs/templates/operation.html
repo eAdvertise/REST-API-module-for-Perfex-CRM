@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="operation-layout">
+  <article class="operation-doc">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="{{ url('reference/') }}">API Reference</a><span>/</span><span>{{ operation.tag }}</span>
+    </nav>
+
+    <header class="operation-header">
+      <div class="operation-header__topline">
+        <span class="method-badge method-badge--{{ operation.method }}">{{ operation.method|upper }}</span>
+        <code>{{ operation.path }}</code>
+        <button class="copy-inline" type="button" data-copy="{{ operation.path }}" aria-label="Copy path">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>
+        </button>
+      </div>
+      <h1>{{ operation.summary }}</h1>
+      {% if operation.description %}<div class="operation-description">{{ operation.description|markdown }}</div>{% endif %}
+      <div class="operation-header__chips">
+        <a href="#request">Request</a><a href="#responses">Responses</a>
+        {% if operation.operation_id %}<span>operationId: <code>{{ operation.operation_id }}</code></span>{% endif %}
+      </div>
+    </header>
+
+    {% if security_names %}
+    <section class="doc-section" id="authentication">
+      <div class="doc-section__heading"><span>01</span><div><h2>Authentication</h2><p>This endpoint requires an API token.</p></div></div>
+      <div class="auth-card">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        <div><strong>Request header</strong><code>authtoken: YOUR_API_TOKEN</code></div>
+        <button type="button" data-copy="authtoken: YOUR_API_TOKEN">Copy</button>
+      </div>
+    </section>
+    {% endif %}
+
+    <section class="doc-section" id="request">
+      <div class="doc-section__heading"><span>{% if security_names %}02{% else %}01{% endif %}</span><div><h2>Request</h2><p>Path, query and body values accepted by this operation.</p></div></div>
+
+      {% if parameters %}
+      <h3 class="subheading">Parameters</h3>
+      <div class="parameter-list">
+        {% for parameter in parameters %}
+        <article class="parameter-row">
+          <div class="parameter-row__name"><code>{{ parameter.name }}</code>{% if parameter.required %}<span>required</span>{% endif %}</div>
+          <div class="parameter-row__meta"><span>{{ parameter.type }}</span><span>{{ parameter.location }}</span></div>
+          {% if parameter.description %}<p>{{ parameter.description }}</p>{% endif %}
+          {% if parameter.example is not none %}<div class="parameter-row__example"><small>Example</small><code>{{ parameter.example }}</code></div>{% endif %}
+        </article>
+        {% endfor %}
+      </div>
+      {% elif not request_bodies %}
+      <div class="empty-inline"><p>This operation does not require parameters or a request body.</p></div>
+      {% endif %}
+
+      {% for body in request_bodies %}
+      <div class="request-body">
+        <div class="request-body__title"><h3 class="subheading">Request body</h3><span>{{ body.media_type }}</span>{% if body.required %}<b>required</b>{% endif %}</div>
+        {% if body.description %}<p>{{ body.description }}</p>{% endif %}
+        {% if body.fields %}
+        <div class="schema-table-wrap">
+          <table class="schema-table">
+            <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              {% for field in body.fields %}
+              <tr><td><code>{{ field.name }}</code>{% if field.required %}<span class="required-dot" title="Required"></span>{% endif %}</td><td><span class="type-pill">{{ field.type }}</span></td><td>{{ field.description or '—' }}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% endif %}
+        {% if body.example %}
+        <details class="code-disclosure" open>
+          <summary>Example payload <span>{{ body.media_type }}</span></summary>
+          <div class="code-block"><button type="button" data-copy-target>Copy</button><pre><code>{{ body.example }}</code></pre></div>
+        </details>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </section>
+
+    <section class="doc-section" id="responses">
+      <div class="doc-section__heading"><span>{% if security_names %}03{% else %}02{% endif %}</span><div><h2>Responses</h2><p>HTTP outcomes documented for this operation.</p></div></div>
+      <div class="response-list">
+        {% for response in responses %}
+        <details class="response-card"{% if response.status|string|first == '2' %} open{% endif %}>
+          <summary>
+            <span class="status-code status-code--{{ response.status|string|first }}">{{ response.status }}</span>
+            <strong>{{ response.description or 'Response' }}</strong>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="response-card__body">
+            {% if response.examples %}
+              {% for example in response.examples %}
+              <p class="media-label">{{ example.media_type }}</p>
+              <div class="code-block"><button type="button" data-copy-target>Copy</button><pre><code>{{ example.value }}</code></pre></div>
+              {% endfor %}
+            {% else %}
+              <p>No response body example is defined in the OpenAPI source.</p>
+            {% endif %}
+          </div>
+        </details>
+        {% else %}
+        <div class="empty-inline"><p>No responses are documented for this operation.</p></div>
+        {% endfor %}
+      </div>
+    </section>
+  </article>
+
+  <aside class="code-panel" aria-label="Request example">
+    <div class="code-panel__sticky">
+      <div class="code-panel__header"><div><span class="status-dot"></span><strong>Example request</strong></div><span>cURL</span></div>
+      <div class="code-block code-block--panel"><button type="button" data-copy-target>Copy</button><pre><code>{{ curl }}</code></pre></div>
+      <div class="code-panel__tips">
+        <p><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg><span>Replace the base URL and token before running the request.</span></p>
+        {% if vendor_imported %}
+        <a href="{{ url('guides/vendor/authentication/') }}">Authentication guide <span>→</span></a>
+        {% else %}
+        <a href="{{ url('guides/custom/getting-started/') }}">Getting started <span>→</span></a>
+        {% endif %}
+      </div>
+    </div>
+  </aside>
+</div>
+{% endblock %}

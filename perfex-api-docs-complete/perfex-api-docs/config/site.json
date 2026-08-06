@@ -1,0 +1,14 @@
+{
+  "site_name": "Your Company API",
+  "site_description": "Perfex CRM REST API and custom module reference",
+  "company_name": "Your Company",
+  "base_path": "",
+  "default_api_server": "https://crm.example.com/api",
+  "logo_text": "YC",
+  "copyright": "Copyright 2026 Your Company",
+  "home_eyebrow": "Developer documentation",
+  "home_title": "Build on top of your Perfex CRM",
+  "home_intro": "A self-hosted reference for the standard Perfex CRM REST API and your custom module endpoints.",
+  "repository_url": "",
+  "support_url": ""
+}

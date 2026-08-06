@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content-container content-container--wide">
+  <header class="page-header page-header--reference">
+    <p class="eyebrow eyebrow--small"><span></span>Complete specification</p>
+    <h1>API Reference</h1>
+    <p>{{ page_description }}</p>
+    <div class="page-header__meta">
+      <span>{{ stats.operations }} operations</span>
+      <span>{{ stats.groups }} groups</span>
+      <span>OpenAPI {{ stats.openapi_version }}</span>
+      {% if stats.api_version %}<span>API {{ stats.api_version }}</span>{% endif %}
+    </div>
+  </header>
+
+  {% if not vendor_imported %}
+  <div class="inline-notice">
+    <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>
+    <div><strong>Custom-only preview</strong><p>Run <code>make bootstrap</code> and rebuild to include the complete Perfex REST API reference.</p></div>
+  </div>
+  {% endif %}
+
+  <div class="reference-toolbar">
+    <label class="filter-input">
+      <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <input type="search" placeholder="Filter endpoints…" data-reference-filter>
+    </label>
+    <a class="button button--compact button--secondary" href="{{ url('downloads/combined.openapi.json') }}" download>Download OpenAPI</a>
+  </div>
+
+  <div class="reference-groups" data-reference-groups>
+    {% for group in operation_groups %}
+    <section class="reference-group" data-reference-group data-searchable="{{ group.name|lower }} {% for operation in group.operations %}{{ operation.summary|lower }} {{ operation.method }} {{ operation.path|lower }} {% endfor %}">
+      <div class="reference-group__header">
+        <div><span class="resource-card__monogram">{{ group.name[:2]|upper }}</span><div><h2>{{ group.name }}</h2><p>{{ group.operations|length }} documented operation{% if group.operations|length != 1 %}s{% endif %}</p></div></div>
+        <button type="button" data-collapse-group aria-expanded="true" aria-label="Toggle {{ group.name }}">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+      </div>
+      <div class="endpoint-list">
+        {% for operation in group.operations %}
+        <a class="endpoint-row" href="{{ operation.url }}" data-endpoint-row data-searchable="{{ operation.summary|lower }} {{ operation.method }} {{ operation.path|lower }} {{ operation.tag|lower }}">
+          <span class="method-badge method-badge--{{ operation.method }}">{{ operation.method|upper }}</span>
+          <code>{{ operation.path }}</code>
+          <span class="endpoint-row__summary">{{ operation.summary }}</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+    {% endfor %}
+    <div class="empty-state" data-reference-empty hidden>
+      <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <h2>No endpoints found</h2><p>Try another method, path or resource name.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

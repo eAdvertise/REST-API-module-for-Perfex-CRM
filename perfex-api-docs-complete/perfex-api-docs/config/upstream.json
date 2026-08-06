@@ -1,0 +1,11 @@
+{
+  "repository": "https://github.com/themesic/perfex-rest-api-examples.git",
+  "repository_full_name": "themesic/perfex-rest-api-examples",
+  "branch": "main",
+  "locked_ref": "032d9008aebd66f14a63a7796a82e1ef2938b470",
+  "openapi_path": "openapi/perfex-rest-api.openapi.json",
+  "docs_path": "docs",
+  "postman_path": "postman",
+  "snippets_path": "snippets",
+  "license_path": "LICENSE"
+}

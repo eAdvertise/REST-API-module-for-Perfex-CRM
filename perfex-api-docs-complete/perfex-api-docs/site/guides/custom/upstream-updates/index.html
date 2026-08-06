@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#0b1020">
+  <title>Updating the upstream base · Your Company API</title>
+  <meta name="description" content="Treat the public Perfex companion repository as a vendor dependency. Update it deliberately, review the result, and keep your custom material isolated.">
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script>
+    (function () {
+      var saved = localStorage.getItem('docs-theme');
+      if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
+    })();
+  </script>
+</head>
+<body data-current-url="/guides/custom/upstream-updates/">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="reading-progress" aria-hidden="true"><span></span></div>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <button class="icon-button mobile-nav-button" type="button" aria-label="Open navigation" aria-controls="docs-sidebar" aria-expanded="false" data-nav-toggle>
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+
+      <a class="brand" href="/" aria-label="Your Company API home">
+        <span class="brand__mark" aria-hidden="true">YC</span>
+        <span class="brand__copy">
+          <strong>Your Company API</strong>
+          <small>Developer docs</small>
+        </span>
+      </a>
+
+      <div class="topbar__actions">
+        <button class="search-trigger" type="button" data-search-open aria-haspopup="dialog">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+          <span>Search documentation</span>
+          <kbd>⌘ K</kbd>
+        </button>
+        <a class="topbar-link" href="/downloads/combined.openapi.json" download>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"/></svg>
+          <span>OpenAPI</span>
+        </a>
+        <button class="icon-button" type="button" data-theme-toggle aria-label="Toggle colour theme">
+          <svg class="theme-icon theme-icon--sun" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+          <svg class="theme-icon theme-icon--moon" aria-hidden="true" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-shell">
+    <div class="sidebar-scrim" data-nav-close></div>
+    <aside class="sidebar" id="docs-sidebar" aria-label="Documentation navigation">
+      <nav class="sidebar__nav">
+        <a class="sidebar-home" href="/">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3Z"/></svg>
+          Overview
+        </a>
+
+        <div class="sidebar-section">
+          <p class="sidebar-label">Guides</p>
+          <details class="sidebar-group" open>
+            <summary>Custom<span>6</span></summary>
+            <div class="sidebar-group__items">
+              <a href="/guides/custom/getting-started/">Getting started</a>
+              <a href="/guides/custom/add-endpoints/">Adding custom endpoints</a>
+              <a href="/guides/custom/branding/">Branding and design</a>
+              <a href="/guides/custom/deployment/">Deployment</a>
+              <a href="/guides/custom/importing-the-upstream/">Importing the upstream reference</a>
+              <a href="/guides/custom/upstream-updates/" class="is-active" aria-current="page">Updating the upstream base</a>
+            </div>
+          </details>
+          <details class="sidebar-group" open>
+            <summary>Overview<span>1</span></summary>
+            <div class="sidebar-group__items">
+              <a href="/guides/overview/">Documentation architecture</a>
+            </div>
+          </details>
+          <details class="sidebar-group">
+            <summary>Vendor<span>1</span></summary>
+            <div class="sidebar-group__items">
+              <a href="/guides/vendor/readme/">Upstream guides</a>
+            </div>
+          </details>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label-row">
+            <p class="sidebar-label">API Reference</p>
+            <a href="/reference/">All</a>
+          </div>
+          <details class="sidebar-group">
+            <summary>Your Module<span>5</span></summary>
+            <div class="sidebar-group__items sidebar-group__items--operations">
+              <a href="/reference/yourmodulelistitems/">
+                <span class="method-mini method-mini--get">GET</span>
+                <span>List module items</span>
+              </a>
+              <a href="/reference/yourmodulecreateitem/">
+                <span class="method-mini method-mini--post">POST</span>
+                <span>Create a module item</span>
+              </a>
+              <a href="/reference/yourmodulegetitem/">
+                <span class="method-mini method-mini--get">GET</span>
+                <span>Get a module item</span>
+              </a>
+              <a href="/reference/yourmoduleupdateitem/">
+                <span class="method-mini method-mini--put">PUT</span>
+                <span>Update a module item</span>
+              </a>
+              <a href="/reference/yourmoduledeleteitem/">
+                <span class="method-mini method-mini--delete">DELETE</span>
+                <span>Delete a module item</span>
+              </a>
+            </div>
+          </details>
+        </div>
+      </nav>
+
+      <div class="sidebar__footer">
+        <p>Your Company</p>
+        <span>Self-hosted documentation</span>
+      </div>
+    </aside>
+
+    <main class="main" id="main-content">
+<div class="guide-layout">
+  <article class="guide-document">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Documentation</a><span>/</span><span>Custom</span></nav>
+    <div class="guide-meta"><span>Custom</span><span>Guide</span></div>
+    <div class="prose" data-prose><h1>Updating the upstream base</h1>
+<p>Treat the public Perfex companion repository as a vendor dependency. Update it deliberately, review the result, and keep your custom material isolated.</p>
+<h2>Check the current import</h2>
+<p>After <code>make bootstrap</code>, inspect:</p>
+<pre><code class="language-text">vendor/UPSTREAM_METADATA.json
+</code></pre>
+<p>It records the requested reference, resolved commit when available, import timestamp, API version, path count, and operation count.</p>
+<h2>Update to the current main branch</h2>
+<pre><code class="language-bash">make update-upstream
+make build
+</code></pre>
+<p>The update replaces vendor inputs but does not touch:</p>
+<pre><code class="language-text">openapi/custom/
+docs/custom/
+config/site.json
+templates/
+assets/
+</code></pre>
+<h2>Review the result</h2>
+<p>Before committing:</p>
+<pre><code class="language-bash">git status
+git diff --stat
+git diff
+</code></pre>
+<p>Pay particular attention to:</p>
+<ul>
+<li>removed or renamed paths;</li>
+<li>changed request fields;</li>
+<li>changed response schemas;</li>
+<li>component-name collisions;</li>
+<li>authentication changes;</li>
+<li>version-specific guide changes.</li>
+</ul>
+<h2>Resolve custom conflicts</h2>
+<p>The merger stops when a custom operation or component has the same identity as an upstream item. Rename your custom path, <code>operationId</code>, or component unless replacing the upstream definition is intentional.</p>
+<p>An explicit override mode exists for controlled migrations:</p>
+<pre><code class="language-bash">.venv/bin/python scripts/merge_openapi.py --allow-overrides
+</code></pre>
+<p>Avoid using this as the normal workflow. Silent vendor overrides make future updates harder to audit.</p>
+<h2>Pin a reviewed commit</h2>
+<p>After accepting an upstream version, update <code>locked_ref</code> in <code>config/upstream.json</code> to the exact reviewed commit. Future <code>make bootstrap</code> runs will then be reproducible.</p>
+<h2>Commit the dependency update</h2>
+<pre><code class="language-bash">git add config/upstream.json vendor/UPSTREAM_METADATA.json
+# Add vendor files too only if your repository policy tracks them.
+git commit -m &quot;Update Perfex API documentation base&quot;
+</code></pre>
+<p>The starter ignores the large cached checkout and imported OpenAPI file by default. This keeps your repository small and allows CI or developers to re-import the pinned source.</p>
+</div>
+    <div class="guide-next">
+      <p>Continue exploring</p>
+      <a href="/reference/"><span>API Reference</span><strong>Browse every documented operation</strong><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+    </div>
+  </article>
+  <aside class="toc-panel">
+    <div class="toc-panel__sticky"><p>On this page</p><nav data-toc></nav></div>
+  </aside>
+</div>
+      <footer class="site-footer">
+        <div>
+          <strong>Your Company API</strong>
+          <p>Copyright 2026 Your Company</p>
+        </div>
+        <div class="site-footer__links">
+          <a href="/reference/">API Reference</a>
+          <a href="/downloads/combined.openapi.json">OpenAPI JSON</a>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <dialog class="search-dialog" data-search-dialog aria-label="Search documentation">
+    <div class="search-dialog__panel">
+      <div class="search-dialog__header">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input type="search" autocomplete="off" spellcheck="false" placeholder="Search guides, endpoints and paths…" aria-label="Search" data-search-input>
+        <button type="button" data-search-close aria-label="Close search">Esc</button>
+      </div>
+      <div class="search-dialog__meta">
+        <span data-search-status>Start typing to search</span>
+        <span><kbd>↑</kbd><kbd>↓</kbd> navigate · <kbd>↵</kbd> open</span>
+      </div>
+      <div class="search-results" data-search-results></div>
+    </div>
+  </dialog>
+
+  <div class="toast" role="status" aria-live="polite" data-toast></div>
+  <script src="/assets/js/site.js" defer></script>
+</body>
+</html>
