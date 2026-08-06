@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#0b1020">
+  <title>Adding custom endpoints · eAD-CRM API</title>
+  <meta name="description" content="Document custom-module operations in one or more JSON files under openapi/custom/. Every file is merged into the vendor OpenAPI document during the build.">
+  <link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../assets/css/site.css">
+  <script>
+    (function () {
+      var saved = localStorage.getItem('docs-theme');
+      if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
+    })();
+  </script>
+</head>
+<body data-current-url="/guides/custom/add-endpoints/">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="reading-progress" aria-hidden="true"><span></span></div>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <button class="icon-button mobile-nav-button" type="button" aria-label="Open navigation" aria-controls="docs-sidebar" aria-expanded="false" data-nav-toggle>
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+
+      <a class="brand" href="../../.." aria-label="eAD-CRM API home">
+        <span class="brand__mark" aria-hidden="true">eAD</span>
+        <span class="brand__copy">
+          <strong>eAD-CRM API</strong>
+          <small>Developer docs</small>
+        </span>
+      </a>
+
+      <div class="topbar__actions">
+        <button class="search-trigger" type="button" data-search-open aria-haspopup="dialog">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+          <span>Search documentation</span>
+          <kbd>⌘ K</kbd>
+        </button>
+        <a class="topbar-link" href="../../../downloads/combined.openapi.json" download>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"/></svg>
+          <span>OpenAPI</span>
+        </a>
+        <button class="icon-button" type="button" data-theme-toggle aria-label="Toggle colour theme">
+          <svg class="theme-icon theme-icon--sun" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+          <svg class="theme-icon theme-icon--moon" aria-hidden="true" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-shell">
+    <div class="sidebar-scrim" data-nav-close></div>
+    <aside class="sidebar" id="docs-sidebar" aria-label="Documentation navigation">
+      <nav class="sidebar__nav">
+        <a class="sidebar-home" href="../../..">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3Z"/></svg>
+          Overview
+        </a>
+
+        <div class="sidebar-section">
+          <p class="sidebar-label">Guides</p>
+          <details class="sidebar-group" open>
+            <summary>Custom<span>6</span></summary>
+            <div class="sidebar-group__items">
+              <a href="../getting-started">Getting started</a>
+              <a href="." class="is-active" aria-current="page">Adding custom endpoints</a>
+              <a href="../branding">Branding and design</a>
+              <a href="../deployment">Deployment</a>
+              <a href="../importing-the-upstream">Importing the upstream reference</a>
+              <a href="../upstream-updates">Updating the upstream base</a>
+            </div>
+          </details>
+          <details class="sidebar-group" open>
+            <summary>Overview<span>1</span></summary>
+            <div class="sidebar-group__items">
+              <a href="../../overview">Documentation architecture</a>
+            </div>
+          </details>
+          <details class="sidebar-group">
+            <summary>Vendor<span>1</span></summary>
+            <div class="sidebar-group__items">
+              <a href="../../vendor/readme">Upstream guides</a>
+            </div>
+          </details>
+        </div>
+
+        <div class="sidebar-section">
+          <p class="sidebar-label">Complete API</p>
+          <a class="sidebar-home" href="../../api-reference">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg>
+            API &amp; API-V3 reference
+          </a>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label-row">
+            <p class="sidebar-label">API Reference</p>
+            <a href="../../../reference">All</a>
+          </div>
+          <details class="sidebar-group">
+            <summary>Your Module<span>5</span></summary>
+            <div class="sidebar-group__items sidebar-group__items--operations">
+              <a href="../../../reference/yourmodulelistitems">
+                <span class="method-mini method-mini--get">GET</span>
+                <span>List module items</span>
+              </a>
+              <a href="../../../reference/yourmodulecreateitem">
+                <span class="method-mini method-mini--post">POST</span>
+                <span>Create a module item</span>
+              </a>
+              <a href="../../../reference/yourmodulegetitem">
+                <span class="method-mini method-mini--get">GET</span>
+                <span>Get a module item</span>
+              </a>
+              <a href="../../../reference/yourmoduleupdateitem">
+                <span class="method-mini method-mini--put">PUT</span>
+                <span>Update a module item</span>
+              </a>
+              <a href="../../../reference/yourmoduledeleteitem">
+                <span class="method-mini method-mini--delete">DELETE</span>
+                <span>Delete a module item</span>
+              </a>
+            </div>
+          </details>
+        </div>
+      </nav>
+
+      <div class="sidebar__footer">
+        <p>eAdvertise</p>
+        <span>Self-hosted documentation</span>
+      </div>
+    </aside>
+
+    <main class="main" id="main-content">
+<div class="guide-layout">
+  <article class="guide-document">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../..">Documentation</a><span>/</span><span>Custom</span></nav>
+    <div class="guide-meta"><span>Custom</span><span>Guide</span></div>
+    <div class="prose" data-prose><h1>Adding custom endpoints</h1>
+<p>Document custom-module operations in one or more JSON files under <code>openapi/custom/</code>. Every file is merged into the vendor OpenAPI document during the build.</p>
+<h2>Minimal operation</h2>
+<p>Create <code>openapi/custom/my-module.openapi.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;openapi&quot;: &quot;3.0.3&quot;,
+  &quot;info&quot;: {
+    &quot;title&quot;: &quot;My module additions&quot;,
+    &quot;version&quot;: &quot;1.0.0&quot;
+  },
+  &quot;tags&quot;: [
+    {
+      &quot;name&quot;: &quot;My Module&quot;,
+      &quot;description&quot;: &quot;Endpoints supplied by our module.&quot;
+    }
+  ],
+  &quot;paths&quot;: {
+    &quot;/my-module/records&quot;: {
+      &quot;get&quot;: {
+        &quot;tags&quot;: [&quot;My Module&quot;],
+        &quot;summary&quot;: &quot;List records&quot;,
+        &quot;operationId&quot;: &quot;myModuleListRecords&quot;,
+        &quot;responses&quot;: {
+          &quot;200&quot;: {
+            &quot;description&quot;: &quot;Records returned successfully.&quot;
+          }
+        }
+      }
+    }
+  }
+}
+</code></pre>
+<p>Build and inspect the new page:</p>
+<pre><code class="language-bash">make build
+make serve
+</code></pre>
+<h2>Paths must be relative to <code>/api</code></h2>
+<p>The configured server normally ends with <code>/api</code>:</p>
+<pre><code class="language-text">https://crm.example.com/api
+</code></pre>
+<p>Therefore a real endpoint at:</p>
+<pre><code class="language-text">https://crm.example.com/api/my-module/records
+</code></pre>
+<p>uses this OpenAPI path:</p>
+<pre><code class="language-json">&quot;/my-module/records&quot;
+</code></pre>
+<p>Do not include <code>/api</code> a second time.</p>
+<h2>Authentication</h2>
+<p>The merged specification uses an API-key security scheme named <code>authtoken</code>. Apply it globally in the custom document:</p>
+<pre><code class="language-json">&quot;security&quot;: [
+  { &quot;authtoken&quot;: [] }
+]
+</code></pre>
+<p>Or apply it to one operation. To mark a public operation, explicitly use:</p>
+<pre><code class="language-json">&quot;security&quot;: []
+</code></pre>
+<h2>Path parameters</h2>
+<p>Every <code>{placeholder}</code> in a path must have a matching required path parameter:</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;id&quot;,
+  &quot;in&quot;: &quot;path&quot;,
+  &quot;required&quot;: true,
+  &quot;schema&quot;: {
+    &quot;type&quot;: &quot;integer&quot;,
+    &quot;minimum&quot;: 1
+  },
+  &quot;example&quot;: 42
+}
+</code></pre>
+<p>The validator warns when a path placeholder is undeclared.</p>
+<h2>Reusable schemas and responses</h2>
+<p>Use a company- or module-specific prefix for all component names:</p>
+<pre><code class="language-json">&quot;components&quot;: {
+  &quot;schemas&quot;: {
+    &quot;AcmeModuleRecord&quot;: {
+      &quot;type&quot;: &quot;object&quot;,
+      &quot;properties&quot;: {
+        &quot;id&quot;: { &quot;type&quot;: &quot;integer&quot;, &quot;example&quot;: 42 },
+        &quot;name&quot;: { &quot;type&quot;: &quot;string&quot;, &quot;example&quot;: &quot;Example&quot; }
+      }
+    }
+  }
+}
+</code></pre>
+<p>Reference the component with:</p>
+<pre><code class="language-json">&quot;$ref&quot;: &quot;#/components/schemas/AcmeModuleRecord&quot;
+</code></pre>
+<p>The merger intentionally rejects duplicate component names. This prevents a custom file from silently replacing an upstream schema.</p>
+<h2>Rich documentation</h2>
+<p>For useful generated pages, include:</p>
+<ul>
+<li>a clear <code>summary</code>;</li>
+<li>an explanatory <code>description</code>;</li>
+<li>a unique <code>operationId</code>;</li>
+<li>parameter descriptions and examples;</li>
+<li>request-body schemas;</li>
+<li>success and failure responses;</li>
+<li>realistic JSON examples;</li>
+<li>reusable component definitions.</li>
+</ul>
+<h2>Multiple module files</h2>
+<p>You can split custom documentation by feature:</p>
+<pre><code class="language-text">openapi/custom/
+├── inventory.openapi.json
+├── provisioning.openapi.json
+├── reporting.openapi.json
+└── webhooks.openapi.json
+</code></pre>
+<p>Files are merged in alphabetical order. Endpoint and component collisions stop the build with a clear error.</p>
+<h2>Validate before publishing</h2>
+<pre><code class="language-bash">make validate
+</code></pre>
+<p>The bundled validator checks the basic OpenAPI structure, response definitions, duplicate operation IDs, path parameters, and broken internal <code>$ref</code> pointers.</p>
+</div>
+    <div class="guide-next">
+      <p>Continue exploring</p>
+      <a href="../../../reference"><span>API Reference</span><strong>Browse every documented operation</strong><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+    </div>
+  </article>
+  <aside class="toc-panel">
+    <div class="toc-panel__sticky"><p>On this page</p><nav data-toc></nav></div>
+  </aside>
+</div>
+      <footer class="site-footer">
+        <div>
+          <strong>eAD-CRM API</strong>
+          <p>Copyright 2026 eAdvertise</p>
+        </div>
+        <div class="site-footer__links">
+          <a href="../../../reference">API Reference</a>
+          <a href="../../../downloads/combined.openapi.json">OpenAPI JSON</a>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <dialog class="search-dialog" data-search-dialog aria-label="Search documentation">
+    <div class="search-dialog__panel">
+      <div class="search-dialog__header">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input type="search" autocomplete="off" spellcheck="false" placeholder="Search guides, endpoints and paths…" aria-label="Search" data-search-input>
+        <button type="button" data-search-close aria-label="Close search">Esc</button>
+      </div>
+      <div class="search-dialog__meta">
+        <span data-search-status>Start typing to search</span>
+        <span><kbd>↑</kbd><kbd>↓</kbd> navigate · <kbd>↵</kbd> open</span>
+      </div>
+      <div class="search-results" data-search-results></div>
+    </div>
+  </dialog>
+
+  <div class="toast" role="status" aria-live="polite" data-toast></div>
+  <script src="../../../assets/js/site.js" defer></script>
+</body>
+</html>

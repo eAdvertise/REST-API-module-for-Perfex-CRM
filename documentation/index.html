@@ -4,12 +4,14 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>eAD-CRM REST API Documentation</title>
 <style>
-:root{--nav:#101828;--bg:#f7f9fc;--card:#fff;--line:#dfe5ee;--text:#172033;--muted:#667085;--blue:#2563eb;--green:#087a55;--orange:#b54708;--red:#b42318}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 Arial,sans-serif}aside{position:fixed;inset:0 auto 0 0;width:285px;padding:22px 16px;overflow:auto;background:var(--nav);color:#fff}aside h1{font-size:20px;margin:0 0 4px}aside p{color:#98a2b3;margin:0 0 16px}aside input{width:100%;padding:10px;border:1px solid #344054;border-radius:7px;background:#1d2939;color:#fff;margin-bottom:12px}aside a{display:block;padding:6px 8px;color:#d0d5dd;text-decoration:none;border-radius:5px;font-size:13px}aside a:hover{background:#344054;color:#fff}main{margin-left:285px;max-width:1120px;padding:32px}.hero,.section{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:25px;margin-bottom:20px}.hero{background:linear-gradient(135deg,#173ea5,#0ea5e9);color:#fff}.hero p{color:#e0f2fe}.section h2{margin-top:0}.section h3{margin-top:24px;border-bottom:1px solid var(--line);padding-bottom:7px}p{color:var(--muted)}code,pre{font-family:Consolas,monospace}code{background:#eef2f7;padding:2px 5px;border-radius:4px}pre{background:#101828;color:#e4e7ec;padding:15px;border-radius:8px;overflow:auto}.endpoint{border:1px solid var(--line);border-radius:8px;padding:12px;margin:9px 0}.method{display:inline-block;min-width:58px;text-align:center;color:#fff;font-weight:bold;border-radius:5px;padding:3px 7px;margin-right:8px}.get{background:var(--green)}.post{background:var(--blue)}.put{background:var(--orange)}.delete{background:var(--red)}table{width:100%;border-collapse:collapse;margin:12px 0}th,td{border:1px solid var(--line);padding:9px;text-align:left;vertical-align:top}th{background:#eef4ff}.badge{display:inline-block;background:#e8f0ff;color:#1849a9;padding:2px 7px;border-radius:10px;margin:2px}.hidden{display:none!important}.note{border-left:4px solid var(--blue);background:#eff6ff;padding:12px}.warn{border-left-color:var(--orange);background:#fff7ed}@media(max-width:850px){aside{position:static;width:auto}main{margin:0;padding:16px}}
+:root{--nav:#101828;--bg:#f7f9fc;--card:#fff;--line:#dfe5ee;--text:#172033;--muted:#667085;--blue:#2563eb;--green:#087a55;--orange:#b54708;--red:#b42318}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 Arial,sans-serif}aside{position:fixed;inset:0 auto 0 0;width:285px;padding:22px 16px;overflow:auto;background:var(--nav);color:#fff}aside h1{font-size:20px;margin:0 0 4px}aside p{color:#98a2b3;margin:0 0 16px}aside input{width:100%;padding:10px;border:1px solid #344054;border-radius:7px;background:#1d2939;color:#fff;margin-bottom:12px}aside a{display:block;padding:6px 8px;color:#d0d5dd;text-decoration:none;border-radius:5px;font-size:13px}aside a:hover{background:#344054;color:#fff}main{margin-left:285px;max-width:1120px;padding:32px}.hero,.section{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:25px;margin-bottom:20px}.hero{background:linear-gradient(135deg,#173ea5,#0ea5e9);color:#fff}.hero p{color:inherit}.section h2{margin-top:0}.section h3{margin-top:24px;border-bottom:1px solid var(--line);padding-bottom:7px}p{color:var(--muted)}code,pre{font-family:Consolas,monospace}code{background:transparent;padding:0;border-radius:0}pre{background:#101828;color:#e4e7ec;padding:15px;border-radius:8px;overflow:auto}.endpoint{border:1px solid var(--line);border-radius:8px;padding:12px;margin:9px 0}.method{display:inline-block;min-width:58px;text-align:center;color:#fff;font-weight:bold;border-radius:5px;padding:3px 7px;margin-right:8px}.get{background:var(--green)}.post{background:var(--blue)}.put{background:var(--orange)}.delete{background:var(--red)}table{width:100%;border-collapse:collapse;margin:12px 0}th,td{border:1px solid var(--line);padding:9px;text-align:left;vertical-align:top}th{background:#eef4ff}.badge{display:inline-block;background:#e8f0ff;color:#1849a9;padding:2px 7px;border-radius:10px;margin:2px}.hidden{display:none!important}.note{border-left:4px solid var(--blue);background:#eff6ff;padding:12px}.warn{border-left-color:var(--orange);background:#fff7ed}@media(max-width:850px){aside{position:static;width:auto}main{margin:0;padding:16px}}
+
+.imported h2{margin-top:0}.imported h3{margin-top:24px;border-bottom:1px solid var(--line);padding-bottom:7px}.imported h4{margin-top:20px}.imported blockquote{margin:14px 0;border-left:4px solid var(--blue);background:#eff6ff;padding:10px 14px}.imported li{margin:5px 0}.imported details{border:1px solid var(--line);border-radius:8px;padding:10px;margin:10px 0}.imported summary{cursor:pointer;font-weight:700}.sample-operation{border-top:2px solid var(--line);padding-top:18px;margin-top:25px}.operation-header__topline{display:flex;gap:10px;align-items:center}.method-badge,.status-code,.type-pill{display:inline-block;background:var(--blue);color:#fff;border-radius:5px;padding:3px 7px;font-weight:bold}.status-code{background:var(--green)}.type-pill{background:#eef4ff;color:#1849a9}.required-dot:after{content:" required";color:var(--red);font-size:12px}.guide-meta,.operation-header__chips{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.guide-meta span,.operation-header__chips span,.operation-header__chips a{background:#eef4ff;border-radius:10px;padding:3px 8px;color:#1849a9}.auth-card{border-left:4px solid var(--green);background:#ecfdf3;padding:12px;margin:10px 0}.request-body__title,.doc-section__heading{margin-top:20px}.media-label{font-weight:bold}
 </style>
 </head>
 <body>
 <aside><h1>eAD-CRM REST API</h1><p>Complete local reference</p><input id="search" placeholder="Search documentation…"><nav id="nav">
-<a href="#start">Getting started</a><a href="#auth">Authentication</a><a href="#format">Requests & responses</a><a href="#errors">Errors</a><a href="#guest">Guest Checkout</a><a href="#resources">Core resources</a><a href="#sales">Sales</a><a href="#work">Projects & support</a><a href="#lookups">Common lookups</a><a href="#special">Special endpoints</a><a href="#webhooks">Webhooks</a><a href="#automation">Batch, MCP & automation</a><a href="#tooling">OpenAPI & tooling</a><a href="#security">Security</a>
+<a href="#start">Getting started</a><a href="#auth">Authentication</a><a href="#format">Requests & responses</a><a href="#errors">Errors</a><a href="#guest">Guest Checkout</a><a href="#resources">Core resources</a><a href="#sales">Sales</a><a href="#work">Projects & support</a><a href="#lookups">Common lookups</a><a href="#special">Special endpoints</a><a href="#webhooks">Webhooks</a><a href="#automation">Batch, MCP & automation</a><a href="#tooling">OpenAPI & tooling</a><a href="guides/overview/">Documentation architecture</a><a href="guides/custom/getting-started/">Getting started</a><a href="guides/custom/add-endpoints/">Adding custom endpoints</a><a href="guides/custom/branding/">Branding and design</a><a href="guides/custom/deployment/">Deployment</a><a href="guides/custom/importing-the-upstream/">Importing the upstream reference</a><a href="guides/custom/upstream-updates/">Updating the upstream base</a><a href="guides/vendor/readme/">Upstream guides</a><a href="reference/">Custom module example</a><a href="#security">Security</a>
 </nav></aside>
 <main>
 <section class="hero" id="start"><h1>eAD-CRM REST API Documentation</h1><p>An original, self-contained guide for the API and API-V3 modules, including Guest Invoice Checkout and extension points for future endpoints.</p><p><strong>Base URL:</strong> <code>https://your-domain.example/api</code> &nbsp; <strong>Format:</strong> JSON &nbsp; <strong>API version:</strong> 3.0.3</p></section>
@@ -45,7 +47,1135 @@
 <section class="section" id="special"><h2>Third-party and special endpoints</h2><div class="endpoint"><span class="method get">GET</span><code>/api/thirdparty/customtable/{table}</code><p>Read an allowed custom table.</p></div><div class="endpoint"><span class="method post">POST</span><code>/api/thirdparty/customtable/{table}</code><p>Create a custom-table row.</p></div><div class="endpoint"><span class="method get">GET</span><code>/api/thirdparty/customtable/{table}/{id}</code><p>Get one custom-table row; PUT and DELETE use the same path.</p></div><div class="note warn"><strong>Warning:</strong> custom-table access is powerful. Restrict token permissions and never expose arbitrary sensitive tables.</div></section>
 <section class="section" id="webhooks"><h2>Webhooks</h2><div class="endpoint"><span class="method get">GET</span><code>/api/webhooks</code></div><div class="endpoint"><span class="method post">POST</span><code>/api/webhooks</code></div><div class="endpoint"><span class="method put">PUT</span><code>/api/webhooks/{id}</code></div><div class="endpoint"><span class="method delete">DELETE</span><code>/api/webhooks/{id}</code></div><div class="endpoint"><span class="method post">POST</span><code>/api/webhooks/{id}/toggle</code></div><div class="endpoint"><span class="method get">GET</span><code>/api/webhooks/{id}/logs</code></div><div class="endpoint"><span class="method get">GET</span><code>/api/webhooks/events</code><p>List supported event names.</p></div><p>Verify signatures using the configured webhook secret, return a 2xx response quickly, process idempotently, and expect retries.</p></section>
 <section class="section" id="automation"><h2>Batch, MCP and automation</h2><div class="endpoint"><span class="method post">POST</span><code>/api/batch</code><p>Execute supported operations in a batch request.</p></div><div class="endpoint"><span class="method post">POST</span><code>/api/mcp</code><p>MCP JSON-RPC endpoint for initialize, ping, tools/list and tools/call.</p></div><div class="endpoint"><span class="method get">GET</span><code>/api/zapier/resources</code></div><div class="endpoint"><span class="method get">GET</span><code>/api/zapier/poll/{resource}</code></div><div class="endpoint"><span class="method get">GET</span><code>/api/zapier/test/{resource}</code></div></section>
-<section class="section" id="tooling"><h2>OpenAPI, Swagger, Postman and sandbox</h2><table><tr><th>Tool</th><th>URL</th></tr><tr><td>OpenAPI JSON</td><td><code>/api/openapi.json</code></td></tr><tr><td>Swagger UI</td><td><code>/api/playground/swagger</code></td></tr><tr><td>Interactive playground</td><td><code>/api/playground</code></td></tr><tr><td>Sandbox</td><td><code>/api/sandbox</code></td></tr><tr><td>Postman collection</td><td><code>/api/postman/download</code></td></tr></table><p>The generated OpenAPI contract is the authoritative machine-readable endpoint/schema source. Import it into Postman, Insomnia or a client generator.</p></section>
+<section class="section" id="tooling"><h2>OpenAPI, Swagger, Postman and sandbox</h2><table><tr><th>Tool</th><th>URL</th></tr><tr><td>OpenAPI JSON</td><td><code>/api/openapi.json</code></td></tr><tr><td>Swagger UI</td><td><code>/api/playground/swagger</code></td></tr><tr><td>Interactive playground</td><td><code>/api/playground</code></td></tr><tr><td>Sandbox</td><td><code>/api/sandbox</code></td></tr><tr><td>Postman collection</td><td><code>/api/postman/download</code></td></tr></table><p><a href="downloads/combined.openapi.json" download><strong>Download the bundled OpenAPI JSON</strong></a></p><p>The generated OpenAPI contract is the authoritative machine-readable endpoint/schema source. Import it into Postman, Insomnia or a client generator.</p></section>
+<section class="section imported" id="architecture"><h2>Documentation architecture</h2>
+<p>This project turns an OpenAPI document and a set of Markdown guides into a completely static documentation website. The generated <code>site/</code> directory has no server-side runtime and can be hosted by Nginx, Apache, a CDN, object storage, or any ordinary web server.</p>
+<h2>Source of truth</h2>
+<p>The generated HTML is <strong>not</strong> the source of truth. Edit these inputs instead:</p>
+<table>
+<thead>
+<tr>
+  <th>Content</th>
+  <th>Source directory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Standard eAD-CRM API</td>
+  <td><code>openapi/vendor/eAD-CRM.openapi.json</code></td>
+</tr>
+<tr>
+  <td>Your module endpoints</td>
+  <td><code>openapi/custom/*.json</code></td>
+</tr>
+<tr>
+  <td>Imported upstream guides</td>
+  <td><code>docs/vendor/*.md</code></td>
+</tr>
+<tr>
+  <td>Your own guides</td>
+  <td><code>docs/custom/*.md</code></td>
+</tr>
+<tr>
+  <td>Brand and site metadata</td>
+  <td><code>config/site.json</code></td>
+</tr>
+<tr>
+  <td>Layout and components</td>
+  <td><code>templates/*.html</code></td>
+</tr>
+<tr>
+  <td>Visual design</td>
+  <td><code>assets/css/site.css</code></td>
+</tr>
+<tr>
+  <td>Search and UI behaviour</td>
+  <td><code>assets/js/site.js</code></td>
+</tr>
+</tbody>
+</table>
+<p>The build merges the vendor and custom OpenAPI documents, validates internal references, then generates a page for every operation.</p>
+<h2>Recommended workflow</h2>
+<pre><code class="language-bash">make install
+make bootstrap
+make build
+make serve
+</code></pre>
+<p>Open <code>http://127.0.0.1:8080</code> to preview the result.</p>
+<p>For the most accurate reference, import the OpenAPI document directly from your licensed eAD-CRM installation instead of relying only on the public companion repository:</p>
+<pre><code class="language-bash">export EAD_CRM_BASE_URL=&quot;https://crm.example.com&quot;
+export EAD_CRM_API_TOKEN=&quot;replace-me&quot;
+make bootstrap-crm
+make build
+</code></pre>
+<h2>Safe customisation model</h2>
+<p>Keep upstream material and company-owned material separate:</p>
+<ul>
+<li>Never edit files in <code>openapi/vendor/</code> by hand.</li>
+<li>Never place company endpoints in the upstream checkout.</li>
+<li>Add one or more uniquely named JSON files to <code>openapi/custom/</code>.</li>
+<li>Add your guides to <code>docs/custom/</code>.</li>
+<li>Change the original theme in <code>templates/</code> and <code>assets/</code>.</li>
+</ul>
+<p>This separation allows upstream updates without overwriting your module documentation.</p>
+<h2>Next steps</h2>
+<ol>
+<li>Read <a href="#getting-started">Getting started</a>.</li>
+<li>Import the <a href="#upstream-import">upstream API reference</a>.</li>
+<li>Replace the sample endpoints using <a href="#custom-endpoints">Adding endpoints</a>.</li>
+<li>Apply your identity using <a href="#branding">Branding and design</a>.</li>
+<li>Publish the generated site using <a href="#deployment">Deployment</a>.</li>
+</ol>
+</section>
+<section class="section imported" id="getting-started"><h2>Getting started</h2>
+<p>Use this checklist to turn the starter into your own self-hosted API documentation project.</p>
+<h2>Prerequisites</h2>
+<p>You need:</p>
+<ul>
+<li>Python 3.10 or newer;</li>
+<li>Git;</li>
+<li>network access when importing the public upstream repository;</li>
+<li>optional Docker and Docker Compose for containerised hosting.</li>
+</ul>
+<p>No Node.js application or database is required. The final site consists only of HTML, CSS, JavaScript, JSON, and copied downloadable resources.</p>
+<h2>First build</h2>
+<p>Create the Python environment and install the two lightweight build dependencies:</p>
+<pre><code class="language-bash">make install
+</code></pre>
+<p>Build the included custom-module example:</p>
+<pre><code class="language-bash">make build
+</code></pre>
+<p>Start the local preview server:</p>
+<pre><code class="language-bash">make serve
+</code></pre>
+<p>Visit <code>http://127.0.0.1:8080</code>.</p>
+<blockquote>
+<p>The ZIP includes a prebuilt <code>site/</code> directory, so you can inspect or upload the starter immediately. Rebuilding is still the normal workflow after edits.</p>
+</blockquote>
+<h2>Import the standard API</h2>
+<p>To add the complete public eAD-CRM API reference and the upstream Markdown guides:</p>
+<pre><code class="language-bash">make bootstrap
+make build
+</code></pre>
+<p>For an exact match with your installed module version, import from your CRM:</p>
+<pre><code class="language-bash">export EAD_CRM_BASE_URL=&quot;https://crm.example.com&quot;
+export EAD_CRM_API_TOKEN=&quot;your-token&quot;
+make bootstrap-crm
+make build
+</code></pre>
+<p>The token is read from the environment and is never written to the generated site.</p>
+<h2>Set your identity</h2>
+<p>Edit <code>config/site.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;site_name&quot;: &quot;Acme CRM API&quot;,
+  &quot;company_name&quot;: &quot;Acme Ltd&quot;,
+  &quot;default_api_server&quot;: &quot;https://crm.acme.example/api&quot;,
+  &quot;logo_text&quot;: &quot;AC&quot;,
+  &quot;copyright&quot;: &quot;Copyright 2026 Acme Ltd&quot;
+}
+</code></pre>
+<p>Then rebuild:</p>
+<pre><code class="language-bash">make build
+</code></pre>
+<h2>Replace the sample module</h2>
+<p>The file <code>openapi/custom/your-module.openapi.json</code> demonstrates five operations, reusable schemas, shared responses, authentication, pagination, examples, and validation errors.</p>
+<p>Rename the file and replace:</p>
+<ul>
+<li>the <code>Your Module</code> tag;</li>
+<li><code>/your-module/items</code> paths;</li>
+<li><code>yourModule...</code> operation IDs;</li>
+<li><code>YourModule...</code> component names;</li>
+<li>payload and response examples.</li>
+</ul>
+<p>Keep custom component names unique to prevent collisions with the vendor specification.</p>
+<h2>Create your new Git repository</h2>
+<pre><code class="language-bash">git init -b main
+git add .
+git commit -m &quot;Initial API documentation platform&quot;
+# Add the repository remote after the new Git repository is ready.
+git push -u origin main
+</code></pre>
+<p>The generated <code>site/</code> directory is ignored by Git by default. The included GitHub Actions workflow builds it and publishes it as a CI artifact on every push.</p>
+</section>
+<section class="section imported" id="custom-endpoints"><h2>Adding custom endpoints</h2>
+<p>Document custom-module operations in one or more JSON files under <code>openapi/custom/</code>. Every file is merged into the vendor OpenAPI document during the build.</p>
+<h2>Minimal operation</h2>
+<p>Create <code>openapi/custom/my-module.openapi.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;openapi&quot;: &quot;3.0.3&quot;,
+  &quot;info&quot;: {
+    &quot;title&quot;: &quot;My module additions&quot;,
+    &quot;version&quot;: &quot;1.0.0&quot;
+  },
+  &quot;tags&quot;: [
+    {
+      &quot;name&quot;: &quot;My Module&quot;,
+      &quot;description&quot;: &quot;Endpoints supplied by our module.&quot;
+    }
+  ],
+  &quot;paths&quot;: {
+    &quot;/my-module/records&quot;: {
+      &quot;get&quot;: {
+        &quot;tags&quot;: [&quot;My Module&quot;],
+        &quot;summary&quot;: &quot;List records&quot;,
+        &quot;operationId&quot;: &quot;myModuleListRecords&quot;,
+        &quot;responses&quot;: {
+          &quot;200&quot;: {
+            &quot;description&quot;: &quot;Records returned successfully.&quot;
+          }
+        }
+      }
+    }
+  }
+}
+</code></pre>
+<p>Build and inspect the new page:</p>
+<pre><code class="language-bash">make build
+make serve
+</code></pre>
+<h2>Paths must be relative to <code>/api</code></h2>
+<p>The configured server normally ends with <code>/api</code>:</p>
+<pre><code class="language-text">https://crm.example.com/api
+</code></pre>
+<p>Therefore a real endpoint at:</p>
+<pre><code class="language-text">https://crm.example.com/api/my-module/records
+</code></pre>
+<p>uses this OpenAPI path:</p>
+<pre><code class="language-json">&quot;/my-module/records&quot;
+</code></pre>
+<p>Do not include <code>/api</code> a second time.</p>
+<h2>Authentication</h2>
+<p>The merged specification uses an API-key security scheme named <code>authtoken</code>. Apply it globally in the custom document:</p>
+<pre><code class="language-json">&quot;security&quot;: [
+  { &quot;authtoken&quot;: [] }
+]
+</code></pre>
+<p>Or apply it to one operation. To mark a public operation, explicitly use:</p>
+<pre><code class="language-json">&quot;security&quot;: []
+</code></pre>
+<h2>Path parameters</h2>
+<p>Every <code>{placeholder}</code> in a path must have a matching required path parameter:</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;id&quot;,
+  &quot;in&quot;: &quot;path&quot;,
+  &quot;required&quot;: true,
+  &quot;schema&quot;: {
+    &quot;type&quot;: &quot;integer&quot;,
+    &quot;minimum&quot;: 1
+  },
+  &quot;example&quot;: 42
+}
+</code></pre>
+<p>The validator warns when a path placeholder is undeclared.</p>
+<h2>Reusable schemas and responses</h2>
+<p>Use a company- or module-specific prefix for all component names:</p>
+<pre><code class="language-json">&quot;components&quot;: {
+  &quot;schemas&quot;: {
+    &quot;AcmeModuleRecord&quot;: {
+      &quot;type&quot;: &quot;object&quot;,
+      &quot;properties&quot;: {
+        &quot;id&quot;: { &quot;type&quot;: &quot;integer&quot;, &quot;example&quot;: 42 },
+        &quot;name&quot;: { &quot;type&quot;: &quot;string&quot;, &quot;example&quot;: &quot;Example&quot; }
+      }
+    }
+  }
+}
+</code></pre>
+<p>Reference the component with:</p>
+<pre><code class="language-json">&quot;$ref&quot;: &quot;#/components/schemas/AcmeModuleRecord&quot;
+</code></pre>
+<p>The merger intentionally rejects duplicate component names. This prevents a custom file from silently replacing an upstream schema.</p>
+<h2>Rich documentation</h2>
+<p>For useful generated pages, include:</p>
+<ul>
+<li>a clear <code>summary</code>;</li>
+<li>an explanatory <code>description</code>;</li>
+<li>a unique <code>operationId</code>;</li>
+<li>parameter descriptions and examples;</li>
+<li>request-body schemas;</li>
+<li>success and failure responses;</li>
+<li>realistic JSON examples;</li>
+<li>reusable component definitions.</li>
+</ul>
+<h2>Multiple module files</h2>
+<p>You can split custom documentation by feature:</p>
+<pre><code class="language-text">openapi/custom/
+├── inventory.openapi.json
+├── provisioning.openapi.json
+├── reporting.openapi.json
+└── webhooks.openapi.json
+</code></pre>
+<p>Files are merged in alphabetical order. Endpoint and component collisions stop the build with a clear error.</p>
+<h2>Validate before publishing</h2>
+<pre><code class="language-bash">make validate
+</code></pre>
+<p>The bundled validator checks the basic OpenAPI structure, response definitions, duplicate operation IDs, path parameters, and broken internal <code>$ref</code> pointers.</p>
+</section>
+<section class="section imported" id="branding"><h2>Branding and design</h2>
+<p>The starter uses an original, dependency-free theme. No CSS, JavaScript, templates, logos, or other visual assets are copied from the commercial documentation website.</p>
+<h2>Site metadata</h2>
+<p>Edit <code>config/site.json</code> to change the visible identity:</p>
+<pre><code class="language-json">{
+  &quot;site_name&quot;: &quot;Acme CRM API&quot;,
+  &quot;site_description&quot;: &quot;REST API documentation for Acme CRM integrations&quot;,
+  &quot;company_name&quot;: &quot;Acme Ltd&quot;,
+  &quot;base_path&quot;: &quot;&quot;,
+  &quot;default_api_server&quot;: &quot;https://crm.acme.example/api&quot;,
+  &quot;logo_text&quot;: &quot;AC&quot;,
+  &quot;copyright&quot;: &quot;Copyright 2026 Acme Ltd&quot;,
+  &quot;home_eyebrow&quot;: &quot;Developer platform&quot;,
+  &quot;home_title&quot;: &quot;Integrate with Acme CRM&quot;,
+  &quot;home_intro&quot;: &quot;Guides and API reference for our CRM platform.&quot;,
+  &quot;repository_url&quot;: &quot;&quot;,
+  &quot;support_url&quot;: &quot;https://support.acme.example&quot;
+}
+</code></pre>
+<p><code>base_path</code> remains empty when the site is hosted at the root of a domain. Use a value such as <code>/developers</code> when publishing under a subdirectory.</p>
+<h2>Logo</h2>
+<p>The header currently renders the short text from <code>logo_text</code> inside a gradient mark. To use an SVG logo:</p>
+<ol>
+<li>add the file under <code>assets/img/logo.svg</code>;</li>
+<li>edit the <code>.brand</code> block in <code>templates/base.html</code>;</li>
+<li>keep an accessible text label or <code>aria-label</code>;</li>
+<li>rebuild the site.</li>
+</ol>
+<h2>Colours and typography</h2>
+<p>All colour tokens are defined at the top of <code>assets/css/site.css</code>:</p>
+<pre><code class="language-css">:root {
+  --brand: #6848ee;
+  --brand-strong: #5131d8;
+  --accent: #0cae91;
+  --bg: #f7f8fc;
+  --surface: #ffffff;
+  --ink: #111827;
+}
+</code></pre>
+<p>Dark-mode values are defined under:</p>
+<pre><code class="language-css">html[data-theme=&quot;dark&quot;] { ... }
+</code></pre>
+<p>The project uses a system font stack and makes no request to Google Fonts or another third-party font service.</p>
+<h2>Page templates</h2>
+<p>The main templates are:</p>
+<table>
+<thead>
+<tr>
+  <th>Template</th>
+  <th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>templates/base.html</code></td>
+  <td>Header, sidebar, search dialog, footer</td>
+</tr>
+<tr>
+  <td><code>templates/home.html</code></td>
+  <td>Landing page and resource cards</td>
+</tr>
+<tr>
+  <td><code>templates/reference_index.html</code></td>
+  <td>Filterable API catalogue</td>
+</tr>
+<tr>
+  <td><code>templates/operation.html</code></td>
+  <td>Generated endpoint page</td>
+</tr>
+<tr>
+  <td><code>templates/guide.html</code></td>
+  <td>Markdown guide wrapper and table of contents</td>
+</tr>
+</tbody>
+</table>
+<p>Jinja templates receive site configuration, guide navigation, endpoint groups, and current-page context from <code>scripts/build_site.py</code>.</p>
+<h2>Client-side behaviour</h2>
+<p><code>assets/js/site.js</code> implements:</p>
+<ul>
+<li>responsive navigation;</li>
+<li>light and dark themes;</li>
+<li>copy-to-clipboard buttons;</li>
+<li>searchable guides and endpoints;</li>
+<li>keyboard search shortcut (<code>Ctrl/⌘ + K</code>);</li>
+<li>reference filtering;</li>
+<li>Markdown table of contents;</li>
+<li>reading progress.</li>
+</ul>
+<p>No analytics or tracking scripts are included.</p>
+<h2>Rebuild after design changes</h2>
+<pre><code class="language-bash">make build
+</code></pre>
+<p>Hard-refresh the browser when checking CSS or JavaScript changes. The included Nginx configuration caches static assets for performance.</p>
+</section>
+<section class="section imported" id="deployment"><h2>Deployment</h2>
+<p>The generated <code>site/</code> directory is a static website. Upload that directory—not the Python build environment—to your production server.</p>
+<h2>Build for production</h2>
+<pre><code class="language-bash">make build
+</code></pre>
+<p>The build creates:</p>
+<pre><code class="language-text">site/
+├── index.html
+├── assets/
+├── guides/
+├── reference/
+├── downloads/combined.openapi.json
+└── extras/
+</code></pre>
+<h2>Nginx</h2>
+<p>Copy the site to your web root:</p>
+<pre><code class="language-bash">sudo mkdir -p /var/www/api-docs
+sudo rsync -a --delete site/ /var/www/api-docs/
+</code></pre>
+<p>A complete Nginx example is provided at <code>deploy/nginx.conf</code>. For a dedicated virtual host, adapt it as follows:</p>
+<pre><code class="language-nginx">server {
+    listen 80;
+    listen [::]:80;
+    server_name docs.example.com;
+
+    root /var/www/api-docs;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ $uri/index.html =404;
+    }
+
+    location ~* \.(css|js|json|svg|png|jpg|jpeg|webp|ico|woff2?)$ {
+        expires 7d;
+        add_header Cache-Control &quot;public, immutable&quot;;
+        try_files $uri =404;
+    }
+}
+</code></pre>
+<p>Validate and reload:</p>
+<pre><code class="language-bash">sudo nginx -t
+sudo systemctl reload nginx
+</code></pre>
+<p>Add TLS using your normal certificate process before exposing API documentation publicly.</p>
+<h2>Included rsync helper</h2>
+<p>Edit the variables in <code>deploy/deploy-rsync.sh</code>, then run:</p>
+<pre><code class="language-bash">bash deploy/deploy-rsync.sh
+</code></pre>
+<p>The script builds the site and synchronises it to the configured host.</p>
+<h2>Docker</h2>
+<p>Build and run the included multi-stage image:</p>
+<pre><code class="language-bash">make docker-up
+</code></pre>
+<p>The documentation becomes available at:</p>
+<pre><code class="language-text">http://127.0.0.1:8080
+</code></pre>
+<p>The final container contains only Nginx and the generated static site.</p>
+<h2>Host under a subdirectory</h2>
+<p>When publishing at <code>https://example.com/developers/</code>, set:</p>
+<pre><code class="language-json">&quot;base_path&quot;: &quot;/developers&quot;
+</code></pre>
+<p>Rebuild and configure Nginx so the generated files are served from the same path.</p>
+<h2>GitHub Actions</h2>
+<p>The included <code>.github/workflows/build.yml</code> runs validation and builds <code>site/</code> on every push and pull request. The generated site is uploaded as a workflow artifact.</p>
+<p>You can extend that workflow to deploy to your server using your organisation's preferred SSH, S3, Pages, or CDN process. Keep production credentials in encrypted repository secrets.</p>
+<h2>Security notes</h2>
+<ul>
+<li>Never commit your eAD-CRM API token.</li>
+<li>Do not put production secrets in examples.</li>
+<li>Review downloadable Postman collections before publishing.</li>
+<li>Protect internal documentation with your reverse proxy or identity provider when required.</li>
+<li>Use HTTPS in production.</li>
+</ul>
+</section>
+<section class="section imported" id="upstream-import"><h2>Importing the upstream reference</h2>
+<p>The project deliberately keeps the standard eAD-CRM API in a vendor layer. Your own documentation remains separate and survives upstream refreshes.</p>
+<h2>Locked public snapshot</h2>
+<p>The starter records a known upstream commit in <code>config/upstream.json</code>. Import that reproducible snapshot with:</p>
+<pre><code class="language-bash">make bootstrap
+</code></pre>
+<p>The importer performs the following work:</p>
+<ol>
+<li>fetches the configured repository at the locked commit;</li>
+<li>copies the OpenAPI JSON into <code>openapi/vendor/eAD-CRM.openapi.json</code>;</li>
+<li>copies upstream Markdown guides into <code>docs/vendor/</code>;</li>
+<li>copies Postman and code examples into <code>extras/</code> when available;</li>
+<li>preserves the upstream MIT notice under <code>vendor/licenses/</code>;</li>
+<li>writes import metadata to <code>vendor/UPSTREAM_METADATA.json</code>.</li>
+</ol>
+<p>The imported checkout is cached under <code>vendor/upstream/</code> and ignored by your Git repository.</p>
+<h2>Exact import from your installation</h2>
+<p>The public reference may differ from the module version installed on your CRM. Use the CRM import when accuracy matters:</p>
+<pre><code class="language-bash">export EAD_CRM_BASE_URL=&quot;https://crm.example.com&quot;
+export EAD_CRM_API_TOKEN=&quot;your-api-token&quot;
+make bootstrap-crm
+</code></pre>
+<p>The importer tries both of the commonly exposed routes:</p>
+<pre><code class="language-text">/api/openapi.json
+/api/openapi
+</code></pre>
+<p>It sends the token in the <code>authtoken</code> header and stores only the returned OpenAPI document. The secret itself is never persisted.</p>
+<h2>Import from a specific commit</h2>
+<p>Use the Python command directly when you need a particular upstream commit or tag:</p>
+<pre><code class="language-bash">.venv/bin/python scripts/bootstrap.py \
+  --source github \
+  --ref COMMIT_OR_TAG \
+  --force
+</code></pre>
+<h2>Import the latest upstream branch</h2>
+<pre><code class="language-bash">make update-upstream
+</code></pre>
+<p>Review the generated diff before committing. An upstream change can add, remove, or rename operations and schemas.</p>
+<h2>Rebuild after every import</h2>
+<pre><code class="language-bash">make merge
+make validate
+make build
+</code></pre>
+<p><code>make build</code> already runs merge and validation, so the shorter equivalent is:</p>
+<pre><code class="language-bash">make build
+</code></pre>
+<h2>What not to edit</h2>
+<p>Do not hand-edit:</p>
+<pre><code class="language-text">openapi/vendor/eAD-CRM.openapi.json
+docs/vendor/*.md
+vendor/upstream/
+</code></pre>
+<p>Those files are replaceable vendor inputs. Put durable changes in <code>openapi/custom/</code>, <code>docs/custom/</code>, <code>templates/</code>, and <code>assets/</code>.</p>
+</section>
+<section class="section imported" id="upstream-updates"><h2>Updating the upstream base</h2>
+<p>Treat the public eAD-CRM companion repository as a vendor dependency. Update it deliberately, review the result, and keep your custom material isolated.</p>
+<h2>Check the current import</h2>
+<p>After <code>make bootstrap</code>, inspect:</p>
+<pre><code class="language-text">vendor/UPSTREAM_METADATA.json
+</code></pre>
+<p>It records the requested reference, resolved commit when available, import timestamp, API version, path count, and operation count.</p>
+<h2>Update to the current main branch</h2>
+<pre><code class="language-bash">make update-upstream
+make build
+</code></pre>
+<p>The update replaces vendor inputs but does not touch:</p>
+<pre><code class="language-text">openapi/custom/
+docs/custom/
+config/site.json
+templates/
+assets/
+</code></pre>
+<h2>Review the result</h2>
+<p>Before committing:</p>
+<pre><code class="language-bash">git status
+git diff --stat
+git diff
+</code></pre>
+<p>Pay particular attention to:</p>
+<ul>
+<li>removed or renamed paths;</li>
+<li>changed request fields;</li>
+<li>changed response schemas;</li>
+<li>component-name collisions;</li>
+<li>authentication changes;</li>
+<li>version-specific guide changes.</li>
+</ul>
+<h2>Resolve custom conflicts</h2>
+<p>The merger stops when a custom operation or component has the same identity as an upstream item. Rename your custom path, <code>operationId</code>, or component unless replacing the upstream definition is intentional.</p>
+<p>An explicit override mode exists for controlled migrations:</p>
+<pre><code class="language-bash">.venv/bin/python scripts/merge_openapi.py --allow-overrides
+</code></pre>
+<p>Avoid using this as the normal workflow. Silent vendor overrides make future updates harder to audit.</p>
+<h2>Pin a reviewed commit</h2>
+<p>After accepting an upstream version, update <code>locked_ref</code> in <code>config/upstream.json</code> to the exact reviewed commit. Future <code>make bootstrap</code> runs will then be reproducible.</p>
+<h2>Commit the dependency update</h2>
+<pre><code class="language-bash">git add config/upstream.json vendor/UPSTREAM_METADATA.json
+# Add vendor files too only if your repository policy tracks them.
+git commit -m &quot;Update eAD-CRM API documentation base&quot;
+</code></pre>
+<p>The starter ignores the large cached checkout and imported OpenAPI file by default. This keeps your repository small and allows CI or developers to re-import the pinned source.</p>
+</section>
+<section class="section imported" id="vendor-guides"><h2>Upstream guides</h2>
+<p>This directory is the import target for Markdown guides from the public eAD-CRM REST API companion repository.</p>
+<p>Run:</p>
+<pre><code class="language-bash">make bootstrap
+make build
+</code></pre>
+<p>The importer replaces or refreshes upstream guide files while preserving everything under <code>docs/custom/</code>.</p>
+<p>Do not put company-owned documentation in this directory. Use <code>docs/custom/</code> so upstream updates cannot overwrite it.</p>
+</section>
+<section class="section imported" id="sample-module"><h2>Custom module OpenAPI example</h2><p>The starter includes five complete sample operations with authentication, request schemas, response examples, validation errors and cURL requests.</p><div class="sample-operation">
+
+
+    <header class="operation-header">
+      <div class="operation-header__topline">
+        <span class="method-badge method-badge--post">POST</span>
+        <code>/your-module/items</code>
+
+      </div>
+      <h1>Create a module item</h1>
+<div class="operation-description"><p>Creates a new custom-module record and returns the stored resource.</p>
+</div>      <div class="operation-header__chips">
+        <a href="#yourmodulecreateitem-request">Request</a><a href="#yourmodulecreateitem-responses">Responses</a>
+<span>operationId: <code>yourModuleCreateItem</code></span>      </div>
+    </header>
+
+    <section class="doc-section" id="yourmodulecreateitem-authentication">
+      <div class="doc-section__heading"><span>01</span><div><h2>Authentication</h2><p>This endpoint requires an API token.</p></div></div>
+      <div class="auth-card">
+
+        <div><strong>Request header</strong><code>authtoken: YOUR_API_TOKEN</code></div>
+
+      </div>
+    </section>
+
+    <section class="doc-section" id="yourmodulecreateitem-request">
+      <div class="doc-section__heading"><span>02</span><div><h2>Request</h2><p>Path, query and body values accepted by this operation.</p></div></div>
+
+
+      <div class="request-body">
+        <div class="request-body__title"><h3 class="subheading">Request body</h3><span>application/json</span><b>required</b></div>
+        <div class="schema-table-wrap">
+          <table class="schema-table">
+            <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>name</code><span class="required-dot" title="Required"></span></td><td><span class="type-pill">string</span></td><td>Human-readable item name.</td></tr>
+              <tr><td><code>description</code></td><td><span class="type-pill">string</span></td><td>Optional long description.</td></tr>
+              <tr><td><code>active</code></td><td><span class="type-pill">boolean</span></td><td>Whether the item is currently active.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <details class="code-disclosure" open>
+          <summary>Example payload <span>application/json</span></summary>
+          <div class="code-block"><pre><code>{
+  &#34;name&#34;: &#34;Customer onboarding&#34;,
+  &#34;description&#34;: &#34;Initial onboarding workflow&#34;,
+  &#34;active&#34;: true
+}</code></pre></div>
+        </details>
+      </div>
+    </section>
+
+    <section class="doc-section" id="yourmodulecreateitem-responses">
+      <div class="doc-section__heading"><span>03</span><div><h2>Responses</h2><p>HTTP outcomes documented for this operation.</p></div></div>
+      <div class="response-list">
+        <details class="response-card" open>
+          <summary>
+            <span class="status-code status-code--2">201</span>
+            <strong>Item created successfully.</strong>
+
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><pre><code>{
+  &#34;status&#34;: true,
+  &#34;data&#34;: {
+    &#34;id&#34;: 42,
+    &#34;name&#34;: &#34;Customer onboarding&#34;,
+    &#34;description&#34;: &#34;Initial onboarding workflow&#34;,
+    &#34;active&#34;: true,
+    &#34;created_at&#34;: &#34;2026-08-06T12:00:00Z&#34;,
+    &#34;updated_at&#34;: &#34;2026-08-06T12:00:00Z&#34;
+  }
+}</code></pre></div>
+          </div>
+        </details>
+        <details class="response-card">
+          <summary>
+            <span class="status-code status-code--4">401</span>
+            <strong>The API token is missing or invalid.</strong>
+
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><pre><code>{
+  &#34;status&#34;: false,
+  &#34;message&#34;: &#34;Unauthorized request.&#34;
+}</code></pre></div>
+          </div>
+        </details>
+        <details class="response-card">
+          <summary>
+            <span class="status-code status-code--4">422</span>
+            <strong>One or more request values are invalid.</strong>
+
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><pre><code>{
+  &#34;status&#34;: false,
+  &#34;message&#34;: &#34;Validation failed.&#34;,
+  &#34;errors&#34;: {
+    &#34;name&#34;: [
+      &#34;The name field is required.&#34;
+    ]
+  }
+}</code></pre></div>
+          </div>
+        </details>
+        <details class="response-card">
+          <summary>
+            <span class="status-code status-code--5">500</span>
+            <strong>An unexpected server error occurred.</strong>
+
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><pre><code>{
+  &#34;status&#34;: false,
+  &#34;message&#34;: &#34;Internal server error.&#34;
+}</code></pre></div>
+          </div>
+        </details>
+      </div>
+    </section><div class="request-example">
+    <div class="code-panel__sticky">
+      <div class="code-panel__header"><div><span class="status-dot"></span><strong>Example request</strong></div><span>cURL</span></div>
+      <div class="code-block code-block--panel"><pre><code>curl -X POST &#34;https://crm.example.com/api/your-module/items&#34; \
+  -H &#34;authtoken: YOUR_API_TOKEN&#34; \
+  -H &#34;Content-Type: application/json&#34; \
+  -d &#39;{&#34;name&#34;: &#34;Customer onboarding&#34;, &#34;description&#34;: &#34;Initial onboarding workflow&#34;, &#34;active&#34;: true}&#39;</code></pre></div>
+      <div class="code-panel__tips">
+        <p><span>Replace the base URL and token before running the request.</span></p>
+        <a href="#getting-started">Getting started <span>→</span></a>
+      </div>
+    </div></div></div><div class="sample-operation">
+
+
+    <header class="operation-header">
+      <div class="operation-header__topline">
+        <span class="method-badge method-badge--delete">DELETE</span>
+        <code>/your-module/items/{id}</code>
+
+      </div>
+      <h1>Delete a module item</h1>
+<div class="operation-description"><p>Permanently removes a custom-module record.</p>
+</div>      <div class="operation-header__chips">
+        <a href="#yourmoduledeleteitem-request">Request</a><a href="#yourmoduledeleteitem-responses">Responses</a>
+<span>operationId: <code>yourModuleDeleteItem</code></span>      </div>
+    </header>
+
+    <section class="doc-section" id="yourmoduledeleteitem-authentication">
+      <div class="doc-section__heading"><span>01</span><div><h2>Authentication</h2><p>This endpoint requires an API token.</p></div></div>
+      <div class="auth-card">
+
+        <div><strong>Request header</strong><code>authtoken: YOUR_API_TOKEN</code></div>
+
+      </div>
+    </section>
+
+    <section class="doc-section" id="yourmoduledeleteitem-request">
+      <div class="doc-section__heading"><span>02</span><div><h2>Request</h2><p>Path, query and body values accepted by this operation.</p></div></div>
+
+      <h3 class="subheading">Parameters</h3>
+      <div class="parameter-list">
+        <article class="parameter-row">
+          <div class="parameter-row__name"><code>id</code><span>required</span></div>
+          <div class="parameter-row__meta"><span>integer</span><span>path</span></div>
+<p>Numeric item identifier.</p><div class="parameter-row__example"><small>Example</small><code>42</code></div>        </article>
+      </div>
+
+    </section>
+
+    <section class="doc-section" id="yourmoduledeleteitem-responses">
+      <div class="doc-section__heading"><span>03</span><div><h2>Responses</h2><p>HTTP outcomes documented for this operation.</p></div></div>
+      <div class="response-list">
+        <details class="response-card" open>
+          <summary>
+            <span class="status-code status-code--2">200</span>
+            <strong>Item deleted successfully.</strong>
+
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><pre><code>{
+  &#34;status&#34;: true,
+  &#34;message&#34;: &#34;Item deleted successfully.&#34;
+}</code></pre></div>
+          </div>
+        </details>
+        <details class="response-card">
+          <summary>
+            <span class="status-code status-code--4">401</span>
+            <strong>The API token is missing or invalid.</strong>
+
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><pre><code>{
+  &#34;status&#34;: false,
+  &#34;message&#34;: &#34;Unauthorized request.&#34;
+}</code></pre></div>
+          </div>
+        </details>
+        <details class="response-card">
+          <summary>
+            <span class="status-code status-code--4">404</span>
+            <strong>The requested item does not exist.</strong>
+
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><pre><code>{
+  &#34;status&#34;: false,
+  &#34;message&#34;: &#34;The requested item was not found.&#34;
+}</code></pre></div>
+          </div>
+        </details>
+      </div>
+    </section><div class="request-example">
+    <div class="code-panel__sticky">
+      <div class="code-panel__header"><div><span class="status-dot"></span><strong>Example request</strong></div><span>cURL</span></div>
+      <div class="code-block code-block--panel"><pre><code>curl -X DELETE &#34;https://crm.example.com/api/your-module/items/42&#34; \
+  -H &#34;authtoken: YOUR_API_TOKEN&#34;</code></pre></div>
+      <div class="code-panel__tips">
+        <p><span>Replace the base URL and token before running the request.</span></p>
+        <a href="#getting-started">Getting started <span>→</span></a>
+      </div>
+    </div></div></div><div class="sample-operation">
+
+
+    <header class="operation-header">
+      <div class="operation-header__topline">
+        <span class="method-badge method-badge--get">GET</span>
+        <code>/your-module/items/{id}</code>
+
+      </div>
+      <h1>Get a module item</h1>
+<div class="operation-description"><p>Returns one custom-module record by identifier.</p>
+</div>      <div class="operation-header__chips">
+        <a href="#yourmodulegetitem-request">Request</a><a href="#yourmodulegetitem-responses">Responses</a>
+<span>operationId: <code>yourModuleGetItem</code></span>      </div>
+    </header>
+
+    <section class="doc-section" id="yourmodulegetitem-authentication">
+      <div class="doc-section__heading"><span>01</span><div><h2>Authentication</h2><p>This endpoint requires an API token.</p></div></div>
+      <div class="auth-card">
+
+        <div><strong>Request header</strong><code>authtoken: YOUR_API_TOKEN</code></div>
+
+      </div>
+    </section>
+
+    <section class="doc-section" id="yourmodulegetitem-request">
+      <div class="doc-section__heading"><span>02</span><div><h2>Request</h2><p>Path, query and body values accepted by this operation.</p></div></div>
+
+      <h3 class="subheading">Parameters</h3>
+      <div class="parameter-list">
+        <article class="parameter-row">
+          <div class="parameter-row__name"><code>id</code><span>required</span></div>
+          <div class="parameter-row__meta"><span>integer</span><span>path</span></div>
+<p>Numeric item identifier.</p><div class="parameter-row__example"><small>Example</small><code>42</code></div>        </article>
+      </div>
+
+    </section>
+
+    <section class="doc-section" id="yourmodulegetitem-responses">
+      <div class="doc-section__heading"><span>03</span><div><h2>Responses</h2><p>HTTP outcomes documented for this operation.</p></div></div>
+      <div class="response-list">
+        <details class="response-card" open>
+          <summary>
+            <span class="status-code status-code--2">200</span>
+            <strong>Item returned successfully.</strong>
+
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><pre><code>{
+  &#34;status&#34;: true,
+  &#34;data&#34;: {
+    &#34;id&#34;: 42,
+    &#34;name&#34;: &#34;Customer onboarding&#34;,
+    &#34;description&#34;: &#34;Initial onboarding workflow&#34;,
+    &#34;active&#34;: true,
+    &#34;created_at&#34;: &#34;2026-08-06T12:00:00Z&#34;,
+    &#34;updated_at&#34;: &#34;2026-08-06T12:00:00Z&#34;
+  }
+}</code></pre></div>
+          </div>
+        </details>
+        <details class="response-card">
+          <summary>
+            <span class="status-code status-code--4">401</span>
+            <strong>The API token is missing or invalid.</strong>
+
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><pre><code>{
+  &#34;status&#34;: false,
+  &#34;message&#34;: &#34;Unauthorized request.&#34;
+}</code></pre></div>
+          </div>
+        </details>
+        <details class="response-card">
+          <summary>
+            <span class="status-code status-code--4">404</span>
+            <strong>The requested item does not exist.</strong>
+
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><pre><code>{
+  &#34;status&#34;: false,
+  &#34;message&#34;: &#34;The requested item was not found.&#34;
+}</code></pre></div>
+          </div>
+        </details>
+      </div>
+    </section><div class="request-example">
+    <div class="code-panel__sticky">
+      <div class="code-panel__header"><div><span class="status-dot"></span><strong>Example request</strong></div><span>cURL</span></div>
+      <div class="code-block code-block--panel"><pre><code>curl -X GET &#34;https://crm.example.com/api/your-module/items/42&#34; \
+  -H &#34;authtoken: YOUR_API_TOKEN&#34;</code></pre></div>
+      <div class="code-panel__tips">
+        <p><span>Replace the base URL and token before running the request.</span></p>
+        <a href="#getting-started">Getting started <span>→</span></a>
+      </div>
+    </div></div></div><div class="sample-operation">
+
+
+    <header class="operation-header">
+      <div class="operation-header__topline">
+        <span class="method-badge method-badge--get">GET</span>
+        <code>/your-module/items</code>
+
+      </div>
+      <h1>List module items</h1>
+<div class="operation-description"><p>Returns a paginated collection of records managed by the custom module.</p>
+</div>      <div class="operation-header__chips">
+        <a href="#yourmodulelistitems-request">Request</a><a href="#yourmodulelistitems-responses">Responses</a>
+<span>operationId: <code>yourModuleListItems</code></span>      </div>
+    </header>
+
+    <section class="doc-section" id="yourmodulelistitems-authentication">
+      <div class="doc-section__heading"><span>01</span><div><h2>Authentication</h2><p>This endpoint requires an API token.</p></div></div>
+      <div class="auth-card">
+
+        <div><strong>Request header</strong><code>authtoken: YOUR_API_TOKEN</code></div>
+
+      </div>
+    </section>
+
+    <section class="doc-section" id="yourmodulelistitems-request">
+      <div class="doc-section__heading"><span>02</span><div><h2>Request</h2><p>Path, query and body values accepted by this operation.</p></div></div>
+
+      <h3 class="subheading">Parameters</h3>
+      <div class="parameter-list">
+        <article class="parameter-row">
+          <div class="parameter-row__name"><code>page</code></div>
+          <div class="parameter-row__meta"><span>integer</span><span>query</span></div>
+<p>One-based page number.</p><div class="parameter-row__example"><small>Example</small><code>1</code></div>        </article>
+        <article class="parameter-row">
+          <div class="parameter-row__name"><code>per_page</code></div>
+          <div class="parameter-row__meta"><span>integer</span><span>query</span></div>
+<p>Maximum number of records returned per page.</p><div class="parameter-row__example"><small>Example</small><code>25</code></div>        </article>
+        <article class="parameter-row">
+          <div class="parameter-row__name"><code>search</code></div>
+          <div class="parameter-row__meta"><span>string</span><span>query</span></div>
+<p>Optional free-text search value.</p><div class="parameter-row__example"><small>Example</small><code>onboarding</code></div>        </article>
+      </div>
+
+    </section>
+
+    <section class="doc-section" id="yourmodulelistitems-responses">
+      <div class="doc-section__heading"><span>03</span><div><h2>Responses</h2><p>HTTP outcomes documented for this operation.</p></div></div>
+      <div class="response-list">
+        <details class="response-card" open>
+          <summary>
+            <span class="status-code status-code--2">200</span>
+            <strong>Items returned successfully.</strong>
+
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><pre><code>{
+  &#34;status&#34;: true,
+  &#34;data&#34;: [
+    {
+      &#34;id&#34;: 42,
+      &#34;name&#34;: &#34;Customer onboarding&#34;,
+      &#34;description&#34;: &#34;Initial onboarding workflow&#34;,
+      &#34;active&#34;: true,
+      &#34;created_at&#34;: &#34;2026-08-06T12:00:00Z&#34;,
+      &#34;updated_at&#34;: &#34;2026-08-06T12:00:00Z&#34;
+    }
+  ],
+  &#34;meta&#34;: {
+    &#34;page&#34;: 1,
+    &#34;per_page&#34;: 25,
+    &#34;total&#34;: 1
+  }
+}</code></pre></div>
+          </div>
+        </details>
+        <details class="response-card">
+          <summary>
+            <span class="status-code status-code--4">401</span>
+            <strong>The API token is missing or invalid.</strong>
+
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><pre><code>{
+  &#34;status&#34;: false,
+  &#34;message&#34;: &#34;Unauthorized request.&#34;
+}</code></pre></div>
+          </div>
+        </details>
+        <details class="response-card">
+          <summary>
+            <span class="status-code status-code--5">500</span>
+            <strong>An unexpected server error occurred.</strong>
+
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><pre><code>{
+  &#34;status&#34;: false,
+  &#34;message&#34;: &#34;Internal server error.&#34;
+}</code></pre></div>
+          </div>
+        </details>
+      </div>
+    </section><div class="request-example">
+    <div class="code-panel__sticky">
+      <div class="code-panel__header"><div><span class="status-dot"></span><strong>Example request</strong></div><span>cURL</span></div>
+      <div class="code-block code-block--panel"><pre><code>curl -X GET &#34;https://crm.example.com/api/your-module/items&#34; \
+  -H &#34;authtoken: YOUR_API_TOKEN&#34;</code></pre></div>
+      <div class="code-panel__tips">
+        <p><span>Replace the base URL and token before running the request.</span></p>
+        <a href="#getting-started">Getting started <span>→</span></a>
+      </div>
+    </div></div></div><div class="sample-operation">
+
+
+    <header class="operation-header">
+      <div class="operation-header__topline">
+        <span class="method-badge method-badge--put">PUT</span>
+        <code>/your-module/items/{id}</code>
+
+      </div>
+      <h1>Update a module item</h1>
+<div class="operation-description"><p>Updates an existing custom-module record.</p>
+</div>      <div class="operation-header__chips">
+        <a href="#yourmoduleupdateitem-request">Request</a><a href="#yourmoduleupdateitem-responses">Responses</a>
+<span>operationId: <code>yourModuleUpdateItem</code></span>      </div>
+    </header>
+
+    <section class="doc-section" id="yourmoduleupdateitem-authentication">
+      <div class="doc-section__heading"><span>01</span><div><h2>Authentication</h2><p>This endpoint requires an API token.</p></div></div>
+      <div class="auth-card">
+
+        <div><strong>Request header</strong><code>authtoken: YOUR_API_TOKEN</code></div>
+
+      </div>
+    </section>
+
+    <section class="doc-section" id="yourmoduleupdateitem-request">
+      <div class="doc-section__heading"><span>02</span><div><h2>Request</h2><p>Path, query and body values accepted by this operation.</p></div></div>
+
+      <h3 class="subheading">Parameters</h3>
+      <div class="parameter-list">
+        <article class="parameter-row">
+          <div class="parameter-row__name"><code>id</code><span>required</span></div>
+          <div class="parameter-row__meta"><span>integer</span><span>path</span></div>
+<p>Numeric item identifier.</p><div class="parameter-row__example"><small>Example</small><code>42</code></div>        </article>
+      </div>
+
+      <div class="request-body">
+        <div class="request-body__title"><h3 class="subheading">Request body</h3><span>application/json</span><b>required</b></div>
+        <div class="schema-table-wrap">
+          <table class="schema-table">
+            <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>name</code><span class="required-dot" title="Required"></span></td><td><span class="type-pill">string</span></td><td>Human-readable item name.</td></tr>
+              <tr><td><code>description</code></td><td><span class="type-pill">string</span></td><td>Optional long description.</td></tr>
+              <tr><td><code>active</code></td><td><span class="type-pill">boolean</span></td><td>Whether the item is currently active.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <details class="code-disclosure" open>
+          <summary>Example payload <span>application/json</span></summary>
+          <div class="code-block"><pre><code>{
+  &#34;name&#34;: &#34;Updated onboarding workflow&#34;,
+  &#34;description&#34;: &#34;Revised workflow description&#34;,
+  &#34;active&#34;: true
+}</code></pre></div>
+        </details>
+      </div>
+    </section>
+
+    <section class="doc-section" id="yourmoduleupdateitem-responses">
+      <div class="doc-section__heading"><span>03</span><div><h2>Responses</h2><p>HTTP outcomes documented for this operation.</p></div></div>
+      <div class="response-list">
+        <details class="response-card" open>
+          <summary>
+            <span class="status-code status-code--2">200</span>
+            <strong>Item updated successfully.</strong>
+
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><pre><code>{
+  &#34;status&#34;: true,
+  &#34;data&#34;: {
+    &#34;id&#34;: 42,
+    &#34;name&#34;: &#34;Customer onboarding&#34;,
+    &#34;description&#34;: &#34;Initial onboarding workflow&#34;,
+    &#34;active&#34;: true,
+    &#34;created_at&#34;: &#34;2026-08-06T12:00:00Z&#34;,
+    &#34;updated_at&#34;: &#34;2026-08-06T12:00:00Z&#34;
+  }
+}</code></pre></div>
+          </div>
+        </details>
+        <details class="response-card">
+          <summary>
+            <span class="status-code status-code--4">401</span>
+            <strong>The API token is missing or invalid.</strong>
+
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><pre><code>{
+  &#34;status&#34;: false,
+  &#34;message&#34;: &#34;Unauthorized request.&#34;
+}</code></pre></div>
+          </div>
+        </details>
+        <details class="response-card">
+          <summary>
+            <span class="status-code status-code--4">404</span>
+            <strong>The requested item does not exist.</strong>
+
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><pre><code>{
+  &#34;status&#34;: false,
+  &#34;message&#34;: &#34;The requested item was not found.&#34;
+}</code></pre></div>
+          </div>
+        </details>
+        <details class="response-card">
+          <summary>
+            <span class="status-code status-code--4">422</span>
+            <strong>One or more request values are invalid.</strong>
+
+          </summary>
+          <div class="response-card__body">
+              <p class="media-label">application/json</p>
+              <div class="code-block"><pre><code>{
+  &#34;status&#34;: false,
+  &#34;message&#34;: &#34;Validation failed.&#34;,
+  &#34;errors&#34;: {
+    &#34;name&#34;: [
+      &#34;The name field is required.&#34;
+    ]
+  }
+}</code></pre></div>
+          </div>
+        </details>
+      </div>
+    </section><div class="request-example">
+    <div class="code-panel__sticky">
+      <div class="code-panel__header"><div><span class="status-dot"></span><strong>Example request</strong></div><span>cURL</span></div>
+      <div class="code-block code-block--panel"><pre><code>curl -X PUT &#34;https://crm.example.com/api/your-module/items/42&#34; \
+  -H &#34;authtoken: YOUR_API_TOKEN&#34; \
+  -H &#34;Content-Type: application/json&#34; \
+  -d &#39;{&#34;name&#34;: &#34;Updated onboarding workflow&#34;, &#34;description&#34;: &#34;Revised workflow description&#34;, &#34;active&#34;: true}&#39;</code></pre></div>
+      <div class="code-panel__tips">
+        <p><span>Replace the base URL and token before running the request.</span></p>
+        <a href="#getting-started">Getting started <span>→</span></a>
+      </div>
+    </div></div></div></section>
 <section class="section" id="security"><h2>Production checklist</h2><ul><li>Use HTTPS only.</li><li>Create separate least-privilege tokens per integration.</li><li>Rotate exposed tokens immediately.</li><li>Do not commit SQL dumps, credentials or real payloads.</li><li>Validate webhook signatures and use idempotency keys for retried writes.</li><li>Log correlation ids, not secrets or full payment data.</li><li>Test migrations and API writes on staging before production.</li></ul><h3>Adding future endpoints</h3><ol><li>Add controller and explicit routes before generic routes.</li><li>Register token capabilities.</li><li>Add OpenAPI schemas and paths.</li><li>Add safe examples here without production data.</li><li>Add validation, migration and compatibility tests.</li></ol></section>
 </main>
 <script>const q=document.getElementById('search'),sections=[...document.querySelectorAll('main section')];q.addEventListener('input',()=>{const s=q.value.trim().toLowerCase();sections.forEach(x=>x.classList.toggle('hidden',s&&!x.textContent.toLowerCase().includes(s)))})</script>

@@ -1,13 +1,13 @@
-# Self-hosted Perfex API Documentation Starter
+# Self-hosted eAD-CRM API Documentation Starter
 
-Πλήρης πλατφόρμα για να εισάγεις την υφιστάμενη τεκμηρίωση του Perfex REST API, να προσθέσεις τα endpoints του δικού σας module, να αλλάξεις εξ ολοκλήρου design/branding και να κάνεις host το αποτέλεσμα στον δικό σου server.
+Πλήρης πλατφόρμα για να εισάγεις την υφιστάμενη τεκμηρίωση του eAD-CRM REST API, να προσθέσεις τα endpoints του δικού σας module, να αλλάξεις εξ ολοκλήρου design/branding και να κάνεις host το αποτέλεσμα στον δικό σου server.
 
 Το project παράγει στατικό HTML. Δεν χρειάζεται PHP, Node.js, βάση δεδομένων ή application server στην παραγωγή.
 
 ## Τι περιλαμβάνει
 
 - reproducible import από το επίσημο public companion Git repository;
-- εναλλακτικό import του OpenAPI από τη δική σας Perfex εγκατάσταση;
+- εναλλακτικό import του OpenAPI από τη δική σας eAD-CRM εγκατάσταση;
 - αυστηρό separation μεταξύ `vendor` και `custom` περιεχομένου;
 - merge και structural validation OpenAPI αρχείων;
 - μία generated σελίδα ανά API operation;
@@ -23,7 +23,7 @@
 ## Αρχιτεκτονική
 
 ```text
-openapi/vendor/perfex.openapi.json   Εισαγόμενο standard Perfex API
+openapi/vendor/eAD-CRM.openapi.json   Εισαγόμενο standard eAD-CRM API
                 +
 openapi/custom/*.json                Δικά σας module endpoints
                 ↓
@@ -118,13 +118,13 @@ make build
 
 ```bash
 make install
-make bootstrap-local UPSTREAM_LOCAL_PATH=../perfex-rest-api-examples
+make bootstrap-local UPSTREAM_LOCAL_PATH=../eAD-CRM-rest-api-examples
 make build
 ```
 
 Το repository που δείχνει το `UPSTREAM_LOCAL_PATH` παραμένει ξεχωριστό. Το project αντιγράφει μόνο το OpenAPI, τα guides, τα snippets, τις Postman συλλογές και το license που χρειάζεται.
 
-## Import από τη δική σας Perfex εγκατάσταση
+## Import από τη δική σας eAD-CRM εγκατάσταση
 
 Αυτός είναι ο καλύτερος τρόπος όταν θέλεις η τεκμηρίωση να αντιστοιχεί ακριβώς στην έκδοση του module που έχετε εγκατεστημένη.
 
@@ -135,8 +135,8 @@ cp .env.example .env
 Συμπλήρωσε:
 
 ```dotenv
-PERFEX_BASE_URL=https://crm.example.com
-PERFEX_API_TOKEN=YOUR_REAL_TOKEN
+EAD_CRM_BASE_URL=https://crm.example.com
+EAD_CRM_API_TOKEN=YOUR_REAL_TOKEN
 ```
 
 Μετά:
@@ -294,10 +294,10 @@ git push -u origin main
 
 ## Licensing και attribution
 
-Ο κώδικας, τα templates και το theme αυτού του starter είναι ανεξάρτητα από το live εμπορικό site. Το public Themesic companion repository εισάγεται ως third-party vendor material και συνοδεύεται από το MIT notice στο:
+Ο κώδικας, τα templates και το theme αυτού του starter είναι ανεξάρτητα από το live εμπορικό site. Το public eAdvertise companion repository εισάγεται ως third-party vendor material και συνοδεύεται από το MIT notice στο:
 
 ```text
-vendor/licenses/themesic-MIT.txt
+vendor/licenses/eAdvertise-MIT.txt
 THIRD_PARTY_NOTICES.md
 ```
 
