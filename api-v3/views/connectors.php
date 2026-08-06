@@ -21,12 +21,12 @@
                         data-toggle="tooltip" 
                         data-placement="top" 
                         data-html="true"
-                        title="<strong><i class=&quot;fa fa-star&quot;></i> Looking for a ready-made solution?</strong><br />Get our official Zapier Module for Perfex CRM - a fully approved, pre-configured Zapier app that works out of the box!"
+                        title="<strong><i class=&quot;fa fa-star&quot;></i> Looking for a ready-made solution?</strong><br />Get our official Zapier Module for eAD-CRM - a fully approved, pre-configured Zapier app that works out of the box!"
                         style="color: #f39c12; cursor: pointer; margin-left: 5px; font-size: 0.9em; text-decoration: none;">
                         <i class="fa fa-info-circle"></i>
                      </a>
                   </h3>
-                  <p>Connect Perfex CRM with 5000+ apps via Zapier</p>
+                  <p>Connect eAD-CRM with 5000+ apps via Zapier</p>
                   
                   <a href="<?php echo site_url('modules/api/download_manifest.php?platform=zapier'); ?>" class="btn btn-warning btn-sm" target="_blank" download>
                      <i class="fa fa-download"></i> Download Manifest
