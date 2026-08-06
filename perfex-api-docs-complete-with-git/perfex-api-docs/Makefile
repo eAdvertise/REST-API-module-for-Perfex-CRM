@@ -18,7 +18,7 @@ help:
 	  'make bootstrap        Import the locked public GitHub snapshot' \
 	  'make bootstrap-local  Import an already downloaded upstream repository' \
 	  'make update-upstream  Import the latest upstream main branch' \
-	  'make bootstrap-crm    Import OpenAPI from PERFEX_BASE_URL using PERFEX_API_TOKEN' \
+	  'make bootstrap-crm    Import OpenAPI from EAD_CRM_BASE_URL using EAD_CRM_API_TOKEN' \
 	  'make merge            Merge vendor and custom OpenAPI documents' \
 	  'make validate         Run structural OpenAPI checks' \
 	  'make build            Generate the static site/' \
@@ -44,7 +44,7 @@ update-upstream:
 	$(RUN_PYTHON) scripts/bootstrap.py --source github --latest --force
 
 bootstrap-crm:
-	$(RUN_PYTHON) scripts/bootstrap.py --source crm --crm-url "$(PERFEX_BASE_URL)" --force
+	$(RUN_PYTHON) scripts/bootstrap.py --source crm --crm-url "$(EAD_CRM_BASE_URL)" --force
 
 merge:
 	$(RUN_PYTHON) scripts/merge_openapi.py
@@ -68,7 +68,7 @@ package: build
 	bash scripts/package.sh
 
 docker-build:
-	docker build -t perfex-api-docs .
+	docker build -t eAD-CRM-api-docs .
 
 docker-up:
 	docker compose up --build

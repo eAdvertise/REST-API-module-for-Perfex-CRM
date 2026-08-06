@@ -19,10 +19,10 @@ if ($Crm) {
             }
         }
     }
-    if (-not $env:PERFEX_BASE_URL -or -not $env:PERFEX_API_TOKEN) {
-        throw "Set PERFEX_BASE_URL and PERFEX_API_TOKEN in the environment or .env"
+    if (-not $env:EAD_CRM_BASE_URL -or -not $env:EAD_CRM_API_TOKEN) {
+        throw "Set EAD_CRM_BASE_URL and EAD_CRM_API_TOKEN in the environment or .env"
     }
-    & .\.venv\Scripts\python.exe scripts\bootstrap.py --source crm --crm-url $env:PERFEX_BASE_URL --force
+    & .\.venv\Scripts\python.exe scripts\bootstrap.py --source crm --crm-url $env:EAD_CRM_BASE_URL --force
 } elseif (-not $CustomOnly) {
     & .\.venv\Scripts\python.exe scripts\bootstrap.py --source github
 }

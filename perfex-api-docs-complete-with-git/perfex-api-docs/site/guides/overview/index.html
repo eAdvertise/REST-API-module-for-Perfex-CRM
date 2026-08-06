@@ -145,8 +145,8 @@
 </thead>
 <tbody>
 <tr>
-  <td>Standard Perfex API</td>
-  <td><code>openapi/vendor/perfex.openapi.json</code></td>
+  <td>Standard eAD-CRM API</td>
+  <td><code>openapi/vendor/eAD-CRM.openapi.json</code></td>
 </tr>
 <tr>
   <td>Your module endpoints</td>
@@ -186,9 +186,9 @@ make build
 make serve
 </code></pre>
 <p>Open <code>http://127.0.0.1:8080</code> to preview the result.</p>
-<p>For the most accurate reference, import the OpenAPI document directly from your licensed Perfex CRM installation instead of relying only on the public companion repository:</p>
-<pre><code class="language-bash">export PERFEX_BASE_URL=&quot;https://crm.example.com&quot;
-export PERFEX_API_TOKEN=&quot;replace-me&quot;
+<p>For the most accurate reference, import the OpenAPI document directly from your licensed eAD-CRM installation instead of relying only on the public companion repository:</p>
+<pre><code class="language-bash">export EAD_CRM_BASE_URL=&quot;https://crm.example.com&quot;
+export EAD_CRM_API_TOKEN=&quot;replace-me&quot;
 make bootstrap-crm
 make build
 </code></pre>

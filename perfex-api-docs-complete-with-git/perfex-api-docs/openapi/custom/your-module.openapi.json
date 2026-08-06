@@ -12,7 +12,7 @@
   "tags": [
     {
       "name": "Your Module",
-      "description": "Example operations supplied by your custom Perfex CRM module. Replace this tag and its paths with your implementation."
+      "description": "Example operations supplied by your custom eAD-CRM module. Replace this tag and its paths with your implementation."
     }
   ],
   "paths": {

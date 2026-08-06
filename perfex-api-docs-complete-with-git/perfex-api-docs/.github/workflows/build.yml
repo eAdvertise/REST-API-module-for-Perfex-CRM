@@ -1,0 +1,33 @@
+name: Build documentation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Import locked upstream reference
+        run: python scripts/bootstrap.py --source github
+      - name: Merge and validate OpenAPI
+        run: |
+          python scripts/merge_openapi.py
+          python scripts/validate_openapi.py openapi/combined.openapi.json
+      - name: Build static documentation
+        run: python scripts/build_site.py
+      - name: Check generated links and assets
+        run: python scripts/check_site.py site
+      - uses: actions/upload-artifact@v4
+        with:
+          name: static-api-docs
+          path: site/
+          if-no-files-found: error

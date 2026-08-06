@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#0b1020">
   <title>Importing the upstream reference · Your Company API</title>
-  <meta name="description" content="The project deliberately keeps the standard Perfex API in a vendor layer. Your own documentation remains separate and survives upstream refreshes.">
+  <meta name="description" content="The project deliberately keeps the standard eAD-CRM API in a vendor layer. Your own documentation remains separate and survives upstream refreshes.">
   <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/site.css">
   <script>
@@ -133,7 +133,7 @@
     <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Documentation</a><span>/</span><span>Custom</span></nav>
     <div class="guide-meta"><span>Custom</span><span>Guide</span></div>
     <div class="prose" data-prose><h1>Importing the upstream reference</h1>
-<p>The project deliberately keeps the standard Perfex API in a vendor layer. Your own documentation remains separate and survives upstream refreshes.</p>
+<p>The project deliberately keeps the standard eAD-CRM API in a vendor layer. Your own documentation remains separate and survives upstream refreshes.</p>
 <h2>Locked public snapshot</h2>
 <p>The starter records a known upstream commit in <code>config/upstream.json</code>. Import that reproducible snapshot with:</p>
 <pre><code class="language-bash">make bootstrap
@@ -141,7 +141,7 @@
 <p>The importer performs the following work:</p>
 <ol>
 <li>fetches the configured repository at the locked commit;</li>
-<li>copies the OpenAPI JSON into <code>openapi/vendor/perfex.openapi.json</code>;</li>
+<li>copies the OpenAPI JSON into <code>openapi/vendor/eAD-CRM.openapi.json</code>;</li>
 <li>copies upstream Markdown guides into <code>docs/vendor/</code>;</li>
 <li>copies Postman and code examples into <code>extras/</code> when available;</li>
 <li>preserves the upstream MIT notice under <code>vendor/licenses/</code>;</li>
@@ -150,8 +150,8 @@
 <p>The imported checkout is cached under <code>vendor/upstream/</code> and ignored by your Git repository.</p>
 <h2>Exact import from your installation</h2>
 <p>The public reference may differ from the module version installed on your CRM. Use the CRM import when accuracy matters:</p>
-<pre><code class="language-bash">export PERFEX_BASE_URL=&quot;https://crm.example.com&quot;
-export PERFEX_API_TOKEN=&quot;your-api-token&quot;
+<pre><code class="language-bash">export EAD_CRM_BASE_URL=&quot;https://crm.example.com&quot;
+export EAD_CRM_API_TOKEN=&quot;your-api-token&quot;
 make bootstrap-crm
 </code></pre>
 <p>The importer tries both of the commonly exposed routes:</p>
@@ -180,7 +180,7 @@ make build
 </code></pre>
 <h2>What not to edit</h2>
 <p>Do not hand-edit:</p>
-<pre><code class="language-text">openapi/vendor/perfex.openapi.json
+<pre><code class="language-text">openapi/vendor/eAD-CRM.openapi.json
 docs/vendor/*.md
 vendor/upstream/
 </code></pre>
