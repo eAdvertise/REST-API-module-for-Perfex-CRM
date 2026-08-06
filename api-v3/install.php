@@ -276,8 +276,8 @@ if (!$CI->db->table_exists(db_prefix() . 'api_webhooks')) {
         `last_triggered` DATETIME DEFAULT NULL,
         `success_count` INT(11) DEFAULT 0,
         `failure_count` INT(11) DEFAULT 0,
-        `date_created` DATETIME DEFAULT CURRENT_TIMESTAMP,
-        `date_updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        `date_created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `date_updated` TIMESTAMP NULL DEFAULT NULL,
         PRIMARY KEY (`id`),
         INDEX `idx_active` (`active`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;');
@@ -335,7 +335,7 @@ if (!$CI->db->table_exists(db_prefix() . 'api_webhook_logs')) {
         `error_message` TEXT DEFAULT NULL,
         `attempt_number` INT(11) DEFAULT 1,
         `status` ENUM("pending", "success", "failed") DEFAULT "pending",
-        `triggered_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+        `triggered_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (`id`),
         INDEX `idx_webhook_id` (`webhook_id`),
         INDEX `idx_status` (`status`),
@@ -429,6 +429,7 @@ if (!$CI->db->table_exists(db_prefix() . 'api_webhook_queue')) {
 if (!$CI->db->table_exists(db_prefix() . 'api_idempotency_keys')) {
     $CI->db->query("
         CREATE TABLE `" . db_prefix() . "api_idempotency_keys` (
+            `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
             `idem_key` VARCHAR(191) NOT NULL,
             `api_key` VARCHAR(255) NOT NULL DEFAULT '',
             `method` VARCHAR(10) NOT NULL DEFAULT 'post',
@@ -436,7 +437,8 @@ if (!$CI->db->table_exists(db_prefix() . 'api_idempotency_keys')) {
             `response_code` INT(11) NOT NULL DEFAULT 200,
             `response_body` LONGTEXT NULL,
             `created_at` DATETIME NOT NULL,
-            PRIMARY KEY (`idem_key`, `api_key`),
+            PRIMARY KEY (`id`),
+            UNIQUE KEY `idx_idem_lookup` (`idem_key`(100), `api_key`(64)),
             KEY `idx_created` (`created_at`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     ");

@@ -46,14 +46,14 @@ class Openapi extends App_Controller
             // 3.0-compatible (simple types + oneOf), so we declare 3.0.3.
             'openapi' => '3.0.3',
             'info'    => [
-                'title'       => 'Perfex CRM REST API',
+                'title'       => 'eAD-CRM REST API',
                 // Sourced from the module version so the spec never drifts.
                 'version'     => defined('API_MODULE_VERSION') ? API_MODULE_VERSION : '3.0.3',
-                'description' => 'REST API for Perfex CRM by Themesic Interactive. '
+                'description' => 'REST API for eAD-CRM by eAdvertise.eu. '
                     . 'Authenticate every request with the authtoken header. '
                     . 'Lists support page/per_page pagination, sort, fields selection and date-range filters. '
                     . 'An MCP server for AI agents is available at POST /api/mcp.',
-                'contact' => ['url' => 'https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/'],
+                'contact' => ['url' => 'https://www.eadvertise.eu'],
             ],
             'servers'  => [['url' => $base]],
             'security' => [['authtoken' => []]],
@@ -89,6 +89,75 @@ class Openapi extends App_Controller
                             'error'   => ['type' => 'string'],
                             'message' => ['type' => 'string'],
                             'errors'  => ['type' => 'object', 'additionalProperties' => ['type' => 'string']],
+                        ],
+                    ],
+                    'GuestInvoiceItem' => [
+                        'type' => 'object',
+                        'required' => ['description', 'qty', 'rate'],
+                        'properties' => [
+                            'description' => ['type' => 'string'],
+                            'long_description' => ['type' => 'string'],
+                            'qty' => ['type' => 'number'],
+                            'rate' => ['type' => 'number'],
+                            'unit' => ['type' => 'string'],
+                            'taxname' => [
+                                'oneOf' => [
+                                    ['type' => 'string'],
+                                    ['type' => 'array', 'items' => ['type' => 'string']],
+                                ],
+                                'description' => 'Tax name/rate format accepted by Perfex CRM, for example VAT|24.00',
+                            ],
+                        ],
+                    ],
+                    'GuestInvoiceRequest' => [
+                        'type' => 'object',
+                        'required' => ['email', 'items'],
+                        'properties' => [
+                            'email' => ['type' => 'string', 'format' => 'email'],
+                            'name' => ['type' => 'string'],
+                            'company' => ['type' => 'string'],
+                            'phone' => ['type' => 'string'],
+                            'address' => ['type' => 'string'],
+                            'city' => ['type' => 'string'],
+                            'state' => ['type' => 'string'],
+                            'zip' => ['type' => 'string'],
+                            'country' => ['type' => 'integer'],
+                            'currency' => ['type' => 'integer'],
+                            'items' => ['type' => 'array', 'items' => ['$ref' => '#/components/schemas/GuestInvoiceItem']],
+                            'send_email' => ['type' => 'boolean'],
+                            'update_existing_name' => ['type' => 'boolean'],
+                        ],
+                    ],
+                    'GuestCheckoutRequest' => [
+                        'allOf' => [
+                            ['$ref' => '#/components/schemas/GuestInvoiceRequest'],
+                            ['type' => 'object', 'required' => ['payment_mode'], 'properties' => [
+                                'payment_mode' => ['type' => 'integer'],
+                                'payment_date' => ['type' => 'string', 'format' => 'date'],
+                                'transaction_id' => ['type' => 'string'],
+                                'payment_note' => ['type' => 'string'],
+                                'send_email_mode' => ['type' => 'string', 'enum' => ['auto', 'never', 'always']],
+                            ]],
+                        ],
+                    ],
+                    'GuestInvoiceResponse' => [
+                        'type' => 'object',
+                        'properties' => [
+                            'status' => ['type' => 'boolean'],
+                            'client_id' => ['type' => 'integer'],
+                            'contact_id' => ['type' => 'integer'],
+                            'invoice_id' => ['type' => 'integer'],
+                            'invoice_number' => ['type' => 'string'],
+                            'message' => ['type' => 'string'],
+                        ],
+                    ],
+                    'GuestCheckoutResponse' => [
+                        'allOf' => [
+                            ['$ref' => '#/components/schemas/GuestInvoiceResponse'],
+                            ['type' => 'object', 'properties' => [
+                                'payment_id' => ['type' => 'integer'],
+                                'email_sent' => ['type' => 'boolean'],
+                            ]],
                         ],
                     ],
                     'ListMeta' => [
@@ -205,6 +274,33 @@ class Openapi extends App_Controller
             ],
         ];
 
+        // Guest invoices / checkout
+        $spec['tags'][] = ['name' => 'Guest Invoices'];
+        $spec['paths']['/guest_invoices'] = [
+            'post' => [
+                'tags' => ['Guest Invoices'],
+                'summary' => 'Create or reuse a guest and create an invoice',
+                'requestBody' => $this->json_body('#/components/schemas/GuestInvoiceRequest'),
+                'responses' => $this->guest_invoice_responses('#/components/schemas/GuestInvoiceResponse'),
+            ],
+        ];
+        $spec['paths']['/guest_invoices/checkout'] = [
+            'post' => [
+                'tags' => ['Guest Invoices'],
+                'summary' => 'Create or reuse a guest, create an invoice, record payment and optionally email invoice/receipt PDFs',
+                'requestBody' => $this->json_body('#/components/schemas/GuestCheckoutRequest'),
+                'responses' => $this->guest_invoice_responses('#/components/schemas/GuestCheckoutResponse'),
+            ],
+        ];
+        $spec['paths']['/guestinvoices/checkout'] = [
+            'post' => [
+                'tags' => ['Guest Invoices'],
+                'summary' => 'Legacy checkout alias for /guest_invoices/checkout',
+                'requestBody' => $this->json_body('#/components/schemas/GuestCheckoutRequest'),
+                'responses' => $this->guest_invoice_responses('#/components/schemas/GuestCheckoutResponse'),
+            ],
+        ];
+
         // Webhook management extras
         $spec['tags'][] = ['name' => 'Webhooks'];
         $spec['paths']['/webhooks/events'] = [
@@ -239,6 +335,26 @@ class Openapi extends App_Controller
     private function id_param()
     {
         return ['name' => 'id', 'in' => 'path', 'required' => true, 'schema' => ['type' => 'integer']];
+    }
+
+    private function json_body($schemaRef)
+    {
+        return [
+            'required' => true,
+            'content' => [
+                'application/json' => ['schema' => ['$ref' => $schemaRef]],
+                'multipart/form-data' => ['schema' => ['$ref' => $schemaRef]],
+            ],
+        ];
+    }
+
+    private function guest_invoice_responses($schemaRef)
+    {
+        return [
+            '201' => ['description' => 'Created', 'content' => ['application/json' => ['schema' => ['$ref' => $schemaRef]]]],
+            '400' => ['description' => 'Invalid request', 'content' => ['application/json' => ['schema' => ['$ref' => '#/components/schemas/Error']]]],
+            '422' => ['description' => 'Validation failed', 'content' => ['application/json' => ['schema' => ['$ref' => '#/components/schemas/ValidationError']]]],
+        ];
     }
 
     private function form_body($description)

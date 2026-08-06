@@ -3,11 +3,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * Module Name: My Shopify Module
- * Description: View Shopify shop orders, customers, products, and discounts directly from the Perfex CRM dashboard.
- * Author: eAdvertise Creative Digital Agency
- * Author URI: https://www.eadvertise.eu
+ * Description: View Shopify shop orders, customers, products, and discounts directly from the eAD-CRM dashboard.
  * Version: 1.0.0
  * Requires at least: 3.0.*
+ * Author: eAdvertise.eu
+ * Author URI: https://www.eadvertise.eu
  */
 
 require_once __DIR__ . '/vendor/autoload.php';
