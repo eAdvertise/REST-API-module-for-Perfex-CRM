@@ -28,7 +28,6 @@ define('API_MODULE_NAME', 'api');
 define('API_MODULE_VERSION', '3.0.3');
 hooks()->add_action('admin_init', 'api_init_menu_items');
 
-modules\api\core\Apiinit::the_da_vinci_code(API_MODULE_NAME);
 
 /**
 * Load the module helper
@@ -181,17 +180,6 @@ function api_init_menu_items()
     }
 }
 
-hooks()->add_action('app_init', API_MODULE_NAME . '_actLib');
-function api_actLib()
-{
-    $CI = &get_instance();
-    $CI->load->library(API_MODULE_NAME . '/api_aeiou');
-    $license_valid = $CI->api_aeiou->validatePurchase(API_MODULE_NAME);
-    if (!$license_valid) {
-        set_alert('danger', 'One of your modules failed its verification and got deactivated. Please reactivate or contact support.');
-    }
-}
-
 // REMOVED: Zapier route interception - now handled by CodeIgniter routing directly
 // Routes are defined in config/routes.php and handled by Zapier controller
 
@@ -205,26 +193,6 @@ function api_register_connector_routes()
         log_message('debug', 'API Module: Attempting to register connector routes');
     }
 }
-
-hooks()->add_action('pre_activate_module', API_MODULE_NAME . '_sidecheck');
-function api_sidecheck($module_name)
-{
-    if (API_MODULE_NAME == $module_name['system_name']) {
-        modules\api\core\Apiinit::activate($module_name);
-    }
-}
-
-hooks()->add_action('pre_deactivate_module', API_MODULE_NAME . '_deregister');
-function api_deregister($module_name)
-{
-    if (API_MODULE_NAME == $module_name['system_name']) {
-        delete_option(API_MODULE_NAME . '_verification_id');
-        delete_option(API_MODULE_NAME . '_last_verification');
-        delete_option(API_MODULE_NAME . '_product_token');
-        delete_option(API_MODULE_NAME . '_heartbeat');
-    }
-}
-
 
 // "Support period over" notice removed (provider-neutral).
 
@@ -408,23 +376,12 @@ function api_process_webhook_queue()
 hooks()->add_action('admin_init', 'api_webhook_queue_fallback');
 
 /**
- * v3: daily fire-and-forget update-availability check (cached in options,
- * 5s network budget at most once per day, never blocks or errors the admin).
+ * Vendor self-update checks are disabled intentionally.
+ * This fork is maintained in-repo and should not contact the upstream vendor.
  */
-hooks()->add_action('admin_init', 'api_daily_update_check');
 function api_daily_update_check()
 {
-    try {
-        $last = (int)get_option('api_update_last_check');
-        if (time() - $last < 86400) {
-            return;
-        }
-        require_once __DIR__ . '/libraries/Api_Self_Update.php';
-        $updater = new Api_Self_Update();
-        $updater->checkForUpdate();
-    } catch (Exception $e) {
-        // Never let the update check surface in the admin
-    }
+    return null;
 }
 function api_webhook_queue_fallback()
 {
