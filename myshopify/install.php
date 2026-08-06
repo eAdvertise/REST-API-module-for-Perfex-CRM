@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $CI = &get_instance();
 
 // Add options for storing module settings.
-add_option('myshopify_purchase_is_valid', 0);
+add_option('myshopify_purchase_is_valid', 1);
 add_option('shopify_access_token', '');
 add_option('shopify_shop_url', '');
 
