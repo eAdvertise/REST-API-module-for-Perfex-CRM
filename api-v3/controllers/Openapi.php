@@ -105,7 +105,7 @@ class Openapi extends App_Controller
                                     ['type' => 'string'],
                                     ['type' => 'array', 'items' => ['type' => 'string']],
                                 ],
-                                'description' => 'Tax name/rate format accepted by eAD-CRM, for example VAT|24.00',
+                                'description' => 'Tax name/rate format accepted by Perfex CRM, for example VAT|24.00',
                             ],
                         ],
                     ],

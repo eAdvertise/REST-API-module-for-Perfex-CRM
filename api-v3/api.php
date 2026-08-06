@@ -185,7 +185,7 @@ function api_ensure_guest_checkout_email_template()
 }
 
 
-	
+
 // Register permissions for custom Guest Invoices API endpoints.
 hooks()->add_filter('api_permissions', 'api_guest_invoices_permissions');
 function api_guest_invoices_permissions($apiPermissions)
@@ -202,7 +202,8 @@ function api_guest_invoices_permissions($apiPermissions)
 }
 
 
-	
+
+
 /**
  * Init api module menu items in setup in admin_init hook
  * @return null
@@ -227,7 +228,7 @@ function api_init_menu_items()
             'href'     => admin_url('api/api_management'),
             'position' => 10,
         ]);
-        
+
         // 2. Webhooks
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-webhooks-options',
@@ -235,7 +236,7 @@ function api_init_menu_items()
             'href'     => admin_url('api/event_webhooks'),
             'position' => 20,
         ]);
-        
+
         // 3. Sandbox
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-sandbox-options',
@@ -243,7 +244,7 @@ function api_init_menu_items()
             'href'     => site_url('api/playground'),
             'position' => 30,
         ]);
-        
+
         // 4. Statistics
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-user-stats-options',
@@ -251,7 +252,7 @@ function api_init_menu_items()
             'href'     => admin_url('api/user_stats'),
             'position' => 40,
         ]);
-        
+
         // 5. Reports
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-reporting-options',
@@ -259,7 +260,7 @@ function api_init_menu_items()
             'href'     => admin_url('api/reporting'),
             'position' => 50,
         ]);
-        
+
         // 6. Settings
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-settings-options',
@@ -267,7 +268,7 @@ function api_init_menu_items()
             'href'     => admin_url('api/settings'),
             'position' => 60,
         ]);
-        
+
         // 7. Automation Connectors
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-connectors-options',
@@ -275,7 +276,7 @@ function api_init_menu_items()
             'href'     => admin_url('api/automation_connectors'),
             'position' => 65,
         ]);
-        
+
         // 8. Documentation
         $CI->app_menu->add_sidebar_children_item('api-options', [
             'slug'     => 'api-guide-options',
