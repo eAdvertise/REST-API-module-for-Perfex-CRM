@@ -25,10 +25,6 @@ class Myshopify extends AdminController
      */
     public function products()
     {
-        if(get_option('myshopify_purchase_is_valid') != 1){
-            set_alert('danger', 'MyShopify verification are missing. Please verify them first.');
-            redirect(admin_url('myshopify/verify'));
-        }
         $data['products'] = $this->shopify_model->get_products();
         $this->load->view('shopify_import_view', $data);
     }
@@ -38,10 +34,6 @@ class Myshopify extends AdminController
      */
     public function customers()
     {
-        if(get_option('myshopify_purchase_is_valid') != 1){
-            set_alert('danger', 'MyShopify verification are missing. Please verify them first.');
-            redirect(admin_url('myshopify/verify'));
-        }
         $data['customers'] = $this->shopify_model->get_customers();
         $this->load->view('customers', $data);
     }
@@ -51,10 +43,6 @@ class Myshopify extends AdminController
      */
     public function discounts()
     {
-        if(get_option('myshopify_purchase_is_valid') != 1){
-            set_alert('danger', 'MyShopify verification are missing. Please verify them first.');
-            redirect(admin_url('myshopify/verify'));
-        }
         $data['title'] = 'Shopify Discount Codes';
         $data['discounts'] = $this->shopify_model->get_discounts();
         $this->load->view('myshopify/discounts', $data);
@@ -65,10 +53,6 @@ class Myshopify extends AdminController
      */
     public function orders()
     {
-        if(get_option('myshopify_purchase_is_valid') != 1){
-            set_alert('danger', 'MyShopify verification are missing. Please verify them first.');
-            redirect(admin_url('myshopify/verify'));
-        }
         $data['orders'] = $this->shopify_model->get_orders();
         $this->load->view('orders', $data);
     }
@@ -96,10 +80,6 @@ class Myshopify extends AdminController
      */
     public function categories()
     {
-        if(get_option('myshopify_purchase_is_valid') != 1){
-            set_alert('danger', 'MyShopify verification are missing. Please verify them first.');
-            redirect(admin_url('myshopify/verify'));
-        }
         $data['categories'] = $this->shopify_model->get_categories();
         $this->load->view('shopify_category', $data);
     }
@@ -401,16 +381,10 @@ class Myshopify extends AdminController
     {
         if ($this->input->post()) {
             $post_data = $this->input->post();
-            $purchase_code = $post_data['settings']['myshopify_purchase_code'];
+            $post_data['settings']['myshopify_purchase_is_valid'] = 1;
+            $success = $this->settings_model->update($post_data);
 
-            if (myshopifys_verify($purchase_code, MYSHOPIFY_MODULE_NAME)) {
-                $post_data['settings']['myshopify_purchase_is_valid'] = 1;
-                $success = $this->settings_model->update($post_data);
-
-                set_alert($success ? 'success' : 'danger', $success ? _l('Settings updated') : _l('An error occurred while updating settings'));
-            } else {
-                set_alert('danger', _l('Purchase code is invalid'));
-            }
+            set_alert($success ? 'success' : 'danger', $success ? _l('Settings updated') : _l('An error occurred while updating settings'));
 
             redirect(admin_url('myshopify/verify'));
         }
