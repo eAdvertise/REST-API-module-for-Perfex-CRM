@@ -1,6 +1,6 @@
 # Importing the upstream reference
 
-The project deliberately keeps the standard Perfex API in a vendor layer. Your own documentation remains separate and survives upstream refreshes.
+The project deliberately keeps the standard eAD-CRM API in a vendor layer. Your own documentation remains separate and survives upstream refreshes.
 
 ## Locked public snapshot
 
@@ -13,7 +13,7 @@ make bootstrap
 The importer performs the following work:
 
 1. fetches the configured repository at the locked commit;
-2. copies the OpenAPI JSON into `openapi/vendor/perfex.openapi.json`;
+2. copies the OpenAPI JSON into `openapi/vendor/eAD-CRM.openapi.json`;
 3. copies upstream Markdown guides into `docs/vendor/`;
 4. copies Postman and code examples into `extras/` when available;
 5. preserves the upstream MIT notice under `vendor/licenses/`;
@@ -26,8 +26,8 @@ The imported checkout is cached under `vendor/upstream/` and ignored by your Git
 The public reference may differ from the module version installed on your CRM. Use the CRM import when accuracy matters:
 
 ```bash
-export PERFEX_BASE_URL="https://crm.example.com"
-export PERFEX_API_TOKEN="your-api-token"
+export EAD_CRM_BASE_URL="https://crm.example.com"
+export EAD_CRM_API_TOKEN="your-api-token"
 make bootstrap-crm
 ```
 
@@ -78,7 +78,7 @@ make build
 Do not hand-edit:
 
 ```text
-openapi/vendor/perfex.openapi.json
+openapi/vendor/eAD-CRM.openapi.json
 docs/vendor/*.md
 vendor/upstream/
 ```

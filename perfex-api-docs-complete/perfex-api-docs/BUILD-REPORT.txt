@@ -1,4 +1,4 @@
-Perfex API Documentation Starter - Build Report
+eAD-CRM API Documentation Starter - Build Report
 ================================================
 Generated: 2026-08-06
 Starter version: 0.1.0
@@ -23,10 +23,10 @@ Quality checks:
 - CSS top-level parsing: 0 errors
 
 Upstream import:
-- Repository: themesic/perfex-rest-api-examples
+- Repository: eAdvertise/eAD-CRM-rest-api-examples
 - Locked commit: 032d9008aebd66f14a63a7796a82e1ef2938b470
 - Online import: make bootstrap
-- Existing local clone: make bootstrap-local UPSTREAM_LOCAL_PATH=../perfex-rest-api-examples
+- Existing local clone: make bootstrap-local UPSTREAM_LOCAL_PATH=../eAD-CRM-rest-api-examples
 - Exact CRM installation: make bootstrap-crm
 
 The full public upstream reference is intentionally not embedded in the initial

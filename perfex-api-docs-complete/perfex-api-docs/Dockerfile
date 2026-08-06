@@ -3,7 +3,7 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
-RUN if [ ! -f openapi/vendor/perfex.openapi.json ]; then python scripts/bootstrap.py --source github; fi \
+RUN if [ ! -f openapi/vendor/eAD-CRM.openapi.json ]; then python scripts/bootstrap.py --source github; fi \
  && python scripts/merge_openapi.py \
  && python scripts/validate_openapi.py openapi/combined.openapi.json \
  && python scripts/build_site.py
