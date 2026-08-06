@@ -28,6 +28,7 @@ define('API_MODULE_NAME', 'api');
 define('API_MODULE_VERSION', '3.0.3');
 hooks()->add_action('admin_init', 'api_init_menu_items');
 
+
 /**
 * Load the module helper
 */
@@ -300,8 +301,6 @@ function api_register_connector_routes()
         log_message('debug', 'API Module: Attempting to register connector routes');
     }
 }
-
-
 
 // "Support period over" notice removed (provider-neutral).
 
