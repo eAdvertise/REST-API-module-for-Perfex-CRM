@@ -1,52 +1,332 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="auto">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>eAD-CRM REST API Documentation</title>
-<style>
-:root{--nav:#101828;--bg:#f7f9fc;--card:#fff;--line:#dfe5ee;--text:#172033;--muted:#667085;--blue:#2563eb;--green:#087a55;--orange:#b54708;--red:#b42318}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 Arial,sans-serif}aside{position:fixed;inset:0 auto 0 0;width:285px;padding:22px 16px;overflow:auto;background:var(--nav);color:#fff}aside h1{font-size:20px;margin:0 0 4px}aside p{color:#98a2b3;margin:0 0 16px}aside input{width:100%;padding:10px;border:1px solid #344054;border-radius:7px;background:#1d2939;color:#fff;margin-bottom:12px}aside a{display:block;padding:6px 8px;color:#d0d5dd;text-decoration:none;border-radius:5px;font-size:13px}aside a:hover{background:#344054;color:#fff}main{margin-left:285px;max-width:1120px;padding:32px}.hero,.section{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:25px;margin-bottom:20px}.hero{background:linear-gradient(135deg,#173ea5,#0ea5e9);color:#fff}.hero p{color:#e0f2fe}.section h2{margin-top:0}.section h3{margin-top:24px;border-bottom:1px solid var(--line);padding-bottom:7px}p{color:var(--muted)}code,pre{font-family:Consolas,monospace}code{background:#eef2f7;padding:2px 5px;border-radius:4px}pre{background:#101828;color:#e4e7ec;padding:15px;border-radius:8px;overflow:auto}.endpoint{border:1px solid var(--line);border-radius:8px;padding:12px;margin:9px 0}.method{display:inline-block;min-width:58px;text-align:center;color:#fff;font-weight:bold;border-radius:5px;padding:3px 7px;margin-right:8px}.get{background:var(--green)}.post{background:var(--blue)}.put{background:var(--orange)}.delete{background:var(--red)}table{width:100%;border-collapse:collapse;margin:12px 0}th,td{border:1px solid var(--line);padding:9px;text-align:left;vertical-align:top}th{background:#eef4ff}.badge{display:inline-block;background:#e8f0ff;color:#1849a9;padding:2px 7px;border-radius:10px;margin:2px}.hidden{display:none!important}.note{border-left:4px solid var(--blue);background:#eff6ff;padding:12px}.warn{border-left-color:var(--orange);background:#fff7ed}@media(max-width:850px){aside{position:static;width:auto}main{margin:0;padding:16px}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#0b1020">
+  <title>eAD-CRM API</title>
+  <meta name="description" content="eAD-CRM REST API and custom module reference">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script>
+    (function () {
+      var saved = localStorage.getItem('docs-theme');
+      if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
+    })();
+  </script>
 </head>
-<body>
-<aside><h1>eAD-CRM REST API</h1><p>Complete local reference</p><input id="search" placeholder="Search documentation…"><nav id="nav">
-<a href="#start">Getting started</a><a href="#auth">Authentication</a><a href="#format">Requests & responses</a><a href="#errors">Errors</a><a href="#guest">Guest Checkout</a><a href="#resources">Core resources</a><a href="#sales">Sales</a><a href="#work">Projects & support</a><a href="#lookups">Common lookups</a><a href="#special">Special endpoints</a><a href="#webhooks">Webhooks</a><a href="#automation">Batch, MCP & automation</a><a href="#tooling">OpenAPI & tooling</a><a href="#security">Security</a>
-</nav></aside>
-<main>
-<section class="hero" id="start"><h1>eAD-CRM REST API Documentation</h1><p>An original, self-contained guide for the API and API-V3 modules, including Guest Invoice Checkout and extension points for future endpoints.</p><p><strong>Base URL:</strong> <code>https://your-domain.example/api</code> &nbsp; <strong>Format:</strong> JSON &nbsp; <strong>API version:</strong> 3.0.3</p></section>
-<section class="section" id="auth"><h2>Authentication</h2><p>Create an API user/token in the CRM API management screen and grant only the required capabilities. Send the token with every protected request.</p><pre>curl "https://your-domain.example/api/customers" \
-  -H "authtoken: YOUR_API_TOKEN" \
-  -H "Accept: application/json"</pre><div class="note"><strong>Important:</strong> use the <code>authtoken</code> header. Never place production tokens in URLs, JavaScript bundles, screenshots, repositories or documentation examples.</div></section>
-<section class="section" id="format"><h2>Requests, responses and pagination</h2><p>Write endpoints accept JSON and, where supported, form data. Use <code>Content-Type: application/json</code>. Collection endpoints may support <code>page</code>, <code>per_page</code>, <code>sort</code>, field selection and date filters depending on the resource.</p><pre>curl -X POST "https://your-domain.example/api/leads" \
-  -H "authtoken: YOUR_API_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Example Lead","email":"lead@example.com","source":1,"status":1}'</pre><table><tr><th>Pattern</th><th>Purpose</th></tr><tr><td><code>GET /api/{resource}</code></td><td>List records</td></tr><tr><td><code>GET /api/{resource}/{id}</code></td><td>Retrieve one record</td></tr><tr><td><code>GET /api/{resource}/search/{keyword}</code></td><td>Search where supported</td></tr><tr><td><code>POST /api/{resource}</code></td><td>Create</td></tr><tr><td><code>PUT /api/{resource}/{id}</code></td><td>Update</td></tr><tr><td><code>DELETE /api/{resource}/{id}</code></td><td>Delete</td></tr></table></section>
-<section class="section" id="errors"><h2>HTTP status and errors</h2><table><tr><th>Status</th><th>Meaning</th></tr><tr><td>200</td><td>Successful read/update</td></tr><tr><td>201</td><td>Resource created</td></tr><tr><td>400</td><td>Malformed request</td></tr><tr><td>401/403</td><td>Missing, invalid or insufficient token permission</td></tr><tr><td>404</td><td>Resource not found</td></tr><tr><td>405</td><td>HTTP method not allowed</td></tr><tr><td>422</td><td>Validation failed</td></tr><tr><td>429</td><td>Rate limit exceeded</td></tr><tr><td>500</td><td>Server-side failure; inspect CRM/PHP logs</td></tr></table><pre>{"status":false,"message":"Validation failed","errors":{"email":"Email is required"}}</pre></section>
-<section class="section" id="guest"><h2>Guest Invoices / Checkout</h2><div class="endpoint"><span class="method post">POST</span><code>/api/guest_invoices</code><p>Create or reuse a guest contact by email and create an invoice.</p></div><div class="endpoint"><span class="method post">POST</span><code>/api/guest_invoices/checkout</code><p>Create/reuse guest, create invoice, record payment and optionally send invoice and receipt PDFs in one email.</p></div><div class="endpoint"><span class="method post">POST</span><code>/api/guestinvoices/checkout</code><p>Legacy alias for checkout.</p></div><h3>Checkout payload</h3><pre>{
-  "email": "guest@example.com",
-  "name": "Guest Customer",
-  "phone": "+35700000000",
-  "payment_mode": 1,
-  "payment_date": "2026-08-06",
-  "transaction_id": "web-1001",
-  "send_email": true,
-  "items": [{
-    "description": "Online order #1001",
-    "long_description": "Guest checkout order",
-    "qty": 1,
-    "rate": 49.90,
-    "taxname": ["VAT|24.00"]
-  }]
-}</pre><table><tr><th>Field</th><th>Required</th><th>Description</th></tr><tr><td>email</td><td>Yes</td><td>Guest lookup key</td></tr><tr><td>items</td><td>Yes</td><td>Invoice lines; item_id or description/rate format</td></tr><tr><td>payment_mode</td><td>Checkout</td><td>CRM payment mode id</td></tr><tr><td>send_email</td><td>No</td><td>Send editable checkout template with PDFs</td></tr><tr><td>update_existing_name</td><td>No</td><td>Allow supplied name to update an existing guest</td></tr></table></section>
-<section class="section" id="resources"><h2>Core CRM resources</h2><p>Unless noted otherwise, use the standard CRUD and search patterns above. Required fields and valid ids depend on your CRM configuration.</p><table><tr><th>Resource</th><th>Path</th><th>Typical operations</th></tr>
-<tr><td>Customers</td><td><code>/customers</code></td><td>List, get, search, create, update, delete</td></tr><tr><td>Contacts</td><td><code>/contacts</code></td><td>List/get by customer/contact, search, create, update, delete</td></tr><tr><td>Leads</td><td><code>/leads</code></td><td>CRUD and search</td></tr><tr><td>Staff</td><td><code>/staffs</code></td><td>CRUD and search, permission controlled</td></tr><tr><td>Calendar events</td><td><code>/calendar</code></td><td>CRUD</td></tr><tr><td>Custom fields</td><td><code>/custom_fields/{type}/{id?}</code></td><td>Read custom-field definitions/values</td></tr></table></section>
-<section class="section" id="sales"><h2>Sales and finance</h2><table><tr><th>Resource</th><th>Path</th><th>Notes</th></tr><tr><td>Invoices</td><td><code>/invoices</code></td><td>CRUD/search; <code>POST /invoices/{id}/send</code></td></tr><tr><td>Estimates</td><td><code>/estimates</code></td><td>CRUD and search</td></tr><tr><td>Proposals</td><td><code>/proposals</code></td><td>CRUD and search</td></tr><tr><td>Credit notes</td><td><code>/credit_notes</code></td><td>CRUD and search</td></tr><tr><td>Payments</td><td><code>/payments</code></td><td>List/get/search/create</td></tr><tr><td>Expenses</td><td><code>/expenses</code></td><td>CRUD and search</td></tr><tr><td>Items</td><td><code>/items</code></td><td>CRUD and search</td></tr><tr><td>Subscriptions</td><td><code>/subscriptions</code></td><td>CRUD</td></tr><tr><td>Contracts</td><td><code>/contracts</code></td><td>CRUD and search</td></tr></table></section>
-<section class="section" id="work"><h2>Projects, work and support</h2><table><tr><th>Resource</th><th>Path</th><th>Special operations</th></tr><tr><td>Projects</td><td><code>/projects</code></td><td>CRUD/search</td></tr><tr><td>Tasks</td><td><code>/tasks</code></td><td>CRUD/search, checklist and comments</td></tr><tr><td>Task checklist</td><td><code>/tasks/{id}/checklist</code></td><td>GET/POST; item PUT/DELETE</td></tr><tr><td>Task comments</td><td><code>/tasks/{id}/comments</code></td><td>GET/POST; comment PUT/DELETE</td></tr><tr><td>Milestones</td><td><code>/milestones</code></td><td>CRUD/search</td></tr><tr><td>Timesheets</td><td><code>/timesheets</code></td><td>CRUD</td></tr><tr><td>Tickets</td><td><code>/tickets</code></td><td>CRUD/search; <code>POST /tickets/reply/{id}</code></td></tr><tr><td>Knowledge base</td><td><code>/knowledge_base</code></td><td>Article CRUD and group CRUD</td></tr><tr><td>Notes</td><td><code>/notes</code></td><td>CRUD; related-type/id lookups</td></tr></table></section>
-<section class="section" id="lookups"><h2>Common lookups</h2><p>Use these endpoints to obtain ids required by write payloads.</p><div class="endpoint"><span class="method get">GET</span><code>/api/common/{type}</code></div><p><span class="badge">countries</span><span class="badge">currencies</span><span class="badge">payment modes</span><span class="badge">taxes</span><span class="badge">expense categories</span><span class="badge">lead statuses</span><span class="badge">lead sources</span><span class="badge">departments</span></p></section>
-<section class="section" id="special"><h2>Third-party and special endpoints</h2><div class="endpoint"><span class="method get">GET</span><code>/api/thirdparty/customtable/{table}</code><p>Read an allowed custom table.</p></div><div class="endpoint"><span class="method post">POST</span><code>/api/thirdparty/customtable/{table}</code><p>Create a custom-table row.</p></div><div class="endpoint"><span class="method get">GET</span><code>/api/thirdparty/customtable/{table}/{id}</code><p>Get one custom-table row; PUT and DELETE use the same path.</p></div><div class="note warn"><strong>Warning:</strong> custom-table access is powerful. Restrict token permissions and never expose arbitrary sensitive tables.</div></section>
-<section class="section" id="webhooks"><h2>Webhooks</h2><div class="endpoint"><span class="method get">GET</span><code>/api/webhooks</code></div><div class="endpoint"><span class="method post">POST</span><code>/api/webhooks</code></div><div class="endpoint"><span class="method put">PUT</span><code>/api/webhooks/{id}</code></div><div class="endpoint"><span class="method delete">DELETE</span><code>/api/webhooks/{id}</code></div><div class="endpoint"><span class="method post">POST</span><code>/api/webhooks/{id}/toggle</code></div><div class="endpoint"><span class="method get">GET</span><code>/api/webhooks/{id}/logs</code></div><div class="endpoint"><span class="method get">GET</span><code>/api/webhooks/events</code><p>List supported event names.</p></div><p>Verify signatures using the configured webhook secret, return a 2xx response quickly, process idempotently, and expect retries.</p></section>
-<section class="section" id="automation"><h2>Batch, MCP and automation</h2><div class="endpoint"><span class="method post">POST</span><code>/api/batch</code><p>Execute supported operations in a batch request.</p></div><div class="endpoint"><span class="method post">POST</span><code>/api/mcp</code><p>MCP JSON-RPC endpoint for initialize, ping, tools/list and tools/call.</p></div><div class="endpoint"><span class="method get">GET</span><code>/api/zapier/resources</code></div><div class="endpoint"><span class="method get">GET</span><code>/api/zapier/poll/{resource}</code></div><div class="endpoint"><span class="method get">GET</span><code>/api/zapier/test/{resource}</code></div></section>
-<section class="section" id="tooling"><h2>OpenAPI, Swagger, Postman and sandbox</h2><table><tr><th>Tool</th><th>URL</th></tr><tr><td>OpenAPI JSON</td><td><code>/api/openapi.json</code></td></tr><tr><td>Swagger UI</td><td><code>/api/playground/swagger</code></td></tr><tr><td>Interactive playground</td><td><code>/api/playground</code></td></tr><tr><td>Sandbox</td><td><code>/api/sandbox</code></td></tr><tr><td>Postman collection</td><td><code>/api/postman/download</code></td></tr></table><p>The generated OpenAPI contract is the authoritative machine-readable endpoint/schema source. Import it into Postman, Insomnia or a client generator.</p></section>
-<section class="section" id="security"><h2>Production checklist</h2><ul><li>Use HTTPS only.</li><li>Create separate least-privilege tokens per integration.</li><li>Rotate exposed tokens immediately.</li><li>Do not commit SQL dumps, credentials or real payloads.</li><li>Validate webhook signatures and use idempotency keys for retried writes.</li><li>Log correlation ids, not secrets or full payment data.</li><li>Test migrations and API writes on staging before production.</li></ul><h3>Adding future endpoints</h3><ol><li>Add controller and explicit routes before generic routes.</li><li>Register token capabilities.</li><li>Add OpenAPI schemas and paths.</li><li>Add safe examples here without production data.</li><li>Add validation, migration and compatibility tests.</li></ol></section>
-</main>
-<script>const q=document.getElementById('search'),sections=[...document.querySelectorAll('main section')];q.addEventListener('input',()=>{const s=q.value.trim().toLowerCase();sections.forEach(x=>x.classList.toggle('hidden',s&&!x.textContent.toLowerCase().includes(s)))})</script>
-</body></html>
+<body data-current-url="/">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="reading-progress" aria-hidden="true"><span></span></div>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <button class="icon-button mobile-nav-button" type="button" aria-label="Open navigation" aria-controls="docs-sidebar" aria-expanded="false" data-nav-toggle>
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+
+      <a class="brand" href="./" aria-label="eAD-CRM API home">
+        <span class="brand__mark" aria-hidden="true">eAD</span>
+        <span class="brand__copy">
+          <strong>eAD-CRM API</strong>
+          <small>Developer docs</small>
+        </span>
+      </a>
+
+      <div class="topbar__actions">
+        <button class="search-trigger" type="button" data-search-open aria-haspopup="dialog">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+          <span>Search documentation</span>
+          <kbd>⌘ K</kbd>
+        </button>
+        <a class="topbar-link" href="downloads/combined.openapi.json" download>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"/></svg>
+          <span>OpenAPI</span>
+        </a>
+        <button class="icon-button" type="button" data-theme-toggle aria-label="Toggle colour theme">
+          <svg class="theme-icon theme-icon--sun" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+          <svg class="theme-icon theme-icon--moon" aria-hidden="true" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-shell">
+    <div class="sidebar-scrim" data-nav-close></div>
+    <aside class="sidebar" id="docs-sidebar" aria-label="Documentation navigation">
+      <nav class="sidebar__nav">
+        <a class="sidebar-home is-active" href="./">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3Z"/></svg>
+          Overview
+        </a>
+
+        <div class="sidebar-section">
+          <p class="sidebar-label">Guides</p>
+          <details class="sidebar-group" open>
+            <summary>Custom<span>6</span></summary>
+            <div class="sidebar-group__items">
+              <a href="guides/custom/getting-started/">Getting started</a>
+              <a href="guides/custom/add-endpoints/">Adding custom endpoints</a>
+              <a href="guides/custom/branding/">Branding and design</a>
+              <a href="guides/custom/deployment/">Deployment</a>
+              <a href="guides/custom/importing-the-upstream/">Importing the upstream reference</a>
+              <a href="guides/custom/upstream-updates/">Updating the upstream base</a>
+            </div>
+          </details>
+          <details class="sidebar-group" open>
+            <summary>Overview<span>1</span></summary>
+            <div class="sidebar-group__items">
+              <a href="guides/overview/">Documentation architecture</a>
+            </div>
+          </details>
+          <details class="sidebar-group">
+            <summary>Vendor<span>1</span></summary>
+            <div class="sidebar-group__items">
+              <a href="guides/vendor/readme/">Upstream guides</a>
+            </div>
+          </details>
+        </div>
+
+        <div class="sidebar-section">
+          <p class="sidebar-label">Complete API</p>
+          <a class="sidebar-home" href="guides/api-reference/">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg>
+            API &amp; API-V3 reference
+          </a>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label-row">
+            <p class="sidebar-label">API Reference</p>
+            <a href="reference/">All</a>
+          </div>
+          <details class="sidebar-group">
+            <summary>Your Module<span>5</span></summary>
+            <div class="sidebar-group__items sidebar-group__items--operations">
+              <a href="reference/yourmodulelistitems/">
+                <span class="method-mini method-mini--get">GET</span>
+                <span>List module items</span>
+              </a>
+              <a href="reference/yourmodulecreateitem/">
+                <span class="method-mini method-mini--post">POST</span>
+                <span>Create a module item</span>
+              </a>
+              <a href="reference/yourmodulegetitem/">
+                <span class="method-mini method-mini--get">GET</span>
+                <span>Get a module item</span>
+              </a>
+              <a href="reference/yourmoduleupdateitem/">
+                <span class="method-mini method-mini--put">PUT</span>
+                <span>Update a module item</span>
+              </a>
+              <a href="reference/yourmoduledeleteitem/">
+                <span class="method-mini method-mini--delete">DELETE</span>
+                <span>Delete a module item</span>
+              </a>
+            </div>
+          </details>
+        </div>
+      </nav>
+
+      <div class="sidebar__footer">
+        <p>eAdvertise</p>
+        <span>Self-hosted documentation</span>
+      </div>
+    </aside>
+
+    <main class="main" id="main-content">
+<section class="hero">
+  <div class="hero__glow hero__glow--one"></div>
+  <div class="hero__glow hero__glow--two"></div>
+  <div class="hero__content">
+    <p class="eyebrow"><span></span>Developer documentation</p>
+    <h1>Build on top of your eAD-CRM</h1>
+    <p class="hero__lead">A self-hosted reference for the standard eAD-CRM REST API and your custom module endpoints.</p>
+    <div class="hero__actions">
+      <a class="button button--primary" href="reference/">
+        Explore the API
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
+      </a>
+      <a class="button button--secondary" href="guides/overview/">Read the guides</a>
+    </div>
+    <div class="hero__endpoint">
+      <span class="status-dot"></span>
+      <code>https://crm.example.com/api</code>
+      <button type="button" data-copy="https://crm.example.com/api" aria-label="Copy base URL">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="hero__visual" aria-hidden="true">
+    <div class="terminal-card">
+      <div class="terminal-card__bar"><span></span><span></span><span></span><em>request.sh</em></div>
+      <pre><code><span class="code-muted"># Authenticate with your API token</span>
+<span class="code-accent">curl</span> -X GET \
+  <span class="code-string">"https://crm.example.com/api/customers?page=1"</span> \
+  -H <span class="code-string">"authtoken: YOUR_API_TOKEN"</span></code></pre>
+      <div class="terminal-card__response">
+        <span>200 OK</span>
+        <code>{ "data": [ … ], "meta": { … } }</code>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="notice-card notice-card--setup">
+  <div class="notice-card__icon">
+    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"/></svg>
+  </div>
+  <div>
+    <p class="notice-card__kicker">Complete local reference</p>
+    <h2>Explore the API and API-V3 documentation</h2>
+    <p>Browse the complete eAD-CRM reference, the OpenAPI-powered module examples, and every implementation guide from one consistent documentation experience.</p>
+  </div>
+  <a class="text-link" href="guides/api-reference/">Open complete reference <span>→</span></a>
+</section>
+
+<section class="metrics" aria-label="Documentation statistics">
+  <article><strong>5</strong><span>API operations</span></article>
+  <article><strong>2</strong><span>Resource paths</span></article>
+  <article><strong>1</strong><span>Endpoint groups</span></article>
+  <article><strong>9</strong><span>Technical guides</span></article>
+</section>
+
+<section class="section-block">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow eyebrow--small"><span></span>Start building</p>
+      <h2>Everything needed to integrate</h2>
+    </div>
+    <a class="text-link" href="reference/">View all endpoints <span>→</span></a>
+  </div>
+  <div class="entry-grid">
+    <a class="entry-card" href="guides/overview/">
+      <div class="entry-card__icon">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/></svg>
+      </div>
+      <p class="entry-card__section">Overview</p>
+      <h3>Documentation architecture</h3>
+      <p>This project turns an OpenAPI document and a set of Markdown guides into a completely static documentation website. The generated site/ directory has no server-side runtime and ca…</p>
+      <span>Read guide <b>→</b></span>
+    </a>
+    <a class="entry-card" href="guides/custom/getting-started/">
+      <div class="entry-card__icon">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/></svg>
+      </div>
+      <p class="entry-card__section">Custom</p>
+      <h3>Getting started</h3>
+      <p>Use this checklist to turn the starter into your own self-hosted API documentation project.</p>
+      <span>Read guide <b>→</b></span>
+    </a>
+    <a class="entry-card" href="guides/custom/add-endpoints/">
+      <div class="entry-card__icon">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/></svg>
+      </div>
+      <p class="entry-card__section">Custom</p>
+      <h3>Adding custom endpoints</h3>
+      <p>Document custom-module operations in one or more JSON files under openapi/custom/. Every file is merged into the vendor OpenAPI document during the build.</p>
+      <span>Read guide <b>→</b></span>
+    </a>
+    <a class="entry-card" href="guides/custom/branding/">
+      <div class="entry-card__icon">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg>
+      </div>
+      <p class="entry-card__section">Custom</p>
+      <h3>Branding and design</h3>
+      <p>The starter uses an original, dependency-free theme. No CSS, JavaScript, templates, logos, or other visual assets are copied from the commercial documentation website.</p>
+      <span>Read guide <b>→</b></span>
+    </a>
+    <a class="entry-card" href="guides/custom/deployment/">
+      <div class="entry-card__icon">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01"/></svg>
+      </div>
+      <p class="entry-card__section">Custom</p>
+      <h3>Deployment</h3>
+      <p>The generated site/ directory is a static website. Upload that directory—not the Python build environment—to your production server.</p>
+      <span>Read guide <b>→</b></span>
+    </a>
+    <a class="entry-card" href="guides/custom/importing-the-upstream/">
+      <div class="entry-card__icon">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/></svg>
+      </div>
+      <p class="entry-card__section">Custom</p>
+      <h3>Importing the upstream reference</h3>
+      <p>The project deliberately keeps the standard eAD-CRM API in a vendor layer. Your own documentation remains separate and survives upstream refreshes.</p>
+      <span>Read guide <b>→</b></span>
+    </a>
+    <a class="entry-card" href="guides/custom/upstream-updates/">
+      <div class="entry-card__icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/></svg></div>
+      <p class="entry-card__section">Custom</p><h3>Updating the upstream base</h3>
+      <p>Review, pin and safely update the imported eAD-CRM API reference.</p><span>Read guide <b>→</b></span>
+    </a>
+    <a class="entry-card" href="guides/vendor/readme/">
+      <div class="entry-card__icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/></svg></div>
+      <p class="entry-card__section">Vendor</p><h3>Upstream guides</h3>
+      <p>Understand which imported files are replaceable and where custom documentation belongs.</p><span>Read guide <b>→</b></span>
+    </a>
+    <a class="entry-card" href="guides/api-reference/">
+      <div class="entry-card__icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/></svg></div>
+      <p class="entry-card__section">eAD-CRM</p><h3>Complete API &amp; API-V3 reference</h3>
+      <p>Authentication, CRM resources, webhooks, automation, tooling and production security.</p><span>Read reference <b>→</b></span>
+    </a>
+  </div>
+</section>
+
+<section class="section-block section-block--tinted">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow eyebrow--small"><span></span>API resources</p>
+      <h2>Browse by endpoint group</h2>
+    </div>
+  </div>
+  <div class="resource-grid">
+    <a class="resource-card" href="reference/yourmodulelistitems/">
+      <span class="resource-card__monogram">YO</span>
+      <div><h3>Your Module</h3><p>5 operations</p></div>
+      <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
+    </a>
+  </div>
+</section>
+
+<section class="cta-panel">
+  <div>
+    <p class="eyebrow eyebrow--small"><span></span>Own the source</p>
+    <h2>One repository. One build command. Any server.</h2>
+    <p>Edit your custom OpenAPI files and Markdown guides, then regenerate a dependency-free static site.</p>
+  </div>
+  <pre><code>make build
+make serve</code></pre>
+</section>
+      <footer class="site-footer">
+        <div>
+          <strong>eAD-CRM API</strong>
+          <p>Copyright 2026 eAdvertise</p>
+        </div>
+        <div class="site-footer__links">
+          <a href="reference/">API Reference</a>
+          <a href="downloads/combined.openapi.json">OpenAPI JSON</a>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <dialog class="search-dialog" data-search-dialog aria-label="Search documentation">
+    <div class="search-dialog__panel">
+      <div class="search-dialog__header">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input type="search" autocomplete="off" spellcheck="false" placeholder="Search guides, endpoints and paths…" aria-label="Search" data-search-input>
+        <button type="button" data-search-close aria-label="Close search">Esc</button>
+      </div>
+      <div class="search-dialog__meta">
+        <span data-search-status>Start typing to search</span>
+        <span><kbd>↑</kbd><kbd>↓</kbd> navigate · <kbd>↵</kbd> open</span>
+      </div>
+      <div class="search-results" data-search-results></div>
+    </div>
+  </dialog>
+
+  <div class="toast" role="status" aria-live="polite" data-toast></div>
+  <script src="assets/js/site.js" defer></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 # Upstream guides
 
-This directory is the import target for Markdown guides from the public Perfex REST API companion repository.
+This directory is the import target for Markdown guides from the public eAD-CRM REST API companion repository.
 
 Run:
 

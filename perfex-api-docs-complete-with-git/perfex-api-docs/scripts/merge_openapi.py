@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_VENDOR = ROOT / "openapi" / "vendor" / "perfex.openapi.json"
+DEFAULT_VENDOR = ROOT / "openapi" / "vendor" / "eAD-CRM.openapi.json"
 DEFAULT_CUSTOM_DIR = ROOT / "openapi" / "custom"
 DEFAULT_OUTPUT = ROOT / "openapi" / "combined.openapi.json"
 SITE_CONFIG = ROOT / "config" / "site.json"

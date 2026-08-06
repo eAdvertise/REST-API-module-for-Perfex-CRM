@@ -8,7 +8,7 @@ The generated HTML is **not** the source of truth. Edit these inputs instead:
 
 | Content | Source directory |
 |---|---|
-| Standard Perfex API | `openapi/vendor/perfex.openapi.json` |
+| Standard eAD-CRM API | `openapi/vendor/eAD-CRM.openapi.json` |
 | Your module endpoints | `openapi/custom/*.json` |
 | Imported upstream guides | `docs/vendor/*.md` |
 | Your own guides | `docs/custom/*.md` |
@@ -30,11 +30,11 @@ make serve
 
 Open `http://127.0.0.1:8080` to preview the result.
 
-For the most accurate reference, import the OpenAPI document directly from your licensed Perfex CRM installation instead of relying only on the public companion repository:
+For the most accurate reference, import the OpenAPI document directly from your licensed eAD-CRM installation instead of relying only on the public companion repository:
 
 ```bash
-export PERFEX_BASE_URL="https://crm.example.com"
-export PERFEX_API_TOKEN="replace-me"
+export EAD_CRM_BASE_URL="https://crm.example.com"
+export EAD_CRM_API_TOKEN="replace-me"
 make bootstrap-crm
 make build
 ```

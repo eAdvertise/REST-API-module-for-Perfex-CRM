@@ -529,7 +529,7 @@ def rewrite_markdown_links(text: str, source: Path, guide_by_source: dict[Path, 
         return match.group(0)
 
     text = pattern.sub(replace, text)
-    upstream_blob = "https://github.com/themesic/perfex-rest-api-examples/blob/main/"
+    upstream_blob = "https://github.com/eAdvertise/eAD-CRM-rest-api-examples/blob/main/"
 
     def replace_snippet(match: re.Match[str]) -> str:
         raw_target = match.group(1)

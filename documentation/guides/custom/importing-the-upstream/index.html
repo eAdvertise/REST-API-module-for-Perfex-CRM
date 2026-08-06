@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#0b1020">
+  <title>Importing the upstream reference · eAD-CRM API</title>
+  <meta name="description" content="The project deliberately keeps the standard eAD-CRM API in a vendor layer. Your own documentation remains separate and survives upstream refreshes.">
+  <link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../assets/css/site.css">
+  <script>
+    (function () {
+      var saved = localStorage.getItem('docs-theme');
+      if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
+    })();
+  </script>
+</head>
+<body data-current-url="/guides/custom/importing-the-upstream/">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="reading-progress" aria-hidden="true"><span></span></div>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <button class="icon-button mobile-nav-button" type="button" aria-label="Open navigation" aria-controls="docs-sidebar" aria-expanded="false" data-nav-toggle>
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+
+      <a class="brand" href="../../../" aria-label="eAD-CRM API home">
+        <span class="brand__mark" aria-hidden="true">eAD</span>
+        <span class="brand__copy">
+          <strong>eAD-CRM API</strong>
+          <small>Developer docs</small>
+        </span>
+      </a>
+
+      <div class="topbar__actions">
+        <button class="search-trigger" type="button" data-search-open aria-haspopup="dialog">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+          <span>Search documentation</span>
+          <kbd>⌘ K</kbd>
+        </button>
+        <a class="topbar-link" href="../../../downloads/combined.openapi.json" download>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"/></svg>
+          <span>OpenAPI</span>
+        </a>
+        <button class="icon-button" type="button" data-theme-toggle aria-label="Toggle colour theme">
+          <svg class="theme-icon theme-icon--sun" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+          <svg class="theme-icon theme-icon--moon" aria-hidden="true" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-shell">
+    <div class="sidebar-scrim" data-nav-close></div>
+    <aside class="sidebar" id="docs-sidebar" aria-label="Documentation navigation">
+      <nav class="sidebar__nav">
+        <a class="sidebar-home" href="../../../">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3Z"/></svg>
+          Overview
+        </a>
+
+        <div class="sidebar-section">
+          <p class="sidebar-label">Guides</p>
+          <details class="sidebar-group" open>
+            <summary>Custom<span>6</span></summary>
+            <div class="sidebar-group__items">
+              <a href="../getting-started/">Getting started</a>
+              <a href="../add-endpoints/">Adding custom endpoints</a>
+              <a href="../branding/">Branding and design</a>
+              <a href="../deployment/">Deployment</a>
+              <a href="./" class="is-active" aria-current="page">Importing the upstream reference</a>
+              <a href="../upstream-updates/">Updating the upstream base</a>
+            </div>
+          </details>
+          <details class="sidebar-group" open>
+            <summary>Overview<span>1</span></summary>
+            <div class="sidebar-group__items">
+              <a href="../../overview/">Documentation architecture</a>
+            </div>
+          </details>
+          <details class="sidebar-group">
+            <summary>Vendor<span>1</span></summary>
+            <div class="sidebar-group__items">
+              <a href="../../vendor/readme/">Upstream guides</a>
+            </div>
+          </details>
+        </div>
+
+        <div class="sidebar-section">
+          <p class="sidebar-label">Complete API</p>
+          <a class="sidebar-home" href="../../api-reference/">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg>
+            API &amp; API-V3 reference
+          </a>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label-row">
+            <p class="sidebar-label">API Reference</p>
+            <a href="../../../reference/">All</a>
+          </div>
+          <details class="sidebar-group">
+            <summary>Your Module<span>5</span></summary>
+            <div class="sidebar-group__items sidebar-group__items--operations">
+              <a href="../../../reference/yourmodulelistitems/">
+                <span class="method-mini method-mini--get">GET</span>
+                <span>List module items</span>
+              </a>
+              <a href="../../../reference/yourmodulecreateitem/">
+                <span class="method-mini method-mini--post">POST</span>
+                <span>Create a module item</span>
+              </a>
+              <a href="../../../reference/yourmodulegetitem/">
+                <span class="method-mini method-mini--get">GET</span>
+                <span>Get a module item</span>
+              </a>
+              <a href="../../../reference/yourmoduleupdateitem/">
+                <span class="method-mini method-mini--put">PUT</span>
+                <span>Update a module item</span>
+              </a>
+              <a href="../../../reference/yourmoduledeleteitem/">
+                <span class="method-mini method-mini--delete">DELETE</span>
+                <span>Delete a module item</span>
+              </a>
+            </div>
+          </details>
+        </div>
+      </nav>
+
+      <div class="sidebar__footer">
+        <p>eAdvertise</p>
+        <span>Self-hosted documentation</span>
+      </div>
+    </aside>
+
+    <main class="main" id="main-content">
+<div class="guide-layout">
+  <article class="guide-document">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Documentation</a><span>/</span><span>Custom</span></nav>
+    <div class="guide-meta"><span>Custom</span><span>Guide</span></div>
+    <div class="prose" data-prose><h1>Importing the upstream reference</h1>
+<p>The project deliberately keeps the standard eAD-CRM API in a vendor layer. Your own documentation remains separate and survives upstream refreshes.</p>
+<h2>Locked public snapshot</h2>
+<p>The starter records a known upstream commit in <code>config/upstream.json</code>. Import that reproducible snapshot with:</p>
+<pre><code class="language-bash">make bootstrap
+</code></pre>
+<p>The importer performs the following work:</p>
+<ol>
+<li>fetches the configured repository at the locked commit;</li>
+<li>copies the OpenAPI JSON into <code>openapi/vendor/eAD-CRM.openapi.json</code>;</li>
+<li>copies upstream Markdown guides into <code>docs/vendor/</code>;</li>
+<li>copies Postman and code examples into <code>extras/</code> when available;</li>
+<li>preserves the upstream MIT notice under <code>vendor/licenses/</code>;</li>
+<li>writes import metadata to <code>vendor/UPSTREAM_METADATA.json</code>.</li>
+</ol>
+<p>The imported checkout is cached under <code>vendor/upstream/</code> and ignored by your Git repository.</p>
+<h2>Exact import from your installation</h2>
+<p>The public reference may differ from the module version installed on your CRM. Use the CRM import when accuracy matters:</p>
+<pre><code class="language-bash">export EAD_CRM_BASE_URL=&quot;https://crm.example.com&quot;
+export EAD_CRM_API_TOKEN=&quot;your-api-token&quot;
+make bootstrap-crm
+</code></pre>
+<p>The importer tries both of the commonly exposed routes:</p>
+<pre><code class="language-text">/api/openapi.json
+/api/openapi
+</code></pre>
+<p>It sends the token in the <code>authtoken</code> header and stores only the returned OpenAPI document. The secret itself is never persisted.</p>
+<h2>Import from a specific commit</h2>
+<p>Use the Python command directly when you need a particular upstream commit or tag:</p>
+<pre><code class="language-bash">.venv/bin/python scripts/bootstrap.py \
+  --source github \
+  --ref COMMIT_OR_TAG \
+  --force
+</code></pre>
+<h2>Import the latest upstream branch</h2>
+<pre><code class="language-bash">make update-upstream
+</code></pre>
+<p>Review the generated diff before committing. An upstream change can add, remove, or rename operations and schemas.</p>
+<h2>Rebuild after every import</h2>
+<pre><code class="language-bash">make merge
+make validate
+make build
+</code></pre>
+<p><code>make build</code> already runs merge and validation, so the shorter equivalent is:</p>
+<pre><code class="language-bash">make build
+</code></pre>
+<h2>What not to edit</h2>
+<p>Do not hand-edit:</p>
+<pre><code class="language-text">openapi/vendor/eAD-CRM.openapi.json
+docs/vendor/*.md
+vendor/upstream/
+</code></pre>
+<p>Those files are replaceable vendor inputs. Put durable changes in <code>openapi/custom/</code>, <code>docs/custom/</code>, <code>templates/</code>, and <code>assets/</code>.</p>
+</div>
+    <div class="guide-next">
+      <p>Continue exploring</p>
+      <a href="../../../reference/"><span>API Reference</span><strong>Browse every documented operation</strong><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+    </div>
+  </article>
+  <aside class="toc-panel">
+    <div class="toc-panel__sticky"><p>On this page</p><nav data-toc></nav></div>
+  </aside>
+</div>
+      <footer class="site-footer">
+        <div>
+          <strong>eAD-CRM API</strong>
+          <p>Copyright 2026 eAdvertise</p>
+        </div>
+        <div class="site-footer__links">
+          <a href="../../../reference/">API Reference</a>
+          <a href="../../../downloads/combined.openapi.json">OpenAPI JSON</a>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <dialog class="search-dialog" data-search-dialog aria-label="Search documentation">
+    <div class="search-dialog__panel">
+      <div class="search-dialog__header">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input type="search" autocomplete="off" spellcheck="false" placeholder="Search guides, endpoints and paths…" aria-label="Search" data-search-input>
+        <button type="button" data-search-close aria-label="Close search">Esc</button>
+      </div>
+      <div class="search-dialog__meta">
+        <span data-search-status>Start typing to search</span>
+        <span><kbd>↑</kbd><kbd>↓</kbd> navigate · <kbd>↵</kbd> open</span>
+      </div>
+      <div class="search-results" data-search-results></div>
+    </div>
+  </dialog>
+
+  <div class="toast" role="status" aria-live="polite" data-toast></div>
+  <script src="../../../assets/js/site.js" defer></script>
+</body>
+</html>

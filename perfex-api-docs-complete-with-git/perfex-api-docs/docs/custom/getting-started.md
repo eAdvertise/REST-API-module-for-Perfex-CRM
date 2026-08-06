@@ -39,7 +39,7 @@ Visit `http://127.0.0.1:8080`.
 
 ## Import the standard API
 
-To add the complete public Perfex API reference and the upstream Markdown guides:
+To add the complete public eAD-CRM API reference and the upstream Markdown guides:
 
 ```bash
 make bootstrap
@@ -49,8 +49,8 @@ make build
 For an exact match with your installed module version, import from your CRM:
 
 ```bash
-export PERFEX_BASE_URL="https://crm.example.com"
-export PERFEX_API_TOKEN="your-token"
+export EAD_CRM_BASE_URL="https://crm.example.com"
+export EAD_CRM_API_TOKEN="your-token"
 make bootstrap-crm
 make build
 ```

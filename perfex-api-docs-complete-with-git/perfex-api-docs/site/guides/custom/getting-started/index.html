@@ -158,13 +158,13 @@
 <p>The ZIP includes a prebuilt <code>site/</code> directory, so you can inspect or upload the starter immediately. Rebuilding is still the normal workflow after edits.</p>
 </blockquote>
 <h2>Import the standard API</h2>
-<p>To add the complete public Perfex API reference and the upstream Markdown guides:</p>
+<p>To add the complete public eAD-CRM API reference and the upstream Markdown guides:</p>
 <pre><code class="language-bash">make bootstrap
 make build
 </code></pre>
 <p>For an exact match with your installed module version, import from your CRM:</p>
-<pre><code class="language-bash">export PERFEX_BASE_URL=&quot;https://crm.example.com&quot;
-export PERFEX_API_TOKEN=&quot;your-token&quot;
+<pre><code class="language-bash">export EAD_CRM_BASE_URL=&quot;https://crm.example.com&quot;
+export EAD_CRM_API_TOKEN=&quot;your-token&quot;
 make bootstrap-crm
 make build
 </code></pre>
