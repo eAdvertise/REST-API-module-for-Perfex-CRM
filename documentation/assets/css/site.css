@@ -818,3 +818,16 @@ html[data-theme="dark"] .method-badge--delete { background: #451c2b; color: #ff8
   a { color: #000; text-decoration: underline; }
   pre, .code-block, .code-panel { break-inside: avoid; white-space: pre-wrap; }
 }
+
+/* Complete API guide components, aligned with the shared documentation UI. */
+.complete-reference > .hero { padding: 28px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: linear-gradient(135deg, var(--brand-soft), var(--accent-soft)); }
+.complete-reference > .hero h1 { font-size: clamp(34px, 5vw, 52px); }
+.complete-reference .section { margin-top: 38px; }
+.complete-reference .endpoint { margin: 12px 0; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface-2); }
+.complete-reference .method, .complete-reference .badge { display: inline-flex; padding: 3px 8px; border-radius: 6px; color: #fff; font-size: 10px; font-weight: 800; }
+.complete-reference .method.get { background: var(--accent); }
+.complete-reference .method.post { background: var(--info); }
+.complete-reference .method.put { background: var(--warning); }
+.complete-reference .method.delete { background: var(--danger); }
+.complete-reference .badge { margin: 2px; background: var(--brand); }
+.complete-reference .note { margin: 16px 0; padding: 14px 16px; border-left: 3px solid var(--info); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; background: var(--brand-soft); }
