@@ -32,8 +32,8 @@ class Postman_Generator
         
         $collection = [
             'info' => [
-                'name' => 'Perfex CRM API',
-                'description' => 'Complete REST API collection for Perfex CRM',
+                'name' => 'eAD-CRM API',
+                'description' => 'Complete REST API collection for eAD-CRM',
                 'schema' => 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json',
                 '_postman_id' => uniqid(),
                 'version' => [

@@ -6,6 +6,8 @@ Module Name: CSV Export Manager
 Description: Default module for Exporting data in CSV
 Version: 1.0.0
 Requires at least: 2.9.3
+Author: eAdvertise.eu
+Author URI: https://www.eadvertise.eu
 */
 define('EXPORTS_MODULE_NAME', 'exports');
 
