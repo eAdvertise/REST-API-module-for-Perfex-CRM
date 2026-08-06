@@ -1,37 +1,35 @@
+<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php
+$CI = &get_instance();
+$summary = [
+    'pur_request' => ['label' => _l('pur_request'), 'url' => admin_url('purchase/purchase_request')],
+    'pur_orders' => ['label' => _l('pur_order'), 'url' => admin_url('purchase/purchase_order')],
+    'pur_invoices' => ['label' => _l('purchase_invoice'), 'url' => admin_url('purchase/invoices')],
+];
 
-
-<div class="widget" id="widget-<?php echo basename(__FILE__,".php"); ?>" data-name="<?php echo _l('purchase_widget'); ?>">
-<div class="panel_s user-data">
-  <div class="panel-body">
-    <div class="widget-dragger"></div>
-
-      <div class="row">
-       <div class="col-md-12">
-          <div class="row">
-            <div class="col-md-6">
-              <h4 class="no-margin font-bold"><i class="fa fa-shopping-cart" aria-hidden="true"></i> <?php echo _l('orders_are_about_to_be_delivered'); ?></h4>
+foreach ($summary as $table => &$item) {
+    $item['count'] = $CI->db->table_exists(db_prefix() . $table)
+        ? (int) $CI->db->count_all(db_prefix() . $table)
+        : 0;
+}
+unset($item);
+?>
+<div class="widget relative" id="purchase-dashboard-widget">
+    <div class="panel_s">
+        <div class="panel-body padding-10">
+            <div class="widget-dragger"></div>
+            <h4 class="no-margin mtop5"><?php echo _l('purchase'); ?></h4>
+            <hr class="hr-panel-heading" />
+            <div class="row">
+                <?php foreach ($summary as $item) { ?>
+                    <div class="col-md-4 col-sm-4 col-xs-12 text-center">
+                        <a href="<?php echo $item['url']; ?>">
+                            <h3 class="bold no-margin"><?php echo (int) $item['count']; ?></h3>
+                            <span class="text-muted"><?php echo $item['label']; ?></span>
+                        </a>
+                    </div>
+                <?php } ?>
             </div>
-            <div class="col-md-6">
-              <a href="<?php echo admin_url('purchase/purchase_order'); ?>" class="btn btn-info pull-right"><?php echo _l('view_all'); ?></a>
-            </div>
-          </div>
-          <hr />
         </div>
-                </div>
-                 <?php 
-                 $arr_table = [];
-                 $arr_table[] = _l('pur_order_number');
-                 $arr_table[] = _l('order_date');
-                 $arr_table[] = _l('vendor');
-                 $arr_table[] = _l('po_value');
-                 $arr_table[] = _l('tax_value');
-                 $arr_table[] = _l('delivery_date');
-                 $arr_table[] = _l('delivery_status');
-                    
-                  ?>                   
-                <?php render_datatable($arr_table,'table_purorder_wg'); ?>                   
-      
     </div>
-  </div>
-   
 </div>
