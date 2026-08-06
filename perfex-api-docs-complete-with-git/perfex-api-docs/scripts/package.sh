@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 OUT_DIR="${ROOT_DIR}/dist"
-NAME="perfex-api-docs-$(date +%Y%m%d-%H%M%S)"
+NAME="eAD-CRM-api-docs-$(date +%Y%m%d-%H%M%S)"
 
 mkdir -p "$OUT_DIR"
 cd "$ROOT_DIR"

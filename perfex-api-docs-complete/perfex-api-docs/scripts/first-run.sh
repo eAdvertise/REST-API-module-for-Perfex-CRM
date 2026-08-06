@@ -28,8 +28,8 @@ case "$MODE" in
       source .env
       set +a
     fi
-    : "${PERFEX_BASE_URL:?Set PERFEX_BASE_URL in the environment or .env}"
-    : "${PERFEX_API_TOKEN:?Set PERFEX_API_TOKEN in the environment or .env}"
+    : "${EAD_CRM_BASE_URL:?Set EAD_CRM_BASE_URL in the environment or .env}"
+    : "${EAD_CRM_API_TOKEN:?Set EAD_CRM_API_TOKEN in the environment or .env}"
     make bootstrap-crm
     ;;
   custom)

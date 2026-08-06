@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Import the upstream Perfex API reference without modifying custom files."""
+"""Import the upstream eAD-CRM API reference without modifying custom files."""
 
 from __future__ import annotations
 
@@ -19,7 +19,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 UPSTREAM_CONFIG = ROOT / "config" / "upstream.json"
 VENDOR_REPO = ROOT / "vendor" / "upstream"
-VENDOR_SPEC = ROOT / "openapi" / "vendor" / "perfex.openapi.json"
+VENDOR_SPEC = ROOT / "openapi" / "vendor" / "eAD-CRM.openapi.json"
 VENDOR_DOCS = ROOT / "docs" / "vendor"
 EXTRAS = ROOT / "extras"
 METADATA = ROOT / "vendor" / "UPSTREAM_METADATA.json"
@@ -67,7 +67,7 @@ def fetch_bytes(url: str, headers: dict[str, str] | None = None) -> bytes:
     request = urllib.request.Request(
         url,
         headers={
-            "User-Agent": "perfex-api-docs-starter/0.1",
+            "User-Agent": "eAD-CRM-api-docs-starter/0.1",
             "Accept": "application/json,text/plain,*/*",
             **(headers or {}),
         },
@@ -80,7 +80,7 @@ def download_core_fallback(config: dict[str, Any], ref: str) -> Path:
     """Download the core text files if git is unavailable."""
     full_name = str(config["repository_full_name"])
     raw_base = f"https://raw.githubusercontent.com/{full_name}/{ref}/"
-    temp_dir = Path(tempfile.mkdtemp(prefix="perfex-upstream-"))
+    temp_dir = Path(tempfile.mkdtemp(prefix="eAD-CRM-upstream-"))
 
     files = [
         str(config["openapi_path"]),
@@ -136,7 +136,7 @@ def install_upstream_files(source_root: Path, config: dict[str, Any]) -> dict[st
 
     source_license = source_root / str(config["license_path"])
     if source_license.exists():
-        license_target = ROOT / "vendor" / "licenses" / "themesic-MIT.txt"
+        license_target = ROOT / "vendor" / "licenses" / "eAdvertise-MIT.txt"
         license_target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source_license, license_target)
 
@@ -146,7 +146,7 @@ def install_upstream_files(source_root: Path, config: dict[str, Any]) -> dict[st
 def normalize_crm_candidates(base_url: str) -> list[str]:
     value = base_url.strip().rstrip("/")
     if not value:
-        raise SystemExit("A CRM URL is required. Use --crm-url or PERFEX_BASE_URL.")
+        raise SystemExit("A CRM URL is required. Use --crm-url or EAD_CRM_BASE_URL.")
     if value.endswith("/openapi") or value.endswith("/openapi.json"):
         return [value]
     if value.endswith("/api"):
@@ -186,9 +186,9 @@ def operation_count(spec: dict[str, Any]) -> int:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", choices=["github", "crm", "local"], default="github")
-    parser.add_argument("--crm-url", default=os.environ.get("PERFEX_BASE_URL", ""))
+    parser.add_argument("--crm-url", default=os.environ.get("EAD_CRM_BASE_URL", ""))
     parser.add_argument("--local-path", type=Path, help="Path to an already downloaded upstream repository")
-    parser.add_argument("--token-env", default="PERFEX_API_TOKEN")
+    parser.add_argument("--token-env", default="EAD_CRM_API_TOKEN")
     parser.add_argument("--ref", default="")
     parser.add_argument("--latest", action="store_true", help="Use the configured branch instead of the locked commit")
     parser.add_argument("--force", action="store_true", help="Replace the cached upstream checkout")

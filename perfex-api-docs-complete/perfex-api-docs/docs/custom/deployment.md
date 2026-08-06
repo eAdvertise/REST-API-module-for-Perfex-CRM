@@ -105,7 +105,7 @@ You can extend that workflow to deploy to your server using your organisation's 
 
 ## Security notes
 
-- Never commit your Perfex API token.
+- Never commit your eAD-CRM API token.
 - Do not put production secrets in examples.
 - Review downloadable Postman collections before publishing.
 - Protect internal documentation with your reverse proxy or identity provider when required.
