@@ -1,0 +1,17 @@
+/* Static endpoint reference rendered with the main documentation template. */
+.reference-main { width: min(100%, 1180px); }
+.reference-intro { padding: 8px 0 32px; }
+.reference-filter input { width: min(32vw, 340px); padding: 9px 13px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); color: var(--ink); }
+.api-group { padding: 40px 0; border-top: 1px solid var(--line); scroll-margin-top: calc(var(--topbar-height) + 20px); }
+.endpoint-count { color: var(--muted); font-size: 12px; }
+.api-endpoint { margin: 18px 0; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-sm); scroll-margin-top: calc(var(--topbar-height) + 20px); }
+.endpoint-header { display: flex; align-items: center; gap: 14px; padding: 18px 20px; border-bottom: 1px solid var(--line); }
+.endpoint-header h3 { margin: 0 0 3px; font-size: 17px; }.endpoint-header code { color: var(--muted); }.anchor-link { margin-left: auto; color: var(--faint); font-weight: 800; }
+.method-badge { flex: none; min-width: 58px; padding: 5px 8px; border-radius: 7px; color: white; font: 800 10px/1.2 "SFMono-Regular", Consolas, monospace; text-align: center; }
+.method-badge--get { background: var(--info); }.method-badge--post { background: var(--accent); }.method-badge--put { background: var(--warning); }.method-badge--delete { background: var(--danger); }
+.endpoint-description { margin: 0; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+.endpoint-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, .9fr); }.endpoint-grid > div { min-width: 0; padding: 20px; }.endpoint-grid h4 { margin: 0 0 9px; }
+.code-example { background: var(--code-panel); color: var(--code-ink); }.code-example__bar { display: flex; justify-content: space-between; color: #98a4be; font-size: 11px; text-transform: uppercase; }.code-example__bar button { border: 1px solid #34405a; border-radius: 6px; background: #151d30; color: #dce5ff; cursor: pointer; }.code-example pre { margin-bottom: 0; white-space: pre-wrap; }
+.sidebar-group summary { display: flex; align-items: center; }.sidebar-group summary > a { flex: 1; }.sidebar-group__items--operations a { display: grid; grid-template-columns: 42px minmax(0, 1fr); }.sidebar-group__items--operations a span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+[hidden] { display: none !important; }
+@media (max-width: 780px) { .reference-filter { display: none; }.endpoint-grid { grid-template-columns: 1fr; }.endpoint-header { align-items: flex-start; }.method-badge { min-width: 48px; } }

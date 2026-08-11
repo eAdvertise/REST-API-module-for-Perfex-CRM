@@ -1,242 +1,5573 @@
 <!doctype html>
 <html lang="en" data-theme="auto">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#0b1020">
-  <title>API Reference · eAD-CRM API</title>
-  <meta name="description" content="5 API operations grouped by resource.">
-  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../assets/css/site.css">
-  <script>
-    (function () {
-      var saved = localStorage.getItem('docs-theme');
-      if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
-    })();
-  </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0b1020">
+<title>API Reference · eAD-CRM</title>
+<meta name="description" content="Complete static eAD-CRM REST API reference with 146 documented operations.">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/api-reference.css">
+<script>(function(){var t=localStorage.getItem('docs-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t})();</script>
 </head>
 <body data-current-url="/reference/">
-  <a class="skip-link" href="#main-content">Skip to content</a>
-  <div class="reading-progress" aria-hidden="true"><span></span></div>
-
-  <header class="topbar">
-    <div class="topbar__inner">
-      <button class="icon-button mobile-nav-button" type="button" aria-label="Open navigation" aria-controls="docs-sidebar" aria-expanded="false" data-nav-toggle>
-        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      </button>
-
-      <a class="brand" href="../" aria-label="eAD-CRM API home">
-        <span class="brand__mark" aria-hidden="true">eAD</span>
-        <span class="brand__copy">
-          <strong>eAD-CRM API</strong>
-          <small>Developer docs</small>
-        </span>
-      </a>
-
-      <div class="topbar__actions">
-        <button class="search-trigger" type="button" data-search-open aria-haspopup="dialog">
-          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-          <span>Search documentation</span>
-          <kbd>⌘ K</kbd>
-        </button>
-        <a class="topbar-link" href="../downloads/combined.openapi.json" download>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"/></svg>
-          <span>OpenAPI</span>
-        </a>
-        <button class="icon-button" type="button" data-theme-toggle aria-label="Toggle colour theme">
-          <svg class="theme-icon theme-icon--sun" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
-          <svg class="theme-icon theme-icon--moon" aria-hidden="true" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <div class="page-shell">
-    <div class="sidebar-scrim" data-nav-close></div>
-    <aside class="sidebar" id="docs-sidebar" aria-label="Documentation navigation">
-      <nav class="sidebar__nav">
-        <a class="sidebar-home" href="../">
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3Z"/></svg>
-          Overview
-        </a>
-
-        <div class="sidebar-section">
-          <p class="sidebar-label">Guides</p>
-          <details class="sidebar-group" open>
-            <summary>Custom<span>6</span></summary>
-            <div class="sidebar-group__items">
-              <a href="../guides/custom/getting-started/">Getting started</a>
-              <a href="../guides/custom/add-endpoints/">Adding custom endpoints</a>
-              <a href="../guides/custom/branding/">Branding and design</a>
-              <a href="../guides/custom/deployment/">Deployment</a>
-              <a href="../guides/custom/importing-the-upstream/">Importing the upstream reference</a>
-              <a href="../guides/custom/upstream-updates/">Updating the upstream base</a>
-            </div>
-          </details>
-          <details class="sidebar-group" open>
-            <summary>Overview<span>1</span></summary>
-            <div class="sidebar-group__items">
-              <a href="../guides/overview/">Documentation architecture</a>
-            </div>
-          </details>
-          <details class="sidebar-group">
-            <summary>Vendor<span>1</span></summary>
-            <div class="sidebar-group__items">
-              <a href="../guides/vendor/readme/">Upstream guides</a>
-            </div>
-          </details>
-        </div>
-
-        <div class="sidebar-section">
-          <p class="sidebar-label">Complete API</p>
-          <a class="sidebar-home" href="../guides/api-reference/">
-            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg>
-            API &amp; API-V3 reference
-          </a>
-        </div>
-
-        <div class="sidebar-section">
-          <div class="sidebar-label-row">
-            <p class="sidebar-label">API Reference</p>
-            <a href="./">All</a>
-          </div>
-          <details class="sidebar-group">
-            <summary>Your Module<span>5</span></summary>
-            <div class="sidebar-group__items sidebar-group__items--operations">
-              <a href="yourmodulelistitems/">
-                <span class="method-mini method-mini--get">GET</span>
-                <span>List module items</span>
-              </a>
-              <a href="yourmodulecreateitem/">
-                <span class="method-mini method-mini--post">POST</span>
-                <span>Create a module item</span>
-              </a>
-              <a href="yourmodulegetitem/">
-                <span class="method-mini method-mini--get">GET</span>
-                <span>Get a module item</span>
-              </a>
-              <a href="yourmoduleupdateitem/">
-                <span class="method-mini method-mini--put">PUT</span>
-                <span>Update a module item</span>
-              </a>
-              <a href="yourmoduledeleteitem/">
-                <span class="method-mini method-mini--delete">DELETE</span>
-                <span>Delete a module item</span>
-              </a>
-            </div>
-          </details>
-        </div>
-      </nav>
-
-      <div class="sidebar__footer">
-        <p>eAdvertise</p>
-        <span>Self-hosted documentation</span>
-      </div>
-    </aside>
-
-    <main class="main" id="main-content">
-<div class="content-container content-container--wide">
-  <header class="page-header page-header--reference">
-    <p class="eyebrow eyebrow--small"><span></span>Complete specification</p>
-    <h1>API Reference</h1>
-    <p>5 API operations grouped by resource.</p>
-    <div class="page-header__meta">
-      <span>5 operations</span>
-      <span>1 groups</span>
-      <span>OpenAPI 3.0.3</span>
-<span>API 0.1.0</span>    </div>
-  </header>
-
-  <div class="inline-notice">
-    <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>
-    <div><strong>Custom-only preview</strong><p>Run <code>make bootstrap</code> and rebuild to include the complete eAD-CRM REST API reference.</p></div>
-  </div>
-
-  <div class="reference-toolbar">
-    <label class="filter-input">
-      <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-      <input type="search" placeholder="Filter endpoints…" data-reference-filter>
-    </label>
-    <a class="button button--compact button--secondary" href="../downloads/combined.openapi.json" download>Download OpenAPI</a>
-  </div>
-
-  <div class="reference-groups" data-reference-groups>
-    <section class="reference-group" data-reference-group data-searchable="your module list module items get /your-module/items create a module item post /your-module/items get a module item get /your-module/items/{id} update a module item put /your-module/items/{id} delete a module item delete /your-module/items/{id} ">
-      <div class="reference-group__header">
-        <div><span class="resource-card__monogram">YO</span><div><h2>Your Module</h2><p>5 documented operations</p></div></div>
-        <button type="button" data-collapse-group aria-expanded="true" aria-label="Toggle Your Module">
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
-        </button>
-      </div>
-      <div class="endpoint-list">
-        <a class="endpoint-row" href="yourmodulelistitems/" data-endpoint-row data-searchable="list module items get /your-module/items your module">
-          <span class="method-badge method-badge--get">GET</span>
-          <code>/your-module/items</code>
-          <span class="endpoint-row__summary">List module items</span>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
-        </a>
-        <a class="endpoint-row" href="yourmodulecreateitem/" data-endpoint-row data-searchable="create a module item post /your-module/items your module">
-          <span class="method-badge method-badge--post">POST</span>
-          <code>/your-module/items</code>
-          <span class="endpoint-row__summary">Create a module item</span>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
-        </a>
-        <a class="endpoint-row" href="yourmodulegetitem/" data-endpoint-row data-searchable="get a module item get /your-module/items/{id} your module">
-          <span class="method-badge method-badge--get">GET</span>
-          <code>/your-module/items/{id}</code>
-          <span class="endpoint-row__summary">Get a module item</span>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
-        </a>
-        <a class="endpoint-row" href="yourmoduleupdateitem/" data-endpoint-row data-searchable="update a module item put /your-module/items/{id} your module">
-          <span class="method-badge method-badge--put">PUT</span>
-          <code>/your-module/items/{id}</code>
-          <span class="endpoint-row__summary">Update a module item</span>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
-        </a>
-        <a class="endpoint-row" href="yourmoduledeleteitem/" data-endpoint-row data-searchable="delete a module item delete /your-module/items/{id} your module">
-          <span class="method-badge method-badge--delete">DELETE</span>
-          <code>/your-module/items/{id}</code>
-          <span class="endpoint-row__summary">Delete a module item</span>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
-        </a>
-      </div>
-    </section>
-    <div class="empty-state" data-reference-empty hidden>
-      <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-      <h2>No endpoints found</h2><p>Try another method, path or resource name.</p>
-    </div>
-  </div>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<div class="reading-progress">
+<span>
+</span>
 </div>
-      <footer class="site-footer">
-        <div>
-          <strong>eAD-CRM API</strong>
-          <p>Copyright 2026 eAdvertise</p>
-        </div>
-        <div class="site-footer__links">
-          <a href="./">API Reference</a>
-          <a href="../downloads/combined.openapi.json">OpenAPI JSON</a>
-        </div>
-      </footer>
-    </main>
-  </div>
-
-  <dialog class="search-dialog" data-search-dialog aria-label="Search documentation">
-    <div class="search-dialog__panel">
-      <div class="search-dialog__header">
-        <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-        <input type="search" autocomplete="off" spellcheck="false" placeholder="Search guides, endpoints and paths…" aria-label="Search" data-search-input>
-        <button type="button" data-search-close aria-label="Close search">Esc</button>
-      </div>
-      <div class="search-dialog__meta">
-        <span data-search-status>Start typing to search</span>
-        <span><kbd>↑</kbd><kbd>↓</kbd> navigate · <kbd>↵</kbd> open</span>
-      </div>
-      <div class="search-results" data-search-results></div>
-    </div>
-  </dialog>
-
-  <div class="toast" role="status" aria-live="polite" data-toast></div>
-  <script src="../assets/js/site.js" defer></script>
+<header class="topbar">
+<div class="topbar__inner">
+<button class="icon-button mobile-nav-button" type="button" aria-label="Open navigation" aria-controls="docs-sidebar" aria-expanded="false" data-nav-toggle>☰</button>
+<a class="brand" href="../">
+<span class="brand__mark">eAD</span>
+<span class="brand__copy">
+<strong>eAD-CRM API</strong>
+<small>Complete reference</small>
+</span>
+</a>
+<div class="topbar__actions">
+<label class="reference-filter">
+<span class="sr-only">Filter endpoints</span>
+<input type="search" placeholder="Filter endpoints…" data-endpoint-filter>
+</label>
+<button class="icon-button" type="button" data-theme-toggle aria-label="Toggle colour theme">◐</button>
+</div>
+</div>
+</header>
+<div class="page-shell">
+<div class="sidebar-scrim" data-nav-close>
+</div>
+<aside class="sidebar" id="docs-sidebar">
+<nav class="sidebar__nav">
+<a class="sidebar-home" href="../">← Documentation home</a>
+<div class="sidebar-section">
+<p class="sidebar-label">API Reference</p>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-mcp">MCP</a>
+<span>1</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-mcp-mcp-server">
+<span class="method-mini method-mini--post">POST</span>
+<span>MCP Server (AI Agents)</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-automation">Automation</a>
+<span>4</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-automation-zapier-route-handler">
+<span class="method-mini method-mini--get">GET</span>
+<span>Automation Route Handler</span>
+</a>
+<a href="#api-automation-poll-data">
+<span class="method-mini method-mini--get">GET</span>
+<span>Poll for New Data</span>
+</a>
+<a href="#api-automation-list-resources">
+<span class="method-mini method-mini--get">GET</span>
+<span>List Available Resources</span>
+</a>
+<a href="#api-automation-test-trigger">
+<span class="method-mini method-mini--get">GET</span>
+<span>Test Trigger</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-batch">Batch</a>
+<span>1</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-batch-batch-operations">
+<span class="method-mini method-mini--post">POST</span>
+<span>Batch Operations</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-leads">Leads</a>
+<span>6</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-leads-delete-lead">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete a Lead</span>
+</a>
+<a href="#api-leads-post-lead">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add New Lead</span>
+</a>
+<a href="#api-leads-get-leads">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request all Leads</span>
+</a>
+<a href="#api-leads-get-lead">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Lead information</span>
+</a>
+<a href="#api-leads-put-lead">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update a lead</span>
+</a>
+<a href="#api-leads-get-lead-search">
+<span class="method-mini method-mini--get">GET</span>
+<span>Search Lead Information</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-invoices">Invoices</a>
+<span>6</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-invoices-post-invoice">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add New invoice</span>
+</a>
+<a href="#api-invoices-delete-invoice">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete invoice</span>
+</a>
+<a href="#api-invoices-get-invoice">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request invoice information</span>
+</a>
+<a href="#api-invoices-put-invoice">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update invoice</span>
+</a>
+<a href="#api-invoices-send-invoice">
+<span class="method-mini method-mini--post">POST</span>
+<span>Send invoice by email</span>
+</a>
+<a href="#api-invoices-get-invoice-search">
+<span class="method-mini method-mini--get">GET</span>
+<span>Search invoice information</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-customers">Customers</a>
+<span>5</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-customers-post-customer">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add New Customer</span>
+</a>
+<a href="#api-customers-get-customer">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request customer information</span>
+</a>
+<a href="#api-customers-put-customer">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update a Customer</span>
+</a>
+<a href="#api-customers-get-customer-search">
+<span class="method-mini method-mini--get">GET</span>
+<span>Search Customer Information</span>
+</a>
+<a href="#api-customers-delete-customer">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete a Customer</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-calendar-events">Calendar Events</a>
+<span>5</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-calendar-events-get-calendar-events">
+<span class="method-mini method-mini--get">GET</span>
+<span>Get All Calendar Events</span>
+</a>
+<a href="#api-calendar-events-post-calendar-event">
+<span class="method-mini method-mini--post">POST</span>
+<span>Create a new Calendar Event</span>
+</a>
+<a href="#api-calendar-events-delete-calendar-event">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete a Calendar Event</span>
+</a>
+<a href="#api-calendar-events-get-calendar-event">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Specific Event Information</span>
+</a>
+<a href="#api-calendar-events-update-calendar-event">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update a Calendar Event</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-common">Common</a>
+<span>1</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-common-get-common-data">
+<span class="method-mini method-mini--get">GET</span>
+<span>Get Common Data</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-contacts">Contacts</a>
+<span>5</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-contacts-post-contact">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add New Contact</span>
+</a>
+<a href="#api-contacts-get-contact">
+<span class="method-mini method-mini--get">GET</span>
+<span>List all Contacts of a Customer</span>
+</a>
+<a href="#api-contacts-put-contact">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update Contact Information</span>
+</a>
+<a href="#api-contacts-get-contact-search">
+<span class="method-mini method-mini--get">GET</span>
+<span>Search Contact Information</span>
+</a>
+<a href="#api-contacts-delete-contact">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete Contact</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-contracts">Contracts</a>
+<span>4</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-contracts-post-contract">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add New Contract</span>
+</a>
+<a href="#api-contracts-delete-contract">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete Contract</span>
+</a>
+<a href="#api-contracts-get-contract">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Contract information</span>
+</a>
+<a href="#api-contracts-get-contract-search">
+<span class="method-mini method-mini--get">GET</span>
+<span>Search contracts</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-credit-notes">Credit Notes</a>
+<span>5</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-credit-notes-post-credit-notes">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add New Credit Notes</span>
+</a>
+<a href="#api-credit-notes-put-credit-notes">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update a Credit Note</span>
+</a>
+<a href="#api-credit-notes-delete-credit-note">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete Credit Note</span>
+</a>
+<a href="#api-credit-notes-get-credit-notes">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Credit notes information</span>
+</a>
+<a href="#api-credit-notes-get-credit-notes-search">
+<span class="method-mini method-mini--get">GET</span>
+<span>Search credit notes item information</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-estimates">Estimates</a>
+<span>5</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-estimates-post-estimates">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add New Estimates</span>
+</a>
+<a href="#api-estimates-delete-estimate">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete Estimate</span>
+</a>
+<a href="#api-estimates-get-estimate">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Estimate information</span>
+</a>
+<a href="#api-estimates-put-estimate">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update a estimate</span>
+</a>
+<a href="#api-estimates-get-estimate-search">
+<span class="method-mini method-mini--get">GET</span>
+<span>Search Estimate information</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-expense-categories">Expense Categories</a>
+<span>1</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-expense-categories-get-expense-category">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Expense category</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-expenses">Expenses</a>
+<span>5</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-expenses-add-expense">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add Expense</span>
+</a>
+<a href="#api-expenses-put-expense">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update a Expense</span>
+</a>
+<a href="#api-expenses-delete-expenses">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete Expense</span>
+</a>
+<a href="#api-expenses-get-expense">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Expense information</span>
+</a>
+<a href="#api-expenses-get-expense-search">
+<span class="method-mini method-mini--get">GET</span>
+<span>Search Expenses information</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-items">Items</a>
+<span>5</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-items-delete-item">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete an Item</span>
+</a>
+<a href="#api-items-post-item">
+<span class="method-mini method-mini--post">POST</span>
+<span>Create New Item</span>
+</a>
+<a href="#api-items-get-item">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Item information</span>
+</a>
+<a href="#api-items-put-item">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update an Item</span>
+</a>
+<a href="#api-items-get-item-search">
+<span class="method-mini method-mini--get">GET</span>
+<span>Search Items</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-knowledge-base">Knowledge Base</a>
+<span>9</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-knowledge-base-get-kb-articles">
+<span class="method-mini method-mini--get">GET</span>
+<span>List Knowledge Base Articles</span>
+</a>
+<a href="#api-knowledge-base-post-kb-article">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add New Article</span>
+</a>
+<a href="#api-knowledge-base-delete-kb-article">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete an Article</span>
+</a>
+<a href="#api-knowledge-base-get-kb-article">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Article Information</span>
+</a>
+<a href="#api-knowledge-base-put-kb-article">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update an Article</span>
+</a>
+<a href="#api-knowledge-base-get-kb-groups">
+<span class="method-mini method-mini--get">GET</span>
+<span>List Knowledge Base Groups</span>
+</a>
+<a href="#api-knowledge-base-post-kb-group">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add New Group</span>
+</a>
+<a href="#api-knowledge-base-delete-kb-group">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete a Group</span>
+</a>
+<a href="#api-knowledge-base-put-kb-group">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update a Group</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-milestones">Milestones</a>
+<span>5</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-milestones-delete-milestone">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete a Milestone</span>
+</a>
+<a href="#api-milestones-post-milestone">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add New Milestone</span>
+</a>
+<a href="#api-milestones-get-milestones">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Milestones information</span>
+</a>
+<a href="#api-milestones-put-milestone">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update a Milestone</span>
+</a>
+<a href="#api-milestones-get-milestone-search">
+<span class="method-mini method-mini--get">GET</span>
+<span>Search Milestones Information</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-notes">Notes</a>
+<span>5</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-notes-post-note">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add New Note</span>
+</a>
+<a href="#api-notes-delete-note">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete a Note</span>
+</a>
+<a href="#api-notes-get-note">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Note Information</span>
+</a>
+<a href="#api-notes-put-note">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update a Note</span>
+</a>
+<a href="#api-notes-get-notes-by-relation">
+<span class="method-mini method-mini--get">GET</span>
+<span>List Notes of an Entity</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-payment-modes">Payment Modes</a>
+<span>1</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-payment-modes-get-payment-mode">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Payment Modes</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-payments">Payments</a>
+<span>3</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-payments-post-payment">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add New Payment</span>
+</a>
+<a href="#api-payments-get-payment">
+<span class="method-mini method-mini--get">GET</span>
+<span>List all Payments</span>
+</a>
+<a href="#api-payments-get-payment-search">
+<span class="method-mini method-mini--get">GET</span>
+<span>Search Payments Information</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-projects">Projects</a>
+<span>5</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-projects-delete-project">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete a Project</span>
+</a>
+<a href="#api-projects-post-project">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add New Project</span>
+</a>
+<a href="#api-projects-get-project">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request project information</span>
+</a>
+<a href="#api-projects-put-project">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update a project</span>
+</a>
+<a href="#api-projects-get-project-search">
+<span class="method-mini method-mini--get">GET</span>
+<span>Search Project Information</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-proposals">Proposals</a>
+<span>5</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-proposals-put-proposal">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update a proposal</span>
+</a>
+<a href="#api-proposals-get-proposal">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Proposal information</span>
+</a>
+<a href="#api-proposals-post-proposals">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add New Proposals</span>
+</a>
+<a href="#api-proposals-delete-proposal">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete Proposal</span>
+</a>
+<a href="#api-proposals-get-proposal-search">
+<span class="method-mini method-mini--get">GET</span>
+<span>Search proposals information</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-staffs">Staffs</a>
+<span>5</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-staffs-delete-staff">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete a Staff</span>
+</a>
+<a href="#api-staffs-post-staffs">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add New Staff</span>
+</a>
+<a href="#api-staffs-get-staff">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Staff information</span>
+</a>
+<a href="#api-staffs-put-staff">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update a Staff</span>
+</a>
+<a href="#api-staffs-get-staff-search">
+<span class="method-mini method-mini--get">GET</span>
+<span>Search Staff Information</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-subscriptions">Subscriptions</a>
+<span>5</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-subscriptions-request-subscriptions">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request all Subscriptions</span>
+</a>
+<a href="#api-subscriptions-add-new-subscription">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add New Subscription</span>
+</a>
+<a href="#api-subscriptions-delete-a-subscription">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete a Subscription</span>
+</a>
+<a href="#api-subscriptions-request-subscription-information">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Subscription Information</span>
+</a>
+<a href="#api-subscriptions-update-a-subscription">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update a Subscription</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-tasks">Tasks</a>
+<span>13</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-tasks-delete-task">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete a Task</span>
+</a>
+<a href="#api-tasks-post-task">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add New Task</span>
+</a>
+<a href="#api-tasks-get-task">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Task information</span>
+</a>
+<a href="#api-tasks-put-task">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update a task</span>
+</a>
+<a href="#api-tasks-get-task-checklist">
+<span class="method-mini method-mini--get">GET</span>
+<span>Get Task Checklist Items</span>
+</a>
+<a href="#api-tasks-post-task-checklist">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add Checklist Item to Task</span>
+</a>
+<a href="#api-tasks-get-task-comments">
+<span class="method-mini method-mini--get">GET</span>
+<span>Get Task Comments</span>
+</a>
+<a href="#api-tasks-post-task-comment">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add a Task Comment</span>
+</a>
+<a href="#api-tasks-delete-task-checklist">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete Checklist Item</span>
+</a>
+<a href="#api-tasks-put-task-checklist">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update Checklist Item</span>
+</a>
+<a href="#api-tasks-delete-task-comment">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete a Task Comment</span>
+</a>
+<a href="#api-tasks-put-task-comment">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update a Task Comment</span>
+</a>
+<a href="#api-tasks-get-task-search">
+<span class="method-mini method-mini--get">GET</span>
+<span>Search Tasks Information</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-taxes">Taxes</a>
+<span>1</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-taxes-get-taxes">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Taxes</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-thirdparty">Thirdparty</a>
+<span>5</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-thirdparty-get-custom-table-records">
+<span class="method-mini method-mini--get">GET</span>
+<span>Get All Records from Custom Table</span>
+</a>
+<a href="#api-thirdparty-post-custom-table-record">
+<span class="method-mini method-mini--post">POST</span>
+<span>Insert Record into Custom Table</span>
+</a>
+<a href="#api-thirdparty-delete-custom-table-record">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete Record from Custom Table</span>
+</a>
+<a href="#api-thirdparty-get-custom-table-record-by-id">
+<span class="method-mini method-mini--get">GET</span>
+<span>Get Record from Custom Table by ID</span>
+</a>
+<a href="#api-thirdparty-put-custom-table-record">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update Record in Custom Table</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-tickets">Tickets</a>
+<span>6</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-tickets-delete-ticket">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete a Ticket</span>
+</a>
+<a href="#api-tickets-post-ticket">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add New Ticket</span>
+</a>
+<a href="#api-tickets-get-ticket">
+<span class="method-mini method-mini--get">GET</span>
+<span>Get Ticket(s)</span>
+</a>
+<a href="#api-tickets-put-ticket">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update a ticket</span>
+</a>
+<a href="#api-tickets-post-ticket-reply">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add reply to a ticket</span>
+</a>
+<a href="#api-tickets-get-ticket-search">
+<span class="method-mini method-mini--get">GET</span>
+<span>Search Ticket Information</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-timesheets">Timesheets</a>
+<span>5</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-timesheets-request-all-timesheets">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request all Timesheets</span>
+</a>
+<a href="#api-timesheets-add-new-timesheet">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add New Timesheet</span>
+</a>
+<a href="#api-timesheets-delete-a-timesheet">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete a Timesheet</span>
+</a>
+<a href="#api-timesheets-request-timesheet-information">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Timesheet Information</span>
+</a>
+<a href="#api-timesheets-update-a-timesheet">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update a Timesheet</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-webhooks">Webhooks</a>
+<span>8</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-webhooks-get-webhooks">
+<span class="method-mini method-mini--get">GET</span>
+<span>List Webhooks</span>
+</a>
+<a href="#api-webhooks-post-webhook">
+<span class="method-mini method-mini--post">POST</span>
+<span>Create a Webhook</span>
+</a>
+<a href="#api-webhooks-delete-webhook">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete a Webhook</span>
+</a>
+<a href="#api-webhooks-get-webhook">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Webhook Information</span>
+</a>
+<a href="#api-webhooks-put-webhook">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update a Webhook</span>
+</a>
+<a href="#api-webhooks-get-webhook-logs">
+<span class="method-mini method-mini--get">GET</span>
+<span>Webhook Delivery Logs</span>
+</a>
+<a href="#api-webhooks-toggle-webhook">
+<span class="method-mini method-mini--post">POST</span>
+<span>Enable/Disable a Webhook</span>
+</a>
+<a href="#api-webhooks-get-webhook-events">
+<span class="method-mini method-mini--get">GET</span>
+<span>Webhook Event Catalog</span>
+</a>
+</div>
+</details>
+<details class="sidebar-group" open>
+<summary>
+<a href="#api-custom-fields">Custom Fields</a>
+<span>6</span>
+</summary>
+<div class="sidebar-group__items sidebar-group__items--operations">
+<a href="#api-custom-fields-1">
+<span class="method-mini method-mini--post">POST</span>
+<span>Add Custom Fields</span>
+</a>
+<a href="#api-custom-fields-2">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Values of Custom Fields</span>
+</a>
+<a href="#api-custom-fields-3">
+<span class="method-mini method-mini--get">GET</span>
+<span>Request Custom Fields</span>
+</a>
+<a href="#api-custom-fields-4">
+<span class="method-mini method-mini--get">GET</span>
+<span>Search custom field values' information</span>
+</a>
+<a href="#api-custom-fields-5">
+<span class="method-mini method-mini--delete">DELETE</span>
+<span>Delete Custom Fields</span>
+</a>
+<a href="#api-custom-fields-6">
+<span class="method-mini method-mini--put">PUT</span>
+<span>Update Custom Fields</span>
+</a>
+</div>
+</details>
+</div>
+</nav>
+<div class="sidebar__footer">
+<p>146 operations</p>
+<span>31 resource groups</span>
+</div>
+</aside>
+<main class="main reference-main" id="main-content">
+<section class="reference-intro">
+<p class="eyebrow">
+<span>
+</span>REST API v3.0.3</p>
+<h1>eAD-CRM REST API</h1>
+<p class="hero__lead">Complete, searchable reference for customers, invoices, leads, projects, tasks, MCP tools, webhooks and every supported resource.</p>
+<div class="headers">
+<strong>Base URL:</strong> <code>https://yoursite.com/api/</code> · Send your token with every request using <code>authtoken: YOUR_API_TOKEN</code>.</div>
+</section>
+<section class="api-group" id="api-mcp">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>MCP</h2>
+</div>
+<span class="endpoint-count">1 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-mcp-mcp-server">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>MCP Server (AI Agents)</h3>
+<code>/api/mcp</code>
+</div>
+<a class="anchor-link" href="#api-mcp-mcp-server" aria-label="Link to MCP Server (AI Agents)">#</a>
+</header>
+<p class="endpoint-description">Model Context Protocol server over Streamable HTTP (JSON-RPC 2.0). Exposes 148 permission-filtered CRM tools (list/get/search/create/update/delete across 22 resources, plus lookups and utilities) to Claude Desktop, ChatGPT, Cursor, n8n AI Agent and any MCP client. Supported methods: initialize, ping, tools/list (single page), tools/call. Batches and notifications follow the JSON-RPC spec. Tool errors are returned as isError results so agents can react. Disabled by default - enable it under Setup &gt; API &gt; Settings. Configure your MCP client with this URL and the authtoken header.</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+<h4>Request fields</h4>
+<pre>
+<code>{ &quot;field&quot;: &quot;value&quot; }</code>
+</pre>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/mcp&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot; \
+  --form { &quot;field&quot;: &quot;value&quot; }">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/mcp&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot; \
+  --form { &quot;field&quot;: &quot;value&quot; }</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-automation">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Automation</h2>
+</div>
+<span class="endpoint-count">4 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-automation-zapier-route-handler">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Automation Route Handler</h3>
+<code>/api/zapier/{method}/{resource}</code>
+</div>
+<a class="anchor-link" href="#api-automation-zapier-route-handler" aria-label="Link to Automation Route Handler">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/zapier/poll/customers&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/zapier/poll/customers&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-automation-poll-data">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Poll for New Data</h3>
+<code>/api/zapier/poll/{resource}</code>
+</div>
+<a class="anchor-link" href="#api-automation-poll-data" aria-label="Link to Poll for New Data">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/zapier/poll/customers&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/zapier/poll/customers&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-automation-list-resources">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>List Available Resources</h3>
+<code>/api/zapier/resources</code>
+</div>
+<a class="anchor-link" href="#api-automation-list-resources" aria-label="Link to List Available Resources">#</a>
+</header>
+<p class="endpoint-description">Returns a list of all available resources that can be used for polling and testing. This endpoint is used by automation platforms to discover available triggers.</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/zapier/resources&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/zapier/resources&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-automation-test-trigger">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Test Trigger</h3>
+<code>/api/zapier/test/{resource}</code>
+</div>
+<a class="anchor-link" href="#api-automation-test-trigger" aria-label="Link to Test Trigger">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/zapier/test/customers&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/zapier/test/customers&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-batch">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Batch</h2>
+</div>
+<span class="endpoint-count">1 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-batch-batch-operations">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Batch Operations</h3>
+<code>/api/batch</code>
+</div>
+<a class="anchor-link" href="#api-batch-batch-operations" aria-label="Link to Batch Operations">#</a>
+</header>
+<p class="endpoint-description">Execute up to 50 operations in one request, in order, with continue-on-error. Operations use the same names, arguments and per-operation permission rules as the MCP tools (e.g. customers_create, invoices_get, leads_search). Each item returns status plus result or error, with completed/failed counters in the envelope.</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+<h4>Request fields</h4>
+<pre>
+<code>{ &quot;field&quot;: &quot;value&quot; }</code>
+</pre>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/batch&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot; \
+  --form { &quot;field&quot;: &quot;value&quot; }">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/batch&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot; \
+  --form { &quot;field&quot;: &quot;value&quot; }</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-leads">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Leads</h2>
+</div>
+<span class="endpoint-count">6 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-leads-delete-lead">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete a Lead</h3>
+<code>/api/delete/leads/{id}</code>
+</div>
+<a class="anchor-link" href="#api-leads-delete-lead" aria-label="Link to Delete a Lead">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;https://yoursite.com/api/delete/leads/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;https://yoursite.com/api/delete/leads/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-leads-post-lead">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add New Lead</h3>
+<code>/api/leads</code>
+</div>
+<a class="anchor-link" href="#api-leads-post-lead" aria-label="Link to Add New Lead">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+<h4>Request fields</h4>
+<pre>
+<code>{ &quot;source&quot;: &quot;...&quot;, &quot;status&quot;: &quot;...&quot;, &quot;name&quot;: &quot;...&quot;, &quot;assigned&quot;: &quot;...&quot; }</code>
+</pre>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/leads&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot; \
+  --form { &quot;source&quot;: &quot;...&quot;, &quot;status&quot;: &quot;...&quot;, &quot;name&quot;: &quot;...&quot;, &quot;assigned&quot;: &quot;...&quot; }">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/leads&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot; \
+  --form { &quot;source&quot;: &quot;...&quot;, &quot;status&quot;: &quot;...&quot;, &quot;name&quot;: &quot;...&quot;, &quot;assigned&quot;: &quot;...&quot; }</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-leads-get-leads">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request all Leads</h3>
+<code>/api/leads/</code>
+</div>
+<a class="anchor-link" href="#api-leads-get-leads" aria-label="Link to Request all Leads">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/leads/&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/leads/&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-leads-get-lead">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Lead information</h3>
+<code>/api/leads/{id}</code>
+</div>
+<a class="anchor-link" href="#api-leads-get-lead" aria-label="Link to Request Lead information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/leads/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/leads/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-leads-put-lead">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update a lead</h3>
+<code>/api/leads/{id}</code>
+</div>
+<a class="anchor-link" href="#api-leads-put-lead" aria-label="Link to Update a lead">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;https://yoursite.com/api/leads/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;https://yoursite.com/api/leads/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-leads-get-lead-search">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Search Lead Information</h3>
+<code>/api/leads/search/{keysearch}</code>
+</div>
+<a class="anchor-link" href="#api-leads-get-lead-search" aria-label="Link to Search Lead Information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/leads/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/leads/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-invoices">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Invoices</h2>
+</div>
+<span class="endpoint-count">6 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-invoices-post-invoice">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add New invoice</h3>
+<code>/api/invoices</code>
+</div>
+<a class="anchor-link" href="#api-invoices-post-invoice" aria-label="Link to Add New invoice">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/invoices&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/invoices&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-invoices-delete-invoice">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete invoice</h3>
+<code>/api/invoices/{id}</code>
+</div>
+<a class="anchor-link" href="#api-invoices-delete-invoice" aria-label="Link to Delete invoice">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;https://yoursite.com/api/invoices/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;https://yoursite.com/api/invoices/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-invoices-get-invoice">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request invoice information</h3>
+<code>/api/invoices/{id}</code>
+</div>
+<a class="anchor-link" href="#api-invoices-get-invoice" aria-label="Link to Request invoice information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/invoices/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/invoices/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-invoices-put-invoice">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update invoice</h3>
+<code>/api/invoices/{id}</code>
+</div>
+<a class="anchor-link" href="#api-invoices-put-invoice" aria-label="Link to Update invoice">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+<h4>Request fields</h4>
+<pre>
+<code>{ &quot;clientid&quot;: &quot;...&quot;, &quot;number&quot;: &quot;...&quot;, &quot;date&quot;: &quot;...&quot;, &quot;currency&quot;: &quot;...&quot;, &quot;newitems&quot;: &quot;...&quot;, &quot;subtotal&quot;: &quot;...&quot;, &quot;total&quot;: &quot;...&quot;, &quot;billing_street&quot;: &quot;...&quot;, &quot;allowed_payment_modes&quot;: &quot;...&quot; }</code>
+</pre>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;https://yoursite.com/api/invoices/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot; \
+  --form { &quot;clientid&quot;: &quot;...&quot;, &quot;number&quot;: &quot;...&quot;, &quot;date&quot;: &quot;...&quot;, &quot;currency&quot;: &quot;...&quot;, &quot;newitems&quot;: &quot;...&quot;, &quot;subtotal&quot;: &quot;...&quot;, &quot;total&quot;: &quot;...&quot;, &quot;billing_street&quot;: &quot;...&quot;, &quot;allowed_payment_modes&quot;: &quot;...&quot; }">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;https://yoursite.com/api/invoices/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot; \
+  --form { &quot;clientid&quot;: &quot;...&quot;, &quot;number&quot;: &quot;...&quot;, &quot;date&quot;: &quot;...&quot;, &quot;currency&quot;: &quot;...&quot;, &quot;newitems&quot;: &quot;...&quot;, &quot;subtotal&quot;: &quot;...&quot;, &quot;total&quot;: &quot;...&quot;, &quot;billing_street&quot;: &quot;...&quot;, &quot;allowed_payment_modes&quot;: &quot;...&quot; }</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-invoices-send-invoice">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Send invoice by email</h3>
+<code>/api/invoices/{id}/send</code>
+</div>
+<a class="anchor-link" href="#api-invoices-send-invoice" aria-label="Link to Send invoice by email">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+<h4>Request fields</h4>
+<pre>
+<code>{ &quot;field&quot;: &quot;value&quot; }</code>
+</pre>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/invoices/123/send&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot; \
+  --form { &quot;field&quot;: &quot;value&quot; }">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/invoices/123/send&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot; \
+  --form { &quot;field&quot;: &quot;value&quot; }</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-invoices-get-invoice-search">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Search invoice information</h3>
+<code>/api/invoices/search/{keysearch}</code>
+</div>
+<a class="anchor-link" href="#api-invoices-get-invoice-search" aria-label="Link to Search invoice information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/invoices/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/invoices/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-customers">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Customers</h2>
+</div>
+<span class="endpoint-count">5 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-customers-post-customer">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add New Customer</h3>
+<code>/api/customers</code>
+</div>
+<a class="anchor-link" href="#api-customers-post-customer" aria-label="Link to Add New Customer">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/customers&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/customers&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-customers-get-customer">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request customer information</h3>
+<code>/api/customers/{id}</code>
+</div>
+<a class="anchor-link" href="#api-customers-get-customer" aria-label="Link to Request customer information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/customers/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/customers/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-customers-put-customer">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update a Customer</h3>
+<code>/api/customers/{id}</code>
+</div>
+<a class="anchor-link" href="#api-customers-put-customer" aria-label="Link to Update a Customer">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;https://yoursite.com/api/customers/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;https://yoursite.com/api/customers/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-customers-get-customer-search">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Search Customer Information</h3>
+<code>/api/customers/search/{keysearch}</code>
+</div>
+<a class="anchor-link" href="#api-customers-get-customer-search" aria-label="Link to Search Customer Information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/customers/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/customers/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-customers-delete-customer">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete a Customer</h3>
+<code>/api/delete/customers/{id}</code>
+</div>
+<a class="anchor-link" href="#api-customers-delete-customer" aria-label="Link to Delete a Customer">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;https://yoursite.com/api/delete/customers/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;https://yoursite.com/api/delete/customers/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-calendar-events">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Calendar Events</h2>
+</div>
+<span class="endpoint-count">5 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-calendar-events-get-calendar-events">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Get All Calendar Events</h3>
+<code>/api/calendar/</code>
+</div>
+<a class="anchor-link" href="#api-calendar-events-get-calendar-events" aria-label="Link to Get All Calendar Events">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/calendar/&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/calendar/&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-calendar-events-post-calendar-event">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Create a new Calendar Event</h3>
+<code>/api/calendar/</code>
+</div>
+<a class="anchor-link" href="#api-calendar-events-post-calendar-event" aria-label="Link to Create a new Calendar Event">#</a>
+</header>
+<p class="endpoint-description">...</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/calendar/&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/calendar/&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-calendar-events-delete-calendar-event">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete a Calendar Event</h3>
+<code>/api/calendar/{id}</code>
+</div>
+<a class="anchor-link" href="#api-calendar-events-delete-calendar-event" aria-label="Link to Delete a Calendar Event">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;https://yoursite.com/api/calendar/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;https://yoursite.com/api/calendar/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-calendar-events-get-calendar-event">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Specific Event Information</h3>
+<code>/api/calendar/{id}</code>
+</div>
+<a class="anchor-link" href="#api-calendar-events-get-calendar-event" aria-label="Link to Request Specific Event Information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/calendar/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/calendar/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-calendar-events-update-calendar-event">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update a Calendar Event</h3>
+<code>/api/calendar/{id}</code>
+</div>
+<a class="anchor-link" href="#api-calendar-events-update-calendar-event" aria-label="Link to Update a Calendar Event">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;https://yoursite.com/api/calendar/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;https://yoursite.com/api/calendar/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-common">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Common</h2>
+</div>
+<span class="endpoint-count">1 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-common-get-common-data">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Get Common Data</h3>
+<code>/api/common/{type}</code>
+</div>
+<a class="anchor-link" href="#api-common-get-common-data" aria-label="Link to Get Common Data">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/common/tax_data&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/common/tax_data&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-contacts">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Contacts</h2>
+</div>
+<span class="endpoint-count">5 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-contacts-post-contact">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add New Contact</h3>
+<code>/api/contacts/</code>
+</div>
+<a class="anchor-link" href="#api-contacts-post-contact" aria-label="Link to Add New Contact">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+<h4>Request fields</h4>
+<pre>
+<code>{ &quot;customer_id&quot;: &quot;...&quot;, &quot;firstname&quot;: &quot;...&quot;, &quot;lastname&quot;: &quot;...&quot;, &quot;email&quot;: &quot;...&quot; }</code>
+</pre>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/contacts/&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot; \
+  --form { &quot;customer_id&quot;: &quot;...&quot;, &quot;firstname&quot;: &quot;...&quot;, &quot;lastname&quot;: &quot;...&quot;, &quot;email&quot;: &quot;...&quot; }">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/contacts/&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot; \
+  --form { &quot;customer_id&quot;: &quot;...&quot;, &quot;firstname&quot;: &quot;...&quot;, &quot;lastname&quot;: &quot;...&quot;, &quot;email&quot;: &quot;...&quot; }</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-contacts-get-contact">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>List all Contacts of a Customer</h3>
+<code>/api/contacts/{customer_id}/{contact_id}</code>
+</div>
+<a class="anchor-link" href="#api-contacts-get-contact" aria-label="Link to List all Contacts of a Customer">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/contacts/123/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/contacts/123/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-contacts-put-contact">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update Contact Information</h3>
+<code>/api/contacts/{id}</code>
+</div>
+<a class="anchor-link" href="#api-contacts-put-contact" aria-label="Link to Update Contact Information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;https://yoursite.com/api/contacts/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;https://yoursite.com/api/contacts/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-contacts-get-contact-search">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Search Contact Information</h3>
+<code>/api/contacts/search/{keysearch}</code>
+</div>
+<a class="anchor-link" href="#api-contacts-get-contact-search" aria-label="Link to Search Contact Information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/contacts/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/contacts/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-contacts-delete-contact">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete Contact</h3>
+<code>/api/delete/contacts/{id}</code>
+</div>
+<a class="anchor-link" href="#api-contacts-delete-contact" aria-label="Link to Delete Contact">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;https://yoursite.com/api/delete/contacts/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;https://yoursite.com/api/delete/contacts/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-contracts">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Contracts</h2>
+</div>
+<span class="endpoint-count">4 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-contracts-post-contract">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add New Contract</h3>
+<code>/api/contracts</code>
+</div>
+<a class="anchor-link" href="#api-contracts-post-contract" aria-label="Link to Add New Contract">#</a>
+</header>
+<p class="endpoint-description">...</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/contracts&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/contracts&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-contracts-delete-contract">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete Contract</h3>
+<code>/api/contracts/{id}</code>
+</div>
+<a class="anchor-link" href="#api-contracts-delete-contract" aria-label="Link to Delete Contract">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;https://yoursite.com/api/contracts/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;https://yoursite.com/api/contracts/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-contracts-get-contract">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Contract information</h3>
+<code>/api/contracts/{id}</code>
+</div>
+<a class="anchor-link" href="#api-contracts-get-contract" aria-label="Link to Request Contract information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/contracts/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/contracts/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-contracts-get-contract-search">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Search contracts</h3>
+<code>/api/contracts/search/{keysearch}</code>
+</div>
+<a class="anchor-link" href="#api-contracts-get-contract-search" aria-label="Link to Search contracts">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/contracts/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/contracts/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-credit-notes">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Credit Notes</h2>
+</div>
+<span class="endpoint-count">5 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-credit-notes-post-credit-notes">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add New Credit Notes</h3>
+<code>/api/credit_notes</code>
+</div>
+<a class="anchor-link" href="#api-credit-notes-post-credit-notes" aria-label="Link to Add New Credit Notes">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/credit_notes&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/credit_notes&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-credit-notes-put-credit-notes">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update a Credit Note</h3>
+<code>/api/credit_notes</code>
+</div>
+<a class="anchor-link" href="#api-credit-notes-put-credit-notes" aria-label="Link to Update a Credit Note">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;https://yoursite.com/api/credit_notes&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;https://yoursite.com/api/credit_notes&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-credit-notes-delete-credit-note">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete Credit Note</h3>
+<code>/api/credit_notes/{id}</code>
+</div>
+<a class="anchor-link" href="#api-credit-notes-delete-credit-note" aria-label="Link to Delete Credit Note">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;https://yoursite.com/api/credit_notes/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;https://yoursite.com/api/credit_notes/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-credit-notes-get-credit-notes">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Credit notes information</h3>
+<code>/api/credit_notes/{id}</code>
+</div>
+<a class="anchor-link" href="#api-credit-notes-get-credit-notes" aria-label="Link to Request Credit notes information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/credit_notes/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/credit_notes/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-credit-notes-get-credit-notes-search">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Search credit notes item information</h3>
+<code>/api/credit_notes/search/{keysearch}</code>
+</div>
+<a class="anchor-link" href="#api-credit-notes-get-credit-notes-search" aria-label="Link to Search credit notes item information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/credit_notes/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/credit_notes/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-estimates">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Estimates</h2>
+</div>
+<span class="endpoint-count">5 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-estimates-post-estimates">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add New Estimates</h3>
+<code>/api/estimates</code>
+</div>
+<a class="anchor-link" href="#api-estimates-post-estimates" aria-label="Link to Add New Estimates">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/estimates&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/estimates&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-estimates-delete-estimate">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete Estimate</h3>
+<code>/api/estimates/{id}</code>
+</div>
+<a class="anchor-link" href="#api-estimates-delete-estimate" aria-label="Link to Delete Estimate">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;https://yoursite.com/api/estimates/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;https://yoursite.com/api/estimates/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-estimates-get-estimate">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Estimate information</h3>
+<code>/api/estimates/{id}</code>
+</div>
+<a class="anchor-link" href="#api-estimates-get-estimate" aria-label="Link to Request Estimate information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/estimates/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/estimates/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-estimates-put-estimate">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update a estimate</h3>
+<code>/api/estimates/{id}</code>
+</div>
+<a class="anchor-link" href="#api-estimates-put-estimate" aria-label="Link to Update a estimate">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;https://yoursite.com/api/estimates/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;https://yoursite.com/api/estimates/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-estimates-get-estimate-search">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Search Estimate information</h3>
+<code>/api/estimates/search/{keysearch}</code>
+</div>
+<a class="anchor-link" href="#api-estimates-get-estimate-search" aria-label="Link to Search Estimate information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/estimates/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/estimates/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-expense-categories">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Expense Categories</h2>
+</div>
+<span class="endpoint-count">1 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-expense-categories-get-expense-category">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Expense category</h3>
+<code>/api/common/expense_category</code>
+</div>
+<a class="anchor-link" href="#api-expense-categories-get-expense-category" aria-label="Link to Request Expense category">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/common/expense_category&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/common/expense_category&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-expenses">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Expenses</h2>
+</div>
+<span class="endpoint-count">5 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-expenses-add-expense">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add Expense</h3>
+<code>/api/expenses</code>
+</div>
+<a class="anchor-link" href="#api-expenses-add-expense" aria-label="Link to Add Expense">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/expenses&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/expenses&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-expenses-put-expense">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update a Expense</h3>
+<code>/api/expenses</code>
+</div>
+<a class="anchor-link" href="#api-expenses-put-expense" aria-label="Link to Update a Expense">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;https://yoursite.com/api/expenses&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;https://yoursite.com/api/expenses&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-expenses-delete-expenses">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete Expense</h3>
+<code>/api/expenses/{id}</code>
+</div>
+<a class="anchor-link" href="#api-expenses-delete-expenses" aria-label="Link to Delete Expense">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;https://yoursite.com/api/expenses/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;https://yoursite.com/api/expenses/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-expenses-get-expense">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Expense information</h3>
+<code>/api/expenses/{id}</code>
+</div>
+<a class="anchor-link" href="#api-expenses-get-expense" aria-label="Link to Request Expense information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/expenses/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/expenses/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-expenses-get-expense-search">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Search Expenses information</h3>
+<code>/api/expenses/search/{keysearch}</code>
+</div>
+<a class="anchor-link" href="#api-expenses-get-expense-search" aria-label="Link to Search Expenses information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/expenses/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/expenses/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-items">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Items</h2>
+</div>
+<span class="endpoint-count">5 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-items-delete-item">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete an Item</h3>
+<code>/api/delete/items/{id}</code>
+</div>
+<a class="anchor-link" href="#api-items-delete-item" aria-label="Link to Delete an Item">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;https://yoursite.com/api/delete/items/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;https://yoursite.com/api/delete/items/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-items-post-item">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Create New Item</h3>
+<code>/api/items</code>
+</div>
+<a class="anchor-link" href="#api-items-post-item" aria-label="Link to Create New Item">#</a>
+</header>
+<p class="endpoint-description">...</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/items&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/items&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-items-get-item">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Item information</h3>
+<code>/api/items/{id}</code>
+</div>
+<a class="anchor-link" href="#api-items-get-item" aria-label="Link to Request Item information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/items/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/items/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-items-put-item">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update an Item</h3>
+<code>/api/items/{id}</code>
+</div>
+<a class="anchor-link" href="#api-items-put-item" aria-label="Link to Update an Item">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;https://yoursite.com/api/items/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;https://yoursite.com/api/items/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-items-get-item-search">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Search Items</h3>
+<code>/api/items/search/{keysearch}</code>
+</div>
+<a class="anchor-link" href="#api-items-get-item-search" aria-label="Link to Search Items">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/items/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/items/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-knowledge-base">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Knowledge Base</h2>
+</div>
+<span class="endpoint-count">9 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-knowledge-base-get-kb-articles">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>List Knowledge Base Articles</h3>
+<code>/api/knowledge_base</code>
+</div>
+<a class="anchor-link" href="#api-knowledge-base-get-kb-articles" aria-label="Link to List Knowledge Base Articles">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/knowledge_base&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/knowledge_base&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-knowledge-base-post-kb-article">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add New Article</h3>
+<code>/api/knowledge_base</code>
+</div>
+<a class="anchor-link" href="#api-knowledge-base-post-kb-article" aria-label="Link to Add New Article">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/knowledge_base&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/knowledge_base&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-knowledge-base-delete-kb-article">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete an Article</h3>
+<code>/api/knowledge_base/{id}</code>
+</div>
+<a class="anchor-link" href="#api-knowledge-base-delete-kb-article" aria-label="Link to Delete an Article">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;https://yoursite.com/api/knowledge_base/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;https://yoursite.com/api/knowledge_base/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-knowledge-base-get-kb-article">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Article Information</h3>
+<code>/api/knowledge_base/{id}</code>
+</div>
+<a class="anchor-link" href="#api-knowledge-base-get-kb-article" aria-label="Link to Request Article Information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/knowledge_base/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/knowledge_base/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-knowledge-base-put-kb-article">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update an Article</h3>
+<code>/api/knowledge_base/{id}</code>
+</div>
+<a class="anchor-link" href="#api-knowledge-base-put-kb-article" aria-label="Link to Update an Article">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;https://yoursite.com/api/knowledge_base/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;https://yoursite.com/api/knowledge_base/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-knowledge-base-get-kb-groups">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>List Knowledge Base Groups</h3>
+<code>/api/knowledge_base/groups</code>
+</div>
+<a class="anchor-link" href="#api-knowledge-base-get-kb-groups" aria-label="Link to List Knowledge Base Groups">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/knowledge_base/groups&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/knowledge_base/groups&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-knowledge-base-post-kb-group">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add New Group</h3>
+<code>/api/knowledge_base/groups</code>
+</div>
+<a class="anchor-link" href="#api-knowledge-base-post-kb-group" aria-label="Link to Add New Group">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/knowledge_base/groups&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/knowledge_base/groups&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-knowledge-base-delete-kb-group">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete a Group</h3>
+<code>/api/knowledge_base/groups/{id}</code>
+</div>
+<a class="anchor-link" href="#api-knowledge-base-delete-kb-group" aria-label="Link to Delete a Group">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;https://yoursite.com/api/knowledge_base/groups/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;https://yoursite.com/api/knowledge_base/groups/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-knowledge-base-put-kb-group">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update a Group</h3>
+<code>/api/knowledge_base/groups/{id}</code>
+</div>
+<a class="anchor-link" href="#api-knowledge-base-put-kb-group" aria-label="Link to Update a Group">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;https://yoursite.com/api/knowledge_base/groups/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;https://yoursite.com/api/knowledge_base/groups/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-milestones">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Milestones</h2>
+</div>
+<span class="endpoint-count">5 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-milestones-delete-milestone">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete a Milestone</h3>
+<code>/api/delete/milestones/{id}</code>
+</div>
+<a class="anchor-link" href="#api-milestones-delete-milestone" aria-label="Link to Delete a Milestone">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;https://yoursite.com/api/delete/milestones/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;https://yoursite.com/api/delete/milestones/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-milestones-post-milestone">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add New Milestone</h3>
+<code>/api/milestones</code>
+</div>
+<a class="anchor-link" href="#api-milestones-post-milestone" aria-label="Link to Add New Milestone">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/milestones&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/milestones&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-milestones-get-milestones">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Milestones information</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-milestones-get-milestones" aria-label="Link to Request Milestones information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/milestones/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/milestones/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-milestones-put-milestone">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update a Milestone</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-milestones-put-milestone" aria-label="Link to Update a Milestone">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;https://yoursite.com/api/milestones/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;https://yoursite.com/api/milestones/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-milestones-get-milestone-search">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Search Milestones Information</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-milestones-get-milestone-search" aria-label="Link to Search Milestones Information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/milestones/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/milestones/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-notes">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Notes</h2>
+</div>
+<span class="endpoint-count">5 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-notes-post-note">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add New Note</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-notes-post-note" aria-label="Link to Add New Note">#</a>
+</header>
+<p class="endpoint-description">...</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/notes&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/notes&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-notes-delete-note">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete a Note</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-notes-delete-note" aria-label="Link to Delete a Note">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;https://yoursite.com/api/notes/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;https://yoursite.com/api/notes/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-notes-get-note">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Note Information</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-notes-get-note" aria-label="Link to Request Note Information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/notes/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/notes/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-notes-put-note">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update a Note</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-notes-put-note" aria-label="Link to Update a Note">#</a>
+</header>
+<p class="endpoint-description">...</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;https://yoursite.com/api/notes/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;https://yoursite.com/api/notes/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-notes-get-notes-by-relation">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>List Notes of an Entity</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-notes-get-notes-by-relation" aria-label="Link to List Notes of an Entity">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/notes/customer/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/notes/customer/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-payment-modes">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Payment Modes</h2>
+</div>
+<span class="endpoint-count">1 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-payment-modes-get-payment-mode">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Payment Modes</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-payment-modes-get-payment-mode" aria-label="Link to Request Payment Modes">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/common/payment_mode&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/common/payment_mode&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-payments">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Payments</h2>
+</div>
+<span class="endpoint-count">3 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-payments-post-payment">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add New Payment</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-payments-post-payment" aria-label="Link to Add New Payment">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/payments&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/payments&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-payments-get-payment">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>List all Payments</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-payments-get-payment" aria-label="Link to List all Payments">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/payments/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/payments/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-payments-get-payment-search">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Search Payments Information</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-payments-get-payment-search" aria-label="Link to Search Payments Information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/payments/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/payments/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-projects">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Projects</h2>
+</div>
+<span class="endpoint-count">5 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-projects-delete-project">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete a Project</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-projects-delete-project" aria-label="Link to Delete a Project">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;https://yoursite.com/api/delete/projects/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;https://yoursite.com/api/delete/projects/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-projects-post-project">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add New Project</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-projects-post-project" aria-label="Link to Add New Project">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/projects&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/projects&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-projects-get-project">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request project information</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-projects-get-project" aria-label="Link to Request project information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/projects/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/projects/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-projects-put-project">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update a project</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-projects-put-project" aria-label="Link to Update a project">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;https://yoursite.com/api/projects/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;https://yoursite.com/api/projects/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-projects-get-project-search">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Search Project Information</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-projects-get-project-search" aria-label="Link to Search Project Information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/projects/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/projects/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-proposals">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Proposals</h2>
+</div>
+<span class="endpoint-count">5 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-proposals-put-proposal">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update a proposal</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-proposals-put-proposal" aria-label="Link to Update a proposal">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;https://yoursite.com/api/proposal/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;https://yoursite.com/api/proposal/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-proposals-get-proposal">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Proposal information</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-proposals-get-proposal" aria-label="Link to Request Proposal information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/proposals&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/proposals&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-proposals-post-proposals">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add New Proposals</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-proposals-post-proposals" aria-label="Link to Add New Proposals">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/proposals&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/proposals&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-proposals-delete-proposal">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete Proposal</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-proposals-delete-proposal" aria-label="Link to Delete Proposal">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;https://yoursite.com/api/proposals/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;https://yoursite.com/api/proposals/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-proposals-get-proposal-search">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Search proposals information</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-proposals-get-proposal-search" aria-label="Link to Search proposals information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/proposals/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/proposals/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-staffs">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Staffs</h2>
+</div>
+<span class="endpoint-count">5 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-staffs-delete-staff">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete a Staff</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-staffs-delete-staff" aria-label="Link to Delete a Staff">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;https://yoursite.com/api/delete/staffs/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;https://yoursite.com/api/delete/staffs/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-staffs-post-staffs">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add New Staff</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-staffs-post-staffs" aria-label="Link to Add New Staff">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/staffs&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/staffs&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-staffs-get-staff">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Staff information</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-staffs-get-staff" aria-label="Link to Request Staff information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/staffs/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/staffs/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-staffs-put-staff">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update a Staff</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-staffs-put-staff" aria-label="Link to Update a Staff">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;https://yoursite.com/api/staffs/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;https://yoursite.com/api/staffs/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-staffs-get-staff-search">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Search Staff Information</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-staffs-get-staff-search" aria-label="Link to Search Staff Information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/staffs/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/staffs/search/acme&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-subscriptions">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Subscriptions</h2>
+</div>
+<span class="endpoint-count">5 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-subscriptions-request-subscriptions">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request all Subscriptions</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-subscriptions-request-subscriptions" aria-label="Link to Request all Subscriptions">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/subscriptions/&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/subscriptions/&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-subscriptions-add-new-subscription">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add New Subscription</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-subscriptions-add-new-subscription" aria-label="Link to Add New Subscription">#</a>
+</header>
+<p class="endpoint-description">...</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/subscriptions/&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/subscriptions/&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-subscriptions-delete-a-subscription">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete a Subscription</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-subscriptions-delete-a-subscription" aria-label="Link to Delete a Subscription">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;https://yoursite.com/api/subscriptions/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;https://yoursite.com/api/subscriptions/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-subscriptions-request-subscription-information">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Subscription Information</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-subscriptions-request-subscription-information" aria-label="Link to Request Subscription Information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/subscriptions/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/subscriptions/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-subscriptions-update-a-subscription">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update a Subscription</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-subscriptions-update-a-subscription" aria-label="Link to Update a Subscription">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;https://yoursite.com/api/subscriptions/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;https://yoursite.com/api/subscriptions/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-tasks">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Tasks</h2>
+</div>
+<span class="endpoint-count">13 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-tasks-delete-task">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete a Task</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-tasks-delete-task" aria-label="Link to Delete a Task">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;https://yoursite.com/api/delete/tasks/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;https://yoursite.com/api/delete/tasks/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-tasks-post-task">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add New Task</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-tasks-post-task" aria-label="Link to Add New Task">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;https://yoursite.com/api/tasks&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;https://yoursite.com/api/tasks&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-tasks-get-task">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Task information</h3>
+<code>
+</code>
+</div>
+<a class="anchor-link" href="#api-tasks-get-task" aria-label="Link to Request Task information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;https://yoursite.com/api/tasks/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;https://yoursite.com/api/tasks/123&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-tasks-put-task">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update a task</h3>
+<code>/api/tasks/{id}</code>
+</div>
+<a class="anchor-link" href="#api-tasks-put-task" aria-label="Link to Update a task">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;/api/tasks/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;/api/tasks/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-tasks-get-task-checklist">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Get Task Checklist Items</h3>
+<code>/api/tasks/{id}/checklist</code>
+</div>
+<a class="anchor-link" href="#api-tasks-get-task-checklist" aria-label="Link to Get Task Checklist Items">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;/api/tasks/{id}/checklist&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;/api/tasks/{id}/checklist&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-tasks-post-task-checklist">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add Checklist Item to Task</h3>
+<code>/api/tasks/{id}/checklist</code>
+</div>
+<a class="anchor-link" href="#api-tasks-post-task-checklist" aria-label="Link to Add Checklist Item to Task">#</a>
+</header>
+<p class="endpoint-description">...</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;/api/tasks/{id}/checklist&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;/api/tasks/{id}/checklist&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-tasks-get-task-comments">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Get Task Comments</h3>
+<code>/api/tasks/{id}/comments</code>
+</div>
+<a class="anchor-link" href="#api-tasks-get-task-comments" aria-label="Link to Get Task Comments">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;/api/tasks/{id}/comments&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;/api/tasks/{id}/comments&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-tasks-post-task-comment">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add a Task Comment</h3>
+<code>/api/tasks/{id}/comments</code>
+</div>
+<a class="anchor-link" href="#api-tasks-post-task-comment" aria-label="Link to Add a Task Comment">#</a>
+</header>
+<p class="endpoint-description">Adds a comment to a task, authored by the token&#x27;s staff member. Requires the Tasks &quot;post&quot; permission. Send an Idempotency-Key header to make retries safe.</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;/api/tasks/{id}/comments&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;/api/tasks/{id}/comments&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-tasks-delete-task-checklist">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete Checklist Item</h3>
+<code>/api/tasks/{task_id}/checklist/{item_id}</code>
+</div>
+<a class="anchor-link" href="#api-tasks-delete-task-checklist" aria-label="Link to Delete Checklist Item">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;/api/tasks/{task_id}/checklist/{item_id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;/api/tasks/{task_id}/checklist/{item_id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-tasks-put-task-checklist">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update Checklist Item</h3>
+<code>/api/tasks/{task_id}/checklist/{item_id}</code>
+</div>
+<a class="anchor-link" href="#api-tasks-put-task-checklist" aria-label="Link to Update Checklist Item">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;/api/tasks/{task_id}/checklist/{item_id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;/api/tasks/{task_id}/checklist/{item_id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-tasks-delete-task-comment">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete a Task Comment</h3>
+<code>/api/tasks/{task_id}/comments/{comment_id}</code>
+</div>
+<a class="anchor-link" href="#api-tasks-delete-task-comment" aria-label="Link to Delete a Task Comment">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;/api/tasks/{task_id}/comments/{comment_id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;/api/tasks/{task_id}/comments/{comment_id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-tasks-put-task-comment">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update a Task Comment</h3>
+<code>/api/tasks/{task_id}/comments/{comment_id}</code>
+</div>
+<a class="anchor-link" href="#api-tasks-put-task-comment" aria-label="Link to Update a Task Comment">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;/api/tasks/{task_id}/comments/{comment_id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;/api/tasks/{task_id}/comments/{comment_id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-tasks-get-task-search">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Search Tasks Information</h3>
+<code>/api/tasks/search/{keysearch}</code>
+</div>
+<a class="anchor-link" href="#api-tasks-get-task-search" aria-label="Link to Search Tasks Information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;/api/tasks/search/{keysearch}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;/api/tasks/search/{keysearch}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-taxes">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Taxes</h2>
+</div>
+<span class="endpoint-count">1 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-taxes-get-taxes">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Taxes</h3>
+<code>/api/common/tax_data</code>
+</div>
+<a class="anchor-link" href="#api-taxes-get-taxes" aria-label="Link to Request Taxes">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;/api/common/tax_data&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;/api/common/tax_data&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-thirdparty">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Thirdparty</h2>
+</div>
+<span class="endpoint-count">5 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-thirdparty-get-custom-table-records">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Get All Records from Custom Table</h3>
+<code>/api/thirdparty/customtable/{table_name}</code>
+</div>
+<a class="anchor-link" href="#api-thirdparty-get-custom-table-records" aria-label="Link to Get All Records from Custom Table">#</a>
+</header>
+<p class="endpoint-description">Retrieves all records from the specified custom table. The table name should be the exact name as it exists in the database (no prefix will be added).</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;/api/thirdparty/customtable/{table_name}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;/api/thirdparty/customtable/{table_name}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-thirdparty-post-custom-table-record">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Insert Record into Custom Table</h3>
+<code>/api/thirdparty/customtable/{table_name}</code>
+</div>
+<a class="anchor-link" href="#api-thirdparty-post-custom-table-record" aria-label="Link to Insert Record into Custom Table">#</a>
+</header>
+<p class="endpoint-description">Inserts a new record into the specified custom table. All columns in the request body must exist in the table, otherwise an error will be returned.</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;/api/thirdparty/customtable/{table_name}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;/api/thirdparty/customtable/{table_name}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-thirdparty-delete-custom-table-record">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete Record from Custom Table</h3>
+<code>/api/thirdparty/customtable/{table_name}/{id}</code>
+</div>
+<a class="anchor-link" href="#api-thirdparty-delete-custom-table-record" aria-label="Link to Delete Record from Custom Table">#</a>
+</header>
+<p class="endpoint-description">Deletes a record from the specified custom table by its ID.</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;/api/thirdparty/customtable/{table_name}/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;/api/thirdparty/customtable/{table_name}/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-thirdparty-get-custom-table-record-by-id">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Get Record from Custom Table by ID</h3>
+<code>/api/thirdparty/customtable/{table_name}/{id}</code>
+</div>
+<a class="anchor-link" href="#api-thirdparty-get-custom-table-record-by-id" aria-label="Link to Get Record from Custom Table by ID">#</a>
+</header>
+<p class="endpoint-description">Retrieves a specific record from the custom table by its ID.</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;/api/thirdparty/customtable/{table_name}/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;/api/thirdparty/customtable/{table_name}/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-thirdparty-put-custom-table-record">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update Record in Custom Table</h3>
+<code>/api/thirdparty/customtable/{table_name}/{id}</code>
+</div>
+<a class="anchor-link" href="#api-thirdparty-put-custom-table-record" aria-label="Link to Update Record in Custom Table">#</a>
+</header>
+<p class="endpoint-description">Updates an existing record in the specified custom table. All columns in the request body must exist in the table, otherwise an error will be returned.</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;/api/thirdparty/customtable/{table_name}/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;/api/thirdparty/customtable/{table_name}/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-tickets">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Tickets</h2>
+</div>
+<span class="endpoint-count">6 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-tickets-delete-ticket">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete a Ticket</h3>
+<code>/api/delete/tickets/{id}</code>
+</div>
+<a class="anchor-link" href="#api-tickets-delete-ticket" aria-label="Link to Delete a Ticket">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;/api/delete/tickets/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;/api/delete/tickets/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-tickets-post-ticket">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add New Ticket</h3>
+<code>/api/tickets</code>
+</div>
+<a class="anchor-link" href="#api-tickets-post-ticket" aria-label="Link to Add New Ticket">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;/api/tickets&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;/api/tickets&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-tickets-get-ticket">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Get Ticket(s)</h3>
+<code>/api/tickets/{id}</code>
+</div>
+<a class="anchor-link" href="#api-tickets-get-ticket" aria-label="Link to Get Ticket(s)">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;/api/tickets/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;/api/tickets/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-tickets-put-ticket">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update a ticket</h3>
+<code>/api/tickets/{id}</code>
+</div>
+<a class="anchor-link" href="#api-tickets-put-ticket" aria-label="Link to Update a ticket">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;/api/tickets/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;/api/tickets/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-tickets-post-ticket-reply">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add reply to a ticket</h3>
+<code>/api/tickets/reply/{id}</code>
+</div>
+<a class="anchor-link" href="#api-tickets-post-ticket-reply" aria-label="Link to Add reply to a ticket">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;/api/tickets/reply/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;/api/tickets/reply/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-tickets-get-ticket-search">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Search Ticket Information</h3>
+<code>/api/tickets/search/{keysearch}</code>
+</div>
+<a class="anchor-link" href="#api-tickets-get-ticket-search" aria-label="Link to Search Ticket Information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;/api/tickets/search/{keysearch}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;/api/tickets/search/{keysearch}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-timesheets">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Timesheets</h2>
+</div>
+<span class="endpoint-count">5 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-timesheets-request-all-timesheets">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request all Timesheets</h3>
+<code>/api/timesheets/</code>
+</div>
+<a class="anchor-link" href="#api-timesheets-request-all-timesheets" aria-label="Link to Request all Timesheets">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;/api/timesheets/&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;/api/timesheets/&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-timesheets-add-new-timesheet">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add New Timesheet</h3>
+<code>/api/timesheets/</code>
+</div>
+<a class="anchor-link" href="#api-timesheets-add-new-timesheet" aria-label="Link to Add New Timesheet">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;/api/timesheets/&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;/api/timesheets/&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-timesheets-delete-a-timesheet">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete a Timesheet</h3>
+<code>/api/timesheets/{id}</code>
+</div>
+<a class="anchor-link" href="#api-timesheets-delete-a-timesheet" aria-label="Link to Delete a Timesheet">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;/api/timesheets/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;/api/timesheets/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-timesheets-request-timesheet-information">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Timesheet Information</h3>
+<code>/api/timesheets/{id}</code>
+</div>
+<a class="anchor-link" href="#api-timesheets-request-timesheet-information" aria-label="Link to Request Timesheet Information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;/api/timesheets/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;/api/timesheets/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-timesheets-update-a-timesheet">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update a Timesheet</h3>
+<code>/api/timesheets/{id}</code>
+</div>
+<a class="anchor-link" href="#api-timesheets-update-a-timesheet" aria-label="Link to Update a Timesheet">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;/api/timesheets/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;/api/timesheets/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-webhooks">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Webhooks</h2>
+</div>
+<span class="endpoint-count">8 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-webhooks-get-webhooks">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>List Webhooks</h3>
+<code>/api/webhooks</code>
+</div>
+<a class="anchor-link" href="#api-webhooks-get-webhooks" aria-label="Link to List Webhooks">#</a>
+</header>
+<p class="endpoint-description">List all configured webhooks. Secrets are never returned (has_secret flag only). Supports page/per_page, sort, fields and date filters.</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;/api/webhooks&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;/api/webhooks&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-webhooks-post-webhook">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Create a Webhook</h3>
+<code>/api/webhooks</code>
+</div>
+<a class="anchor-link" href="#api-webhooks-post-webhook" aria-label="Link to Create a Webhook">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;/api/webhooks&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;/api/webhooks&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-webhooks-delete-webhook">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete a Webhook</h3>
+<code>/api/webhooks/{id}</code>
+</div>
+<a class="anchor-link" href="#api-webhooks-delete-webhook" aria-label="Link to Delete a Webhook">#</a>
+</header>
+<p class="endpoint-description">Deletes the webhook together with its delivery logs and queued jobs.</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request DELETE \
+  --url &quot;/api/webhooks/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request DELETE \
+  --url &quot;/api/webhooks/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-webhooks-get-webhook">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Webhook Information</h3>
+<code>/api/webhooks/{id}</code>
+</div>
+<a class="anchor-link" href="#api-webhooks-get-webhook" aria-label="Link to Request Webhook Information">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;/api/webhooks/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;/api/webhooks/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-webhooks-put-webhook">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update a Webhook</h3>
+<code>/api/webhooks/{id}</code>
+</div>
+<a class="anchor-link" href="#api-webhooks-put-webhook" aria-label="Link to Update a Webhook">#</a>
+</header>
+<p class="endpoint-description">Partial update - only the provided fields change; same validation as create.</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request PUT \
+  --url &quot;/api/webhooks/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request PUT \
+  --url &quot;/api/webhooks/{id}&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-webhooks-get-webhook-logs">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Webhook Delivery Logs</h3>
+<code>/api/webhooks/{id}/logs</code>
+</div>
+<a class="anchor-link" href="#api-webhooks-get-webhook-logs" aria-label="Link to Webhook Delivery Logs">#</a>
+</header>
+<p class="endpoint-description">Latest 500 delivery attempts with status, response code and error details. Paginated via page/per_page.</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;/api/webhooks/{id}/logs&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;/api/webhooks/{id}/logs&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-webhooks-toggle-webhook">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Enable/Disable a Webhook</h3>
+<code>/api/webhooks/{id}/toggle</code>
+</div>
+<a class="anchor-link" href="#api-webhooks-toggle-webhook" aria-label="Link to Enable/Disable a Webhook">#</a>
+</header>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request POST \
+  --url &quot;/api/webhooks/{id}/toggle&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request POST \
+  --url &quot;/api/webhooks/{id}/toggle&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-webhooks-get-webhook-events">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Webhook Event Catalog</h3>
+<code>/api/webhooks/events</code>
+</div>
+<a class="anchor-link" href="#api-webhooks-get-webhook-events" aria-label="Link to Webhook Event Catalog">#</a>
+</header>
+<p class="endpoint-description">The authoritative catalog: 124 events across 22 resource groups (invoice_created, lead_status_changed, ticket_reply_created, kb_article_created...).</p>
+<div class="endpoint-grid">
+<div>
+<h4>Request</h4>
+<p>Authenticate using the <code>authtoken</code> header or an authorised API token parameter.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>cURL</span>
+<button type="button" data-copy="curl --request GET \
+  --url &quot;/api/webhooks/events&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;">Copy</button>
+</div>
+<pre>
+<code>curl --request GET \
+  --url &quot;/api/webhooks/events&quot; \
+  --header &quot;authtoken: YOUR_API_TOKEN&quot;</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+<section class="api-group" id="api-custom-fields">
+<div class="section-heading">
+<div>
+<p class="eyebrow eyebrow--small">
+<span>
+</span>API resource</p>
+<h2>Custom Fields</h2>
+</div>
+<span class="endpoint-count">6 endpoints</span>
+</div>
+<article class="api-endpoint" id="api-custom-fields-1">
+<header class="endpoint-header">
+<span class="method-badge method-badge--post">POST</span>
+<div>
+<h3>Add Custom Fields</h3>
+<code>/api/{resource}/{id}</code>
+</div>
+<a class="anchor-link" href="#api-custom-fields-1">#</a>
+</header>
+<p class="endpoint-description">Submit custom field values together with create requests using the field name returned by the custom-fields metadata endpoint.</p>
+<div class="endpoint-grid">
+<div>
+<h4>Custom field payload</h4>
+<p>Use the <code>custom_fields</code> request value and the exact <code>field_name</code> returned by the custom-fields metadata request.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>JSON structure</span>
+</div>
+<pre>
+<code>{
+  "custom_fields": {
+    "field_name": "value"
+  }
+}</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-custom-fields-2">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Values of Custom Fields</h3>
+<code>/api/{resource}/{id}</code>
+</div>
+<a class="anchor-link" href="#api-custom-fields-2">#</a>
+</header>
+<p class="endpoint-description">Request the stored custom field values that belong to a CRM record.</p>
+<div class="endpoint-grid">
+<div>
+<h4>Custom field payload</h4>
+<p>Use the <code>custom_fields</code> request value and the exact <code>field_name</code> returned by the custom-fields metadata request.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>JSON structure</span>
+</div>
+<pre>
+<code>{
+  "custom_fields": {
+    "field_name": "value"
+  }
+}</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-custom-fields-3">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Request Custom Fields</h3>
+<code>/api/{resource}/{id}</code>
+</div>
+<a class="anchor-link" href="#api-custom-fields-3">#</a>
+</header>
+<p class="endpoint-description">Retrieve custom fields registered for a supported CRM resource.</p>
+<div class="endpoint-grid">
+<div>
+<h4>Custom field payload</h4>
+<p>Use the <code>custom_fields</code> request value and the exact <code>field_name</code> returned by the custom-fields metadata request.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>JSON structure</span>
+</div>
+<pre>
+<code>{
+  "custom_fields": {
+    "field_name": "value"
+  }
+}</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-custom-fields-4">
+<header class="endpoint-header">
+<span class="method-badge method-badge--get">GET</span>
+<div>
+<h3>Search custom field values' information</h3>
+<code>/api/{resource}/{id}</code>
+</div>
+<a class="anchor-link" href="#api-custom-fields-4">#</a>
+</header>
+<p class="endpoint-description">Search custom-field definitions and obtain their field names and identifiers.</p>
+<div class="endpoint-grid">
+<div>
+<h4>Custom field payload</h4>
+<p>Use the <code>custom_fields</code> request value and the exact <code>field_name</code> returned by the custom-fields metadata request.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>JSON structure</span>
+</div>
+<pre>
+<code>{
+  "custom_fields": {
+    "field_name": "value"
+  }
+}</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-custom-fields-5">
+<header class="endpoint-header">
+<span class="method-badge method-badge--delete">DELETE</span>
+<div>
+<h3>Delete Custom Fields</h3>
+<code>/api/{resource}/{id}</code>
+</div>
+<a class="anchor-link" href="#api-custom-fields-5">#</a>
+</header>
+<p class="endpoint-description">Remove a particular custom field value from an existing CRM record.</p>
+<div class="endpoint-grid">
+<div>
+<h4>Custom field payload</h4>
+<p>Use the <code>custom_fields</code> request value and the exact <code>field_name</code> returned by the custom-fields metadata request.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>JSON structure</span>
+</div>
+<pre>
+<code>{
+  "custom_fields": {
+    "field_name": "value"
+  }
+}</code>
+</pre>
+</div>
+</div>
+</article>
+<article class="api-endpoint" id="api-custom-fields-6">
+<header class="endpoint-header">
+<span class="method-badge method-badge--put">PUT</span>
+<div>
+<h3>Update Custom Fields</h3>
+<code>/api/{resource}/{id}</code>
+</div>
+<a class="anchor-link" href="#api-custom-fields-6">#</a>
+</header>
+<p class="endpoint-description">Update custom field values on an existing CRM record.</p>
+<div class="endpoint-grid">
+<div>
+<h4>Custom field payload</h4>
+<p>Use the <code>custom_fields</code> request value and the exact <code>field_name</code> returned by the custom-fields metadata request.</p>
+</div>
+<div class="code-example">
+<div class="code-example__bar">
+<span>JSON structure</span>
+</div>
+<pre>
+<code>{
+  "custom_fields": {
+    "field_name": "value"
+  }
+}</code>
+</pre>
+</div>
+</div>
+</article>
+</section>
+</main>
+</div>
+<div class="toast-region" aria-live="polite">
+</div>
+<script src="../assets/js/site.js" defer>
+</script>
+<script src="../assets/js/api-reference.js" defer>
+</script>
 </body>
 </html>
