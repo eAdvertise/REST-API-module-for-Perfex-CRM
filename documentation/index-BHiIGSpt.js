@@ -17852,7 +17852,7 @@ function IntroSection() {
   ] });
 }
 
-const images_9e571fd0_8fc8_43d7_a542_ef1776216259_png = ""+new URL('images/9e571fd0-8fc8-43d7-a542-ef1776216259.png', import.meta.url).href+"";
+const images_9e571fd0_8fc8_43d7_a542_ef1776216259_png = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' rx='18' fill='%236366f1'/%3E%3Ctext x='40' y='50' text-anchor='middle' font-family='Arial,sans-serif' font-size='25' font-weight='700' fill='white'%3EeAD%3C/text%3E%3C/svg%3E";
 
 const Img = ({ id }) => {
   switch (String(id)) {
