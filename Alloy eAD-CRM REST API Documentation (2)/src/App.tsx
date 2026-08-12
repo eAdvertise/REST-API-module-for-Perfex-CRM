@@ -165,7 +165,7 @@ function AppContent() {
 }
 
 function App() {
-    const defaultRoute = "/apiguide/";
+    const defaultRoute = "/";
 
     return (
         <Router>
