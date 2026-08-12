@@ -90,6 +90,11 @@ $route['api/guest_invoices/(:num)']     = 'guest_invoices/data/$1';
 $route['api/guest_invoices/checkout']   = 'guest_invoices/checkout';
 $route['api/guestinvoices/checkout']    = 'guest_invoices/checkout';
 
+// Warehouse module v3 (must come before generic routes)
+$route['api/warehouse']                       = 'warehouse/data';
+$route['api/warehouse/(:any)']                = 'warehouse/data/$1';
+$route['api/warehouse/(:any)/(:num)']         = 'warehouse/data/$1/$2';
+
 // Generic API routes (must come after specific routes)
 $route['api/tickets/reply/(:num)'] = 'tickets/data_reply/$1';
 $route['api/delete/(:any)/(:num)'] = '$1/data/$2';

@@ -24,6 +24,7 @@ import ApiNavItem from './ApiNavItem.tsx'
                 ["Expense Categories", ["54"]],
                 ["Expenses", ["11", "128", "103", "55", "56"]],
                 ["Items", ["104", "12", "57", "129", "58"]],
+                ["Warehouse", []],
                 ["Knowledge Base", ["59", "13", "105", "60", "130", "61", "14", "106", "131"]],
                 ["Milestones", ["107", "15", "62", "132", "63"]],
                 ["Notes", ["16", "108", "64", "133", "65"]],
