@@ -13,6 +13,7 @@ import ApiNavItem from './ApiNavItem.tsx'
                 ["Batch", ["1"]],
                 ["Leads", ["95", "2", "36", "37", "121", "38"]],
                 ["Invoices", ["3", "96", "39", "122", "4", "40"]],
+                ["Guest Invoices", ["146", "147"]],
                 ["Customers", ["5", "41", "123", "42", "97"]],
                 ["Calendar Events", ["43", "6", "98", "44", "124"]],
                 ["Common", ["45"]],
