@@ -10,6 +10,7 @@ $lang["my_shopify_orders"] = "Orders";
 $lang["my_shopify_categories"] = "Categories";
 $lang["my_shopify_products"] = "Products";
 $lang["my_shopify_discounts"] = "Discounts";
+$lang['my_shopify_documentation'] = 'Documentation';
 
 
 $lang["my_shopify_import_customers"] = "Import Customers";

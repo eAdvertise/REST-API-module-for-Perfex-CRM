@@ -12,7 +12,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-// Perfex may include a module bootstrap more than once while discovering or
+// eAD-CRM may include a module bootstrap more than once while discovering or
 // upgrading modules. A second load must not register hooks or functions again.
 if (defined('MYSHOPIFY_MODULE_BOOTSTRAPPED')) {
     return;
@@ -66,6 +66,7 @@ hooks()->add_action('customer_updated_company_info', 'myshopify_customer_changed
 hooks()->add_action('after_item_updated', 'myshopify_item_changed');
 hooks()->add_action('after_wh_goods_receipt_approve', 'myshopify_inventory_changed');
 hooks()->add_action('after_wh_goods_delivery_approve', 'myshopify_inventory_changed');
+hooks()->add_action('app_admin_footer', 'myshopify_documentation_link_attributes');
 
 /**
  * Initialize Shopify menu in the admin sidebar
@@ -124,6 +125,16 @@ if (!function_exists('shopify_init_menu_items')) {
         'name'     => _l('my_shopify_discounts'),
         'href'     => admin_url('myshopify/discounts'),
         'position' => 17,
+    ]);
+
+    // Keep documentation last and open the external guide in a new tab.
+    $CI->app_menu->add_sidebar_children_item('shopify-menu', [
+        'slug'     => 'my_shopify-documentation',
+        'name'     => _l('my_shopify_documentation'),
+        'href'     => 'https://myshopify.eadcrm.eu/',
+        'position' => 100,
+        'target'   => '_blank',
+        'rel'      => 'noopener noreferrer',
     ]);
 
     $CI->app->add_settings_section_child('integrations', 'myshopify', [
@@ -201,6 +212,16 @@ if (!function_exists('myshopify_inventory_changed')) {
         } catch (Throwable $e) {
             log_message('error', 'MyShopify inventory push failed: ' . $e->getMessage());
         }
+    }
+}
+
+if (!function_exists('myshopify_documentation_link_attributes')) {
+    function myshopify_documentation_link_attributes()
+    {
+        echo '<script>(function(){var link=document.querySelector(' .
+            '"#side-menu a[href=\\"https://myshopify.eadcrm.eu/\\"], ' .
+            '#sidebar-menu a[href=\\"https://myshopify.eadcrm.eu/\\"]");' .
+            'if(link){link.target="_blank";link.rel="noopener noreferrer";}})();</script>';
     }
 }
 
