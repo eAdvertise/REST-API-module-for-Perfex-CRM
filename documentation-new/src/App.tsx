@@ -77,6 +77,8 @@ function AppContent() {
                     <ApiSection dataId="2" />
 
         <GuestInvoicesSection />
+
+        <WarehouseSection />
                 
         
                     <ApiSection dataId="3" />
