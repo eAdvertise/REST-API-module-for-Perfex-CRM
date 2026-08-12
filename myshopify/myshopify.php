@@ -12,7 +12,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-// Perfex may include a module bootstrap more than once while discovering or
+// eAD-CRM may include a module bootstrap more than once while discovering or
 // upgrading modules. A second load must not register hooks or functions again.
 if (defined('MYSHOPIFY_MODULE_BOOTSTRAPPED')) {
     return;
