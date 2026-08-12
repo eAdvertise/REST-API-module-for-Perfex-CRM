@@ -26,3 +26,5 @@ The API version defaults to `2026-07` and can be changed from the same settings 
 Run **Synchronize Shopify now** once after configuration. This registers any missing webhooks and performs the initial reconciliation. Afterwards keep the normal Perfex cron enabled.
 
 Existing 1.x installations are upgraded through the `2.0.0` migration. The migration declaration is guarded against a duplicate include—the cause of the previous `Cannot declare class Migration_Version_200` fatal error—and the admin schema check remains as an idempotent fallback for manually copied or interrupted deployments.
+
+The module bootstrap is also idempotent: every global callback is conditionally declared and a bootstrap sentinel prevents duplicate hook registration when Perfex loads `myshopify.php` more than once in the same request.

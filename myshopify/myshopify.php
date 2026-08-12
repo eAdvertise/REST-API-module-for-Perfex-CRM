@@ -12,8 +12,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+// Perfex may include a module bootstrap more than once while discovering or
+// upgrading modules. A second load must not register hooks or functions again.
+if (defined('MYSHOPIFY_MODULE_BOOTSTRAPPED')) {
+    return;
+}
+define('MYSHOPIFY_MODULE_BOOTSTRAPPED', true);
+
 // Define module name constant
-define('MYSHOPIFY_MODULE_NAME', 'myshopify');
+if (!defined('MYSHOPIFY_MODULE_NAME')) {
+    define('MYSHOPIFY_MODULE_NAME', 'myshopify');
+}
 
 
 $CI = &get_instance();
@@ -29,9 +38,11 @@ register_activation_hook(MYSHOPIFY_MODULE_NAME, 'myshopify_activate_module');
  * Module activation callback.
  * Called once when the module is activated.
  */
-function myshopify_activate_module()
-{
-    require_once __DIR__ . '/install.php';
+if (!function_exists('myshopify_activate_module')) {
+    function myshopify_activate_module()
+    {
+        require_once __DIR__ . '/install.php';
+    }
 }
 
 
@@ -54,8 +65,9 @@ hooks()->add_action('after_wh_goods_delivery_approve', 'myshopify_inventory_chan
 /**
  * Initialize Shopify menu in the admin sidebar
  */
-function shopify_init_menu_items()
-{
+if (!function_exists('shopify_init_menu_items')) {
+    function shopify_init_menu_items()
+    {
     if (!has_permission('shopify', '', 'view')) {
         return;
     }
@@ -123,6 +135,85 @@ function shopify_init_menu_items()
             'href'     => admin_url('myshopify/verify'),
             'position' => 35,
         ]);
+    }
+    }
+}
+
+/**
+ * Ensure the v2 schema is present even if an installation skipped migrations.
+ *
+ * The normal 2.0.0 migration performs this upgrade. This idempotent fallback
+ * covers manually copied modules and interrupted deployments.
+ */
+if (!function_exists('myshopify_ensure_v2_schema')) {
+    function myshopify_ensure_v2_schema()
+    {
+        $CI = &get_instance();
+        if ($CI->db->table_exists(db_prefix() . 'myshopify_product_map')) {
+            return;
+        }
+
+        require __DIR__ . '/install.php';
+    }
+}
+
+if (!function_exists('myshopify_sync_service')) {
+    function myshopify_sync_service()
+    {
+        $CI = &get_instance();
+        $CI->load->library('myshopify/Myshopify_sync_service');
+        return $CI->myshopify_sync_service;
+    }
+}
+
+if (!function_exists('myshopify_run_sync')) {
+    function myshopify_run_sync()
+    {
+        if (get_option('my_shopify_sync_enabled') !== '1') {
+            return;
+        }
+        try {
+            myshopify_sync_service()->reconcile();
+        } catch (Throwable $e) {
+            log_message('error', 'MyShopify cron sync failed: ' . $e->getMessage());
+        }
+    }
+}
+
+if (!function_exists('myshopify_customer_changed')) {
+    function myshopify_customer_changed($clientId)
+    {
+        try {
+            myshopify_sync_service()->pushCustomer((int) $clientId);
+        } catch (Throwable $e) {
+            log_message('error', 'MyShopify customer push failed: ' . $e->getMessage());
+        }
+    }
+}
+
+if (!function_exists('myshopify_item_changed')) {
+    function myshopify_item_changed($payload)
+    {
+        $itemId = is_array($payload) ? (int) ($payload['id'] ?? 0) : (int) $payload;
+        if ($itemId < 1) {
+            return;
+        }
+        try {
+            myshopify_sync_service()->pushItem($itemId);
+        } catch (Throwable $e) {
+            log_message('error', 'MyShopify item push failed: ' . $e->getMessage());
+        }
+    }
+}
+
+if (!function_exists('myshopify_inventory_changed')) {
+    function myshopify_inventory_changed()
+    {
+        try {
+            myshopify_sync_service()->pushMappedInventory();
+        } catch (Throwable $e) {
+            log_message('error', 'MyShopify inventory push failed: ' . $e->getMessage());
+        }
     }
 }
 
