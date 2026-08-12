@@ -44,6 +44,12 @@ register_language_files(MYSHOPIFY_MODULE_NAME, [MYSHOPIFY_MODULE_NAME]);
 
 // Add admin menu items
 hooks()->add_action('admin_init', 'shopify_init_menu_items');
+hooks()->add_action('admin_init', 'myshopify_ensure_v2_schema');
+hooks()->add_action('after_cron_run', 'myshopify_run_sync');
+hooks()->add_action('customer_updated_company_info', 'myshopify_customer_changed');
+hooks()->add_action('after_item_updated', 'myshopify_item_changed');
+hooks()->add_action('after_wh_goods_receipt_approve', 'myshopify_inventory_changed');
+hooks()->add_action('after_wh_goods_delivery_approve', 'myshopify_inventory_changed');
 
 /**
  * Initialize Shopify menu in the admin sidebar
@@ -117,6 +123,74 @@ function shopify_init_menu_items()
             'href'     => admin_url('myshopify/verify'),
             'position' => 35,
         ]);
+    }
+}
+
+/**
+ * Upgrade existing 1.x installations without a numbered Perfex migration.
+ *
+ * Perfex migration class names are global (Migration_Version_200). Other
+ * active modules may already declare that class, so a 200 migration in this
+ * module can cause a fatal redeclaration before any migration code executes.
+ * The installer is idempotent; run it only when the v2 sentinel table is absent.
+ */
+function myshopify_ensure_v2_schema()
+{
+    $CI = &get_instance();
+    if ($CI->db->table_exists(db_prefix() . 'myshopify_product_map')) {
+        return;
+    }
+
+    require __DIR__ . '/install.php';
+}
+
+function myshopify_sync_service()
+{
+    $CI = &get_instance();
+    $CI->load->library('myshopify/Myshopify_sync_service');
+    return $CI->myshopify_sync_service;
+}
+
+function myshopify_run_sync()
+{
+    if (get_option('my_shopify_sync_enabled') !== '1') {
+        return;
+    }
+    try {
+        myshopify_sync_service()->reconcile();
+    } catch (Throwable $e) {
+        log_message('error', 'MyShopify cron sync failed: ' . $e->getMessage());
+    }
+}
+
+function myshopify_customer_changed($clientId)
+{
+    try {
+        myshopify_sync_service()->pushCustomer((int) $clientId);
+    } catch (Throwable $e) {
+        log_message('error', 'MyShopify customer push failed: ' . $e->getMessage());
+    }
+}
+
+function myshopify_item_changed($payload)
+{
+    $itemId = is_array($payload) ? (int) ($payload['id'] ?? 0) : (int) $payload;
+    if ($itemId < 1) {
+        return;
+    }
+    try {
+        myshopify_sync_service()->pushItem($itemId);
+    } catch (Throwable $e) {
+        log_message('error', 'MyShopify item push failed: ' . $e->getMessage());
+    }
+}
+
+function myshopify_inventory_changed()
+{
+    try {
+        myshopify_sync_service()->pushMappedInventory();
+    } catch (Throwable $e) {
+        log_message('error', 'MyShopify inventory push failed: ' . $e->getMessage());
     }
 }
 
