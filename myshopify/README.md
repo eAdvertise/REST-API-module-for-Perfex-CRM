@@ -1,5 +1,7 @@
 # MyShopify full synchronization
 
+The complete, deployable English guide is available in [`documentation/index.html`](documentation/index.html). Upload the entire `documentation` directory and open `index.html`; it requires no build step or external dependencies.
+
 ## Behaviour
 
 - Customers are linked by normalized email. The newest `updated_at` wins; Perfex wins ties.
