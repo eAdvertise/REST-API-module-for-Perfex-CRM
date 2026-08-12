@@ -60,6 +60,18 @@ function findEndpoint(title: string) {
 
 function getApiNavItemData(id): ApiNavItemData  {
     switch (String(id)) {
+    case "146":
+        return {
+            "method": "POST",
+            "methodClass": "typ-post",
+            "title": "Create Guest Invoice"
+        };
+    case "147":
+        return {
+            "method": "POST",
+            "methodClass": "typ-post",
+            "title": "Guest Invoice Checkout"
+        };
     case "0":
         return 
                 {
