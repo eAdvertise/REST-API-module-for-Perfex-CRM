@@ -32879,10 +32879,29 @@ const warehouseResources = [
 ];
 const warehouseListExample = `curl "https://yoursite.com/api/warehouse/inventory?warehouse_id=1&commodity_id=42&page=1&per_page=25" \\\n  -H "authtoken: YOUR_API_TOKEN"`;
 const warehouseWriteExample = `curl -X POST "https://yoursite.com/api/warehouse/receipts" \\\n  -H "authtoken: YOUR_API_TOKEN" \\\n  -H "Content-Type: application/json" \\\n  -d '{"date_c":"2026-08-12","date_add":"2026-08-12","newitems":[{"commodity_code":42,"warehouse_id":1,"quantities":10,"unit_price":5}]}'`;
+const warehouseUpdateExample = `curl -X PUT "https://yoursite.com/api/warehouse/items/42" \
+  -H "authtoken: YOUR_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"description":"Updated warehouse item","rate":15}'`;
+const warehouseDeleteExample = `curl -X DELETE "https://yoursite.com/api/warehouse/items/42" \
+  -H "authtoken: YOUR_API_TOKEN"`;
 function WarehouseCodeExample({ children }) {
   return jsxRuntimeExports.jsxs("pre", { className: "astro-code catppuccin-mocha", style: { backgroundColor: "#1e1e2e", color: "#cdd6f4", overflowX: "auto" }, tabIndex: 0, children: [
     jsxRuntimeExports.jsx("code", { children }),
     jsxRuntimeExports.jsx(CopyButton, { hidden: false })
+  ] });
+}
+function WarehouseEndpoint({ id, method, path, title, description, example }) {
+  const methodClass = method === "GET" ? "typ-get" : method === "POST" ? "typ-post" : method === "PUT" ? "typ-put" : "typ-delete";
+  return jsxRuntimeExports.jsxs("article", { id, children: [
+    jsxRuntimeExports.jsx("h1", { children: title }),
+    jsxRuntimeExports.jsxs("div", { className: "row pre-post", children: [
+      jsxRuntimeExports.jsxs("div", { className: "col-md-7 no-float", children: [
+        jsxRuntimeExports.jsxs("pre", { className: "full-pre", children: [jsxRuntimeExports.jsx("span", { className: `typ ${methodClass}`, children: method }), jsxRuntimeExports.jsx("span", { className: "url", children: path })] }),
+        jsxRuntimeExports.jsx("div", { className: "endpoint-desc", children: jsxRuntimeExports.jsx("p", { children: description }) })
+      ] }),
+      jsxRuntimeExports.jsx("div", { className: "col-md-4 section-example no-float", children: jsxRuntimeExports.jsx(WarehouseCodeExample, { children: example }) })
+    ] })
   ] });
 }
 function WarehouseSection() {
@@ -32903,7 +32922,11 @@ function WarehouseSection() {
         ] }),
         jsxRuntimeExports.jsxs("div", { className: "col-md-4 section-example no-float", children: [jsxRuntimeExports.jsx("h3", { children: "List inventory" }), jsxRuntimeExports.jsx(WarehouseCodeExample, { children: warehouseListExample }), jsxRuntimeExports.jsx("h3", { children: "Create a receipt" }), jsxRuntimeExports.jsx(WarehouseCodeExample, { children: warehouseWriteExample })] })
       ] })
-    ] })
+    ] }),
+    jsxRuntimeExports.jsx(WarehouseEndpoint, { id: "api-warehouse-get", method: "GET", path: "/api/warehouse/:resource/:id?", title: "List or retrieve Warehouse records", description: "List a resource with pagination and exact-field filters, or append an ID to retrieve one record. Document records include their detail lines.", example: warehouseListExample }),
+    jsxRuntimeExports.jsx(WarehouseEndpoint, { id: "api-warehouse-post", method: "POST", path: "/api/warehouse/:resource", title: "Create a Warehouse record", description: "Create any writable Warehouse resource. Operational documents are processed by the native Warehouse model; inventory balances are read-only.", example: warehouseWriteExample }),
+    jsxRuntimeExports.jsx(WarehouseEndpoint, { id: "api-warehouse-put", method: "PUT", path: "/api/warehouse/:resource/:id", title: "Update a Warehouse record", description: "Update an existing writable resource. Only real table fields are accepted for schema-backed resources.", example: warehouseUpdateExample }),
+    jsxRuntimeExports.jsx(WarehouseEndpoint, { id: "api-warehouse-delete", method: "DELETE", path: "/api/warehouse/:resource/:id", title: "Delete a Warehouse record", description: "Delete an existing writable resource. Native Warehouse deletion handlers are used where they provide relationship and cascade checks.", example: warehouseDeleteExample })
   ] });
 }
 

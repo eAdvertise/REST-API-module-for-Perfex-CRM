@@ -32,10 +32,40 @@ const writeExample = `curl -X POST "https://yoursite.com/api/warehouse/receipts"
   -H "Content-Type: application/json" \\
   -d '{"date_c":"2026-08-12","date_add":"2026-08-12","newitems":[{"commodity_code":42,"warehouse_id":1,"quantities":10,"unit_price":5}]}'`;
 
+const updateExample = `curl -X PUT "https://yoursite.com/api/warehouse/items/42" \\
+  -H "authtoken: YOUR_API_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{"description":"Updated warehouse item","rate":15}'`;
+
+const deleteExample = `curl -X DELETE "https://yoursite.com/api/warehouse/items/42" \\
+  -H "authtoken: YOUR_API_TOKEN"`;
+
 function CodeExample({ children }: { children: string }) {
     return <pre className="astro-code catppuccin-mocha" style={{ backgroundColor: '#1e1e2e', color: '#cdd6f4', overflowX: 'auto' }} tabIndex={0}>
         <code>{children}</code><CopyButton hidden={false} />
     </pre>;
+}
+
+function Endpoint({ id, method, path, title, description, example }: {
+    id: string;
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE';
+    path: string;
+    title: string;
+    description: string;
+    example: string;
+}) {
+    const methodClass = method === 'GET' ? 'typ-get' : method === 'POST' ? 'typ-post' : method === 'PUT' ? 'typ-put' : 'typ-delete';
+
+    return <article id={id}>
+        <h1>{title}</h1>
+        <div className="row pre-post">
+            <div className="col-md-7 no-float">
+                <pre className="full-pre"><span className={`typ ${methodClass}`}>{method}</span><span className="url">{path}</span></pre>
+                <div className="endpoint-desc"><p>{description}</p></div>
+            </div>
+            <div className="col-md-4 section-example no-float"><CodeExample>{example}</CodeExample></div>
+        </div>
+    </article>;
 }
 
 function WarehouseSection() {
@@ -68,6 +98,10 @@ function WarehouseSection() {
                 </div>
             </div>
         </article>
+        <Endpoint id="api-warehouse-get" method="GET" path="/api/warehouse/:resource/:id?" title="List or retrieve Warehouse records" description="List a resource with pagination and exact-field filters, or append an ID to retrieve one record. Document records include their detail lines." example={listExample} />
+        <Endpoint id="api-warehouse-post" method="POST" path="/api/warehouse/:resource" title="Create a Warehouse record" description="Create any writable Warehouse resource. Operational documents are processed by the native Warehouse model; inventory balances are read-only." example={writeExample} />
+        <Endpoint id="api-warehouse-put" method="PUT" path="/api/warehouse/:resource/:id" title="Update a Warehouse record" description="Update an existing writable resource. Only real table fields are accepted for schema-backed resources." example={updateExample} />
+        <Endpoint id="api-warehouse-delete" method="DELETE" path="/api/warehouse/:resource/:id" title="Delete a Warehouse record" description="Delete an existing writable resource. Native Warehouse deletion handlers are used where they provide relationship and cascade checks." example={deleteExample} />
     </section>;
 }
 
