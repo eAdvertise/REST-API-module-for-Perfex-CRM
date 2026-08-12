@@ -10,6 +10,7 @@ $lang["my_shopify_orders"] = "Orders";
 $lang["my_shopify_categories"] = "Categories";
 $lang["my_shopify_products"] = "Products";
 $lang["my_shopify_discounts"] = "Discounts";
+$lang['my_shopify_documentation'] = 'Documentation';
 
 
 $lang["my_shopify_import_customers"] = "Import Customers";
@@ -85,5 +86,11 @@ $lang["settings_my_shopify_url"] = "Shopify URL";
 $lang["settings_my_shopify_access_token"] = "Shopify Access Token";
 $lang["myshopify"] = "MyShopify";
 $lang["myshopify_verify"] = "MyShopify Verify";
+$lang['settings_my_shopify_webhook_secret'] = 'Shopify webhook signing secret';
+$lang['settings_my_shopify_webhook_url'] = 'Webhook URL';
+$lang['settings_my_shopify_location_id'] = 'Shopify inventory location ID';
+$lang['settings_my_shopify_warehouse_id'] = 'Perfex Warehouse ID';
+$lang['settings_my_shopify_sync_enabled'] = 'Enable automatic two-way synchronization';
+$lang['settings_my_shopify_api_version'] = 'Shopify Admin API version';
 
 

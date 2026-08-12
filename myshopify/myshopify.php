@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * Module Name: My Shopify Module
  * Description: View Shopify shop orders, customers, products, and discounts directly from the eAD-CRM dashboard.
- * Version: 1.0.0
+ * Version: 2.0.0
  * Requires at least: 3.0.*
  * Author: eAdvertise.eu
  * Author URI: https://www.eadvertise.eu
@@ -12,8 +12,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+// Perfex may include a module bootstrap more than once while discovering or
+// upgrading modules. A second load must not register hooks or functions again.
+if (defined('MYSHOPIFY_MODULE_BOOTSTRAPPED')) {
+    return;
+}
+define('MYSHOPIFY_MODULE_BOOTSTRAPPED', true);
+
 // Define module name constant
-define('MYSHOPIFY_MODULE_NAME', 'myshopify');
+if (!defined('MYSHOPIFY_MODULE_NAME')) {
+    define('MYSHOPIFY_MODULE_NAME', 'myshopify');
+}
 
 
 $CI = &get_instance();
@@ -29,9 +38,11 @@ register_activation_hook(MYSHOPIFY_MODULE_NAME, 'myshopify_activate_module');
  * Module activation callback.
  * Called once when the module is activated.
  */
-function myshopify_activate_module()
-{
-    require_once __DIR__ . '/install.php';
+if (!function_exists('myshopify_activate_module')) {
+    function myshopify_activate_module()
+    {
+        require_once __DIR__ . '/install.php';
+    }
 }
 
 
@@ -44,12 +55,25 @@ register_language_files(MYSHOPIFY_MODULE_NAME, [MYSHOPIFY_MODULE_NAME]);
 
 // Add admin menu items
 hooks()->add_action('admin_init', 'shopify_init_menu_items');
+hooks()->add_action('admin_init', static function () {
+    $CI = &get_instance();
+    if (!$CI->db->table_exists(db_prefix() . 'myshopify_product_map')) {
+        require __DIR__ . '/install.php';
+    }
+});
+hooks()->add_action('after_cron_run', 'myshopify_run_sync');
+hooks()->add_action('customer_updated_company_info', 'myshopify_customer_changed');
+hooks()->add_action('after_item_updated', 'myshopify_item_changed');
+hooks()->add_action('after_wh_goods_receipt_approve', 'myshopify_inventory_changed');
+hooks()->add_action('after_wh_goods_delivery_approve', 'myshopify_inventory_changed');
+hooks()->add_action('app_admin_footer', 'myshopify_documentation_link_attributes');
 
 /**
  * Initialize Shopify menu in the admin sidebar
  */
-function shopify_init_menu_items()
-{
+if (!function_exists('shopify_init_menu_items')) {
+    function shopify_init_menu_items()
+    {
     if (!has_permission('shopify', '', 'view')) {
         return;
     }
@@ -103,6 +127,16 @@ function shopify_init_menu_items()
         'position' => 17,
     ]);
 
+    // Keep documentation last and open the external guide in a new tab.
+    $CI->app_menu->add_sidebar_children_item('shopify-menu', [
+        'slug'     => 'my_shopify-documentation',
+        'name'     => _l('my_shopify_documentation'),
+        'href'     => 'https://myshopify.eadcrm.eu/',
+        'position' => 100,
+        'target'   => '_blank',
+        'rel'      => 'noopener noreferrer',
+    ]);
+
     $CI->app->add_settings_section_child('integrations', 'myshopify', [
         'name'     => '' . _l('myshopify') . '',
         'view'     => 'myshopify/admin/settings',
@@ -117,6 +151,77 @@ function shopify_init_menu_items()
             'href'     => admin_url('myshopify/verify'),
             'position' => 35,
         ]);
+    }
+    }
+}
+
+if (!function_exists('myshopify_sync_service')) {
+    function myshopify_sync_service()
+    {
+        $CI = &get_instance();
+        $CI->load->library('myshopify/Myshopify_sync_service');
+        return $CI->myshopify_sync_service;
+    }
+}
+
+if (!function_exists('myshopify_run_sync')) {
+    function myshopify_run_sync()
+    {
+        if (get_option('my_shopify_sync_enabled') !== '1') {
+            return;
+        }
+        try {
+            myshopify_sync_service()->reconcile();
+        } catch (Throwable $e) {
+            log_message('error', 'MyShopify cron sync failed: ' . $e->getMessage());
+        }
+    }
+}
+
+if (!function_exists('myshopify_customer_changed')) {
+    function myshopify_customer_changed($clientId)
+    {
+        try {
+            myshopify_sync_service()->pushCustomer((int) $clientId);
+        } catch (Throwable $e) {
+            log_message('error', 'MyShopify customer push failed: ' . $e->getMessage());
+        }
+    }
+}
+
+if (!function_exists('myshopify_item_changed')) {
+    function myshopify_item_changed($payload)
+    {
+        $itemId = is_array($payload) ? (int) ($payload['id'] ?? 0) : (int) $payload;
+        if ($itemId < 1) {
+            return;
+        }
+        try {
+            myshopify_sync_service()->pushItem($itemId);
+        } catch (Throwable $e) {
+            log_message('error', 'MyShopify item push failed: ' . $e->getMessage());
+        }
+    }
+}
+
+if (!function_exists('myshopify_inventory_changed')) {
+    function myshopify_inventory_changed()
+    {
+        try {
+            myshopify_sync_service()->pushMappedInventory();
+        } catch (Throwable $e) {
+            log_message('error', 'MyShopify inventory push failed: ' . $e->getMessage());
+        }
+    }
+}
+
+if (!function_exists('myshopify_documentation_link_attributes')) {
+    function myshopify_documentation_link_attributes()
+    {
+        echo '<script>(function(){var link=document.querySelector(' .
+            '"#side-menu a[href=\\"https://myshopify.eadcrm.eu/\\"], ' .
+            '#sidebar-menu a[href=\\"https://myshopify.eadcrm.eu/\\"]");' .
+            'if(link){link.target="_blank";link.rel="noopener noreferrer";}})();</script>';
     }
 }
 

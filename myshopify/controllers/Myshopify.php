@@ -99,8 +99,10 @@ class Myshopify extends AdminController
 
         $products = $shopify->Product->get();
 
+        $this->load->library('myshopify/Myshopify_sync_service');
         foreach ($products as $product) {
             $this->shopify_model->import_product($product);
+            $this->myshopify_sync_service->syncProductFromShopify($product);
         }
 
         set_alert('success', 'Shopify products imported successfully!');
@@ -154,6 +156,10 @@ class Myshopify extends AdminController
 
             if (!empty($all_customers)) {
                 $this->shopify_model->import_customers($all_customers);
+                $this->load->library('myshopify/Myshopify_sync_service');
+                foreach ($all_customers as $customer) {
+                    $this->myshopify_sync_service->syncCustomerFromShopify($customer);
+                }
                 set_alert('success', 'All customers imported successfully.');
             } else {
                 set_alert('warning', 'No customers found.');
@@ -210,11 +216,13 @@ class Myshopify extends AdminController
 
             } while ($endpoint);
 
-            // Save orders
+            // Save orders and create an idempotent Perfex invoice for paid orders.
             if (!empty($all_orders)) {
+                $this->load->library('myshopify/Myshopify_sync_service');
                 foreach ($all_orders as $order) {
                     $exists = $this->db->where('shopify_order_id', $order['id'])->get(db_prefix().'myshopify_orders')->row();
                     if ($exists) {
+                        $this->myshopify_sync_service->syncPaidOrder($order);
                         continue;
                     }
 
@@ -247,6 +255,7 @@ class Myshopify extends AdminController
                     ];
 
                     $this->db->insert(db_prefix().'myshopify_orders', $data);
+                    $this->myshopify_sync_service->syncPaidOrder($order);
                 }
 
                 set_alert('success', 'All orders imported successfully.');
@@ -290,6 +299,10 @@ class Myshopify extends AdminController
 
             if (!empty($categories)) {
                 $this->shopify_model->import_categories($categories);
+                $this->load->library('myshopify/Myshopify_sync_service');
+                foreach ($categories as $category) {
+                    $this->myshopify_sync_service->syncCategoryFromShopify($category);
+                }
                 set_alert('success', 'Categories Imported Successfully');
             } else {
                 set_alert('warning', 'No Categories Found');
@@ -391,6 +404,24 @@ class Myshopify extends AdminController
 
         $data['title'] = _l('Verify MyShopify');
         $this->load->view('admin/verify', $data);
+    }
+
+    /** Run the complete reconciliation immediately from an authenticated admin request. */
+    public function sync_now()
+    {
+        if (!is_admin()) {
+            access_denied('myshopify');
+        }
+        try {
+            $this->load->library('myshopify/Myshopify_sync_service');
+            $this->myshopify_sync_service->registerWebhooks();
+            $this->myshopify_sync_service->reconcile();
+            set_alert('success', 'Shopify and Perfex synchronization completed.');
+        } catch (Throwable $e) {
+            log_message('error', 'MyShopify manual sync failed: ' . $e->getMessage());
+            set_alert('danger', 'Synchronization failed: ' . $e->getMessage());
+        }
+        redirect(admin_url('settings?group=myshopify'));
     }
 
 }
