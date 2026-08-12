@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MyShopify 2.0 integration documentation for Shopify, Perfex CRM and Warehouse Inventory.">
+  <title>MyShopify 2.0 Documentation</title>
+  <link rel="stylesheet" href="./api-docs.css">
+  <link rel="stylesheet" href="./myshopify-docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="docs-topbar">
+    <a class="docs-brand-link" href="#overview"><strong>MyShopify</strong><span>2.0 Integration Guide</span></a>
+    <div class="docs-topbar-actions"><button class="docs-search-trigger" id="focus-search" type="button">Search documentation <kbd>Ctrl K</kbd></button></div>
+  </header>
+  <button class="nav-toggle" id="nav-toggle" type="button" aria-controls="sidenav" aria-expanded="false">☰ Menu</button>
+  <div class="app-layout">
+    <nav id="sidenav" aria-label="Documentation navigation">
+      <div class="sidenav-brand"><div class="sidenav-logo"><div class="shopify-mark">S</div><h3>MyShopify</h3><span class="sidenav-credit">Perfex CRM integration</span></div></div>
+      <div class="sidenav-search-wrap"><div class="sidenav-search"><input id="docs-search" class="search" type="search" placeholder="Search sections…" aria-label="Search documentation"><button id="clear-search" class="search-reset" type="button" aria-label="Clear search">×</button></div></div>
+      <ul class="sidenav nav nav-list" id="docs-nav">
+        <li class="nav-header nav-list-item"><a href="#overview">Overview</a></li>
+        <li class="nav-list-item"><a href="#architecture"><span class="typ-name typ-get">FLOW</span><span class="nav-title">Architecture</span></a></li>
+        <li class="nav-header nav-list-item"><a href="#setup">Installation & Setup</a></li>
+        <li class="nav-list-item"><a href="#shopify-app"><span class="typ-name typ-post">SETUP</span><span class="nav-title">Shopify App</span></a></li>
+        <li class="nav-list-item"><a href="#perfex-settings"><span class="typ-name typ-post">SETUP</span><span class="nav-title">Perfex Settings</span></a></li>
+        <li class="nav-list-item"><a href="#initial-sync"><span class="typ-name typ-post">RUN</span><span class="nav-title">Initial Sync</span></a></li>
+        <li class="nav-header nav-list-item"><a href="#sync-rules">Synchronization</a></li>
+        <li class="nav-list-item"><a href="#customers"><span class="typ-name typ-put">2-WAY</span><span class="nav-title">Customers</span></a></li>
+        <li class="nav-list-item"><a href="#products"><span class="typ-name typ-put">2-WAY</span><span class="nav-title">Products & SKU</span></a></li>
+        <li class="nav-list-item"><a href="#categories"><span class="typ-name typ-put">2-WAY</span><span class="nav-title">Categories</span></a></li>
+        <li class="nav-list-item"><a href="#inventory"><span class="typ-name typ-put">2-WAY</span><span class="nav-title">Inventory</span></a></li>
+        <li class="nav-list-item"><a href="#orders"><span class="typ-name typ-post">PAID</span><span class="nav-title">Orders & Invoices</span></a></li>
+        <li class="nav-header nav-list-item"><a href="#automation">Automation</a></li>
+        <li class="nav-list-item"><a href="#webhooks"><span class="typ-name typ-post">HOOK</span><span class="nav-title">Webhooks</span></a></li>
+        <li class="nav-list-item"><a href="#cron"><span class="typ-name typ-get">CRON</span><span class="nav-title">Reconciliation</span></a></li>
+        <li class="nav-header nav-list-item"><a href="#operations">Operations</a></li>
+        <li class="nav-list-item"><a href="#testing"><span class="typ-name typ-get">TEST</span><span class="nav-title">Test Plan</span></a></li>
+        <li class="nav-list-item"><a href="#database"><span class="typ-name typ-get">DATA</span><span class="nav-title">Database Maps</span></a></li>
+        <li class="nav-list-item"><a href="#troubleshooting"><span class="typ-name typ-delete">HELP</span><span class="nav-title">Troubleshooting</span></a></li>
+      </ul>
+      <div class="sidenav-footer"><span>MyShopify 2.0 · eAdvertise</span></div>
+    </nav>
+    <main id="content">
+      <section id="overview" class="intro-section"><span class="eyebrow">MyShopify 2.0</span><h1>Shopify ↔ Perfex CRM synchronization</h1><p class="lead">A practical guide to the two-way customer, product, category and inventory integration, plus automatic Perfex invoice creation for paid Shopify orders.</p><div class="callout callout-warning"><strong>Use staging first.</strong> Synchronization writes to both systems. Back up the Perfex database and start with test products, customers and orders.</div></section>
+
+      <section id="architecture"><h2>Architecture</h2><article><h1>How data moves</h1><div class="flow-grid"><div class="flow-card"><b>Shopify</b><span>Webhooks + Admin API</span></div><div class="flow-arrow">⇄</div><div class="flow-card"><b>MyShopify 2.0</b><span>Mappings, timestamps, locks</span></div><div class="flow-arrow">⇄</div><div class="flow-card"><b>Perfex CRM</b><span>Clients, items, groups, invoices</span></div><div class="flow-arrow">⇄</div><div class="flow-card"><b>Warehouse</b><span>SKU-linked inventory</span></div></div><p>Webhooks provide immediate Shopify-to-Perfex updates. Perfex hooks push local changes back to Shopify. The normal Perfex cron reconciles missed events.</p></article></section>
+
+      <section id="setup"><h2>Installation & Setup</h2>
+        <article id="shopify-app"><h1>Configure the Shopify custom app</h1><div class="row"><div class="col-md-7 no-float"><ol><li>Create or open a Shopify custom app.</li><li>Grant read/write access for customers, products, inventory, orders and collections.</li><li>Install the app and copy its Admin API access token.</li><li>Copy the webhook signing secret.</li><li>Find the numeric Shopify inventory location ID.</li></ol><div class="callout"><strong>SKU requirement:</strong> every variant to be synchronized must have a unique, non-empty SKU.</div></div><div class="col-md-4 section-example no-float"><h3>Required scopes</h3><pre class="code-block"><code>read_customers / write_customers
+read_products / write_products
+read_inventory / write_inventory
+read_orders
+read_locations
+read_publications</code></pre></div></div></article>
+        <article id="perfex-settings"><h1>Configure Perfex</h1><table class="table table-hover"><thead><tr><th>Setting</th><th>Purpose</th><th>Example</th></tr></thead><tbody><tr><td>Shopify URL</td><td>Store hostname, without <code>/admin</code></td><td><code>store.myshopify.com</code></td></tr><tr><td>Access token</td><td>Admin API token</td><td><code>shpat_…</code></td></tr><tr><td>Webhook secret</td><td>Validates Shopify HMAC signatures</td><td>Keep private</td></tr><tr><td>Shopify location ID</td><td>Location used for stock writes</td><td><code>123456789</code></td></tr><tr><td>Perfex Warehouse ID</td><td>Warehouse paired with Shopify</td><td><code>1</code></td></tr><tr><td>API version</td><td>Shopify Admin API release</td><td><code>2026-07</code></td></tr><tr><td>Automatic sync</td><td>Enables cron reconciliation</td><td>Enabled</td></tr></tbody></table></article>
+        <article id="initial-sync"><h1>Run the initial synchronization</h1><div class="endpoint-line"><span class="typ typ-post">ADMIN</span><span>Setup → Settings → Integrations → MyShopify → Synchronize Shopify now</span></div><p>The action registers missing webhooks, pulls Shopify products, customers, orders and collections, then pushes Perfex item groups to Shopify. Keep the normal Perfex cron enabled afterward.</p></article>
+      </section>
+
+      <section id="sync-rules"><h2>Synchronization Rules</h2>
+        <article id="customers"><h1>Customers</h1><div class="rule-grid"><div><h3>Identity</h3><p>Normalized, case-insensitive email address.</p></div><div><h3>Conflict policy</h3><p>The newest timestamp wins. Perfex wins equal timestamps.</p></div><div><h3>Shopify → Perfex</h3><p>Creates or updates the Perfex client and primary contact.</p></div><div><h3>Perfex → Shopify</h3><p>Customer updates push contact and billing details to Shopify.</p></div></div><div class="callout callout-warning">A customer without an email cannot be synchronized.</div></article>
+        <article id="products"><h1>Products and variants</h1><div class="endpoint-line"><span class="typ typ-put">KEY</span><span>Shopify variant SKU = Perfex item <code>commodity_code</code></span></div><ul><li>Each Shopify variant becomes a Perfex item.</li><li>Title, variant title, description, price and barcode are synchronized.</li><li>Variants without an SKU are skipped.</li><li>Duplicate SKUs are logged as errors instead of being linked ambiguously.</li><li>A mapped Perfex item update changes the Shopify variant; an unmapped Perfex item with an SKU can create a Shopify product.</li></ul></article>
+        <article id="categories"><h1>Categories</h1><p>Shopify custom/smart collections are mapped to Perfex item groups. Perfex item groups can be created or updated as Shopify custom collections during reconciliation.</p></article>
+        <article id="inventory"><h1>Warehouse inventory</h1><p>Inventory synchronization is enabled only when the Perfex <code>warehouse</code> module is active and its inventory table exists.</p><table class="table table-hover"><thead><tr><th>Direction</th><th>Trigger</th><th>Result</th></tr></thead><tbody><tr><td>Shopify → Warehouse</td><td><code>inventory_levels/update</code></td><td>Updates the mapped item quantity in the configured Warehouse.</td></tr><tr><td>Warehouse → Shopify</td><td>Approved goods receipt or delivery</td><td>Sends available stock to the configured Shopify location.</td></tr></tbody></table></article>
+        <article id="orders"><h1>Paid orders and Perfex invoices</h1><div class="endpoint-line"><span class="typ typ-post">RULE</span><span>Invoice creation requires <code>financial_status = paid</code></span></div><ol><li>Lock the Shopify order ID to prevent concurrent processing.</li><li>Find or create the Perfex customer by email.</li><li>Map line items to Perfex items by SKU.</li><li>Create the Perfex invoice using Shopify quantities, prices, totals and discounts.</li><li>Save the Shopify order ↔ Perfex invoice mapping.</li></ol><p>Unpaid orders are recorded but do not create invoices. Repeated webhooks or manual syncs return the existing invoice mapping, preventing duplicates.</p></article>
+      </section>
+
+      <section id="automation"><h2>Automation</h2>
+        <article id="webhooks"><h1>Signed webhooks</h1><div class="endpoint-line"><span class="typ typ-post">POST</span><span>/myshopify/webhook</span></div><p>The endpoint verifies <code>X-Shopify-Hmac-Sha256</code> against the raw request body. Missing or invalid signatures receive HTTP 401.</p><h3>Registered topics</h3><div class="chips"><code>customers/create</code><code>customers/update</code><code>products/create</code><code>products/update</code><code>orders/create</code><code>orders/updated</code><code>orders/paid</code><code>collections/create</code><code>collections/update</code><code>inventory_levels/update</code></div></article>
+        <article id="cron"><h1>Cron reconciliation</h1><p>Each normal Perfex cron run pulls records updated since the last successful sync, follows Shopify pagination links and repairs missed webhook events. A one-minute overlap reduces timestamp-boundary gaps.</p></article>
+      </section>
+
+      <section id="operations"><h2>Operations</h2>
+        <article id="testing"><h1>Safe end-to-end test plan</h1><ol class="test-list"><li><b>Customer:</b> create <code>shopify-test@example.com</code> in Shopify and verify a Perfex client/contact appears.</li><li><b>Product:</b> create a variant with SKU <code>SYNC-TEST-001</code>, price 10 and stock 5; verify the Perfex item and Warehouse quantity.</li><li><b>Reverse product:</b> change its rate in Perfex and verify the Shopify variant price.</li><li><b>Inventory:</b> approve a Warehouse receipt and verify stock at the configured Shopify location.</li><li><b>Unpaid order:</b> create one and confirm no Perfex invoice exists.</li><li><b>Paid order:</b> mark it paid and confirm exactly one invoice is created.</li><li><b>Idempotency:</b> resend/update the same order and run manual sync; confirm no second invoice.</li></ol></article>
+        <article id="database"><h1>Database mapping tables</h1><table class="table table-hover"><thead><tr><th>Table suffix</th><th>Purpose</th></tr></thead><tbody><tr><td><code>myshopify_product_map</code></td><td>Product, variant, inventory item, Perfex item and SKU mapping.</td></tr><tr><td><code>myshopify_customer_map</code></td><td>Customer, client, contact and normalized email mapping.</td></tr><tr><td><code>myshopify_category_map</code></td><td>Collection and item-group mapping.</td></tr><tr><td><code>myshopify_order_map</code></td><td>Paid order and invoice idempotency mapping, including errors.</td></tr><tr><td><code>myshopify_sync_log</code></td><td>Synchronization outcome and diagnostic messages.</td></tr></tbody></table></article>
+        <article id="troubleshooting"><h1>Troubleshooting</h1><table class="table table-hover"><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody><tr><td>Manual sync fails</td><td>Verify URL, token, API version and Shopify scopes; inspect Perfex application logs.</td></tr><tr><td>Product is missing</td><td>Ensure every variant has a unique SKU and inspect <code>myshopify_sync_log</code>.</td></tr><tr><td>Stock does not move</td><td>Verify Warehouse is active and both location IDs are configured.</td></tr><tr><td>Webhook returns 401</td><td>Webhook secret or HMAC signature does not match.</td></tr><tr><td>Paid order has no invoice</td><td>Check customer email, line items and <code>myshopify_order_map.last_error</code>.</td></tr><tr><td>Duplicate invoice concern</td><td>Check the unique order mapping; processing also uses a database lock.</td></tr></tbody></table><h3>Useful SQL</h3><pre class="code-block"><code>SELECT * FROM tblmyshopify_sync_log ORDER BY id DESC LIMIT 100;
+SELECT * FROM tblmyshopify_order_map WHERE last_error IS NOT NULL;
+SELECT * FROM tblmyshopify_product_map WHERE sku = 'SYNC-TEST-001';</code></pre><p class="muted">Replace <code>tbl</code> with your Perfex database prefix.</p></article>
+      </section>
+      <footer><strong>MyShopify 2.0</strong><span>Shopify ↔ Perfex CRM integration documentation</span></footer>
+    </main>
+  </div>
+  <script src="./myshopify-docs.js"></script>
+</body>
+</html>
