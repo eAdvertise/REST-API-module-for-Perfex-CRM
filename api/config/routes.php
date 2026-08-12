@@ -2,6 +2,12 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
+// Warehouse integration. Keep these routes before the generic API routes so
+// the resource name and optional identifier are passed to the dispatcher.
+$route['api/warehouse']                       = 'warehouse/data';
+$route['api/warehouse/(:any)']                = 'warehouse/data/$1';
+$route['api/warehouse/(:any)/(:num)']         = 'warehouse/data/$1/$2';
+
 $route['api/delete/(:any)/(:num)'] = '$1/data/$2';
 $route['api/(:any)/search/(:any)'] = '$1/data_search/$2';
 $route['api/(:any)/search']        = '$1/data_search';
