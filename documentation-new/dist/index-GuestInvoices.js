@@ -17908,6 +17908,10 @@ function findEndpoint(title) {
 }
 function getApiNavItemData(id) {
   switch (String(id)) {
+    case "146":
+      return { "method": "POST", "methodClass": "typ-post", "title": "Create Guest Invoice" };
+    case "147":
+      return { "method": "POST", "methodClass": "typ-post", "title": "Guest Invoice Checkout" };
     case "0":
       return {
         "method": "POST",
@@ -18800,6 +18804,7 @@ function ApiNavigation() {
     ["Batch", ["1"]],
     ["Leads", ["95", "2", "36", "37", "121", "38"]],
     ["Invoices", ["3", "96", "39", "122", "4", "40"]],
+    ["Guest Invoices", ["146", "147"]],
     ["Customers", ["5", "41", "123", "42", "97"]],
     ["Calendar Events", ["43", "6", "98", "44", "124"]],
     ["Common", ["45"]],
@@ -32788,6 +32793,67 @@ function useViewTransitionState(to, opts) {
   return matchPath(path.pathname, nextPath) != null || matchPath(path.pathname, currentPath) != null;
 }
 
+
+const guestInvoiceCommonParameters = [
+  { name: "email", type: "string", required: true, description: "Guest email address. The API finds an existing contact or creates a guest customer." },
+  { name: "items", type: "array", required: true, description: "Invoice lines. Use item_id and qty, or description, qty, rate and optional taxes_id." },
+  { name: "firstname", type: "string", description: "Guest first name." },
+  { name: "lastname", type: "string", description: "Guest last name." },
+  { name: "company", type: "string", description: "Guest company name." },
+  { name: "date", type: "YYYY-MM-DD", description: "Invoice date. Defaults to today." },
+  { name: "duedate", type: "YYYY-MM-DD", description: "Due date. Defaults to the configured invoice due period." },
+  { name: "currency", type: "integer", description: "Perfex currency ID. Defaults to the configured currency." },
+  { name: "update_existing_name", type: "boolean", description: "Update the matching guest contact name. Defaults to true." }
+];
+const guestInvoiceCheckoutParameters = guestInvoiceCommonParameters.concat([
+  { name: "payment_mode", type: "integer", required: true, description: "Perfex payment mode ID used to record the payment." },
+  { name: "amount", type: "number", description: "Payment amount. Defaults to the invoice total." },
+  { name: "payment_date", type: "YYYY-MM-DD", description: "Payment date. Defaults to today." },
+  { name: "transaction_id", type: "string", description: "External payment transaction identifier." },
+  { name: "payment_note", type: "string", description: "Optional note saved with the payment." },
+  { name: "send_email_mode", type: "combined | none", description: "Send one email with invoice and receipt PDFs, or no email. Defaults to combined." }
+]);
+function GuestInvoiceParameterTable({ parameters }) {
+  return jsxRuntimeExports.jsxs("table", { className: "table table-hover", children: [
+    jsxRuntimeExports.jsx("thead", { children: jsxRuntimeExports.jsxs("tr", { children: [jsxRuntimeExports.jsx("th", { children: "Field" }), jsxRuntimeExports.jsx("th", { children: "Type" }), jsxRuntimeExports.jsx("th", { children: "Description" })] }) }),
+    jsxRuntimeExports.jsx("tbody", { children: parameters.map((parameter) => jsxRuntimeExports.jsxs("tr", { children: [
+      jsxRuntimeExports.jsxs("td", { children: [jsxRuntimeExports.jsx("code", { children: parameter.name }), parameter.required && jsxRuntimeExports.jsx("strong", { children: " *" })] }),
+      jsxRuntimeExports.jsx("td", { children: jsxRuntimeExports.jsx("code", { children: parameter.type }) }),
+      jsxRuntimeExports.jsx("td", { children: parameter.description })
+    ] }, parameter.name)) })
+  ] });
+}
+function GuestInvoiceEndpoint({ id, title, path, description, parameters, body }) {
+  const command = `curl -X POST "https://yoursite.com${path}" \\\n  -H "authtoken: YOUR_API_TOKEN" \\\n  -H "Content-Type: application/json" \\\n  -d '${body}'`;
+  return jsxRuntimeExports.jsxs("article", { id, children: [
+    jsxRuntimeExports.jsx("h1", { children: title }),
+    jsxRuntimeExports.jsxs("div", { className: "row pre-post", children: [
+      jsxRuntimeExports.jsxs("div", { className: "col-md-7 no-float", children: [
+        jsxRuntimeExports.jsxs("pre", { className: "full-pre", children: [jsxRuntimeExports.jsx("span", { className: "typ typ-post", children: "POST" }), jsxRuntimeExports.jsx("span", { className: "url", children: path })] }),
+        jsxRuntimeExports.jsx("div", { className: "endpoint-desc", children: jsxRuntimeExports.jsx("p", { children: description }) }),
+        jsxRuntimeExports.jsx("h2", { className: "sub", children: "Headers" }),
+        jsxRuntimeExports.jsx("div", { className: "table-responsive-wrapper", children: jsxRuntimeExports.jsx(GuestInvoiceParameterTable, { parameters: [{ name: "authtoken", type: "string", required: true, description: "API authentication token with the matching Guest Invoices permission." }] }) }),
+        jsxRuntimeExports.jsx("h2", { className: "sub", children: "JSON body" }),
+        jsxRuntimeExports.jsxs("p", { children: ["Fields marked with ", jsxRuntimeExports.jsx("strong", { children: "*" }), " are required."] }),
+        jsxRuntimeExports.jsx("div", { className: "table-responsive-wrapper", children: jsxRuntimeExports.jsx(GuestInvoiceParameterTable, { parameters }) })
+      ] }),
+      jsxRuntimeExports.jsx("div", { className: "col-md-4 section-example no-float", children: jsxRuntimeExports.jsxs("div", { children: [
+        jsxRuntimeExports.jsx("ul", { className: "nav nav-tabs nav-tabs-examples", children: jsxRuntimeExports.jsx("li", { className: "active", children: jsxRuntimeExports.jsx("a", { children: "Request" }) }) }),
+        jsxRuntimeExports.jsxs("pre", { className: "astro-code catppuccin-mocha", style: { backgroundColor: "#1e1e2e", color: "#cdd6f4", overflowX: "auto" }, tabIndex: 0, children: [jsxRuntimeExports.jsx("code", { children: command }), jsxRuntimeExports.jsx(CopyButton, { hidden: false })] })
+      ] }) })
+    ] })
+  ] });
+}
+function GuestInvoicesSection() {
+  const invoiceBody = `{\n  "email": "guest@example.com",\n  "firstname": "Alex",\n  "lastname": "Guest",\n  "items": [\n    { "item_id": 12, "qty": 2 },\n    { "description": "Setup service", "qty": 1, "rate": 50, "taxes_id": [1] }\n  ]\n}`;
+  const checkoutBody = `{\n  "email": "guest@example.com",\n  "firstname": "Alex",\n  "lastname": "Guest",\n  "items": [{ "item_id": 12, "qty": 2, "taxes_id": [1] }],\n  "payment_mode": 1,\n  "transaction_id": "ORDER-1042",\n  "send_email_mode": "combined"\n}`;
+  return jsxRuntimeExports.jsxs("section", { id: "api-guest-invoices", "data-astro-cid-j7pv25f6": "", children: [
+    jsxRuntimeExports.jsx("h2", { "data-astro-cid-j7pv25f6": "", children: "Guest Invoices" }),
+    jsxRuntimeExports.jsx(GuestInvoiceEndpoint, { id: "api-guest-invoices-create", title: "Create Guest Invoice", path: "/api/guest_invoices", description: "Find or create a guest customer and contact, then create an unpaid invoice. Invoice numbering, dates and totals are filled automatically when omitted.", parameters: guestInvoiceCommonParameters, body: invoiceBody }),
+    jsxRuntimeExports.jsx(GuestInvoiceEndpoint, { id: "api-guest-invoices-checkout", title: "Guest Invoice Checkout", path: "/api/guest_invoices/checkout", description: "Create the guest invoice, record its payment and optionally email the guest one message containing both the invoice and payment receipt PDFs.", parameters: guestInvoiceCheckoutParameters, body: checkoutBody })
+  ] });
+}
+
 function AppContent() {
   const location = useLocation();
   React.useEffect(() => {
@@ -32825,6 +32891,7 @@ function AppContent() {
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(ApiSection, { dataId: "1", "data-instantiation-file": "src/App.tsx", "data-instantiation-line": "72", "data-instantiation-span": "1", "data-instantiation-index": "0" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(ApiSection, { dataId: "2", "data-instantiation-file": "src/App.tsx", "data-instantiation-line": "75", "data-instantiation-span": "1", "data-instantiation-index": "0" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(GuestInvoicesSection, {}),
         /* @__PURE__ */ jsxRuntimeExports.jsx(ApiSection, { dataId: "3", "data-instantiation-file": "src/App.tsx", "data-instantiation-line": "78", "data-instantiation-span": "1", "data-instantiation-index": "0" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(ApiSection, { dataId: "4", "data-instantiation-file": "src/App.tsx", "data-instantiation-line": "81", "data-instantiation-span": "1", "data-instantiation-index": "0" }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { id: "api-common", "data-astro-cid-j7pv25f6": "", "data-source-file": "src/App.tsx", "data-source-line": "83", "data-source-span": "8", children: [

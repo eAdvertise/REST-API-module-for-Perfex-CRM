@@ -8,6 +8,12 @@ $CI = &get_instance();
 add_option('myshopify_purchase_is_valid', 1);
 add_option('shopify_access_token', '');
 add_option('shopify_shop_url', '');
+add_option('my_shopify_webhook_secret', '');
+add_option('my_shopify_location_id', '');
+add_option('my_shopify_warehouse_id', '');
+add_option('my_shopify_last_sync', '');
+add_option('my_shopify_sync_enabled', '1');
+add_option('my_shopify_api_version', '2026-07');
 
 /*
  * Older MySQL releases reject CURRENT_TIMESTAMP as a DATETIME default.
@@ -176,3 +182,64 @@ if (!$supportsAutomaticDatetime) {
         }
     }
 }
+
+// Durable cross-system identities and timestamps. These tables make every
+// webhook/cron operation idempotent and allow newest-write-wins conflict
+// resolution (Perfex wins when timestamps are equal).
+$CI->db->query("CREATE TABLE IF NOT EXISTS `" . db_prefix() . "myshopify_product_map` (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `shopify_product_id` BIGINT UNSIGNED NOT NULL,
+    `shopify_variant_id` BIGINT UNSIGNED NOT NULL,
+    `shopify_inventory_item_id` BIGINT UNSIGNED DEFAULT NULL,
+    `perfex_item_id` INT UNSIGNED NOT NULL,
+    `sku` VARCHAR(191) NOT NULL,
+    `shopify_updated_at` DATETIME DEFAULT NULL,
+    `perfex_updated_at` DATETIME DEFAULT NULL,
+    `last_synced_at` DATETIME DEFAULT NULL,
+    PRIMARY KEY (`id`), UNIQUE KEY `variant` (`shopify_variant_id`),
+    KEY `sku` (`sku`), KEY `perfex_item` (`perfex_item_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+
+$CI->db->query("CREATE TABLE IF NOT EXISTS `" . db_prefix() . "myshopify_customer_map` (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `shopify_customer_id` BIGINT UNSIGNED DEFAULT NULL,
+    `perfex_client_id` INT UNSIGNED NOT NULL,
+    `perfex_contact_id` INT UNSIGNED DEFAULT NULL,
+    `email` VARCHAR(191) NOT NULL,
+    `shopify_updated_at` DATETIME DEFAULT NULL,
+    `perfex_updated_at` DATETIME DEFAULT NULL,
+    `last_synced_at` DATETIME DEFAULT NULL,
+    PRIMARY KEY (`id`), UNIQUE KEY `email` (`email`),
+    KEY `shopify_customer` (`shopify_customer_id`), KEY `perfex_client` (`perfex_client_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+
+$CI->db->query("CREATE TABLE IF NOT EXISTS `" . db_prefix() . "myshopify_category_map` (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `shopify_collection_id` BIGINT UNSIGNED NOT NULL,
+    `perfex_group_id` INT UNSIGNED NOT NULL,
+    `shopify_updated_at` DATETIME DEFAULT NULL,
+    `perfex_updated_at` DATETIME DEFAULT NULL,
+    `last_synced_at` DATETIME DEFAULT NULL,
+    PRIMARY KEY (`id`), UNIQUE KEY `collection` (`shopify_collection_id`),
+    KEY `perfex_group` (`perfex_group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+
+$CI->db->query("CREATE TABLE IF NOT EXISTS `" . db_prefix() . "myshopify_order_map` (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `shopify_order_id` BIGINT UNSIGNED NOT NULL,
+    `perfex_invoice_id` INT UNSIGNED DEFAULT NULL,
+    `financial_status` VARCHAR(40) DEFAULT NULL,
+    `shopify_updated_at` DATETIME DEFAULT NULL,
+    `processed_at` DATETIME DEFAULT NULL,
+    `last_error` TEXT DEFAULT NULL,
+    PRIMARY KEY (`id`), UNIQUE KEY `shopify_order` (`shopify_order_id`),
+    KEY `perfex_invoice` (`perfex_invoice_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+
+$CI->db->query("CREATE TABLE IF NOT EXISTS `" . db_prefix() . "myshopify_sync_log` (
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `direction` VARCHAR(30) NOT NULL, `entity` VARCHAR(30) NOT NULL,
+    `external_id` VARCHAR(191) DEFAULT NULL, `status` VARCHAR(20) NOT NULL,
+    `message` TEXT DEFAULT NULL, `created_at` DATETIME NOT NULL,
+    PRIMARY KEY (`id`), KEY `created` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
