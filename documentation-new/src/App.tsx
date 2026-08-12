@@ -12,6 +12,7 @@ import ApiEndpoint2 from './components/ApiEndpoint2.tsx'
 import ApiSection from './components/ApiSection.tsx'
 import CustomFieldsSection from './components/CustomFieldsSection.tsx'
 import BrandLink from './components/BrandLink.tsx'
+import GuestInvoicesSection from './components/GuestInvoicesSection.tsx'
 
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 
@@ -73,6 +74,8 @@ function AppContent() {
                 
         
                     <ApiSection dataId="2" />
+
+        <GuestInvoicesSection />
                 
         
                     <ApiSection dataId="3" />
