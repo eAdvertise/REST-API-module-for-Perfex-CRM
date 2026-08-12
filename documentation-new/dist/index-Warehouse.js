@@ -18815,6 +18815,7 @@ function ApiNavigation() {
     ["Expense Categories", ["54"]],
     ["Expenses", ["11", "128", "103", "55", "56"]],
     ["Items", ["104", "12", "57", "129", "58"]],
+    ["Warehouse", []],
     ["Knowledge Base", ["59", "13", "105", "60", "130", "61", "14", "106", "131"]],
     ["Milestones", ["107", "15", "62", "132", "63"]],
     ["Notes", ["16", "108", "64", "133", "65"]],
@@ -32854,6 +32855,58 @@ function GuestInvoicesSection() {
   ] });
 }
 
+
+const warehouseResources = [
+  ["warehouses", "Locations and staff assignments", "CRUD"],
+  ["items", "Products, variants, tags and custom values", "CRUD"],
+  ["inventory", "Computed stock balances", "GET only"],
+  ["receipts", "Goods receipts with lines", "CRUD"],
+  ["deliveries", "Goods deliveries with lines", "CRUD"],
+  ["transfers", "Internal transfers with lines", "CRUD"],
+  ["adjustments", "Loss adjustments with lines", "CRUD"],
+  ["commodity_types / commodity_groups / sub_groups", "Item classification", "CRUD"],
+  ["units / sizes / styles / bodies / colors", "Item attributes", "CRUD"],
+  ["brands / models / series", "Product catalogue metadata", "CRUD"],
+  ["inventory_minimums / serial_numbers", "Stock controls and traceability", "CRUD"],
+  ["stock_takes / stock_take_details", "Stock take documents and lines", "CRUD"],
+  ["packing_lists / packing_list_details", "Packing documents and lines", "CRUD"],
+  ["order_returns / return_details", "Return documents and lines", "CRUD"],
+  ["approval_settings / approval_details", "Warehouse approval configuration and state", "CRUD"],
+  ["warehouse_custom_fields / staff_warehouses", "Warehouse configuration and access", "CRUD"],
+  ["activity_logs / delivery_activity_logs / transaction_details", "Operational audit and transaction records", "CRUD"],
+  ["receipt_details / delivery_details / adjustment_details", "Standalone access to operational document lines", "CRUD"],
+  ["delivery_order_links / item_relations / omni_shipments", "Document relations and shipment integration data", "CRUD"]
+];
+const warehouseListExample = `curl "https://yoursite.com/api/warehouse/inventory?warehouse_id=1&commodity_id=42&page=1&per_page=25" \\\n  -H "authtoken: YOUR_API_TOKEN"`;
+const warehouseWriteExample = `curl -X POST "https://yoursite.com/api/warehouse/receipts" \\\n  -H "authtoken: YOUR_API_TOKEN" \\\n  -H "Content-Type: application/json" \\\n  -d '{"date_c":"2026-08-12","date_add":"2026-08-12","newitems":[{"commodity_code":42,"warehouse_id":1,"quantities":10,"unit_price":5}]}'`;
+function WarehouseCodeExample({ children }) {
+  return jsxRuntimeExports.jsxs("pre", { className: "astro-code catppuccin-mocha", style: { backgroundColor: "#1e1e2e", color: "#cdd6f4", overflowX: "auto" }, tabIndex: 0, children: [
+    jsxRuntimeExports.jsx("code", { children }),
+    jsxRuntimeExports.jsx(CopyButton, { hidden: false })
+  ] });
+}
+function WarehouseSection() {
+  return jsxRuntimeExports.jsxs("section", { id: "api-warehouse", "data-astro-cid-j7pv25f6": "", children: [
+    jsxRuntimeExports.jsx("h2", { "data-astro-cid-j7pv25f6": "", children: "Warehouse" }),
+    jsxRuntimeExports.jsxs("article", { id: "api-warehouse-resources", children: [
+      jsxRuntimeExports.jsx("h1", { children: "Warehouse resources" }),
+      jsxRuntimeExports.jsxs("div", { className: "row pre-post", children: [
+        jsxRuntimeExports.jsxs("div", { className: "col-md-7 no-float", children: [
+          jsxRuntimeExports.jsxs("pre", { className: "full-pre", children: [jsxRuntimeExports.jsx("span", { className: "typ typ-get", children: "GET" }), jsxRuntimeExports.jsx("span", { className: "url", children: "/api/warehouse/:resource/:id?" })] }),
+          jsxRuntimeExports.jsxs("div", { className: "endpoint-desc", children: [jsxRuntimeExports.jsx("p", { children: "API v3 exposes all Warehouse data groups through authenticated resource endpoints. Grant the API user the Warehouse capability matching the HTTP method." }), jsxRuntimeExports.jsx("p", { children: "Receipt, delivery, transfer and adjustment writes use the native Warehouse model, preserving approval rules, document numbering, activity logs, hooks and inventory movements. Inventory balances cannot be written directly." })] }),
+          jsxRuntimeExports.jsx("h2", { className: "sub", children: "Resources" }),
+          jsxRuntimeExports.jsx("div", { className: "table-responsive-wrapper", children: jsxRuntimeExports.jsxs("table", { className: "table table-hover", children: [jsxRuntimeExports.jsx("thead", { children: jsxRuntimeExports.jsxs("tr", { children: [jsxRuntimeExports.jsx("th", { children: "Resource" }), jsxRuntimeExports.jsx("th", { children: "Description" }), jsxRuntimeExports.jsx("th", { children: "Methods" })] }) }), jsxRuntimeExports.jsx("tbody", { children: warehouseResources.map(([resource, description, methods]) => jsxRuntimeExports.jsxs("tr", { children: [jsxRuntimeExports.jsx("td", { children: jsxRuntimeExports.jsx("code", { children: resource }) }), jsxRuntimeExports.jsx("td", { children: description }), jsxRuntimeExports.jsx("td", { children: methods })] }, resource)) })] }) }),
+          jsxRuntimeExports.jsx("h2", { className: "sub", children: "List filters" }),
+          jsxRuntimeExports.jsxs("p", { children: ["Use ", jsxRuntimeExports.jsx("code", { children: "page" }), ", ", jsxRuntimeExports.jsx("code", { children: "per_page" }), " (maximum 100), warehouse and item filters, status filters, and date ranges. Unsupported filters are ignored for resources without the corresponding column."] }),
+          jsxRuntimeExports.jsx("h2", { className: "sub", children: "Write payloads" }),
+          jsxRuntimeExports.jsxs("p", { children: ["Send JSON or form data. Operational documents accept the same master fields and ", jsxRuntimeExports.jsx("code", { children: "newitems" }), " lines as the Warehouse module forms. Append the numeric ID for record operations, for example ", jsxRuntimeExports.jsx("code", { children: "PUT /api/warehouse/items/42" }), "."] })
+        ] }),
+        jsxRuntimeExports.jsxs("div", { className: "col-md-4 section-example no-float", children: [jsxRuntimeExports.jsx("h3", { children: "List inventory" }), jsxRuntimeExports.jsx(WarehouseCodeExample, { children: warehouseListExample }), jsxRuntimeExports.jsx("h3", { children: "Create a receipt" }), jsxRuntimeExports.jsx(WarehouseCodeExample, { children: warehouseWriteExample })] })
+      ] })
+    ] })
+  ] });
+}
+
 function AppContent() {
   const location = useLocation();
   React.useEffect(() => {
@@ -32909,6 +32962,7 @@ function AppContent() {
         /* @__PURE__ */ jsxRuntimeExports.jsx(ApiSection, { dataId: "9", "data-instantiation-file": "src/App.tsx", "data-instantiation-line": "112", "data-instantiation-span": "1", "data-instantiation-index": "0" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(ApiSection, { dataId: "10", "data-instantiation-file": "src/App.tsx", "data-instantiation-line": "115", "data-instantiation-span": "1", "data-instantiation-index": "0" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(ApiSection, { dataId: "11", "data-instantiation-file": "src/App.tsx", "data-instantiation-line": "118", "data-instantiation-span": "1", "data-instantiation-index": "0" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(WarehouseSection, {}),
         /* @__PURE__ */ jsxRuntimeExports.jsx(ApiSection, { dataId: "12", "data-instantiation-file": "src/App.tsx", "data-instantiation-line": "121", "data-instantiation-span": "1", "data-instantiation-index": "0" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(ApiSection, { dataId: "13", "data-instantiation-file": "src/App.tsx", "data-instantiation-line": "124", "data-instantiation-span": "1", "data-instantiation-index": "0" }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { id: "api-payment-modes", "data-astro-cid-j7pv25f6": "", "data-source-file": "src/App.tsx", "data-source-line": "126", "data-source-span": "8", children: [
