@@ -15,6 +15,24 @@ require_once __DIR__.'/vendor/autoload.php';
 define('API_MODULE_NAME', 'api');
 hooks()->add_action('admin_init', 'api_init_menu_items');
 
+// Expose the Warehouse API as one permission group. REST_Controller maps the
+// data_get/data_post/data_put/data_delete methods to these capabilities.
+hooks()->add_filter('api_permissions', 'api_warehouse_permissions');
+function api_warehouse_permissions($apiPermissions)
+{
+    $apiPermissions['warehouse'] = [
+        'name'         => 'Warehouse',
+        'capabilities' => [
+            'get'    => _l('permission_get'),
+            'post'   => _l('permission_create'),
+            'put'    => _l('permission_update'),
+            'delete' => _l('permission_delete'),
+        ],
+    ];
+
+    return $apiPermissions;
+}
+
 
 /**
 * Load the module helper
