@@ -1,4 +1,4 @@
-# MyShopify 2.0 synchronization
+# MyShopify full synchronization
 
 ## Behaviour
 
@@ -24,3 +24,5 @@ Enter the webhook signing secret, Shopify location ID and Perfex Warehouse ID. T
 The API version defaults to `2026-07` and can be changed from the same settings screen when Shopify rotates supported versions.
 
 Run **Synchronize Shopify now** once after configuration. This registers any missing webhooks and performs the initial reconciliation. Afterwards keep the normal Perfex cron enabled.
+
+Existing installations are upgraded automatically on the first authenticated admin request. The manifest version intentionally remains `1.0.0`, so Perfex does not try to load a generic `Migration_Version_200` class: Perfex migration classes are global and another active module may already use that name. Schema readiness is determined from the module's own sentinel table instead of a shared PHP class name.

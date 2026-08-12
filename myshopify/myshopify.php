@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * Module Name: My Shopify Module
  * Description: View Shopify shop orders, customers, products, and discounts directly from the eAD-CRM dashboard.
- * Version: 2.0.0
+ * Version: 1.0.0
  * Requires at least: 3.0.*
  * Author: eAdvertise.eu
  * Author URI: https://www.eadvertise.eu
@@ -44,6 +44,7 @@ register_language_files(MYSHOPIFY_MODULE_NAME, [MYSHOPIFY_MODULE_NAME]);
 
 // Add admin menu items
 hooks()->add_action('admin_init', 'shopify_init_menu_items');
+hooks()->add_action('admin_init', 'myshopify_ensure_v2_schema');
 hooks()->add_action('after_cron_run', 'myshopify_run_sync');
 hooks()->add_action('customer_updated_company_info', 'myshopify_customer_changed');
 hooks()->add_action('after_item_updated', 'myshopify_item_changed');
@@ -123,6 +124,24 @@ function shopify_init_menu_items()
             'position' => 35,
         ]);
     }
+}
+
+/**
+ * Upgrade existing 1.x installations without a numbered Perfex migration.
+ *
+ * Perfex migration class names are global (Migration_Version_200). Other
+ * active modules may already declare that class, so a 200 migration in this
+ * module can cause a fatal redeclaration before any migration code executes.
+ * The installer is idempotent; run it only when the v2 sentinel table is absent.
+ */
+function myshopify_ensure_v2_schema()
+{
+    $CI = &get_instance();
+    if ($CI->db->table_exists(db_prefix() . 'myshopify_product_map')) {
+        return;
+    }
+
+    require __DIR__ . '/install.php';
 }
 
 function myshopify_sync_service()
