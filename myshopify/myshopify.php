@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * Module Name: My Shopify Module
  * Description: View Shopify shop orders, customers, products, and discounts directly from the eAD-CRM dashboard.
- * Version: 1.0.0
+ * Version: 2.0.0
  * Requires at least: 3.0.*
  * Author: eAdvertise.eu
  * Author URI: https://www.eadvertise.eu
@@ -123,6 +123,72 @@ function shopify_init_menu_items()
             'href'     => admin_url('myshopify/verify'),
             'position' => 35,
         ]);
+    }
+}
+
+/**
+ * Ensure the v2 schema is present even if an installation skipped migrations.
+ *
+ * The normal 2.0.0 migration performs this upgrade. This idempotent fallback
+ * covers manually copied modules and interrupted deployments.
+ */
+function myshopify_ensure_v2_schema()
+{
+    $CI = &get_instance();
+    if ($CI->db->table_exists(db_prefix() . 'myshopify_product_map')) {
+        return;
+    }
+
+    require __DIR__ . '/install.php';
+}
+
+function myshopify_sync_service()
+{
+    $CI = &get_instance();
+    $CI->load->library('myshopify/Myshopify_sync_service');
+    return $CI->myshopify_sync_service;
+}
+
+function myshopify_run_sync()
+{
+    if (get_option('my_shopify_sync_enabled') !== '1') {
+        return;
+    }
+    try {
+        myshopify_sync_service()->reconcile();
+    } catch (Throwable $e) {
+        log_message('error', 'MyShopify cron sync failed: ' . $e->getMessage());
+    }
+}
+
+function myshopify_customer_changed($clientId)
+{
+    try {
+        myshopify_sync_service()->pushCustomer((int) $clientId);
+    } catch (Throwable $e) {
+        log_message('error', 'MyShopify customer push failed: ' . $e->getMessage());
+    }
+}
+
+function myshopify_item_changed($payload)
+{
+    $itemId = is_array($payload) ? (int) ($payload['id'] ?? 0) : (int) $payload;
+    if ($itemId < 1) {
+        return;
+    }
+    try {
+        myshopify_sync_service()->pushItem($itemId);
+    } catch (Throwable $e) {
+        log_message('error', 'MyShopify item push failed: ' . $e->getMessage());
+    }
+}
+
+function myshopify_inventory_changed()
+{
+    try {
+        myshopify_sync_service()->pushMappedInventory();
+    } catch (Throwable $e) {
+        log_message('error', 'MyShopify inventory push failed: ' . $e->getMessage());
     }
 }
 

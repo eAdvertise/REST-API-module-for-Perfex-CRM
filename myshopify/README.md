@@ -25,4 +25,4 @@ The API version defaults to `2026-07` and can be changed from the same settings 
 
 Run **Synchronize Shopify now** once after configuration. This registers any missing webhooks and performs the initial reconciliation. Afterwards keep the normal Perfex cron enabled.
 
-Existing installations are upgraded automatically on the first authenticated admin request. The manifest version intentionally remains `1.0.0`, so Perfex does not try to load a generic `Migration_Version_200` class: Perfex migration classes are global and another active module may already use that name. Schema readiness is determined from the module's own sentinel table instead of a shared PHP class name.
+Existing 1.x installations are upgraded through the `2.0.0` migration. The migration declaration is guarded against a duplicate include—the cause of the previous `Cannot declare class Migration_Version_200` fatal error—and the admin schema check remains as an idempotent fallback for manually copied or interrupted deployments.
