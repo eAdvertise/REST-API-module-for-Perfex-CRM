@@ -243,7 +243,13 @@ class Openapi extends App_Controller
         // Warehouse module resources. Inventory balances are deliberately
         // read-only; stock changes go through a domain document endpoint.
         $spec['tags'][] = ['name' => 'Warehouse'];
-        foreach (['warehouses', 'items', 'receipts', 'deliveries', 'transfers', 'adjustments'] as $resource) {
+        foreach ([
+            'warehouses', 'items', 'receipts', 'deliveries', 'transfers', 'adjustments', 'commodity_types', 'commodity_groups',
+            'sub_groups', 'units', 'sizes', 'styles', 'bodies', 'colors', 'brands', 'models',
+            'series', 'inventory_minimums', 'serial_numbers', 'stock_takes', 'packing_lists', 'order_returns', 'approval_settings', 'approval_details',
+            'warehouse_custom_fields', 'staff_warehouses', 'activity_logs', 'delivery_activity_logs', 'transaction_details', 'packing_list_details', 'stock_take_details', 'return_details',
+            'receipt_details', 'delivery_details', 'adjustment_details', 'delivery_order_links', 'item_relations', 'omni_shipments',
+        ] as $resource) {
             $spec['paths']['/warehouse/' . $resource] = [
                 'get' => ['tags' => ['Warehouse'], 'summary' => 'List warehouse ' . $resource, 'responses' => $this->list_responses($resource)],
                 'post' => ['tags' => ['Warehouse'], 'summary' => 'Create warehouse ' . rtrim($resource, 's'), 'requestBody' => $this->form_body('Warehouse module payload; operational documents accept newitems.'), 'responses' => $this->write_responses()],

@@ -32857,13 +32857,25 @@ function GuestInvoicesSection() {
 
 
 const warehouseResources = [
-  ["warehouses", "Warehouse locations", "GET, POST, PUT, DELETE"],
-  ["items", "Warehouse products and variants", "GET, POST, PUT, DELETE"],
+  ["warehouses", "Locations and staff assignments", "CRUD"],
+  ["items", "Products, variants, tags and custom values", "CRUD"],
   ["inventory", "Computed stock balances", "GET only"],
-  ["receipts", "Goods receipts and their lines", "GET, POST, PUT, DELETE"],
-  ["deliveries", "Goods deliveries and their lines", "GET, POST, PUT, DELETE"],
-  ["transfers", "Internal warehouse transfers", "GET, POST, PUT, DELETE"],
-  ["adjustments", "Stock loss adjustments", "GET, POST, PUT, DELETE"]
+  ["receipts", "Goods receipts with lines", "CRUD"],
+  ["deliveries", "Goods deliveries with lines", "CRUD"],
+  ["transfers", "Internal transfers with lines", "CRUD"],
+  ["adjustments", "Loss adjustments with lines", "CRUD"],
+  ["commodity_types / commodity_groups / sub_groups", "Item classification", "CRUD"],
+  ["units / sizes / styles / bodies / colors", "Item attributes", "CRUD"],
+  ["brands / models / series", "Product catalogue metadata", "CRUD"],
+  ["inventory_minimums / serial_numbers", "Stock controls and traceability", "CRUD"],
+  ["stock_takes / stock_take_details", "Stock take documents and lines", "CRUD"],
+  ["packing_lists / packing_list_details", "Packing documents and lines", "CRUD"],
+  ["order_returns / return_details", "Return documents and lines", "CRUD"],
+  ["approval_settings / approval_details", "Warehouse approval configuration and state", "CRUD"],
+  ["warehouse_custom_fields / staff_warehouses", "Warehouse configuration and access", "CRUD"],
+  ["activity_logs / delivery_activity_logs / transaction_details", "Operational audit and transaction records", "CRUD"],
+  ["receipt_details / delivery_details / adjustment_details", "Standalone access to operational document lines", "CRUD"],
+  ["delivery_order_links / item_relations / omni_shipments", "Document relations and shipment integration data", "CRUD"]
 ];
 const warehouseListExample = `curl "https://yoursite.com/api/warehouse/inventory?warehouse_id=1&commodity_id=42&page=1&per_page=25" \\\n  -H "authtoken: YOUR_API_TOKEN"`;
 const warehouseWriteExample = `curl -X POST "https://yoursite.com/api/warehouse/receipts" \\\n  -H "authtoken: YOUR_API_TOKEN" \\\n  -H "Content-Type: application/json" \\\n  -d '{"date_c":"2026-08-12","date_add":"2026-08-12","newitems":[{"commodity_code":42,"warehouse_id":1,"quantities":10,"unit_price":5}]}'`;
@@ -32881,7 +32893,7 @@ function WarehouseSection() {
       jsxRuntimeExports.jsxs("div", { className: "row pre-post", children: [
         jsxRuntimeExports.jsxs("div", { className: "col-md-7 no-float", children: [
           jsxRuntimeExports.jsxs("pre", { className: "full-pre", children: [jsxRuntimeExports.jsx("span", { className: "typ typ-get", children: "GET" }), jsxRuntimeExports.jsx("span", { className: "url", children: "/api/warehouse/:resource/:id?" })] }),
-          jsxRuntimeExports.jsxs("div", { className: "endpoint-desc", children: [jsxRuntimeExports.jsx("p", { children: "API v3 exposes the complete Warehouse workflow through authenticated resource endpoints. Grant the API user the Warehouse capability matching the HTTP method." }), jsxRuntimeExports.jsx("p", { children: "Receipt, delivery, transfer and adjustment writes use the native Warehouse model, preserving approval rules, document numbering, activity logs, hooks and inventory movements. Inventory balances cannot be written directly." })] }),
+          jsxRuntimeExports.jsxs("div", { className: "endpoint-desc", children: [jsxRuntimeExports.jsx("p", { children: "API v3 exposes all Warehouse data groups through authenticated resource endpoints. Grant the API user the Warehouse capability matching the HTTP method." }), jsxRuntimeExports.jsx("p", { children: "Receipt, delivery, transfer and adjustment writes use the native Warehouse model, preserving approval rules, document numbering, activity logs, hooks and inventory movements. Inventory balances cannot be written directly." })] }),
           jsxRuntimeExports.jsx("h2", { className: "sub", children: "Resources" }),
           jsxRuntimeExports.jsx("div", { className: "table-responsive-wrapper", children: jsxRuntimeExports.jsxs("table", { className: "table table-hover", children: [jsxRuntimeExports.jsx("thead", { children: jsxRuntimeExports.jsxs("tr", { children: [jsxRuntimeExports.jsx("th", { children: "Resource" }), jsxRuntimeExports.jsx("th", { children: "Description" }), jsxRuntimeExports.jsx("th", { children: "Methods" })] }) }), jsxRuntimeExports.jsx("tbody", { children: warehouseResources.map(([resource, description, methods]) => jsxRuntimeExports.jsxs("tr", { children: [jsxRuntimeExports.jsx("td", { children: jsxRuntimeExports.jsx("code", { children: resource }) }), jsxRuntimeExports.jsx("td", { children: description }), jsxRuntimeExports.jsx("td", { children: methods })] }, resource)) })] }) }),
           jsxRuntimeExports.jsx("h2", { className: "sub", children: "List filters" }),

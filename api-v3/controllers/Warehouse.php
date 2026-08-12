@@ -7,9 +7,9 @@ require_once __DIR__ . '/REST_Controller.php';
 /**
  * REST facade for the Warehouse module in API v3.
  *
- * Resources: warehouses, items, inventory, receipts, deliveries, transfers
- * and adjustments. Operational writes are delegated to Warehouse_model so
- * approvals, inventory movements, hooks and activity logs remain intact.
+ * Covers the Warehouse master data, operational documents, inventory data,
+ * configuration and supporting records. Domain documents are delegated to
+ * Warehouse_model; auxiliary entities use schema-filtered CRUD.
  */
 class Warehouse extends REST_Controller
 {
@@ -24,6 +24,38 @@ class Warehouse extends REST_Controller
         'deliveries'  => ['table' => 'goods_delivery', 'key' => 'id', 'detail' => 'goods_delivery_detail', 'foreign_key' => 'goods_delivery_id'],
         'transfers'   => ['table' => 'internal_delivery_note', 'key' => 'id', 'detail' => 'internal_delivery_note_detail', 'foreign_key' => 'internal_delivery_id'],
         'adjustments' => ['table' => 'wh_loss_adjustment', 'key' => 'id', 'detail' => 'wh_loss_adjustment_detail', 'foreign_key' => 'loss_adjustment'],
+        'commodity_types' => ['table' => 'ware_commodity_type', 'key' => 'commodity_type_id'],
+        'commodity_groups' => ['table' => 'items_groups', 'key' => 'id'],
+        'sub_groups' => ['table' => 'wh_sub_group', 'key' => 'id'],
+        'units' => ['table' => 'ware_unit_type', 'key' => 'unit_type_id'],
+        'sizes' => ['table' => 'ware_size_type', 'key' => 'size_type_id'],
+        'styles' => ['table' => 'ware_style_type', 'key' => 'style_type_id'],
+        'bodies' => ['table' => 'ware_body_type', 'key' => 'body_type_id'],
+        'colors' => ['table' => 'ware_color', 'key' => 'id'],
+        'brands' => ['table' => 'wh_brand', 'key' => 'id'],
+        'models' => ['table' => 'wh_model', 'key' => 'id'],
+        'series' => ['table' => 'wh_series', 'key' => 'id'],
+        'inventory_minimums' => ['table' => 'inventory_commodity_min', 'key' => 'id'],
+        'serial_numbers' => ['table' => 'wh_inventory_serial_numbers', 'key' => 'id'],
+        'stock_takes' => ['table' => 'stock_take', 'key' => 'id', 'detail' => 'stock_take_detail', 'foreign_key' => 'stock_take_id'],
+        'packing_lists' => ['table' => 'wh_packing_lists', 'key' => 'id', 'detail' => 'wh_packing_list_details', 'foreign_key' => 'packing_list_id'],
+        'order_returns' => ['table' => 'wh_order_returns', 'key' => 'id', 'detail' => 'wh_order_return_details', 'foreign_key' => 'order_return_id'],
+        'approval_settings' => ['table' => 'wh_approval_setting', 'key' => 'id'],
+        'approval_details' => ['table' => 'wh_approval_details', 'key' => 'id'],
+        'warehouse_custom_fields' => ['table' => 'wh_custom_fields', 'key' => 'id'],
+        'staff_warehouses' => ['table' => 'wh_staff_warehouses', 'key' => 'id'],
+        'activity_logs' => ['table' => 'wh_activity_log', 'key' => 'id'],
+        'delivery_activity_logs' => ['table' => 'wh_goods_delivery_activity_log', 'key' => 'id'],
+        'transaction_details' => ['table' => 'goods_transaction_detail', 'key' => 'id'],
+        'packing_list_details' => ['table' => 'wh_packing_list_details', 'key' => 'id'],
+        'stock_take_details' => ['table' => 'stock_take_detail', 'key' => 'id'],
+        'return_details' => ['table' => 'wh_order_return_details', 'key' => 'id'],
+        'receipt_details' => ['table' => 'goods_receipt_detail', 'key' => 'id'],
+        'delivery_details' => ['table' => 'goods_delivery_detail', 'key' => 'id'],
+        'adjustment_details' => ['table' => 'wh_loss_adjustment_detail', 'key' => 'id'],
+        'delivery_order_links' => ['table' => 'goods_delivery_invoices_pr_orders', 'key' => 'id'],
+        'item_relations' => ['table' => 'itemable', 'key' => 'id'],
+        'omni_shipments' => ['table' => 'wh_omni_shipments', 'key' => 'id'],
     ];
 
     public function __construct()
@@ -42,10 +74,18 @@ class Warehouse extends REST_Controller
     public function data_get($resource = '', $id = null)
     {
         if ($resource === '') {
+            $catalog = [];
+            foreach ($this->resources as $name => $definition) {
+                $table = db_prefix() . $definition['table'];
+                $catalog[$name] = [
+                    'methods' => !empty($definition['readonly']) ? ['GET'] : ['GET', 'POST', 'PUT', 'DELETE'],
+                    'fields' => $this->db->table_exists($table) ? $this->db->list_fields($table) : [],
+                ];
+            }
             $this->response([
                 'status' => true,
-                'resources' => array_keys($this->resources),
-                'filters' => ['warehouse_id', 'commodity_id', 'active', 'approval', 'from', 'to', 'page', 'per_page'],
+                'resources' => $catalog,
+                'filters' => 'Every real table field can be supplied as an exact-match query parameter. page, per_page, from and to are reserved list controls.',
             ], self::HTTP_OK);
             return;
         }
@@ -190,7 +230,12 @@ class Warehouse extends REST_Controller
 
     private function applyFilters($definition)
     {
-        foreach (['warehouse_id', 'commodity_id', 'active', 'approval'] as $field) {
+        $table = db_prefix() . $definition['table'];
+        $reserved = ['page', 'per_page', 'from', 'to', 'format'];
+        foreach ($this->db->list_fields($table) as $field) {
+            if (in_array($field, $reserved, true)) {
+                continue;
+            }
             $value = $this->get($field);
             if ($value !== null && $value !== '' && $this->db->field_exists($field, db_prefix() . $definition['table'])) {
                 $this->db->where($field, $value);
@@ -230,6 +275,14 @@ class Warehouse extends REST_Controller
 
     private function create($resource, $data)
     {
+        $nativeCreate = [
+            'sub_groups' => 'add_sub_group', 'colors' => 'add_color',
+            'brands' => 'add_brand', 'models' => 'add_model', 'series' => 'add_series',
+            'warehouse_custom_fields' => 'add_custom_fields_warehouse',
+        ];
+        if (isset($nativeCreate[$resource])) {
+            return $this->warehouseModel->{$nativeCreate[$resource]}($data);
+        }
         if ($resource === 'items') {
             $result = $this->warehouseModel->add_commodity_one_item($data);
             return is_array($result) ? $result['insert_id'] : $result;
@@ -247,13 +300,29 @@ class Warehouse extends REST_Controller
             return $this->warehouseModel->add_loss_adjustment($data);
         }
 
-        $allowed = $this->allowedColumns('warehouse', $data, ['warehouse_id']);
-        $this->db->insert(db_prefix() . 'warehouse', $allowed);
+        if ($resource === 'warehouses') {
+            return $this->warehouseModel->add_one_warehouse($data);
+        }
+
+        $definition = $this->resources[$resource];
+        $allowed = $this->allowedColumns($definition['table'], $data, [$definition['key']]);
+        if (!$allowed) {
+            return false;
+        }
+        $this->db->insert(db_prefix() . $definition['table'], $allowed);
         return $this->db->insert_id();
     }
 
     private function update($resource, $id, $data)
     {
+        $nativeUpdate = [
+            'sub_groups' => 'add_sub_group', 'colors' => 'update_color',
+            'brands' => 'update_brand', 'models' => 'update_model', 'series' => 'update_series',
+            'warehouse_custom_fields' => 'update_custom_fields_warehouse',
+        ];
+        if (isset($nativeUpdate[$resource])) {
+            return $this->warehouseModel->{$nativeUpdate[$resource]}($data, $id);
+        }
         if ($resource === 'items') {
             return $this->warehouseModel->update_commodity_one_item($data, $id);
         }
@@ -271,15 +340,31 @@ class Warehouse extends REST_Controller
             return $this->warehouseModel->update_loss_adjustment($data);
         }
 
-        $allowed = $this->allowedColumns('warehouse', $data, ['warehouse_id']);
+        if ($resource === 'warehouses') {
+            return $this->warehouseModel->update_one_warehouse($data, $id);
+        }
+
+        $definition = $this->resources[$resource];
+        $allowed = $this->allowedColumns($definition['table'], $data, [$definition['key']]);
         if (!$allowed) {
             return false;
         }
-        return $this->db->where('warehouse_id', $id)->update(db_prefix() . 'warehouse', $allowed);
+        return $this->db->where($definition['key'], $id)->update(db_prefix() . $definition['table'], $allowed);
     }
 
     private function delete($resource, $id)
     {
+        $nativeDelete = [
+            'commodity_types' => 'delete_commodity_type', 'units' => 'delete_unit_type',
+            'sizes' => 'delete_size_type', 'styles' => 'delete_style_type',
+            'bodies' => 'delete_body_type', 'commodity_groups' => 'delete_commodity_group_type',
+            'sub_groups' => 'delete_sub_group', 'colors' => 'delete_color',
+            'brands' => 'delete_brand', 'models' => 'delete_model', 'series' => 'delete_series',
+            'warehouse_custom_fields' => 'delete_custom_fields_warehouse',
+        ];
+        if (isset($nativeDelete[$resource])) {
+            return $this->warehouseModel->{$nativeDelete[$resource]}($id);
+        }
         if ($resource === 'warehouses') {
             return $this->warehouseModel->delete_warehouse($id);
         }
@@ -295,7 +380,15 @@ class Warehouse extends REST_Controller
         if ($resource === 'transfers') {
             return $this->warehouseModel->delete_internal_delivery($id);
         }
-        return $this->warehouseModel->delete_loss_adjustment($id);
+        if ($resource === 'adjustments') {
+            return $this->warehouseModel->delete_loss_adjustment($id);
+        }
+
+        $definition = $this->resources[$resource];
+        if (isset($definition['detail']) && $this->db->table_exists(db_prefix() . $definition['detail'])) {
+            $this->db->where($definition['foreign_key'], $id)->delete(db_prefix() . $definition['detail']);
+        }
+        return $this->db->where($definition['key'], $id)->delete(db_prefix() . $definition['table']);
     }
 
     private function allowedColumns($table, $data, $excluded = [])
