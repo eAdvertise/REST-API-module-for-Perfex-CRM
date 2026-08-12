@@ -240,6 +240,29 @@ class Openapi extends App_Controller
 
     private function add_special_paths(&$spec)
     {
+        // Warehouse module resources. Inventory balances are deliberately
+        // read-only; stock changes go through a domain document endpoint.
+        $spec['tags'][] = ['name' => 'Warehouse'];
+        foreach (['warehouses', 'items', 'receipts', 'deliveries', 'transfers', 'adjustments'] as $resource) {
+            $spec['paths']['/warehouse/' . $resource] = [
+                'get' => ['tags' => ['Warehouse'], 'summary' => 'List warehouse ' . $resource, 'responses' => $this->list_responses($resource)],
+                'post' => ['tags' => ['Warehouse'], 'summary' => 'Create warehouse ' . rtrim($resource, 's'), 'requestBody' => $this->form_body('Warehouse module payload; operational documents accept newitems.'), 'responses' => $this->write_responses()],
+            ];
+            $spec['paths']['/warehouse/' . $resource . '/{id}'] = [
+                'parameters' => [$this->id_param()],
+                'get' => ['tags' => ['Warehouse'], 'summary' => 'Get warehouse ' . rtrim($resource, 's'), 'responses' => $this->single_responses()],
+                'put' => ['tags' => ['Warehouse'], 'summary' => 'Update warehouse ' . rtrim($resource, 's'), 'requestBody' => $this->form_body('Fields to change'), 'responses' => $this->write_responses()],
+                'delete' => ['tags' => ['Warehouse'], 'summary' => 'Delete warehouse ' . rtrim($resource, 's'), 'responses' => $this->write_responses()],
+            ];
+        }
+        $spec['paths']['/warehouse/inventory'] = [
+            'get' => ['tags' => ['Warehouse'], 'summary' => 'List read-only inventory balances', 'responses' => $this->list_responses('inventory balance')],
+        ];
+        $spec['paths']['/warehouse/inventory/{id}'] = [
+            'parameters' => [$this->id_param()],
+            'get' => ['tags' => ['Warehouse'], 'summary' => 'Get a read-only inventory balance', 'responses' => $this->single_responses()],
+        ];
+
         // Knowledge base groups
         $spec['tags'][] = ['name' => 'Knowledge Base Groups'];
         $spec['paths']['/knowledge_base/groups'] = [
