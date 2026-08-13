@@ -240,6 +240,23 @@ class Openapi extends App_Controller
 
     private function add_special_paths(&$spec)
     {
+        $spec['tags'][] = ['name' => 'MyShopify'];
+        $shopifyTag = ['MyShopify'];
+        $spec['paths']['/myshopify'] = ['get' => ['tags' => $shopifyTag, 'summary' => 'Discover MyShopify endpoints and configuration status', 'responses' => $this->single_responses()]];
+        foreach (['products' => 'product', 'customers' => 'customer', 'orders' => 'order', 'categories' => 'category', 'discounts' => 'discount'] as $resource => $label) {
+            $spec['paths']['/myshopify/' . $resource] = ['get' => ['tags' => $shopifyTag, 'summary' => 'List imported Shopify ' . $resource, 'responses' => $this->list_responses($label)]];
+            $spec['paths']['/myshopify/' . $resource . '/{id}'] = ['parameters' => [$this->id_param()], 'get' => ['tags' => $shopifyTag, 'summary' => 'Get an imported Shopify ' . $label, 'responses' => $this->single_responses()]];
+        }
+        $spec['paths']['/myshopify/maps/{type}'] = ['parameters' => [['name' => 'type', 'in' => 'path', 'required' => true, 'schema' => ['type' => 'string', 'enum' => ['products', 'customers', 'categories', 'orders']]]], 'get' => ['tags' => $shopifyTag, 'summary' => 'List Shopify-to-Perfex identity mappings', 'responses' => $this->list_responses('mapping')]];
+        $spec['paths']['/myshopify/logs'] = ['get' => ['tags' => $shopifyTag, 'summary' => 'List synchronization logs', 'responses' => $this->list_responses('sync log')]];
+        $spec['paths']['/myshopify/logs/{id}'] = ['parameters' => [$this->id_param()], 'get' => ['tags' => $shopifyTag, 'summary' => 'Get a synchronization log', 'responses' => $this->single_responses()]];
+        foreach (['sync' => 'Run complete reconciliation', 'webhooks/register' => 'Register Shopify webhooks', 'push/inventory' => 'Push mapped inventory', 'push/categories' => 'Push Perfex categories'] as $path => $summary) {
+            $spec['paths']['/myshopify/' . $path] = ['post' => ['tags' => $shopifyTag, 'summary' => $summary, 'responses' => $this->write_responses()]];
+        }
+        foreach (['customer' => 'customer', 'item' => 'item'] as $path => $label) {
+            $spec['paths']['/myshopify/push/' . $path . '/{id}'] = ['parameters' => [$this->id_param()], 'post' => ['tags' => $shopifyTag, 'summary' => 'Push a Perfex ' . $label . ' to Shopify', 'responses' => $this->write_responses()]];
+        }
+
         $spec['tags'][] = ['name' => 'Sales Commission'];
         $commissionTag = ['Sales Commission'];
         $spec['paths']['/commission'] = ['get' => ['tags' => $commissionTag, 'summary' => 'Discover Sales Commission endpoints', 'responses' => $this->single_responses()]];

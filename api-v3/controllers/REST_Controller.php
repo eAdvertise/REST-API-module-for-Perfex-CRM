@@ -1116,6 +1116,12 @@ abstract class REST_Controller extends CI_Controller {
             $capability = $commission_m[1];
         }
 
+        if ($object_name === 'Myshopify'
+            && preg_match('/_(get|post)$/', $controller_method, $myshopify_m)) {
+            $feature = 'myshopify';
+            $capability = $myshopify_m[1];
+        }
+
         // v3: block brute-forced tokens before doing any more work
         $this->_auth_throttle_check();
 

@@ -5,6 +5,7 @@ import ApiNavItem from './ApiNavItem.tsx'
 import { paymentsonaccountAnchor, paymentsonaccountEndpoints } from './PaymentsonaccountSection.tsx'
 import { deliveryNotesAnchor, deliveryNotesEndpoints } from './DeliveryNotesSection.tsx'
 import { commissionAnchor, commissionEndpoints } from './CommissionSection.tsx'
+import { myshopifyAnchor, myshopifyEndpoints } from './MyshopifySection.tsx'
 
 
 // Component
@@ -19,6 +20,7 @@ import { commissionAnchor, commissionEndpoints } from './CommissionSection.tsx'
                 ["Guest Invoices", ["146", "147"]],
                 ["Delivery Notes", []],
                 ["Sales Commission", []],
+                ["MyShopify", []],
                 ["Customers", ["5", "41", "123", "42", "97"]],
                 ["Calendar Events", ["43", "6", "98", "44", "124"]],
                 ["Common", ["45"]],
@@ -58,6 +60,7 @@ import { commissionAnchor, commissionEndpoints } from './CommissionSection.tsx'
                             {title === 'Payments On Account' && <PaymentsonaccountNavEntries />}
                             {title === 'Delivery Notes' && <DeliveryNotesNavEntries />}
                             {title === 'Sales Commission' && <CommissionNavEntries />}
+                            {title === 'MyShopify' && <MyshopifyNavEntries />}
                             {dataIds.map((dataId) => (
                                 <ApiNavEntry key={dataId} dataId={dataId} />
                             ))}
@@ -117,6 +120,10 @@ import { commissionAnchor, commissionEndpoints } from './CommissionSection.tsx'
                     </a>
                 </li>
             )}</>;
+        }
+
+        function MyshopifyNavEntries() {
+            return <>{myshopifyEndpoints.map(([method,title]) => <li className="nav-list-item" key={`${method}-${title}`}><a href={`#${myshopifyAnchor(method,title)}`}><span className={`typ-name typ-${method.toLowerCase()}`}>{method}</span><span className="nav-title">{title}</span></a></li>)}</>;
         }
 
         function CommissionNavEntries() {

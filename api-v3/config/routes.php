@@ -144,6 +144,28 @@ $route['api/commission/receipts/(:num)/email']            = 'commission/email/$1
 $route['api/commission/chart']                            = 'commission/chart';
 $route['api/commission/recalculate']                      = 'commission/recalculate';
 
+// MyShopify module v3 (must come before generic routes)
+$route['api/myshopify']                              = 'myshopify/catalog';
+$route['api/myshopify/products']                     = 'myshopify/products';
+$route['api/myshopify/products/(:num)']              = 'myshopify/products/$1';
+$route['api/myshopify/customers']                    = 'myshopify/customers';
+$route['api/myshopify/customers/(:num)']             = 'myshopify/customers/$1';
+$route['api/myshopify/orders']                       = 'myshopify/orders';
+$route['api/myshopify/orders/(:num)']                = 'myshopify/orders/$1';
+$route['api/myshopify/categories']                   = 'myshopify/categories';
+$route['api/myshopify/categories/(:num)']            = 'myshopify/categories/$1';
+$route['api/myshopify/discounts']                    = 'myshopify/discounts';
+$route['api/myshopify/discounts/(:num)']             = 'myshopify/discounts/$1';
+$route['api/myshopify/maps/(:any)']                  = 'myshopify/maps/$1';
+$route['api/myshopify/logs']                         = 'myshopify/logs';
+$route['api/myshopify/logs/(:num)']                  = 'myshopify/logs/$1';
+$route['api/myshopify/sync']                         = 'myshopify/sync';
+$route['api/myshopify/webhooks/register']            = 'myshopify/register_webhooks';
+$route['api/myshopify/push/customer/(:num)']         = 'myshopify/push_customer/$1';
+$route['api/myshopify/push/item/(:num)']             = 'myshopify/push_item/$1';
+$route['api/myshopify/push/inventory']               = 'myshopify/push_inventory';
+$route['api/myshopify/push/categories']              = 'myshopify/push_categories';
+
 // Generic API routes (must come after specific routes)
 $route['api/tickets/reply/(:num)'] = 'tickets/data_reply/$1';
 $route['api/delete/(:any)/(:num)'] = '$1/data/$2';
