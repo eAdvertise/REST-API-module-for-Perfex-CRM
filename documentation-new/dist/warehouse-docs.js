@@ -89,6 +89,14 @@
     return true;
   }
 
+  // Surface asset/runtime failures instead of leaving a blank page.
+  window.addEventListener('error', function (event) {
+    var fallback = document.getElementById('documentation-loading');
+    if (fallback) {
+      fallback.querySelector('p').textContent = 'The interactive documentation could not be loaded: ' + (event.message || 'JavaScript asset error');
+    }
+  });
+
   if (!install()) {
     var observer = new MutationObserver(function () {
       if (install()) observer.disconnect();

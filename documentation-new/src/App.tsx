@@ -186,7 +186,9 @@ function AppContent() {
 }
 
 function App() {
-    const defaultRoute = "/apiguide/";
+    // The dist directory is also deployed as a standalone document root.
+    // Do not redirect `/` to a server-side path that may not have a rewrite.
+    const defaultRoute = "/";
 
     return (
         <Router>
