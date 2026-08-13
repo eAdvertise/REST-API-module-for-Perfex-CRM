@@ -122,6 +122,8 @@ function AppContent() {
                 
         
                     <ApiSection dataId="11" />
+
+        <WarehouseSection />
                 
         
                     <ApiSection dataId="12" />
