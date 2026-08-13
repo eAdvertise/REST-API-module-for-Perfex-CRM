@@ -78,9 +78,6 @@ function AppContent() {
 
         <GuestInvoicesSection />
 
-        <WarehouseSection />
-                
-        
                     <ApiSection dataId="3" />
                 
         
