@@ -65,8 +65,9 @@
     section.innerHTML = '<h2>Warehouse</h2>' +
       '<article id="api-warehouse-resources"><h1>Warehouse resources</h1>' +
       '<p>API v3 exposes Warehouse master data, documents, configuration and supporting records. Inventory balances are read-only; stock changes use receipts, deliveries, transfers or adjustments.</p>' +
-      '<div class="table-responsive-wrapper"><table class="table table-hover"><thead><tr><th>Resources</th><th>Description</th><th>Methods</th></tr></thead><tbody>' +
-      resources.map(function (row) { return '<tr><td><code>' + escapeHtml(row[0]) + '</code></td><td>' + escapeHtml(row[1]) + '</td><td>' + escapeHtml(row[2]) + '</td></tr>'; }).join('') +
+      '<h2 class="sub">Endpoints</h2><div class="table-responsive-wrapper"><table class="table table-hover"><thead><tr><th>Resource</th><th>Collection endpoint</th><th>Record endpoint</th><th>Description</th><th>Methods</th></tr></thead><tbody>' +
+      '<tr><td><code>catalog</code></td><td><code>/api/warehouse</code></td><td>&mdash;</td><td>Discover resources, methods and database fields</td><td>GET only</td></tr>' +
+      resources.map(function (row) { return '<tr><td><code>' + escapeHtml(row[0]) + '</code></td><td><code>/api/warehouse/' + escapeHtml(row[0]) + '</code></td><td><code>/api/warehouse/' + escapeHtml(row[0]) + '/:id</code></td><td>' + escapeHtml(row[1]) + '</td><td>' + escapeHtml(row[2]) + '</td></tr>'; }).join('') +
       '</tbody></table></div></article>' +
       operations.map(function (operation) {
         var method = operation[0];
@@ -85,6 +86,15 @@
       item.className = 'nav-header nav-list-item';
       item.innerHTML = '<a href="#api-warehouse">Warehouse</a>';
       nav.appendChild(item);
+      operations.forEach(function (operation) {
+        var method = operation[0];
+        var endpoint = document.createElement('li');
+        endpoint.className = 'nav-list-item';
+        endpoint.innerHTML = '<a href="#api-warehouse-' + method.toLowerCase() + '">' +
+          '<span class="typ-name typ-' + method.toLowerCase() + '">' + method + '</span>' +
+          '<span class="nav-title">' + escapeHtml(operation[2]) + '</span></a>';
+        nav.appendChild(endpoint);
+      });
     }
     return true;
   }
