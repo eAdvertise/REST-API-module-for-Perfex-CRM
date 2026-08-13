@@ -240,6 +240,51 @@ class Openapi extends App_Controller
 
     private function add_special_paths(&$spec)
     {
+        $spec['tags'][] = ['name' => 'Delivery Notes'];
+        $deliveryNotesTag = ['Delivery Notes'];
+        $spec['paths']['/delivery_notes'] = [
+            'get' => ['tags' => $deliveryNotesTag, 'summary' => 'Discover Delivery Notes endpoints', 'responses' => $this->single_responses()],
+        ];
+        $spec['paths']['/delivery_notes/notes'] = [
+            'get' => ['tags' => $deliveryNotesTag, 'summary' => 'List delivery notes', 'responses' => $this->list_responses('delivery note')],
+            'post' => ['tags' => $deliveryNotesTag, 'summary' => 'Create a delivery note', 'requestBody' => $this->form_body('clientid, currency, date, newitems and standard sales document fields'), 'responses' => $this->write_responses()],
+        ];
+        $spec['paths']['/delivery_notes/notes/{id}'] = [
+            'parameters' => [$this->id_param()],
+            'get' => ['tags' => $deliveryNotesTag, 'summary' => 'Get a delivery note with items and related records', 'responses' => $this->single_responses()],
+            'put' => ['tags' => $deliveryNotesTag, 'summary' => 'Update a delivery note', 'requestBody' => $this->form_body('Fields to change; items, newitems and removed_items are supported'), 'responses' => $this->write_responses()],
+            'delete' => ['tags' => $deliveryNotesTag, 'summary' => 'Delete a delivery note', 'responses' => $this->write_responses()],
+        ];
+        $spec['paths']['/delivery_notes/statuses'] = [
+            'get' => ['tags' => $deliveryNotesTag, 'summary' => 'List valid delivery note status IDs', 'responses' => $this->list_responses('status')],
+        ];
+        $spec['paths']['/delivery_notes/notes/{id}/status'] = [
+            'parameters' => [$this->id_param()],
+            'put' => ['tags' => $deliveryNotesTag, 'summary' => 'Change delivery note status', 'requestBody' => $this->form_body('status'), 'responses' => $this->write_responses()],
+        ];
+        $spec['paths']['/delivery_notes/notes/{id}/email'] = [
+            'parameters' => [$this->id_param()],
+            'post' => ['tags' => $deliveryNotesTag, 'summary' => 'Email a delivery note to the client', 'requestBody' => $this->form_body('attach_pdf, cc'), 'responses' => $this->write_responses()],
+        ];
+        $spec['paths']['/delivery_notes/notes/{id}/pdf'] = [
+            'parameters' => [$this->id_param()],
+            'get' => ['tags' => $deliveryNotesTag, 'summary' => 'Get the delivery note PDF as base64', 'responses' => $this->single_responses()],
+        ];
+        $spec['paths']['/delivery_notes/notes/{id}/copy'] = [
+            'parameters' => [$this->id_param()],
+            'post' => ['tags' => $deliveryNotesTag, 'summary' => 'Copy a delivery note', 'responses' => $this->write_responses()],
+        ];
+        $spec['paths']['/delivery_notes/notes/{id}/convert-to-invoice'] = [
+            'parameters' => [$this->id_param()],
+            'post' => ['tags' => $deliveryNotesTag, 'summary' => 'Convert a delivery note to an invoice', 'requestBody' => $this->form_body('draft'), 'responses' => $this->write_responses()],
+        ];
+        foreach (['invoice' => 'invoice', 'estimate' => 'estimate', 'purchase-order' => 'purchase order'] as $source => $label) {
+            $spec['paths']['/delivery_notes/from-' . $source . '/{id}'] = [
+                'parameters' => [$this->id_param()],
+                'post' => ['tags' => $deliveryNotesTag, 'summary' => 'Create a delivery note from a ' . $label, 'requestBody' => $this->form_body('draft'), 'responses' => $this->write_responses()],
+            ];
+        }
+
         $spec['tags'][] = ['name' => 'Payments On Account'];
         $poaTag = ['Payments On Account'];
         $spec['paths']['/paymentsonaccount'] = [
