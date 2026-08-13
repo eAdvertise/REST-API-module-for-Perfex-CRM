@@ -204,6 +204,23 @@ function api_warehouse_permissions($apiPermissions)
     return $apiPermissions;
 }
 
+// Register one capability group for the PaymentsOnAccount REST facade.
+hooks()->add_filter('api_permissions', 'api_paymentsonaccount_permissions');
+function api_paymentsonaccount_permissions($apiPermissions)
+{
+    $apiPermissions['paymentsonaccount'] = [
+        'name'         => 'Payments On Account',
+        'capabilities' => [
+            'get'    => _l('permission_get'),
+            'post'   => _l('permission_create'),
+            'put'    => _l('permission_update'),
+            'delete' => _l('permission_delete'),
+        ],
+    ];
+
+    return $apiPermissions;
+}
+
 
 // Register permissions for custom Guest Invoices API endpoints.
 hooks()->add_filter('api_permissions', 'api_guest_invoices_permissions');
