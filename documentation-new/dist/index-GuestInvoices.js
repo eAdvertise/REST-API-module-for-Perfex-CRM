@@ -32936,7 +32936,7 @@ function AppContent() {
   ] });
 }
 function App() {
-  const defaultRoute = "/apiguide/";
+  const defaultRoute = "/";
   return /* @__PURE__ */ jsxRuntimeExports.jsx(BrowserRouter, { "data-instantiation-file": "src/App.tsx", "data-instantiation-line": "184", "data-instantiation-span": "6", "data-instantiation-index": "0", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Routes, { "data-instantiation-file": "src/App.tsx", "data-instantiation-line": "185", "data-instantiation-span": "4", "data-instantiation-index": "0", children: [
     defaultRoute !== "/" && /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/", element: /* @__PURE__ */ jsxRuntimeExports.jsx(Navigate, { to: defaultRoute, replace: true, "data-instantiation-file": "src/App.tsx", "data-instantiation-line": "186", "data-instantiation-span": "1", "data-instantiation-index": "1" }), "data-instantiation-file": "src/App.tsx", "data-instantiation-line": "186", "data-instantiation-span": "1", "data-instantiation-index": "0" }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "*", element: /* @__PURE__ */ jsxRuntimeExports.jsx(AppContent, { "data-instantiation-file": "src/App.tsx", "data-instantiation-line": "187", "data-instantiation-span": "1", "data-instantiation-index": "1" }), "data-instantiation-file": "src/App.tsx", "data-instantiation-line": "187", "data-instantiation-span": "1", "data-instantiation-index": "0" })

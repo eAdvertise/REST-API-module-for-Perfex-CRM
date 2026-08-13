@@ -187,6 +187,24 @@ function api_ensure_guest_checkout_email_template()
 
 
 
+// Register one capability group for all Warehouse REST resources.
+hooks()->add_filter('api_permissions', 'api_warehouse_permissions');
+function api_warehouse_permissions($apiPermissions)
+{
+    $apiPermissions['warehouse'] = [
+        'name'         => 'Warehouse',
+        'capabilities' => [
+            'get'    => _l('permission_get'),
+            'post'   => _l('permission_create'),
+            'put'    => _l('permission_update'),
+            'delete' => _l('permission_delete'),
+        ],
+    ];
+
+    return $apiPermissions;
+}
+
+
 // Register permissions for custom Guest Invoices API endpoints.
 hooks()->add_filter('api_permissions', 'api_guest_invoices_permissions');
 function api_guest_invoices_permissions($apiPermissions)
