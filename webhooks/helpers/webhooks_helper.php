@@ -201,7 +201,7 @@ function get_request_format(): array
  */
 function get_webhook_triggers(): array
 {
-    return [
+    $triggers = [
         [
             'value' => 'leads',
             'label' => _l('lead'),
@@ -278,6 +278,10 @@ function get_webhook_triggers(): array
             'subtext' => _l('triggers_when_new_item_created'),
         ]
     ];
+
+    // Allow optional modules to publish their own webhook resource without
+    // coupling this module to their installation or load order.
+    return hooks()->apply_filters('webhooks_triggers', $triggers);
 }
 
 /**
