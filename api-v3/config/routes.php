@@ -95,6 +95,20 @@ $route['api/warehouse']                       = 'warehouse/data';
 $route['api/warehouse/(:any)']                = 'warehouse/data/$1';
 $route['api/warehouse/(:any)/(:num)']         = 'warehouse/data/$1/$2';
 
+// PaymentsOnAccount module v3 (must come before generic routes)
+$route['api/paymentsonaccount']                                      = 'paymentsonaccount/catalog';
+$route['api/paymentsonaccount/receipts']                             = 'paymentsonaccount/receipts';
+$route['api/paymentsonaccount/receipts/(:num)']                      = 'paymentsonaccount/receipts/$1';
+$route['api/paymentsonaccount/receipts/(:num)/applications']         = 'paymentsonaccount/applications/$1';
+$route['api/paymentsonaccount/receipts/(:num)/applications/(:num)'] = 'paymentsonaccount/application/$1/$2';
+$route['api/paymentsonaccount/receipts/(:num)/email']                = 'paymentsonaccount/email/$1';
+$route['api/paymentsonaccount/receipts/(:num)/pdf']                  = 'paymentsonaccount/pdf/$1';
+$route['api/paymentsonaccount/clients/(:num)/unpaid-invoices']       = 'paymentsonaccount/unpaid_invoices/$1';
+$route['api/paymentsonaccount/clients/(:num)/payment-modes']         = 'paymentsonaccount/client_modes/$1';
+$route['api/paymentsonaccount/clients/(:num)/statement']             = 'paymentsonaccount/statement/$1';
+$route['api/paymentsonaccount/reports/receipts']                     = 'paymentsonaccount/reports';
+$route['api/paymentsonaccount/reports/credits']                      = 'paymentsonaccount/credits';
+
 // Generic API routes (must come after specific routes)
 $route['api/tickets/reply/(:num)'] = 'tickets/data_reply/$1';
 $route['api/delete/(:any)/(:num)'] = '$1/data/$2';

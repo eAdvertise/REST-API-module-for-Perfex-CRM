@@ -204,6 +204,23 @@ function api_warehouse_permissions($apiPermissions)
     return $apiPermissions;
 }
 
+// Register one capability group for the PaymentsOnAccount REST facade.
+hooks()->add_filter('api_permissions', 'api_paymentsonaccount_permissions');
+function api_paymentsonaccount_permissions($apiPermissions)
+{
+    $apiPermissions['paymentsonaccount'] = [
+        'name'         => 'Payments On Account',
+        'capabilities' => [
+            'get'    => _l('permission_get'),
+            'post'   => _l('permission_create'),
+            'put'    => _l('permission_update'),
+            'delete' => _l('permission_delete'),
+        ],
+    ];
+
+    return $apiPermissions;
+}
+
 
 // Register permissions for custom Guest Invoices API endpoints.
 hooks()->add_filter('api_permissions', 'api_guest_invoices_permissions');
@@ -294,6 +311,16 @@ function api_init_menu_items()
             'name'     => _l('automation_connectors'),
             'href'     => admin_url('api/automation_connectors'),
             'position' => 65,
+        ]);
+
+        // Keep the hosted API documentation available from the API menu.
+        $CI->app_menu->add_sidebar_children_item('api-options', [
+            'slug'     => 'api-documentation-options',
+            'name'     => _l('api_documentation'),
+            'href'     => 'https://apidoc.eadcrm.eu/',
+            'position' => 100,
+            'target'   => '_blank',
+            'rel'      => 'noopener noreferrer',
         ]);
         
     }
