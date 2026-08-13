@@ -44,6 +44,18 @@ hooks()->add_action('admin_init', function () {
     }
 
 
+    if (staff_can('view', 'webhooks')) {
+        $CI->app_menu->add_sidebar_children_item('webhooks', [
+            'slug' => 'webhooks_documentation',
+            'name' => 'Documentation',
+            'icon' => 'fa fa-book',
+            'href' => module_dir_url(WEBHOOKS_MODULE, 'documentation/index.html'),
+            'position' => 100,
+            'target' => '_blank',
+            'rel' => 'noopener noreferrer',
+        ]);
+    }
+
     if (WEB_CTL_PERFEX_VERSION) {
         get_instance()->app->add_settings_section_child('other', 'webhooks', [
             'name' => _l('webhooks_cron_job'),

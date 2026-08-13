@@ -21,7 +21,16 @@ class Webhook extends App_Controller
         $topic = strtolower((string) $this->input->get_request_header('X-Shopify-Topic', true));
         try {
             $this->load->library('myshopify/Myshopify_sync_service');
-            $this->myshopify_sync_service->handleWebhook($topic, $payload);
+            $result = $this->myshopify_sync_service->handleWebhook($topic, $payload);
+            hooks()->do_action('myshopify_webhook_processed', [
+                'topic'        => $topic,
+                'shop_domain'  => (string) $this->input->get_request_header('X-Shopify-Shop-Domain', true),
+                'webhook_id'   => (string) $this->input->get_request_header('X-Shopify-Webhook-Id', true),
+                'api_version'  => (string) $this->input->get_request_header('X-Shopify-Api-Version', true),
+                'processed_at' => date('c'),
+                'result'       => $result,
+                'payload'      => $payload,
+            ]);
             return $this->output->set_status_header(200)->set_output('OK');
         } catch (Throwable $e) {
             log_message('error', 'MyShopify webhook failed (' . $topic . '): ' . $e->getMessage());
