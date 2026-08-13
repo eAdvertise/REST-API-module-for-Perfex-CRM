@@ -312,6 +312,16 @@ function api_init_menu_items()
             'href'     => admin_url('api/automation_connectors'),
             'position' => 65,
         ]);
+
+        // Keep the hosted API documentation available from the API menu.
+        $CI->app_menu->add_sidebar_children_item('api-options', [
+            'slug'     => 'api-documentation-options',
+            'name'     => _l('api_documentation'),
+            'href'     => 'https://apidoc.eadcrm.eu/',
+            'position' => 100,
+            'target'   => '_blank',
+            'rel'      => 'noopener noreferrer',
+        ]);
         
     }
 }
