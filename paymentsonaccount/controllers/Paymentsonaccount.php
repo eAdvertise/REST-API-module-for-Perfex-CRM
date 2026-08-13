@@ -99,7 +99,13 @@ class Paymentsonaccount extends AdminController
                         $email_sent ? 'Receipt created and email sent.' : 'Receipt created, but the email was not sent. Check Activity Log for details.'
                     );
                 } else {
+                    $email_sent = false;
                     set_alert('success', 'Receipt created.');
+                }
+
+                paymentsonaccount_emit_event('receipt_created', $receipt_id, ['email_sent' => (bool) $email_sent]);
+                if ($email_sent) {
+                    paymentsonaccount_emit_event('receipt_email', $receipt_id, ['email_sent' => true]);
                 }
 
                 redirect(admin_url('paymentsonaccount/view_receipt/'.$receipt_id));
@@ -169,6 +175,7 @@ class Paymentsonaccount extends AdminController
             }
 
             $this->payments_on_account_model->update_receipt_fields((int)$id, $update);
+            paymentsonaccount_emit_event('receipt_updated', (int) $id, ['changed_fields' => array_keys($update)]);
             set_alert('success', _l('updated_successfully'));
             redirect(admin_url('paymentsonaccount/view_receipt/'.$id));
             return;
@@ -261,6 +268,7 @@ class Paymentsonaccount extends AdminController
     public function send_receipt_email($id)
     {
         $success = $this->payments_on_account_model->send_receipt_email($id);
+        paymentsonaccount_emit_event('receipt_email', (int) $id, ['email_sent' => (bool) $success]);
 
         if ($success) {
             set_alert('success', 'Receipt email sent successfully.');
@@ -411,6 +419,7 @@ class Paymentsonaccount extends AdminController
         $applied = $this->payments_on_account_model->apply_receipt_to_invoices($receipt_id, $allocations);
 
         if ($applied > 0) {
+            paymentsonaccount_emit_event('receipt_applied', $receipt_id, ['applied_amount' => (float) $applied]);
             echo json_encode(['success'=>true,'applied'=>$applied]); return;
         }
         echo json_encode(['success'=>false,'message'=>'Nothing applied.']);
@@ -426,7 +435,11 @@ class Paymentsonaccount extends AdminController
         $id     = (int)$id;
         $isAjax = $this->input->is_ajax_request();
 
+        $snapshot = $this->payments_on_account_model->get_receipt($id);
         $ok = $this->payments_on_account_model->delete_receipt($id);
+        if ($ok) {
+            paymentsonaccount_emit_event('receipt_deleted', $id, [], $snapshot);
+        }
 
         if ($isAjax) { echo json_encode(['success'=>(bool)$ok]); return; }
 
@@ -480,7 +493,8 @@ class Paymentsonaccount extends AdminController
 		// Χρησιμοποίησε το model που μιλάει με το core (batch/process/add)
 		$appliedTotal = $this->payments_on_account_model->apply_receipt_to_invoices($receipt_id, $allocations);
 
-		if ($appliedTotal > 0) {
+        if ($appliedTotal > 0) {
+            paymentsonaccount_emit_event('receipt_applied', $receipt_id, ['applied_amount' => (float) $appliedTotal]);
 			echo json_encode([
 				'success'      => true,
 				'applied'      => (float)$appliedTotal,
@@ -564,6 +578,11 @@ class Paymentsonaccount extends AdminController
 				 ->update(db_prefix().'receipts', [
 					 'invoices_applied' => json_encode($newApplied, JSON_UNESCAPED_UNICODE),
 				 ]);
+
+		paymentsonaccount_emit_event('application_deleted', $receipt_id, [
+			'payment_id' => $payment_id,
+			'invoice_id' => $invoice_id,
+		]);
 
 		echo json_encode(['success' => true]);
 	}

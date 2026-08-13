@@ -117,6 +117,10 @@ class Paymentsonaccount extends REST_Controller
             if (!empty($payload['send_email'])) {
                 $emailSent = (bool) $this->poaModel->send_receipt_email($id);
             }
+            paymentsonaccount_emit_event('receipt_created', $id, ['source' => 'api-v3', 'email_sent' => $emailSent]);
+            if ($emailSent) {
+                paymentsonaccount_emit_event('receipt_email', $id, ['source' => 'api-v3', 'email_sent' => true]);
+            }
             $this->response(['status' => true, 'id' => (int) $id, 'email_sent' => $emailSent], self::HTTP_CREATED);
         } catch (Throwable $e) {
             $this->response(['status' => false, 'message' => $e->getMessage()], self::HTTP_UNPROCESSABLE_ENTITY);
@@ -149,6 +153,9 @@ class Paymentsonaccount extends REST_Controller
             return;
         }
         $ok = (bool) $this->poaModel->update_receipt_fields((int) $id, $update);
+        if ($ok) {
+            paymentsonaccount_emit_event('receipt_updated', (int) $id, ['source' => 'api-v3', 'changed_fields' => array_keys($update)]);
+        }
         $this->response(['status' => $ok, 'id' => (int) $id], $ok ? self::HTTP_OK : self::HTTP_UNPROCESSABLE_ENTITY);
     }
 
@@ -157,7 +164,11 @@ class Paymentsonaccount extends REST_Controller
         if (!$this->receiptExists($id)) {
             return;
         }
+        $snapshot = $this->poaModel->get_receipt((int) $id);
         $ok = (bool) $this->poaModel->delete_receipt((int) $id);
+        if ($ok) {
+            paymentsonaccount_emit_event('receipt_deleted', (int) $id, ['source' => 'api-v3'], $snapshot);
+        }
         $this->response(['status' => $ok, 'message' => $ok ? 'Receipt deleted.' : 'Receipt could not be deleted.'], $ok ? self::HTTP_OK : self::HTTP_CONFLICT);
     }
 
@@ -195,6 +206,9 @@ class Paymentsonaccount extends REST_Controller
         }
         try {
             $applied = (float) $this->poaModel->apply_receipt_to_invoices((int) $receiptId, $allocations);
+            if ($applied > 0) {
+                paymentsonaccount_emit_event('receipt_applied', (int) $receiptId, ['source' => 'api-v3', 'applied_amount' => $applied]);
+            }
             $this->response(['status' => $applied > 0, 'applied' => $applied, 'applications' => $this->applications((int) $receiptId)], $applied > 0 ? self::HTTP_OK : self::HTTP_UNPROCESSABLE_ENTITY);
         } catch (Throwable $e) {
             $this->response(['status' => false, 'message' => $e->getMessage()], self::HTTP_UNPROCESSABLE_ENTITY);
@@ -216,6 +230,7 @@ class Paymentsonaccount extends REST_Controller
         }
         $this->db->where('receipt_id', (int) $receiptId)->where('payment_record_id', (int) $paymentId)->delete($bridge);
         $this->syncAppliedInvoices((int) $receiptId);
+        paymentsonaccount_emit_event('application_deleted', (int) $receiptId, ['source' => 'api-v3', 'payment_id' => (int) $paymentId, 'invoice_id' => (int) $row['invoice_id']]);
         $this->response(['status' => true, 'message' => 'Receipt application deleted.'], self::HTTP_OK);
     }
 
@@ -225,6 +240,7 @@ class Paymentsonaccount extends REST_Controller
             return;
         }
         $sent = (bool) $this->poaModel->send_receipt_email((int) $receiptId);
+        paymentsonaccount_emit_event('receipt_email', (int) $receiptId, ['source' => 'api-v3', 'email_sent' => $sent]);
         $this->response(['status' => $sent, 'email_sent' => $sent], $sent ? self::HTTP_OK : self::HTTP_UNPROCESSABLE_ENTITY);
     }
 

@@ -323,6 +323,61 @@ function wbhk_guestinvoices_combo_completed_hook($event)
 }
 /* Guest Invoices webhooks: End */
 
+/* Payments On Account webhooks: Start */
+hooks()->add_filter('webhooks_triggers', 'wbhk_paymentsonaccount_register_trigger');
+function wbhk_paymentsonaccount_register_trigger($triggers)
+{
+    if (!function_exists('module_dir_path') || !is_dir(module_dir_path('paymentsonaccount'))) {
+        return $triggers;
+    }
+
+    $triggers[] = [
+        'value'   => 'paymentsonaccount',
+        'label'   => 'Payments On Account',
+        'subtext' => 'Triggers for receipt creation, updates, allocations, email delivery, and deletion.',
+    ];
+
+    return $triggers;
+}
+
+hooks()->add_action('paymentsonaccount_event', 'wbhk_paymentsonaccount_event_hook');
+function wbhk_paymentsonaccount_event_hook($event)
+{
+    if (!is_array($event) || empty($event['event_name']) || empty($event['receipt_id'])) {
+        return;
+    }
+
+    $actions = [
+        'receipt_created'    => 'add',
+        'receipt_updated'    => 'edit',
+        'receipt_applied'    => 'status_change',
+        'application_deleted'=> 'status_change',
+        'receipt_email'      => 'sent',
+        'receipt_deleted'    => 'delete',
+    ];
+    $eventName = (string) $event['event_name'];
+    if (!isset($actions[$eventName])) {
+        return;
+    }
+    if ($eventName === 'receipt_email' && empty($event['email_sent'])) {
+        return;
+    }
+
+    $data = (object) array_merge($event, [
+        'event_source' => 'paymentsonaccount',
+        'receipt_id'   => (int) $event['receipt_id'],
+    ]);
+
+    call_webhook(
+        $data,
+        'paymentsonaccount',
+        $actions[$eventName],
+        $data->receipt_id,
+        (int) ($event['payment_id'] ?? 0)
+    );
+}
+/* Payments On Account webhooks: End */
+
 /* Contact webhooks : Start */
 // Add new contact
 hooks()->add_action('contact_created', 'wbhk_contact_added_hook');
