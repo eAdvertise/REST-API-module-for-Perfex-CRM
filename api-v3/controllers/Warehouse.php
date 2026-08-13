@@ -279,6 +279,7 @@ class Warehouse extends REST_Controller
             'sub_groups' => 'add_sub_group', 'colors' => 'add_color',
             'brands' => 'add_brand', 'models' => 'add_model', 'series' => 'add_series',
             'warehouse_custom_fields' => 'add_custom_fields_warehouse',
+            'inventory_minimums' => 'add_inventory_min',
         ];
         if (isset($nativeCreate[$resource])) {
             return $this->warehouseModel->{$nativeCreate[$resource]}($data);
@@ -298,6 +299,17 @@ class Warehouse extends REST_Controller
         }
         if ($resource === 'adjustments') {
             return $this->warehouseModel->add_loss_adjustment($data);
+        }
+        if ($resource === 'packing_lists') {
+            return $this->warehouseModel->add_packing_list($data);
+        }
+        if ($resource === 'order_returns') {
+            $relType = isset($data['rel_type']) ? $data['rel_type'] : 'manual';
+            return $this->warehouseModel->add_order_return($data, $relType);
+        }
+        if ($resource === 'approval_settings') {
+            $created = $this->warehouseModel->add_approval_setting($data);
+            return $created ? $this->db->insert_id() : false;
         }
 
         if ($resource === 'warehouses') {
@@ -339,6 +351,17 @@ class Warehouse extends REST_Controller
             $data['id'] = $id;
             return $this->warehouseModel->update_loss_adjustment($data);
         }
+        if ($resource === 'packing_lists') {
+            return $this->warehouseModel->update_packing_list($data, $id);
+        }
+        if ($resource === 'order_returns') {
+            $relType = isset($data['rel_type']) ? $data['rel_type'] : 'manual';
+            $data['id'] = $id;
+            return $this->warehouseModel->update_order_return($data, $relType, $id);
+        }
+        if ($resource === 'approval_settings') {
+            return $this->warehouseModel->edit_approval_setting($id, $data);
+        }
 
         if ($resource === 'warehouses') {
             return $this->warehouseModel->update_one_warehouse($data, $id);
@@ -361,6 +384,8 @@ class Warehouse extends REST_Controller
             'sub_groups' => 'delete_sub_group', 'colors' => 'delete_color',
             'brands' => 'delete_brand', 'models' => 'delete_model', 'series' => 'delete_series',
             'warehouse_custom_fields' => 'delete_custom_fields_warehouse',
+            'approval_settings' => 'delete_approval_setting',
+            'packing_lists' => 'delete_packing_list', 'order_returns' => 'delete_order_return',
         ];
         if (isset($nativeDelete[$resource])) {
             return $this->warehouseModel->{$nativeDelete[$resource]}($id);

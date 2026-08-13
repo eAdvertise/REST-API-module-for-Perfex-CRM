@@ -3,25 +3,45 @@ import React from 'react'
 import CopyButton from './CopyButton.tsx'
 
 const resources = [
-    ['warehouses', 'Locations and staff assignments', 'CRUD'],
-    ['items', 'Products, variants, tags and custom values', 'CRUD'],
+    ['warehouses', 'Warehouse locations and staff assignments', 'CRUD'],
+    ['items', 'Products and variants', 'CRUD'],
     ['inventory', 'Computed stock balances', 'GET only'],
-    ['receipts', 'Goods receipts with lines', 'CRUD'],
-    ['deliveries', 'Goods deliveries with lines', 'CRUD'],
-    ['transfers', 'Internal transfers with lines', 'CRUD'],
-    ['adjustments', 'Loss adjustments with lines', 'CRUD'],
-    ['commodity_types / commodity_groups / sub_groups', 'Item classification', 'CRUD'],
-    ['units / sizes / styles / bodies / colors', 'Item attributes', 'CRUD'],
-    ['brands / models / series', 'Product catalogue metadata', 'CRUD'],
-    ['inventory_minimums / serial_numbers', 'Stock controls and traceability', 'CRUD'],
-    ['stock_takes / stock_take_details', 'Stock take documents and lines', 'CRUD'],
-    ['packing_lists / packing_list_details', 'Packing documents and lines', 'CRUD'],
-    ['order_returns / return_details', 'Return documents and lines', 'CRUD'],
-    ['approval_settings / approval_details', 'Warehouse approval configuration and state', 'CRUD'],
-    ['warehouse_custom_fields / staff_warehouses', 'Warehouse configuration and access', 'CRUD'],
-    ['activity_logs / delivery_activity_logs / transaction_details', 'Operational audit and transaction records', 'CRUD'],
-    ['receipt_details / delivery_details / adjustment_details', 'Standalone access to operational document lines', 'CRUD'],
-    ['delivery_order_links / item_relations / omni_shipments', 'Document relations and shipment integration data', 'CRUD'],
+    ['receipts', 'Goods receipt documents', 'CRUD'],
+    ['receipt_details', 'Goods receipt lines', 'CRUD'],
+    ['deliveries', 'Goods delivery documents', 'CRUD'],
+    ['delivery_details', 'Goods delivery lines', 'CRUD'],
+    ['transfers', 'Internal transfer documents', 'CRUD'],
+    ['adjustments', 'Loss adjustment documents', 'CRUD'],
+    ['adjustment_details', 'Loss adjustment lines', 'CRUD'],
+    ['commodity_types', 'Commodity types', 'CRUD'],
+    ['commodity_groups', 'Commodity groups', 'CRUD'],
+    ['sub_groups', 'Commodity subgroups', 'CRUD'],
+    ['units', 'Measurement units', 'CRUD'],
+    ['sizes', 'Item sizes', 'CRUD'],
+    ['styles', 'Item styles', 'CRUD'],
+    ['bodies', 'Item bodies', 'CRUD'],
+    ['colors', 'Item colors', 'CRUD'],
+    ['brands', 'Product brands', 'CRUD'],
+    ['models', 'Product models', 'CRUD'],
+    ['series', 'Product series', 'CRUD'],
+    ['inventory_minimums', 'Minimum and maximum stock rules', 'CRUD'],
+    ['serial_numbers', 'Inventory serial numbers', 'CRUD'],
+    ['stock_takes', 'Stock take documents', 'CRUD'],
+    ['stock_take_details', 'Stock take lines', 'CRUD'],
+    ['packing_lists', 'Packing list documents', 'CRUD'],
+    ['packing_list_details', 'Packing list lines', 'CRUD'],
+    ['order_returns', 'Order return documents', 'CRUD'],
+    ['return_details', 'Order return lines', 'CRUD'],
+    ['approval_settings', 'Approval workflows', 'CRUD'],
+    ['approval_details', 'Approval workflow state', 'CRUD'],
+    ['warehouse_custom_fields', 'Warehouse custom-field configuration', 'CRUD'],
+    ['staff_warehouses', 'Staff-to-warehouse assignments', 'CRUD'],
+    ['activity_logs', 'Warehouse activity log', 'CRUD'],
+    ['delivery_activity_logs', 'Delivery activity log', 'CRUD'],
+    ['transaction_details', 'Inventory transaction details', 'CRUD'],
+    ['delivery_order_links', 'Delivery-to-order relations', 'CRUD'],
+    ['item_relations', 'Warehouse item relations', 'CRUD'],
+    ['omni_shipments', 'Omnichannel shipment records', 'CRUD'],
 ];
 
 const listExample = `curl "https://yoursite.com/api/warehouse/inventory?warehouse_id=1&commodity_id=42&page=1&per_page=25" \\
@@ -88,7 +108,7 @@ function WarehouseSection() {
                         </tr>)}</tbody>
                     </table></div>
                     <h2 className="sub">List filters</h2>
-                    <p>Use <code>page</code>, <code>per_page</code> (maximum 100), <code>warehouse_id</code>, <code>commodity_id</code>, <code>active</code>, <code>approval</code>, <code>from</code> and <code>to</code>. Unsupported filters are ignored for resources without the corresponding column.</p>
+                    <p>Use <code>page</code>, <code>per_page</code> (maximum 100), <code>from</code>, <code>to</code>, or any real field of the selected resource as an exact-match filter. Call <code>GET /api/warehouse</code> to discover every resource, method and field.</p>
                     <h2 className="sub">Write payloads</h2>
                     <p>Send JSON or form data. Operational documents accept the same master fields and <code>newitems</code> lines as the Warehouse module forms. A record endpoint is formed by appending its numeric ID, for example <code>PUT /api/warehouse/items/42</code>.</p>
                 </div>
