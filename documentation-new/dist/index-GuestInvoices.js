@@ -32863,7 +32863,7 @@ function AppContent() {
     }
     document.getElementById(targetId)?.scrollIntoView({ block: "start" });
   }, [location.hash]);
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("body", { "data-source-file": "src/App.tsx", "data-source-line": "31", "data-source-span": "146", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "docs-app", "data-source-file": "src/App.tsx", "data-source-line": "31", "data-source-span": "146", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("a", { className: "skip-link", href: "#content", "data-source-file": "src/App.tsx", "data-source-line": "32", "data-source-span": "3", "data-editable-text": "true", children: "Skip to content" }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "docs-topbar", "data-source-file": "src/App.tsx", "data-source-line": "35", "data-source-span": "12", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(BrandLink, { "data-instantiation-file": "src/App.tsx", "data-instantiation-line": "36", "data-instantiation-span": "1", "data-instantiation-index": "0" }),
@@ -32943,6 +32943,6 @@ function App() {
   ] }) });
 }
 
-clientExports.createRoot(document.querySelector("html")).render(
+clientExports.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(reactExports.StrictMode, { "data-instantiation-file": "src/main.tsx", "data-instantiation-line": "9", "data-instantiation-span": "3", "data-instantiation-index": "0", children: /* @__PURE__ */ jsxRuntimeExports.jsx(App, { "data-instantiation-file": "src/main.tsx", "data-instantiation-line": "10", "data-instantiation-span": "1", "data-instantiation-index": "0" }) })
 );

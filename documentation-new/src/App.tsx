@@ -30,7 +30,7 @@ function AppContent() {
     }, [location.hash]);
 
     return (
-        <body>
+        <div className="docs-app">
         <a className={"skip-link"} href={"#content"}>
         Skip to content
         </a>
@@ -181,7 +181,7 @@ function AppContent() {
         <Footer />
         </div>
         </div>
-        </body>
+        </div>
     );
 }
 

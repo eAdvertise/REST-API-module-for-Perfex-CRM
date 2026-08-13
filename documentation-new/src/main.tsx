@@ -5,9 +5,14 @@ import "./stylesheets/inline-style-0.css"
 import "./stylesheets/inline-style-1.css"
 import App from './App.tsx'
 
-createRoot(document.querySelector('html')).render(
+const root = document.getElementById('root')
+
+if (!root) {
+  throw new Error('Documentation root element was not found')
+}
+
+createRoot(root).render(
   <StrictMode>
     <App />
   </StrictMode>
 )
-   
