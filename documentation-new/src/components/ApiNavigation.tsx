@@ -2,6 +2,7 @@ import React from 'react'
 import type { JSX } from 'react/jsx-runtime'
 
 import ApiNavItem from './ApiNavItem.tsx'
+import { paymentsonaccountAnchor, paymentsonaccountEndpoints } from './PaymentsonaccountSection.tsx'
 
 
 // Component
@@ -25,6 +26,7 @@ import ApiNavItem from './ApiNavItem.tsx'
                 ["Expenses", ["11", "128", "103", "55", "56"]],
                 ["Items", ["104", "12", "57", "129", "58"]],
                 ["Warehouse", []],
+                ["Payments On Account", []],
                 ["Knowledge Base", ["59", "13", "105", "60", "130", "61", "14", "106", "131"]],
                 ["Milestones", ["107", "15", "62", "132", "63"]],
                 ["Notes", ["16", "108", "64", "133", "65"]],
@@ -49,6 +51,7 @@ import ApiNavItem from './ApiNavItem.tsx'
                         <React.Fragment key={title}>
                         <ApiNavHeader title={title} />
                             {title === 'Warehouse' && <WarehouseNavEntries />}
+                            {title === 'Payments On Account' && <PaymentsonaccountNavEntries />}
                             {dataIds.map((dataId) => (
                                 <ApiNavEntry key={dataId} dataId={dataId} />
                             ))}
@@ -93,6 +96,17 @@ import ApiNavItem from './ApiNavItem.tsx'
                 <li className="nav-list-item" key={method}>
                     <a href={`#${anchor}`}>
                         <span className={`typ-name ${methodClass}`}>{method}</span>
+                        <span className="nav-title">{title}</span>
+                    </a>
+                </li>
+            )}</>;
+        }
+
+        function PaymentsonaccountNavEntries() {
+            return <>{paymentsonaccountEndpoints.map(([method, title]) =>
+                <li className="nav-list-item" key={`${method}-${title}`}>
+                    <a href={`#${paymentsonaccountAnchor(method, title)}`}>
+                        <span className={`typ-name typ-${method.toLowerCase()}`}>{method}</span>
                         <span className="nav-title">{title}</span>
                     </a>
                 </li>
