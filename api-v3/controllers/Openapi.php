@@ -240,6 +240,57 @@ class Openapi extends App_Controller
 
     private function add_special_paths(&$spec)
     {
+        $spec['tags'][] = ['name' => 'Payments On Account'];
+        $poaTag = ['Payments On Account'];
+        $spec['paths']['/paymentsonaccount'] = [
+            'get' => ['tags' => $poaTag, 'summary' => 'Discover PaymentsOnAccount endpoints', 'responses' => $this->single_responses()],
+        ];
+        $spec['paths']['/paymentsonaccount/receipts'] = [
+            'get' => ['tags' => $poaTag, 'summary' => 'List receipts', 'responses' => $this->list_responses('receipt')],
+            'post' => ['tags' => $poaTag, 'summary' => 'Create and optionally email a receipt', 'requestBody' => $this->form_body('client_id, amount, payment_mode, payment_date, invoice_ids, on_account, send_email'), 'responses' => $this->write_responses()],
+        ];
+        $spec['paths']['/paymentsonaccount/receipts/{id}'] = [
+            'parameters' => [$this->id_param()],
+            'get' => ['tags' => $poaTag, 'summary' => 'Get a receipt and its invoice applications', 'responses' => $this->single_responses()],
+            'put' => ['tags' => $poaTag, 'summary' => 'Update receipt fields', 'requestBody' => $this->form_body('amount, payment_date, payment_mode, payment_method, transaction_id, note, receipt_number'), 'responses' => $this->write_responses()],
+            'delete' => ['tags' => $poaTag, 'summary' => 'Delete a receipt and its core payments', 'responses' => $this->write_responses()],
+        ];
+        $spec['paths']['/paymentsonaccount/receipts/{id}/applications'] = [
+            'parameters' => [$this->id_param()],
+            'get' => ['tags' => $poaTag, 'summary' => 'List receipt invoice applications', 'responses' => $this->list_responses('application')],
+            'post' => ['tags' => $poaTag, 'summary' => 'Apply a receipt to invoices', 'requestBody' => $this->form_body('invoice_ids or allocations [{invoice_id, amount}]'), 'responses' => $this->write_responses()],
+        ];
+        $spec['paths']['/paymentsonaccount/receipts/{id}/applications/{payment_id}'] = [
+            'parameters' => [$this->id_param(), ['name' => 'payment_id', 'in' => 'path', 'required' => true, 'schema' => ['type' => 'integer']]],
+            'delete' => ['tags' => $poaTag, 'summary' => 'Remove an applied core payment', 'responses' => $this->write_responses()],
+        ];
+        foreach (['email' => 'Send receipt email', 'pdf' => 'Get receipt PDF as base64'] as $action => $summary) {
+            $method = $action === 'email' ? 'post' : 'get';
+            $spec['paths']['/paymentsonaccount/receipts/{id}/' . $action] = [
+                'parameters' => [$this->id_param()],
+                $method => ['tags' => $poaTag, 'summary' => $summary, 'responses' => $method === 'get' ? $this->single_responses() : $this->write_responses()],
+            ];
+        }
+        $spec['paths']['/paymentsonaccount/clients/{id}/unpaid-invoices'] = [
+            'parameters' => [$this->id_param()],
+            'get' => ['tags' => $poaTag, 'summary' => 'List client unpaid invoices', 'responses' => $this->list_responses('invoice')],
+        ];
+        $spec['paths']['/paymentsonaccount/clients/{id}/payment-modes'] = [
+            'parameters' => [$this->id_param()],
+            'get' => ['tags' => $poaTag, 'summary' => 'Get client payment modes', 'responses' => $this->single_responses()],
+            'put' => ['tags' => $poaTag, 'summary' => 'Replace client payment modes', 'requestBody' => $this->form_body('payment_mode_ids'), 'responses' => $this->write_responses()],
+        ];
+        $spec['paths']['/paymentsonaccount/clients/{id}/statement'] = [
+            'parameters' => [$this->id_param()],
+            'get' => ['tags' => $poaTag, 'summary' => 'Get receipt-based client statement', 'responses' => $this->single_responses()],
+        ];
+        $spec['paths']['/paymentsonaccount/reports/receipts'] = [
+            'get' => ['tags' => $poaTag, 'summary' => 'Get paginated receipts report', 'responses' => $this->list_responses('receipt')],
+        ];
+        $spec['paths']['/paymentsonaccount/reports/credits'] = [
+            'get' => ['tags' => $poaTag, 'summary' => 'Get credits report', 'responses' => $this->list_responses('credit note')],
+        ];
+
         // Warehouse module resources. Inventory balances are deliberately
         // read-only; stock changes go through a domain document endpoint.
         $spec['tags'][] = ['name' => 'Warehouse'];
