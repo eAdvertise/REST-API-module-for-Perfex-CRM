@@ -166,7 +166,14 @@ if (!function_exists('gi_after_invoice_added_combo')) {
 
         if ($payment_id) {
             log_activity('GI MAIL: triggering combined email invoice_id='.$invoice_id.' payment_id='.$payment_id);
-            gi_send_combined_invoice_payment_email($invoice_id, $payment_id);
+            $emailSent = gi_send_combined_invoice_payment_email($invoice_id, $payment_id);
+            hooks()->do_action('guestinvoices_combo_completed', [
+                'invoice_id' => (int) $invoice_id,
+                'payment_id' => (int) $payment_id,
+                'client_id'  => (int) $invoice->clientid,
+                'amount'     => (float) $amount,
+                'email_sent' => (bool) $emailSent,
+            ]);
         }
     }
 }
