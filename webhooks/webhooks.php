@@ -153,6 +153,96 @@ function wbhk_myshopify_processed_hook($event)
 }
 /* MyShopify webhooks: End */
 
+/* Delivery Notes webhooks: Start */
+hooks()->add_filter('webhooks_triggers', 'wbhk_delivery_notes_register_trigger');
+function wbhk_delivery_notes_register_trigger($triggers)
+{
+    if (!function_exists('module_dir_path') || !is_dir(module_dir_path('delivery_notes'))) {
+        return $triggers;
+    }
+
+    $triggers[] = [
+        'value'   => 'delivery_notes',
+        'label'   => 'Delivery Notes',
+        'subtext' => 'Triggers when a delivery note is created, updated, confirmed, cancelled, sent, converted, or deleted.',
+    ];
+
+    return $triggers;
+}
+
+function wbhk_delivery_note_payload($deliveryNoteId, $extra = [])
+{
+    $CI = &get_instance();
+    $CI->load->model('delivery_notes/delivery_notes_model');
+    $deliveryNote = $CI->delivery_notes_model->get((int) $deliveryNoteId);
+    if (!$deliveryNote) {
+        return null;
+    }
+
+    $data = (array) $deliveryNote;
+    $data['event_source'] = 'delivery_notes';
+    $data['delivery_note_id'] = (int) $deliveryNoteId;
+
+    return (object) array_merge($data, $extra);
+}
+
+function wbhk_delivery_note_dispatch($deliveryNoteId, $action, $extra = [])
+{
+    $data = wbhk_delivery_note_payload($deliveryNoteId, $extra);
+    if ($data) {
+        call_webhook($data, 'delivery_notes', $action, (int) $deliveryNoteId);
+    }
+}
+
+hooks()->add_action('after_delivery_note_added', 'wbhk_delivery_note_added_hook');
+function wbhk_delivery_note_added_hook($deliveryNoteId)
+{
+    wbhk_delivery_note_dispatch($deliveryNoteId, 'add');
+}
+
+hooks()->add_action('after_delivery_note_updated', 'wbhk_delivery_note_updated_hook');
+function wbhk_delivery_note_updated_hook($deliveryNoteId)
+{
+    wbhk_delivery_note_dispatch($deliveryNoteId, 'edit');
+}
+
+hooks()->add_action('delivery_note_confirmed', 'wbhk_delivery_note_confirmed_hook');
+function wbhk_delivery_note_confirmed_hook($deliveryNoteId)
+{
+    wbhk_delivery_note_dispatch($deliveryNoteId, 'status_change', ['status_event' => 'confirmed']);
+}
+
+hooks()->add_action('delivery_note_cancelled', 'wbhk_delivery_note_cancelled_hook');
+function wbhk_delivery_note_cancelled_hook($deliveryNoteId)
+{
+    wbhk_delivery_note_dispatch($deliveryNoteId, 'status_change', ['status_event' => 'cancelled']);
+}
+
+hooks()->add_action('delivery_note_sent', 'wbhk_delivery_note_sent_hook');
+function wbhk_delivery_note_sent_hook($deliveryNoteId)
+{
+    wbhk_delivery_note_dispatch($deliveryNoteId, 'sent');
+}
+
+hooks()->add_action('delivery_note_converted_to_invoice', 'wbhk_delivery_note_converted_hook');
+function wbhk_delivery_note_converted_hook($conversion)
+{
+    if (!is_array($conversion) || empty($conversion['delivery_noteid'])) {
+        return;
+    }
+
+    wbhk_delivery_note_dispatch($conversion['delivery_noteid'], 'converted_to_invoice', [
+        'invoice_id' => (int) ($conversion['invoice_id'] ?? 0),
+    ]);
+}
+
+hooks()->add_action('before_delivery_note_deleted', 'wbhk_delivery_note_deleted_hook');
+function wbhk_delivery_note_deleted_hook($deliveryNoteId)
+{
+    wbhk_delivery_note_dispatch($deliveryNoteId, 'delete');
+}
+/* Delivery Notes webhooks: End */
+
 /* Contact webhooks : Start */
 // Add new contact
 hooks()->add_action('contact_created', 'wbhk_contact_added_hook');
