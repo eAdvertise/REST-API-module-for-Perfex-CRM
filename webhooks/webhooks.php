@@ -243,6 +243,86 @@ function wbhk_delivery_note_deleted_hook($deliveryNoteId)
 }
 /* Delivery Notes webhooks: End */
 
+/* Guest Invoices webhooks: Start */
+hooks()->add_filter('webhooks_triggers', 'wbhk_guestinvoices_register_trigger');
+function wbhk_guestinvoices_register_trigger($triggers)
+{
+    if (!function_exists('module_dir_path') || !is_dir(module_dir_path('guestinvoices'))) {
+        return $triggers;
+    }
+
+    $triggers[] = [
+        'value'   => 'guestinvoices',
+        'label'   => 'Guest Invoices',
+        'subtext' => 'Triggers when a guest is resolved or a guest invoice and payment flow completes.',
+    ];
+
+    return $triggers;
+}
+
+hooks()->add_action('guestinvoices_guest_resolved', 'wbhk_guestinvoices_guest_resolved_hook');
+function wbhk_guestinvoices_guest_resolved_hook($event)
+{
+    if (!is_array($event) || empty($event['client_id'])) {
+        return;
+    }
+
+    $CI = &get_instance();
+    $CI->load->model('clients_model');
+    $client = $CI->clients_model->get((int) $event['client_id']);
+    $contact = !empty($event['contact_id'])
+        ? $CI->clients_model->get_contact((int) $event['contact_id'])
+        : null;
+
+    $data = (object) [
+        'event_source' => 'guestinvoices',
+        'event_name'   => 'guest_resolved',
+        'client_id'    => (int) $event['client_id'],
+        'contact_id'   => (int) ($event['contact_id'] ?? 0),
+        'email'        => (string) ($event['email'] ?? ''),
+        'company'      => (string) ($event['company'] ?? ''),
+        'client'       => $client,
+        'contact'      => $contact,
+    ];
+
+    call_webhook($data, 'guestinvoices', 'add', $data->client_id, $data->contact_id);
+}
+
+hooks()->add_action('guestinvoices_combo_completed', 'wbhk_guestinvoices_combo_completed_hook');
+function wbhk_guestinvoices_combo_completed_hook($event)
+{
+    if (!is_array($event) || empty($event['invoice_id']) || empty($event['payment_id'])) {
+        return;
+    }
+
+    $CI = &get_instance();
+    $CI->load->model('invoices_model');
+    $CI->load->model('payments_model');
+    $invoice = $CI->invoices_model->get((int) $event['invoice_id']);
+    $payment = $CI->payments_model->get((int) $event['payment_id']);
+    if (!$invoice || !$payment) {
+        return;
+    }
+
+    $data = (object) [
+        'event_source' => 'guestinvoices',
+        'event_name'   => 'combo_completed',
+        'invoice_id'   => (int) $event['invoice_id'],
+        'payment_id'   => (int) $event['payment_id'],
+        'client_id'    => (int) ($event['client_id'] ?? $invoice->clientid),
+        'amount'       => (float) ($event['amount'] ?? $payment->amount),
+        'email_sent'   => !empty($event['email_sent']),
+        'invoice'      => $invoice,
+        'payment'      => $payment,
+    ];
+
+    call_webhook($data, 'guestinvoices', 'status_change', $data->invoice_id, $data->payment_id);
+    if ($data->email_sent) {
+        call_webhook($data, 'guestinvoices', 'sent', $data->invoice_id, $data->payment_id);
+    }
+}
+/* Guest Invoices webhooks: End */
+
 /* Contact webhooks : Start */
 // Add new contact
 hooks()->add_action('contact_created', 'wbhk_contact_added_hook');
