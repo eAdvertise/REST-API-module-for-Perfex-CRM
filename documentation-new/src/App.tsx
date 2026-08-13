@@ -14,6 +14,8 @@ import CustomFieldsSection from './components/CustomFieldsSection.tsx'
 import BrandLink from './components/BrandLink.tsx'
 import GuestInvoicesSection from './components/GuestInvoicesSection.tsx'
 import WarehouseSection from './components/WarehouseSection.tsx'
+import PaymentsonaccountSection from './components/PaymentsonaccountSection.tsx'
+import DeliveryNotesSection from './components/DeliveryNotesSection.tsx'
 
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 
@@ -78,9 +80,8 @@ function AppContent() {
 
         <GuestInvoicesSection />
 
-        <WarehouseSection />
-                
-        
+        <DeliveryNotesSection />
+
                     <ApiSection dataId="3" />
                 
         
@@ -124,6 +125,8 @@ function AppContent() {
                     <ApiSection dataId="11" />
 
         <WarehouseSection />
+
+        <PaymentsonaccountSection />
                 
         
                     <ApiSection dataId="12" />
