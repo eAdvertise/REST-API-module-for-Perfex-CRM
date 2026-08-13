@@ -378,6 +378,161 @@ function wbhk_paymentsonaccount_event_hook($event)
 }
 /* Payments On Account webhooks: End */
 
+/* Purchases webhooks: Start */
+hooks()->add_filter('webhooks_triggers', 'wbhk_purchase_register_trigger');
+function wbhk_purchase_register_trigger($triggers)
+{
+    if (!function_exists('module_dir_path') || !is_dir(module_dir_path('purchase'))) {
+        return $triggers;
+    }
+
+    $triggers[] = [
+        'value'   => 'purchase',
+        'label'   => 'Purchases',
+        'subtext' => 'Triggers for vendors, purchase orders, invoices, payments, returns, refunds, and approvals.',
+    ];
+
+    return $triggers;
+}
+
+function wbhk_purchase_dispatch($resource, $id, $action, $extra = [])
+{
+    $CI = &get_instance();
+    $CI->load->model('purchase/purchase_model');
+    $id = (int) $id;
+    if ($id < 1) {
+        return;
+    }
+
+    $getters = [
+        'vendor'         => 'get_vendor',
+        'purchase_order' => 'get_pur_order',
+        'purchase_invoice'=> 'get_pur_invoice',
+        'order_return'   => 'get_order_return',
+    ];
+    $record = null;
+    if (isset($getters[$resource]) && method_exists($CI->purchase_model, $getters[$resource])) {
+        $record = $CI->purchase_model->{$getters[$resource]}($id);
+    }
+
+    $data = (object) array_merge([
+        'event_source' => 'purchase',
+        'resource'     => (string) $resource,
+        'resource_id'  => $id,
+        'record'       => $record,
+        'occurred_at'  => date('c'),
+    ], $extra);
+
+    call_webhook($data, 'purchase', $action, $id, (int) ($extra['related_id'] ?? 0));
+}
+
+hooks()->add_action('after_pur_vendor_created', 'wbhk_purchase_vendor_created_hook');
+function wbhk_purchase_vendor_created_hook($event)
+{
+    $id = is_array($event) ? ($event['userid'] ?? $event['id'] ?? 0) : $event;
+    wbhk_purchase_dispatch('vendor', $id, 'add');
+}
+
+hooks()->add_action('after_pur_vendor_updated', 'wbhk_purchase_vendor_updated_hook');
+function wbhk_purchase_vendor_updated_hook($id)
+{
+    wbhk_purchase_dispatch('vendor', $id, 'edit');
+}
+
+hooks()->add_action('after_purchase_order_add', 'wbhk_purchase_order_added_hook');
+function wbhk_purchase_order_added_hook($id)
+{
+    wbhk_purchase_dispatch('purchase_order', $id, 'add');
+}
+
+hooks()->add_action('after_purchase_order_approve', 'wbhk_purchase_order_approved_hook');
+function wbhk_purchase_order_approved_hook($id)
+{
+    wbhk_purchase_dispatch('purchase_order', $id, 'status_change', ['status_event' => 'approved']);
+}
+
+hooks()->add_action('before_pur_order_deleted', 'wbhk_purchase_order_deleted_hook');
+function wbhk_purchase_order_deleted_hook($id)
+{
+    wbhk_purchase_dispatch('purchase_order', $id, 'delete');
+}
+
+hooks()->add_action('after_pur_invoice_added', 'wbhk_purchase_invoice_added_hook');
+function wbhk_purchase_invoice_added_hook($id)
+{
+    wbhk_purchase_dispatch('purchase_invoice', $id, 'add');
+}
+
+hooks()->add_action('after_pur_invoice_updated', 'wbhk_purchase_invoice_updated_hook');
+function wbhk_purchase_invoice_updated_hook($id)
+{
+    wbhk_purchase_dispatch('purchase_invoice', $id, 'edit');
+}
+
+hooks()->add_action('after_pur_invoice_deleted', 'wbhk_purchase_invoice_deleted_hook');
+function wbhk_purchase_invoice_deleted_hook($id)
+{
+    wbhk_purchase_dispatch('purchase_invoice', $id, 'delete');
+}
+
+hooks()->add_action('after_payment_pur_invoice_added', 'wbhk_purchase_payment_added_hook');
+hooks()->add_action('after_pur_order_payment_added', 'wbhk_purchase_payment_added_hook');
+function wbhk_purchase_payment_added_hook($id)
+{
+    wbhk_purchase_dispatch('payment', $id, 'add');
+}
+
+hooks()->add_action('after_payment_pur_invoice_deleted', 'wbhk_purchase_payment_deleted_hook');
+function wbhk_purchase_payment_deleted_hook($id)
+{
+    wbhk_purchase_dispatch('payment', $id, 'delete');
+}
+
+hooks()->add_action('after_pur_order_return_added', 'wbhk_purchase_return_added_hook');
+function wbhk_purchase_return_added_hook($id)
+{
+    wbhk_purchase_dispatch('order_return', $id, 'add');
+}
+
+hooks()->add_action('after_pur_order_return_updated', 'wbhk_purchase_return_updated_hook');
+function wbhk_purchase_return_updated_hook($id)
+{
+    wbhk_purchase_dispatch('order_return', $id, 'edit');
+}
+
+hooks()->add_action('before_pur_order_return_deleted', 'wbhk_purchase_return_deleted_hook');
+function wbhk_purchase_return_deleted_hook($id)
+{
+    wbhk_purchase_dispatch('order_return', $id, 'delete');
+}
+
+hooks()->add_action('after_pur_return_order_status_changed', 'wbhk_purchase_return_status_hook');
+function wbhk_purchase_return_status_hook($event)
+{
+    if (is_array($event) && !empty($event['id'])) {
+        wbhk_purchase_dispatch('order_return', $event['id'], 'status_change', ['status' => $event['status'] ?? null]);
+    }
+}
+
+hooks()->add_action('after_pur_refund_added', 'wbhk_purchase_refund_added_hook');
+function wbhk_purchase_refund_added_hook($id)
+{
+    wbhk_purchase_dispatch('refund', $id, 'add');
+}
+
+hooks()->add_action('after_pur_refund_updated', 'wbhk_purchase_refund_updated_hook');
+function wbhk_purchase_refund_updated_hook($id)
+{
+    wbhk_purchase_dispatch('refund', $id, 'edit');
+}
+
+hooks()->add_action('after_pur_refund_deleted', 'wbhk_purchase_refund_deleted_hook');
+function wbhk_purchase_refund_deleted_hook($id)
+{
+    wbhk_purchase_dispatch('refund', $id, 'delete');
+}
+/* Purchases webhooks: End */
+
 /* Contact webhooks : Start */
 // Add new contact
 hooks()->add_action('contact_created', 'wbhk_contact_added_hook');
