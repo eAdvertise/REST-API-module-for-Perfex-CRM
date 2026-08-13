@@ -92,6 +92,39 @@ function paymentsonaccount_module_activate()
 
 hooks()->add_action('admin_init', 'paymentsonaccount_apply_3_1_1_database_updates');
 
+if (!function_exists('paymentsonaccount_emit_event')) {
+    function paymentsonaccount_emit_event($eventName, $receiptId, array $extra = [], $receiptSnapshot = null)
+    {
+        $CI = &get_instance();
+        $receiptId = (int) $receiptId;
+        if ($receiptId < 1) {
+            return;
+        }
+
+        if ($receiptSnapshot === null) {
+            $CI->load->model('paymentsonaccount/payments_on_account_model');
+            $receiptSnapshot = $CI->payments_on_account_model->get_receipt($receiptId);
+        }
+        if (!$receiptSnapshot) {
+            return;
+        }
+
+        $applications = [];
+        $bridge = db_prefix() . 'receipt_invoice_applications';
+        if ($CI->db->table_exists($bridge)) {
+            $applications = $CI->db->where('receipt_id', $receiptId)->get($bridge)->result_array();
+        }
+
+        hooks()->do_action('paymentsonaccount_event', array_merge([
+            'event_name'   => (string) $eventName,
+            'receipt_id'   => $receiptId,
+            'receipt'      => $receiptSnapshot,
+            'applications' => $applications,
+            'occurred_at'  => date('c'),
+        ], $extra));
+    }
+}
+
 
 function paymentsonaccount_ensure_client_payment_modes_table()
 {
@@ -525,6 +558,19 @@ function paymentsonaccount_create_receipt_after_payment($payment_id)
     );
 
     $sent = $CI->payments_on_account_model->send_receipt_email($receipt_id);
+
+    paymentsonaccount_emit_event('receipt_created', $receipt_id, [
+        'source'      => 'core_payment',
+        'payment_id'  => (int) $payment_id,
+        'email_sent'  => (bool) $sent,
+    ]);
+    if ($sent) {
+        paymentsonaccount_emit_event('receipt_email', $receipt_id, [
+            'source' => 'core_payment',
+            'payment_id' => (int) $payment_id,
+            'email_sent' => true,
+        ]);
+    }
 
     log_activity('POA Auto Receipt Created [Receipt ID: ' . $receipt_id . ', Payment ID: ' . $payment_id . ']');
     log_activity('POA Receipt Email ' . ($sent ? 'Sent' : 'Failed') . ' [Receipt ID: ' . $receipt_id . ', Payment ID: ' . $payment_id . ']');

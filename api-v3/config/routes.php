@@ -95,6 +95,77 @@ $route['api/warehouse']                       = 'warehouse/data';
 $route['api/warehouse/(:any)']                = 'warehouse/data/$1';
 $route['api/warehouse/(:any)/(:num)']         = 'warehouse/data/$1/$2';
 
+// PaymentsOnAccount module v3 (must come before generic routes)
+$route['api/paymentsonaccount']                                      = 'paymentsonaccount/catalog';
+$route['api/paymentsonaccount/receipts']                             = 'paymentsonaccount/receipts';
+$route['api/paymentsonaccount/receipts/(:num)']                      = 'paymentsonaccount/receipts/$1';
+$route['api/paymentsonaccount/receipts/(:num)/applications']         = 'paymentsonaccount/applications/$1';
+$route['api/paymentsonaccount/receipts/(:num)/applications/(:num)'] = 'paymentsonaccount/application/$1/$2';
+$route['api/paymentsonaccount/receipts/(:num)/email']                = 'paymentsonaccount/email/$1';
+$route['api/paymentsonaccount/receipts/(:num)/pdf']                  = 'paymentsonaccount/pdf/$1';
+$route['api/paymentsonaccount/clients/(:num)/unpaid-invoices']       = 'paymentsonaccount/unpaid_invoices/$1';
+$route['api/paymentsonaccount/clients/(:num)/payment-modes']         = 'paymentsonaccount/client_modes/$1';
+$route['api/paymentsonaccount/clients/(:num)/statement']             = 'paymentsonaccount/statement/$1';
+$route['api/paymentsonaccount/reports/receipts']                     = 'paymentsonaccount/reports';
+$route['api/paymentsonaccount/reports/credits']                      = 'paymentsonaccount/credits';
+
+// Delivery Notes module v3 (must come before generic routes)
+$route['api/delivery_notes']                                      = 'delivery_notes/catalog';
+$route['api/delivery_notes/statuses']                             = 'delivery_notes/statuses';
+$route['api/delivery_notes/notes']                                = 'delivery_notes/notes';
+$route['api/delivery_notes/notes/(:num)']                         = 'delivery_notes/notes/$1';
+$route['api/delivery_notes/notes/(:num)/status']                  = 'delivery_notes/status/$1';
+$route['api/delivery_notes/notes/(:num)/email']                   = 'delivery_notes/email/$1';
+$route['api/delivery_notes/notes/(:num)/pdf']                     = 'delivery_notes/pdf/$1';
+$route['api/delivery_notes/notes/(:num)/copy']                    = 'delivery_notes/copy/$1';
+$route['api/delivery_notes/notes/(:num)/convert-to-invoice']      = 'delivery_notes/convert_to_invoice/$1';
+$route['api/delivery_notes/from-invoice/(:num)']                  = 'delivery_notes/from_invoice/$1';
+$route['api/delivery_notes/from-estimate/(:num)']                 = 'delivery_notes/from_estimate/$1';
+$route['api/delivery_notes/from-purchase-order/(:num)']           = 'delivery_notes/from_purchase_order/$1';
+
+// Sales Commission module v3 (must come before generic routes)
+$route['api/commission']                                  = 'commission/catalog';
+$route['api/commission/commissions']                      = 'commission/commissions';
+$route['api/commission/commissions/(:num)']               = 'commission/commissions/$1';
+$route['api/commission/policies']                         = 'commission/policies';
+$route['api/commission/policies/(:num)']                  = 'commission/policies/$1';
+$route['api/commission/applicable-staff']                 = 'commission/applicable_staff';
+$route['api/commission/applicable-staff/(:num)']          = 'commission/applicable_staff/$1';
+$route['api/commission/applicable-clients']               = 'commission/applicable_clients';
+$route['api/commission/applicable-clients/(:num)']        = 'commission/applicable_clients/$1';
+$route['api/commission/hierarchies']                      = 'commission/hierarchies';
+$route['api/commission/hierarchies/(:num)']               = 'commission/hierarchies/$1';
+$route['api/commission/salesadmin-groups']                = 'commission/salesadmin_groups';
+$route['api/commission/salesadmin-groups/(:num)']         = 'commission/salesadmin_groups/$1';
+$route['api/commission/receipts']                         = 'commission/receipts';
+$route['api/commission/receipts/(:num)']                  = 'commission/receipts/$1';
+$route['api/commission/receipts/(:num)/pdf']              = 'commission/pdf/$1';
+$route['api/commission/receipts/(:num)/email']            = 'commission/email/$1';
+$route['api/commission/chart']                            = 'commission/chart';
+$route['api/commission/recalculate']                      = 'commission/recalculate';
+
+// MyShopify module v3 (must come before generic routes)
+$route['api/myshopify']                              = 'myshopify/catalog';
+$route['api/myshopify/products']                     = 'myshopify/products';
+$route['api/myshopify/products/(:num)']              = 'myshopify/products/$1';
+$route['api/myshopify/customers']                    = 'myshopify/customers';
+$route['api/myshopify/customers/(:num)']             = 'myshopify/customers/$1';
+$route['api/myshopify/orders']                       = 'myshopify/orders';
+$route['api/myshopify/orders/(:num)']                = 'myshopify/orders/$1';
+$route['api/myshopify/categories']                   = 'myshopify/categories';
+$route['api/myshopify/categories/(:num)']            = 'myshopify/categories/$1';
+$route['api/myshopify/discounts']                    = 'myshopify/discounts';
+$route['api/myshopify/discounts/(:num)']             = 'myshopify/discounts/$1';
+$route['api/myshopify/maps/(:any)']                  = 'myshopify/maps/$1';
+$route['api/myshopify/logs']                         = 'myshopify/logs';
+$route['api/myshopify/logs/(:num)']                  = 'myshopify/logs/$1';
+$route['api/myshopify/sync']                         = 'myshopify/sync';
+$route['api/myshopify/webhooks/register']            = 'myshopify/register_webhooks';
+$route['api/myshopify/push/customer/(:num)']         = 'myshopify/push_customer/$1';
+$route['api/myshopify/push/item/(:num)']             = 'myshopify/push_item/$1';
+$route['api/myshopify/push/inventory']               = 'myshopify/push_inventory';
+$route['api/myshopify/push/categories']              = 'myshopify/push_categories';
+
 // Generic API routes (must come after specific routes)
 $route['api/tickets/reply/(:num)'] = 'tickets/data_reply/$1';
 $route['api/delete/(:any)/(:num)'] = '$1/data/$2';

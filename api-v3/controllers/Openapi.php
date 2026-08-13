@@ -240,6 +240,146 @@ class Openapi extends App_Controller
 
     private function add_special_paths(&$spec)
     {
+        $spec['tags'][] = ['name' => 'MyShopify'];
+        $shopifyTag = ['MyShopify'];
+        $spec['paths']['/myshopify'] = ['get' => ['tags' => $shopifyTag, 'summary' => 'Discover MyShopify endpoints and configuration status', 'responses' => $this->single_responses()]];
+        foreach (['products' => 'product', 'customers' => 'customer', 'orders' => 'order', 'categories' => 'category', 'discounts' => 'discount'] as $resource => $label) {
+            $spec['paths']['/myshopify/' . $resource] = ['get' => ['tags' => $shopifyTag, 'summary' => 'List imported Shopify ' . $resource, 'responses' => $this->list_responses($label)]];
+            $spec['paths']['/myshopify/' . $resource . '/{id}'] = ['parameters' => [$this->id_param()], 'get' => ['tags' => $shopifyTag, 'summary' => 'Get an imported Shopify ' . $label, 'responses' => $this->single_responses()]];
+        }
+        $spec['paths']['/myshopify/maps/{type}'] = ['parameters' => [['name' => 'type', 'in' => 'path', 'required' => true, 'schema' => ['type' => 'string', 'enum' => ['products', 'customers', 'categories', 'orders']]]], 'get' => ['tags' => $shopifyTag, 'summary' => 'List Shopify-to-Perfex identity mappings', 'responses' => $this->list_responses('mapping')]];
+        $spec['paths']['/myshopify/logs'] = ['get' => ['tags' => $shopifyTag, 'summary' => 'List synchronization logs', 'responses' => $this->list_responses('sync log')]];
+        $spec['paths']['/myshopify/logs/{id}'] = ['parameters' => [$this->id_param()], 'get' => ['tags' => $shopifyTag, 'summary' => 'Get a synchronization log', 'responses' => $this->single_responses()]];
+        foreach (['sync' => 'Run complete reconciliation', 'webhooks/register' => 'Register Shopify webhooks', 'push/inventory' => 'Push mapped inventory', 'push/categories' => 'Push Perfex categories'] as $path => $summary) {
+            $spec['paths']['/myshopify/' . $path] = ['post' => ['tags' => $shopifyTag, 'summary' => $summary, 'responses' => $this->write_responses()]];
+        }
+        foreach (['customer' => 'customer', 'item' => 'item'] as $path => $label) {
+            $spec['paths']['/myshopify/push/' . $path . '/{id}'] = ['parameters' => [$this->id_param()], 'post' => ['tags' => $shopifyTag, 'summary' => 'Push a Perfex ' . $label . ' to Shopify', 'responses' => $this->write_responses()]];
+        }
+
+        $spec['tags'][] = ['name' => 'Sales Commission'];
+        $commissionTag = ['Sales Commission'];
+        $spec['paths']['/commission'] = ['get' => ['tags' => $commissionTag, 'summary' => 'Discover Sales Commission endpoints', 'responses' => $this->single_responses()]];
+        $commissionResources = [
+            'policies' => 'commission policy', 'applicable-staff' => 'staff assignment',
+            'applicable-clients' => 'client assignment', 'hierarchies' => 'commission hierarchy',
+            'salesadmin-groups' => 'sales-admin customer group', 'receipts' => 'commission receipt',
+        ];
+        foreach ($commissionResources as $resource => $label) {
+            $spec['paths']['/commission/' . $resource] = [
+                'get' => ['tags' => $commissionTag, 'summary' => 'List ' . $label . ' records', 'responses' => $this->list_responses($label)],
+                'post' => ['tags' => $commissionTag, 'summary' => 'Create a ' . $label, 'requestBody' => $this->form_body('Sales Commission module payload'), 'responses' => $this->write_responses()],
+            ];
+            $spec['paths']['/commission/' . $resource . '/{id}'] = [
+                'parameters' => [$this->id_param()],
+                'get' => ['tags' => $commissionTag, 'summary' => 'Get a ' . $label, 'responses' => $this->single_responses()],
+                'put' => ['tags' => $commissionTag, 'summary' => 'Update a ' . $label, 'requestBody' => $this->form_body('Fields to update'), 'responses' => $this->write_responses()],
+                'delete' => ['tags' => $commissionTag, 'summary' => 'Delete a ' . $label, 'responses' => $this->write_responses()],
+            ];
+        }
+        $spec['paths']['/commission/commissions'] = ['get' => ['tags' => $commissionTag, 'summary' => 'List calculated commissions', 'responses' => $this->list_responses('commission')]];
+        $spec['paths']['/commission/commissions/{id}'] = ['parameters' => [$this->id_param()], 'get' => ['tags' => $commissionTag, 'summary' => 'Get a calculated commission', 'responses' => $this->single_responses()]];
+        $spec['paths']['/commission/receipts/{id}/pdf'] = ['parameters' => [$this->id_param()], 'get' => ['tags' => $commissionTag, 'summary' => 'Get receipt PDF as Base64', 'responses' => $this->single_responses()]];
+        $spec['paths']['/commission/receipts/{id}/email'] = ['parameters' => [$this->id_param()], 'post' => ['tags' => $commissionTag, 'summary' => 'Email a commission receipt', 'requestBody' => $this->form_body('sent_to, message'), 'responses' => $this->write_responses()]];
+        $spec['paths']['/commission/chart'] = ['get' => ['tags' => $commissionTag, 'summary' => 'Get commission chart data', 'responses' => $this->single_responses()]];
+        $spec['paths']['/commission/recalculate'] = ['post' => ['tags' => $commissionTag, 'summary' => 'Recalculate commissions for invoices', 'requestBody' => $this->form_body('invoice_ids'), 'responses' => $this->write_responses()]];
+
+        $spec['tags'][] = ['name' => 'Delivery Notes'];
+        $deliveryNotesTag = ['Delivery Notes'];
+        $spec['paths']['/delivery_notes'] = [
+            'get' => ['tags' => $deliveryNotesTag, 'summary' => 'Discover Delivery Notes endpoints', 'responses' => $this->single_responses()],
+        ];
+        $spec['paths']['/delivery_notes/notes'] = [
+            'get' => ['tags' => $deliveryNotesTag, 'summary' => 'List delivery notes', 'responses' => $this->list_responses('delivery note')],
+            'post' => ['tags' => $deliveryNotesTag, 'summary' => 'Create a delivery note', 'requestBody' => $this->form_body('clientid, currency, date, newitems and standard sales document fields'), 'responses' => $this->write_responses()],
+        ];
+        $spec['paths']['/delivery_notes/notes/{id}'] = [
+            'parameters' => [$this->id_param()],
+            'get' => ['tags' => $deliveryNotesTag, 'summary' => 'Get a delivery note with items and related records', 'responses' => $this->single_responses()],
+            'put' => ['tags' => $deliveryNotesTag, 'summary' => 'Update a delivery note', 'requestBody' => $this->form_body('Fields to change; items, newitems and removed_items are supported'), 'responses' => $this->write_responses()],
+            'delete' => ['tags' => $deliveryNotesTag, 'summary' => 'Delete a delivery note', 'responses' => $this->write_responses()],
+        ];
+        $spec['paths']['/delivery_notes/statuses'] = [
+            'get' => ['tags' => $deliveryNotesTag, 'summary' => 'List valid delivery note status IDs', 'responses' => $this->list_responses('status')],
+        ];
+        $spec['paths']['/delivery_notes/notes/{id}/status'] = [
+            'parameters' => [$this->id_param()],
+            'put' => ['tags' => $deliveryNotesTag, 'summary' => 'Change delivery note status', 'requestBody' => $this->form_body('status'), 'responses' => $this->write_responses()],
+        ];
+        $spec['paths']['/delivery_notes/notes/{id}/email'] = [
+            'parameters' => [$this->id_param()],
+            'post' => ['tags' => $deliveryNotesTag, 'summary' => 'Email a delivery note to the client', 'requestBody' => $this->form_body('attach_pdf, cc'), 'responses' => $this->write_responses()],
+        ];
+        $spec['paths']['/delivery_notes/notes/{id}/pdf'] = [
+            'parameters' => [$this->id_param()],
+            'get' => ['tags' => $deliveryNotesTag, 'summary' => 'Get the delivery note PDF as base64', 'responses' => $this->single_responses()],
+        ];
+        $spec['paths']['/delivery_notes/notes/{id}/copy'] = [
+            'parameters' => [$this->id_param()],
+            'post' => ['tags' => $deliveryNotesTag, 'summary' => 'Copy a delivery note', 'responses' => $this->write_responses()],
+        ];
+        $spec['paths']['/delivery_notes/notes/{id}/convert-to-invoice'] = [
+            'parameters' => [$this->id_param()],
+            'post' => ['tags' => $deliveryNotesTag, 'summary' => 'Convert a delivery note to an invoice', 'requestBody' => $this->form_body('draft'), 'responses' => $this->write_responses()],
+        ];
+        foreach (['invoice' => 'invoice', 'estimate' => 'estimate', 'purchase-order' => 'purchase order'] as $source => $label) {
+            $spec['paths']['/delivery_notes/from-' . $source . '/{id}'] = [
+                'parameters' => [$this->id_param()],
+                'post' => ['tags' => $deliveryNotesTag, 'summary' => 'Create a delivery note from a ' . $label, 'requestBody' => $this->form_body('draft'), 'responses' => $this->write_responses()],
+            ];
+        }
+
+        $spec['tags'][] = ['name' => 'Payments On Account'];
+        $poaTag = ['Payments On Account'];
+        $spec['paths']['/paymentsonaccount'] = [
+            'get' => ['tags' => $poaTag, 'summary' => 'Discover PaymentsOnAccount endpoints', 'responses' => $this->single_responses()],
+        ];
+        $spec['paths']['/paymentsonaccount/receipts'] = [
+            'get' => ['tags' => $poaTag, 'summary' => 'List receipts', 'responses' => $this->list_responses('receipt')],
+            'post' => ['tags' => $poaTag, 'summary' => 'Create and optionally email a receipt', 'requestBody' => $this->form_body('client_id, amount, payment_mode, payment_date, invoice_ids, on_account, send_email'), 'responses' => $this->write_responses()],
+        ];
+        $spec['paths']['/paymentsonaccount/receipts/{id}'] = [
+            'parameters' => [$this->id_param()],
+            'get' => ['tags' => $poaTag, 'summary' => 'Get a receipt and its invoice applications', 'responses' => $this->single_responses()],
+            'put' => ['tags' => $poaTag, 'summary' => 'Update receipt fields', 'requestBody' => $this->form_body('amount, payment_date, payment_mode, payment_method, transaction_id, note, receipt_number'), 'responses' => $this->write_responses()],
+            'delete' => ['tags' => $poaTag, 'summary' => 'Delete a receipt and its core payments', 'responses' => $this->write_responses()],
+        ];
+        $spec['paths']['/paymentsonaccount/receipts/{id}/applications'] = [
+            'parameters' => [$this->id_param()],
+            'get' => ['tags' => $poaTag, 'summary' => 'List receipt invoice applications', 'responses' => $this->list_responses('application')],
+            'post' => ['tags' => $poaTag, 'summary' => 'Apply a receipt to invoices', 'requestBody' => $this->form_body('invoice_ids or allocations [{invoice_id, amount}]'), 'responses' => $this->write_responses()],
+        ];
+        $spec['paths']['/paymentsonaccount/receipts/{id}/applications/{payment_id}'] = [
+            'parameters' => [$this->id_param(), ['name' => 'payment_id', 'in' => 'path', 'required' => true, 'schema' => ['type' => 'integer']]],
+            'delete' => ['tags' => $poaTag, 'summary' => 'Remove an applied core payment', 'responses' => $this->write_responses()],
+        ];
+        foreach (['email' => 'Send receipt email', 'pdf' => 'Get receipt PDF as base64'] as $action => $summary) {
+            $method = $action === 'email' ? 'post' : 'get';
+            $spec['paths']['/paymentsonaccount/receipts/{id}/' . $action] = [
+                'parameters' => [$this->id_param()],
+                $method => ['tags' => $poaTag, 'summary' => $summary, 'responses' => $method === 'get' ? $this->single_responses() : $this->write_responses()],
+            ];
+        }
+        $spec['paths']['/paymentsonaccount/clients/{id}/unpaid-invoices'] = [
+            'parameters' => [$this->id_param()],
+            'get' => ['tags' => $poaTag, 'summary' => 'List client unpaid invoices', 'responses' => $this->list_responses('invoice')],
+        ];
+        $spec['paths']['/paymentsonaccount/clients/{id}/payment-modes'] = [
+            'parameters' => [$this->id_param()],
+            'get' => ['tags' => $poaTag, 'summary' => 'Get client payment modes', 'responses' => $this->single_responses()],
+            'put' => ['tags' => $poaTag, 'summary' => 'Replace client payment modes', 'requestBody' => $this->form_body('payment_mode_ids'), 'responses' => $this->write_responses()],
+        ];
+        $spec['paths']['/paymentsonaccount/clients/{id}/statement'] = [
+            'parameters' => [$this->id_param()],
+            'get' => ['tags' => $poaTag, 'summary' => 'Get receipt-based client statement', 'responses' => $this->single_responses()],
+        ];
+        $spec['paths']['/paymentsonaccount/reports/receipts'] = [
+            'get' => ['tags' => $poaTag, 'summary' => 'Get paginated receipts report', 'responses' => $this->list_responses('receipt')],
+        ];
+        $spec['paths']['/paymentsonaccount/reports/credits'] = [
+            'get' => ['tags' => $poaTag, 'summary' => 'Get credits report', 'responses' => $this->list_responses('credit note')],
+        ];
+
         // Warehouse module resources. Inventory balances are deliberately
         // read-only; stock changes go through a domain document endpoint.
         $spec['tags'][] = ['name' => 'Warehouse'];
