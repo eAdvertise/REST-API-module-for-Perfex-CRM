@@ -50,9 +50,10 @@
       '<pre class="astro-code catppuccin-mocha" style="background:#1e1e2e;color:#cdd6f4;overflow-x:auto"><code>' + escapeHtml(example(row[0], row[2])) + '</code></pre></div></div></article>';
   }
 
-  function install() {
+  function installSection() {
     var content = document.getElementById('content');
-    if (!content || document.getElementById('api-delivery-notes')) return false;
+    if (!content) return false;
+    if (document.getElementById('api-delivery-notes')) return true;
 
     var section = document.createElement('section');
     section.id = 'api-delivery-notes';
@@ -67,10 +68,16 @@
     var customers = document.getElementById('api-customers');
     content.insertBefore(section, customers || document.getElementById('api-custom-fields') || null);
 
+    return true;
+  }
+
+  function installNavigation() {
     var nav = document.querySelector('#sidenav ul.sidenav');
-    if (nav) {
+    if (!nav) return false;
+    if (!nav.querySelector('[data-delivery-notes-nav]')) {
       var header = document.createElement('li');
       header.className = 'nav-header nav-list-item';
+      header.setAttribute('data-delivery-notes-nav', 'true');
       header.innerHTML = '<a href="#api-delivery-notes">Delivery Notes</a>';
       nav.appendChild(header);
       endpoints.forEach(function (row) {
@@ -83,10 +90,20 @@
     return true;
   }
 
-  if (!install()) {
-    var observer = new MutationObserver(function () {
-      if (install()) observer.disconnect();
-    });
-    observer.observe(document.documentElement, {childList: true, subtree: true});
+  function install() {
+    return installSection() && installNavigation();
   }
+
+  // The React application is an ES module and may mount after classic defer
+  // scripts. Install after DOMContentLoaded, then keep a short self-healing
+  // observer so a React render cannot remove the injected dist documentation.
+  function start() {
+    install();
+    var observer = new MutationObserver(install);
+    observer.observe(document.documentElement, {childList: true, subtree: true});
+    window.setTimeout(function () { install(); observer.disconnect(); }, 5000);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+  else start();
 }());

@@ -3,6 +3,7 @@ import type { JSX } from 'react/jsx-runtime'
 
 import ApiNavItem from './ApiNavItem.tsx'
 import { paymentsonaccountAnchor, paymentsonaccountEndpoints } from './PaymentsonaccountSection.tsx'
+import { deliveryNotesAnchor, deliveryNotesEndpoints } from './DeliveryNotesSection.tsx'
 
 
 // Component
@@ -15,6 +16,7 @@ import { paymentsonaccountAnchor, paymentsonaccountEndpoints } from './Paymentso
                 ["Leads", ["95", "2", "36", "37", "121", "38"]],
                 ["Invoices", ["3", "96", "39", "122", "4", "40"]],
                 ["Guest Invoices", ["146", "147"]],
+                ["Delivery Notes", []],
                 ["Customers", ["5", "41", "123", "42", "97"]],
                 ["Calendar Events", ["43", "6", "98", "44", "124"]],
                 ["Common", ["45"]],
@@ -52,6 +54,7 @@ import { paymentsonaccountAnchor, paymentsonaccountEndpoints } from './Paymentso
                         <ApiNavHeader title={title} />
                             {title === 'Warehouse' && <WarehouseNavEntries />}
                             {title === 'Payments On Account' && <PaymentsonaccountNavEntries />}
+                            {title === 'Delivery Notes' && <DeliveryNotesNavEntries />}
                             {dataIds.map((dataId) => (
                                 <ApiNavEntry key={dataId} dataId={dataId} />
                             ))}
@@ -106,6 +109,17 @@ import { paymentsonaccountAnchor, paymentsonaccountEndpoints } from './Paymentso
             return <>{paymentsonaccountEndpoints.map(([method, title]) =>
                 <li className="nav-list-item" key={`${method}-${title}`}>
                     <a href={`#${paymentsonaccountAnchor(method, title)}`}>
+                        <span className={`typ-name typ-${method.toLowerCase()}`}>{method}</span>
+                        <span className="nav-title">{title}</span>
+                    </a>
+                </li>
+            )}</>;
+        }
+
+        function DeliveryNotesNavEntries() {
+            return <>{deliveryNotesEndpoints.map(([method, title]) =>
+                <li className="nav-list-item" key={`${method}-${title}`}>
+                    <a href={`#${deliveryNotesAnchor(method, title)}`}>
                         <span className={`typ-name typ-${method.toLowerCase()}`}>{method}</span>
                         <span className="nav-title">{title}</span>
                     </a>
