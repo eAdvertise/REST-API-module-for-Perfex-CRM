@@ -1095,6 +1095,27 @@ abstract class REST_Controller extends CI_Controller {
             $capability = $kb_m[1];
         }
 
+        // PaymentsOnAccount exposes several domain actions; authorize them by
+        // HTTP verb under a single paymentsonaccount permission group.
+        if ($object_name === 'Paymentsonaccount'
+            && preg_match('/_(get|post|put|delete)$/', $controller_method, $poa_m)) {
+            $feature = 'paymentsonaccount';
+            $capability = $poa_m[1];
+        }
+
+        // Delivery Notes domain actions share the module's verb-level API permissions.
+        if ($object_name === 'Delivery_notes'
+            && preg_match('/_(get|post|put|delete)$/', $controller_method, $delivery_notes_m)) {
+            $feature = 'delivery_notes';
+            $capability = $delivery_notes_m[1];
+        }
+
+        if ($object_name === 'Commission'
+            && preg_match('/_(get|post|put|delete)$/', $controller_method, $commission_m)) {
+            $feature = 'commission';
+            $capability = $commission_m[1];
+        }
+
         // v3: block brute-forced tokens before doing any more work
         $this->_auth_throttle_check();
 
