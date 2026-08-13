@@ -46,12 +46,13 @@ import ApiNavItem from './ApiNavItem.tsx'
             return (
                 <ul className={"sidenav nav nav-list"}>
                     {sections.map(([title, dataIds]) => (
-                        <>
-                        <ApiNavHeader key={`${title}-header`} title={title} />
+                        <React.Fragment key={title}>
+                        <ApiNavHeader title={title} />
+                            {title === 'Warehouse' && <WarehouseNavEntries />}
                             {dataIds.map((dataId) => (
                                 <ApiNavEntry key={dataId} dataId={dataId} />
                             ))}
-                        </>
+                        </React.Fragment>
                     ))}
                 </ul>
             );
@@ -78,6 +79,24 @@ import ApiNavItem from './ApiNavItem.tsx'
                     <ApiNavItem dataId={dataId} />
                 </li>
             );
+        }
+
+        const warehouseEndpoints = [
+            ['GET', 'typ-get', 'List or retrieve records', 'api-warehouse-get'],
+            ['POST', 'typ-post', 'Create a record', 'api-warehouse-post'],
+            ['PUT', 'typ-put', 'Update a record', 'api-warehouse-put'],
+            ['DELETE', 'typ-delete', 'Delete a record', 'api-warehouse-delete'],
+        ] as const;
+
+        function WarehouseNavEntries() {
+            return <>{warehouseEndpoints.map(([method, methodClass, title, anchor]) =>
+                <li className="nav-list-item" key={method}>
+                    <a href={`#${anchor}`}>
+                        <span className={`typ-name ${methodClass}`}>{method}</span>
+                        <span className="nav-title">{title}</span>
+                    </a>
+                </li>
+            )}</>;
         }
     
 

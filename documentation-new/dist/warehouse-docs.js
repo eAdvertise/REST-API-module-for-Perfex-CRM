@@ -86,6 +86,15 @@
       item.className = 'nav-header nav-list-item';
       item.innerHTML = '<a href="#api-warehouse">Warehouse</a>';
       nav.appendChild(item);
+      operations.forEach(function (operation) {
+        var method = operation[0];
+        var endpoint = document.createElement('li');
+        endpoint.className = 'nav-list-item';
+        endpoint.innerHTML = '<a href="#api-warehouse-' + method.toLowerCase() + '">' +
+          '<span class="typ-name typ-' + method.toLowerCase() + '">' + method + '</span>' +
+          '<span class="nav-title">' + escapeHtml(operation[2]) + '</span></a>';
+        nav.appendChild(endpoint);
+      });
     }
     return true;
   }
