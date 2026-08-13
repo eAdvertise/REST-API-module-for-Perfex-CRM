@@ -13,6 +13,7 @@ import ApiSection from './components/ApiSection.tsx'
 import CustomFieldsSection from './components/CustomFieldsSection.tsx'
 import BrandLink from './components/BrandLink.tsx'
 import GuestInvoicesSection from './components/GuestInvoicesSection.tsx'
+import WarehouseSection from './components/WarehouseSection.tsx'
 
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 
@@ -29,7 +30,7 @@ function AppContent() {
     }, [location.hash]);
 
     return (
-        <body>
+        <div className="docs-app">
         <a className={"skip-link"} href={"#content"}>
         Skip to content
         </a>
@@ -76,6 +77,8 @@ function AppContent() {
                     <ApiSection dataId="2" />
 
         <GuestInvoicesSection />
+
+        <WarehouseSection />
                 
         
                     <ApiSection dataId="3" />
@@ -176,12 +179,14 @@ function AppContent() {
         <Footer />
         </div>
         </div>
-        </body>
+        </div>
     );
 }
 
 function App() {
-    const defaultRoute = "/apiguide/";
+    // The dist directory is also deployed as a standalone document root.
+    // Do not redirect `/` to a server-side path that may not have a rewrite.
+    const defaultRoute = "/";
 
     return (
         <Router>
