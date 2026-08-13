@@ -378,6 +378,93 @@ function wbhk_paymentsonaccount_event_hook($event)
 }
 /* Payments On Account webhooks: End */
 
+/* Warehouse webhooks: Start */
+hooks()->add_filter('webhooks_triggers', 'wbhk_warehouse_register_trigger');
+function wbhk_warehouse_register_trigger($triggers)
+{
+    if (!function_exists('module_dir_path') || !is_dir(module_dir_path('warehouse'))) {
+        return $triggers;
+    }
+
+    $triggers[] = [
+        'value'   => 'warehouse',
+        'label'   => 'Warehouse',
+        'subtext' => 'Triggers for inventory receipts, deliveries, loss adjustments, returns, and approvals.',
+    ];
+
+    return $triggers;
+}
+
+function wbhk_warehouse_dispatch($resource, $id, $action, $extra = [])
+{
+    $CI = &get_instance();
+    $CI->load->model('warehouse/warehouse_model');
+    $id = (int) $id;
+    if ($id < 1) {
+        return;
+    }
+
+    $getters = [
+        'goods_receipt'   => ['get_goods_receipt', 'get_goods_receipt_detail'],
+        'goods_delivery'  => ['get_goods_delivery', 'get_goods_delivery_detail'],
+        'loss_adjustment' => ['get_loss_adjustment', 'get_loss_adjustment_detailt_by_masterid'],
+        'order_return'    => ['get_order_return', 'get_order_return_detail'],
+    ];
+    $record = null;
+    $details = [];
+    if (isset($getters[$resource])) {
+        [$recordGetter, $detailGetter] = $getters[$resource];
+        if (method_exists($CI->warehouse_model, $recordGetter)) {
+            $record = $CI->warehouse_model->{$recordGetter}($id);
+        }
+        if (method_exists($CI->warehouse_model, $detailGetter)) {
+            $details = $CI->warehouse_model->{$detailGetter}($id) ?: [];
+        }
+    }
+
+    $data = (object) array_merge([
+        'event_source' => 'warehouse',
+        'resource'     => (string) $resource,
+        'resource_id'  => $id,
+        'record'       => $record,
+        'details'      => $details,
+        'occurred_at'  => date('c'),
+    ], $extra);
+
+    call_webhook($data, 'warehouse', $action, $id);
+}
+
+hooks()->add_action('after_wh_goods_receipt_added', 'wbhk_warehouse_receipt_added_hook');
+function wbhk_warehouse_receipt_added_hook($id) { wbhk_warehouse_dispatch('goods_receipt', $id, 'add'); }
+hooks()->add_action('after_wh_goods_receipt_updated', 'wbhk_warehouse_receipt_updated_hook');
+function wbhk_warehouse_receipt_updated_hook($id) { wbhk_warehouse_dispatch('goods_receipt', $id, 'edit'); }
+hooks()->add_action('after_wh_goods_receipt_approve', 'wbhk_warehouse_receipt_approved_hook');
+function wbhk_warehouse_receipt_approved_hook($id) { wbhk_warehouse_dispatch('goods_receipt', $id, 'status_change', ['status_event' => 'approved']); }
+hooks()->add_action('before_goods_receipt_deleted', 'wbhk_warehouse_receipt_deleted_hook');
+function wbhk_warehouse_receipt_deleted_hook($id) { wbhk_warehouse_dispatch('goods_receipt', $id, 'delete'); }
+
+hooks()->add_action('after_wh_goods_delivery_added', 'wbhk_warehouse_delivery_added_hook');
+function wbhk_warehouse_delivery_added_hook($id) { wbhk_warehouse_dispatch('goods_delivery', $id, 'add'); }
+hooks()->add_action('after_wh_goods_delivery_updated', 'wbhk_warehouse_delivery_updated_hook');
+function wbhk_warehouse_delivery_updated_hook($id) { wbhk_warehouse_dispatch('goods_delivery', $id, 'edit'); }
+hooks()->add_action('after_wh_goods_delivery_approve', 'wbhk_warehouse_delivery_approved_hook');
+function wbhk_warehouse_delivery_approved_hook($id) { wbhk_warehouse_dispatch('goods_delivery', $id, 'status_change', ['status_event' => 'approved']); }
+hooks()->add_action('before_goods_delivery_deleted', 'wbhk_warehouse_delivery_deleted_hook');
+function wbhk_warehouse_delivery_deleted_hook($id) { wbhk_warehouse_dispatch('goods_delivery', $id, 'delete'); }
+
+hooks()->add_action('after_wh_loss_adjustment_added', 'wbhk_warehouse_adjustment_added_hook');
+function wbhk_warehouse_adjustment_added_hook($id) { wbhk_warehouse_dispatch('loss_adjustment', $id, 'add'); }
+hooks()->add_action('after_wh_loss_adjustment_updated', 'wbhk_warehouse_adjustment_updated_hook');
+function wbhk_warehouse_adjustment_updated_hook($id) { wbhk_warehouse_dispatch('loss_adjustment', $id, 'edit'); }
+hooks()->add_action('after_wh_loss_adjustment_approve', 'wbhk_warehouse_adjustment_approved_hook');
+function wbhk_warehouse_adjustment_approved_hook($id) { wbhk_warehouse_dispatch('loss_adjustment', $id, 'status_change', ['status_event' => 'approved']); }
+hooks()->add_action('before_loss_adjustment_deleted', 'wbhk_warehouse_adjustment_deleted_hook');
+function wbhk_warehouse_adjustment_deleted_hook($id) { wbhk_warehouse_dispatch('loss_adjustment', $id, 'delete'); }
+
+hooks()->add_action('after_receiving_or_exporting_return_order_approved', 'wbhk_warehouse_return_approved_hook');
+function wbhk_warehouse_return_approved_hook($id) { wbhk_warehouse_dispatch('order_return', $id, 'status_change', ['status_event' => 'approved']); }
+/* Warehouse webhooks: End */
+
 /* Purchases webhooks: Start */
 hooks()->add_filter('webhooks_triggers', 'wbhk_purchase_register_trigger');
 function wbhk_purchase_register_trigger($triggers)
