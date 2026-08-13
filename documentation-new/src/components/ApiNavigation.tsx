@@ -2,6 +2,8 @@ import React from 'react'
 import type { JSX } from 'react/jsx-runtime'
 
 import ApiNavItem from './ApiNavItem.tsx'
+import { paymentsonaccountAnchor, paymentsonaccountEndpoints } from './PaymentsonaccountSection.tsx'
+import { deliveryNotesAnchor, deliveryNotesEndpoints } from './DeliveryNotesSection.tsx'
 
 
 // Component
@@ -14,7 +16,7 @@ import ApiNavItem from './ApiNavItem.tsx'
                 ["Leads", ["95", "2", "36", "37", "121", "38"]],
                 ["Invoices", ["3", "96", "39", "122", "4", "40"]],
                 ["Guest Invoices", ["146", "147"]],
-                ["Warehouse", []],
+                ["Delivery Notes", []],
                 ["Customers", ["5", "41", "123", "42", "97"]],
                 ["Calendar Events", ["43", "6", "98", "44", "124"]],
                 ["Common", ["45"]],
@@ -26,6 +28,7 @@ import ApiNavItem from './ApiNavItem.tsx'
                 ["Expenses", ["11", "128", "103", "55", "56"]],
                 ["Items", ["104", "12", "57", "129", "58"]],
                 ["Warehouse", []],
+                ["Payments On Account", []],
                 ["Knowledge Base", ["59", "13", "105", "60", "130", "61", "14", "106", "131"]],
                 ["Milestones", ["107", "15", "62", "132", "63"]],
                 ["Notes", ["16", "108", "64", "133", "65"]],
@@ -47,12 +50,15 @@ import ApiNavItem from './ApiNavItem.tsx'
             return (
                 <ul className={"sidenav nav nav-list"}>
                     {sections.map(([title, dataIds]) => (
-                        <>
-                        <ApiNavHeader key={`${title}-header`} title={title} />
+                        <React.Fragment key={title}>
+                        <ApiNavHeader title={title} />
+                            {title === 'Warehouse' && <WarehouseNavEntries />}
+                            {title === 'Payments On Account' && <PaymentsonaccountNavEntries />}
+                            {title === 'Delivery Notes' && <DeliveryNotesNavEntries />}
                             {dataIds.map((dataId) => (
                                 <ApiNavEntry key={dataId} dataId={dataId} />
                             ))}
-                        </>
+                        </React.Fragment>
                     ))}
                 </ul>
             );
@@ -79,6 +85,46 @@ import ApiNavItem from './ApiNavItem.tsx'
                     <ApiNavItem dataId={dataId} />
                 </li>
             );
+        }
+
+        const warehouseEndpoints = [
+            ['GET', 'typ-get', 'List or retrieve records', 'api-warehouse-get'],
+            ['POST', 'typ-post', 'Create a record', 'api-warehouse-post'],
+            ['PUT', 'typ-put', 'Update a record', 'api-warehouse-put'],
+            ['DELETE', 'typ-delete', 'Delete a record', 'api-warehouse-delete'],
+        ] as const;
+
+        function WarehouseNavEntries() {
+            return <>{warehouseEndpoints.map(([method, methodClass, title, anchor]) =>
+                <li className="nav-list-item" key={method}>
+                    <a href={`#${anchor}`}>
+                        <span className={`typ-name ${methodClass}`}>{method}</span>
+                        <span className="nav-title">{title}</span>
+                    </a>
+                </li>
+            )}</>;
+        }
+
+        function PaymentsonaccountNavEntries() {
+            return <>{paymentsonaccountEndpoints.map(([method, title]) =>
+                <li className="nav-list-item" key={`${method}-${title}`}>
+                    <a href={`#${paymentsonaccountAnchor(method, title)}`}>
+                        <span className={`typ-name typ-${method.toLowerCase()}`}>{method}</span>
+                        <span className="nav-title">{title}</span>
+                    </a>
+                </li>
+            )}</>;
+        }
+
+        function DeliveryNotesNavEntries() {
+            return <>{deliveryNotesEndpoints.map(([method, title]) =>
+                <li className="nav-list-item" key={`${method}-${title}`}>
+                    <a href={`#${deliveryNotesAnchor(method, title)}`}>
+                        <span className={`typ-name typ-${method.toLowerCase()}`}>{method}</span>
+                        <span className="nav-title">{title}</span>
+                    </a>
+                </li>
+            )}</>;
         }
     
 
