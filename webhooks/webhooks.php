@@ -101,6 +101,58 @@ create_email_template('Webhook failed', '', 'webhooks', 'Webhook failed', 'webho
 
 register_merge_fields(WEBHOOKS_MODULE . '/merge_fields/webhooks_merge_fields');
 
+/* MyShopify webhooks: Start */
+hooks()->add_filter('webhooks_triggers', 'wbhk_myshopify_register_trigger');
+function wbhk_myshopify_register_trigger($triggers)
+{
+    if (!function_exists('module_dir_path') || !is_dir(module_dir_path('myshopify'))) {
+        return $triggers;
+    }
+
+    $triggers[] = [
+        'value'   => 'myshopify',
+        'label'   => 'MyShopify',
+        'subtext' => 'Triggers when a signed Shopify event is processed.',
+    ];
+
+    return $triggers;
+}
+
+hooks()->add_action('myshopify_webhook_processed', 'wbhk_myshopify_processed_hook');
+function wbhk_myshopify_processed_hook($event)
+{
+    if (!is_array($event) || empty($event['topic'])) {
+        return;
+    }
+
+    $topic = strtolower((string) $event['topic']);
+    $action = 'status_change';
+    if (substr($topic, -7) === '/create') {
+        $action = 'add';
+    } elseif (substr($topic, -7) === '/update' || substr($topic, -8) === '/updated') {
+        $action = 'edit';
+    } elseif (substr($topic, -7) === '/delete' || substr($topic, -8) === '/deleted') {
+        $action = 'delete';
+    }
+
+    $payload = isset($event['payload']) && is_array($event['payload']) ? $event['payload'] : [];
+    $data = (object) [
+        'source'        => 'shopify',
+        'topic'         => $topic,
+        'shop_domain'   => (string) ($event['shop_domain'] ?? ''),
+        'webhook_id'    => (string) ($event['webhook_id'] ?? ''),
+        'api_version'   => (string) ($event['api_version'] ?? ''),
+        'resource_type' => strstr($topic, '/', true) ?: $topic,
+        'resource_id'   => (string) ($payload['id'] ?? $payload['inventory_item_id'] ?? ''),
+        'processed_at'  => (string) ($event['processed_at'] ?? date('c')),
+        'result'        => $event['result'] ?? null,
+        'payload'       => $payload,
+    ];
+
+    call_webhook($data, 'myshopify', $action, $data->resource_id ?: $data->webhook_id);
+}
+/* MyShopify webhooks: End */
+
 /* Contact webhooks : Start */
 // Add new contact
 hooks()->add_action('contact_created', 'wbhk_contact_added_hook');
