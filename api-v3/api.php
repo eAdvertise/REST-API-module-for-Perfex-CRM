@@ -268,6 +268,21 @@ function api_myshopify_permissions($apiPermissions)
     return $apiPermissions;
 }
 
+if ($CI->app_modules->is_active('purchase')) {
+    hooks()->add_filter('api_permissions', 'api_purchase_permissions');
+}
+function api_purchase_permissions($apiPermissions)
+{
+    $apiPermissions['purchase'] = [
+        'name' => 'Purchase Management',
+        'capabilities' => [
+            'get' => _l('permission_get'), 'post' => _l('permission_create'),
+            'put' => _l('permission_update'), 'delete' => _l('permission_delete'),
+        ],
+    ];
+    return $apiPermissions;
+}
+
 
 // Register permissions for custom Guest Invoices API endpoints.
 hooks()->add_filter('api_permissions', 'api_guest_invoices_permissions');

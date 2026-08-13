@@ -18,6 +18,7 @@ import PaymentsonaccountSection from './components/PaymentsonaccountSection.tsx'
 import DeliveryNotesSection from './components/DeliveryNotesSection.tsx'
 import CommissionSection from './components/CommissionSection.tsx'
 import MyshopifySection from './components/MyshopifySection.tsx'
+import PurchaseSection from './components/PurchaseSection.tsx'
 
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 
@@ -87,6 +88,8 @@ function AppContent() {
         <CommissionSection />
 
         <MyshopifySection />
+
+        <PurchaseSection />
 
                     <ApiSection dataId="3" />
                 

@@ -1122,6 +1122,12 @@ abstract class REST_Controller extends CI_Controller {
             $capability = $myshopify_m[1];
         }
 
+        if ($object_name === 'Purchase'
+            && preg_match('/_(get|post|put|delete)$/', $controller_method, $purchase_m)) {
+            $feature = 'purchase';
+            $capability = $purchase_m[1];
+        }
+
         // v3: block brute-forced tokens before doing any more work
         $this->_auth_throttle_check();
 

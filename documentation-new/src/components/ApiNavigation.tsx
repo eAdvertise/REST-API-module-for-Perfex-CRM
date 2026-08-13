@@ -6,6 +6,7 @@ import { paymentsonaccountAnchor, paymentsonaccountEndpoints } from './Paymentso
 import { deliveryNotesAnchor, deliveryNotesEndpoints } from './DeliveryNotesSection.tsx'
 import { commissionAnchor, commissionEndpoints } from './CommissionSection.tsx'
 import { myshopifyAnchor, myshopifyEndpoints } from './MyshopifySection.tsx'
+import { purchaseAnchor, purchaseEndpoints } from './PurchaseSection.tsx'
 
 
 // Component
@@ -21,6 +22,7 @@ import { myshopifyAnchor, myshopifyEndpoints } from './MyshopifySection.tsx'
                 ["Delivery Notes", []],
                 ["Sales Commission", []],
                 ["MyShopify", []],
+                ["Purchase Management", []],
                 ["Customers", ["5", "41", "123", "42", "97"]],
                 ["Calendar Events", ["43", "6", "98", "44", "124"]],
                 ["Common", ["45"]],
@@ -61,6 +63,7 @@ import { myshopifyAnchor, myshopifyEndpoints } from './MyshopifySection.tsx'
                             {title === 'Delivery Notes' && <DeliveryNotesNavEntries />}
                             {title === 'Sales Commission' && <CommissionNavEntries />}
                             {title === 'MyShopify' && <MyshopifyNavEntries />}
+                            {title === 'Purchase Management' && <PurchaseNavEntries />}
                             {dataIds.map((dataId) => (
                                 <ApiNavEntry key={dataId} dataId={dataId} />
                             ))}
@@ -120,6 +123,10 @@ import { myshopifyAnchor, myshopifyEndpoints } from './MyshopifySection.tsx'
                     </a>
                 </li>
             )}</>;
+        }
+
+        function PurchaseNavEntries() {
+            return <>{purchaseEndpoints.map(([method,title]) => <li className="nav-list-item" key={`${method}-${title}`}><a href={`#${purchaseAnchor(method,title)}`}><span className={`typ-name typ-${method.toLowerCase()}`}>{method}</span><span className="nav-title">{title}</span></a></li>)}</>;
         }
 
         function MyshopifyNavEntries() {

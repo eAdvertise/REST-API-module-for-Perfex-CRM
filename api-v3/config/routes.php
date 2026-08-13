@@ -166,6 +166,15 @@ $route['api/myshopify/push/item/(:num)']             = 'myshopify/push_item/$1';
 $route['api/myshopify/push/inventory']               = 'myshopify/push_inventory';
 $route['api/myshopify/push/categories']              = 'myshopify/push_categories';
 
+// Purchase Management module v3 (must come before generic routes)
+$route['api/purchase']                                      = 'purchase/catalog';
+$route['api/purchase/vendors/(:num)/statement']             = 'purchase/statement/$1';
+$route['api/purchase/(:any)/(:num)/status']                 = 'purchase/status/$1/$2';
+$route['api/purchase/(:any)/(:num)/pdf']                    = 'purchase/pdf/$1/$2';
+$route['api/purchase/(:any)/(:num)/payments']               = 'purchase/payments/$1/$2';
+$route['api/purchase/(:any)/(:num)']                        = 'purchase/data/$1/$2';
+$route['api/purchase/(:any)']                               = 'purchase/data/$1';
+
 // Generic API routes (must come after specific routes)
 $route['api/tickets/reply/(:num)'] = 'tickets/data_reply/$1';
 $route['api/delete/(:any)/(:num)'] = '$1/data/$2';

@@ -240,6 +240,31 @@ class Openapi extends App_Controller
 
     private function add_special_paths(&$spec)
     {
+        $spec['tags'][] = ['name' => 'Purchase Management'];
+        $purchaseTag = ['Purchase Management'];
+        $spec['paths']['/purchase'] = ['get' => ['tags' => $purchaseTag, 'summary' => 'Discover Purchase Management endpoints', 'responses' => $this->single_responses()]];
+        $purchaseResources = ['vendors','requests','quotations','orders','contracts','invoices','debit-notes','order-returns','vendor-categories','units','commodity-groups','sub-groups','approval-settings','vendor-items'];
+        foreach ($purchaseResources as $resource) {
+            $spec['paths']['/purchase/' . $resource] = [
+                'get' => ['tags' => $purchaseTag, 'summary' => 'List purchase ' . $resource, 'responses' => $this->list_responses($resource)],
+                'post' => ['tags' => $purchaseTag, 'summary' => 'Create purchase ' . $resource . ' record', 'requestBody' => $this->form_body('Purchase module payload; documents accept newitems'), 'responses' => $this->write_responses()],
+            ];
+            $spec['paths']['/purchase/' . $resource . '/{id}'] = [
+                'parameters' => [$this->id_param()],
+                'get' => ['tags' => $purchaseTag, 'summary' => 'Get purchase ' . $resource . ' record', 'responses' => $this->single_responses()],
+                'put' => ['tags' => $purchaseTag, 'summary' => 'Update purchase ' . $resource . ' record', 'requestBody' => $this->form_body('Fields and document items to update'), 'responses' => $this->write_responses()],
+                'delete' => ['tags' => $purchaseTag, 'summary' => 'Delete purchase ' . $resource . ' record', 'responses' => $this->write_responses()],
+            ];
+        }
+        foreach (['requests','quotations','orders'] as $resource) {
+            $spec['paths']['/purchase/' . $resource . '/{id}/status'] = ['parameters' => [$this->id_param()], 'put' => ['tags' => $purchaseTag, 'summary' => 'Change ' . $resource . ' status', 'requestBody' => $this->form_body('status'), 'responses' => $this->write_responses()]];
+            $spec['paths']['/purchase/' . $resource . '/{id}/pdf'] = ['parameters' => [$this->id_param()], 'get' => ['tags' => $purchaseTag, 'summary' => 'Get ' . $resource . ' PDF as Base64', 'responses' => $this->single_responses()]];
+        }
+        foreach (['orders','invoices'] as $resource) {
+            $spec['paths']['/purchase/' . $resource . '/{id}/payments'] = ['parameters' => [$this->id_param()], 'get' => ['tags' => $purchaseTag, 'summary' => 'List ' . $resource . ' payments', 'responses' => $this->list_responses('payment')], 'post' => ['tags' => $purchaseTag, 'summary' => 'Add ' . $resource . ' payment', 'requestBody' => $this->form_body('Payment details'), 'responses' => $this->write_responses()]];
+        }
+        $spec['paths']['/purchase/vendors/{id}/statement'] = ['parameters' => [$this->id_param()], 'get' => ['tags' => $purchaseTag, 'summary' => 'Get vendor statement for from/to date range', 'responses' => $this->single_responses()]];
+
         $spec['tags'][] = ['name' => 'MyShopify'];
         $shopifyTag = ['MyShopify'];
         $spec['paths']['/myshopify'] = ['get' => ['tags' => $shopifyTag, 'summary' => 'Discover MyShopify endpoints and configuration status', 'responses' => $this->single_responses()]];
