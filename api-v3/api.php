@@ -240,6 +240,22 @@ function api_delivery_notes_permissions($apiPermissions)
     return $apiPermissions;
 }
 
+// Only expose Sales Commission permissions when the optional module is active.
+if ($CI->app_modules->is_active('commission')) {
+    hooks()->add_filter('api_permissions', 'api_commission_permissions');
+}
+function api_commission_permissions($apiPermissions)
+{
+    $apiPermissions['commission'] = [
+        'name' => 'Sales Commission',
+        'capabilities' => [
+            'get' => _l('permission_get'), 'post' => _l('permission_create'),
+            'put' => _l('permission_update'), 'delete' => _l('permission_delete'),
+        ],
+    ];
+    return $apiPermissions;
+}
+
 
 // Register permissions for custom Guest Invoices API endpoints.
 hooks()->add_filter('api_permissions', 'api_guest_invoices_permissions');

@@ -240,6 +240,33 @@ class Openapi extends App_Controller
 
     private function add_special_paths(&$spec)
     {
+        $spec['tags'][] = ['name' => 'Sales Commission'];
+        $commissionTag = ['Sales Commission'];
+        $spec['paths']['/commission'] = ['get' => ['tags' => $commissionTag, 'summary' => 'Discover Sales Commission endpoints', 'responses' => $this->single_responses()]];
+        $commissionResources = [
+            'policies' => 'commission policy', 'applicable-staff' => 'staff assignment',
+            'applicable-clients' => 'client assignment', 'hierarchies' => 'commission hierarchy',
+            'salesadmin-groups' => 'sales-admin customer group', 'receipts' => 'commission receipt',
+        ];
+        foreach ($commissionResources as $resource => $label) {
+            $spec['paths']['/commission/' . $resource] = [
+                'get' => ['tags' => $commissionTag, 'summary' => 'List ' . $label . ' records', 'responses' => $this->list_responses($label)],
+                'post' => ['tags' => $commissionTag, 'summary' => 'Create a ' . $label, 'requestBody' => $this->form_body('Sales Commission module payload'), 'responses' => $this->write_responses()],
+            ];
+            $spec['paths']['/commission/' . $resource . '/{id}'] = [
+                'parameters' => [$this->id_param()],
+                'get' => ['tags' => $commissionTag, 'summary' => 'Get a ' . $label, 'responses' => $this->single_responses()],
+                'put' => ['tags' => $commissionTag, 'summary' => 'Update a ' . $label, 'requestBody' => $this->form_body('Fields to update'), 'responses' => $this->write_responses()],
+                'delete' => ['tags' => $commissionTag, 'summary' => 'Delete a ' . $label, 'responses' => $this->write_responses()],
+            ];
+        }
+        $spec['paths']['/commission/commissions'] = ['get' => ['tags' => $commissionTag, 'summary' => 'List calculated commissions', 'responses' => $this->list_responses('commission')]];
+        $spec['paths']['/commission/commissions/{id}'] = ['parameters' => [$this->id_param()], 'get' => ['tags' => $commissionTag, 'summary' => 'Get a calculated commission', 'responses' => $this->single_responses()]];
+        $spec['paths']['/commission/receipts/{id}/pdf'] = ['parameters' => [$this->id_param()], 'get' => ['tags' => $commissionTag, 'summary' => 'Get receipt PDF as Base64', 'responses' => $this->single_responses()]];
+        $spec['paths']['/commission/receipts/{id}/email'] = ['parameters' => [$this->id_param()], 'post' => ['tags' => $commissionTag, 'summary' => 'Email a commission receipt', 'requestBody' => $this->form_body('sent_to, message'), 'responses' => $this->write_responses()]];
+        $spec['paths']['/commission/chart'] = ['get' => ['tags' => $commissionTag, 'summary' => 'Get commission chart data', 'responses' => $this->single_responses()]];
+        $spec['paths']['/commission/recalculate'] = ['post' => ['tags' => $commissionTag, 'summary' => 'Recalculate commissions for invoices', 'requestBody' => $this->form_body('invoice_ids'), 'responses' => $this->write_responses()]];
+
         $spec['tags'][] = ['name' => 'Delivery Notes'];
         $deliveryNotesTag = ['Delivery Notes'];
         $spec['paths']['/delivery_notes'] = [

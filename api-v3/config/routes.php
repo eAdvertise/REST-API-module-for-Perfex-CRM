@@ -123,6 +123,27 @@ $route['api/delivery_notes/from-invoice/(:num)']                  = 'delivery_no
 $route['api/delivery_notes/from-estimate/(:num)']                 = 'delivery_notes/from_estimate/$1';
 $route['api/delivery_notes/from-purchase-order/(:num)']           = 'delivery_notes/from_purchase_order/$1';
 
+// Sales Commission module v3 (must come before generic routes)
+$route['api/commission']                                  = 'commission/catalog';
+$route['api/commission/commissions']                      = 'commission/commissions';
+$route['api/commission/commissions/(:num)']               = 'commission/commissions/$1';
+$route['api/commission/policies']                         = 'commission/policies';
+$route['api/commission/policies/(:num)']                  = 'commission/policies/$1';
+$route['api/commission/applicable-staff']                 = 'commission/applicable_staff';
+$route['api/commission/applicable-staff/(:num)']          = 'commission/applicable_staff/$1';
+$route['api/commission/applicable-clients']               = 'commission/applicable_clients';
+$route['api/commission/applicable-clients/(:num)']        = 'commission/applicable_clients/$1';
+$route['api/commission/hierarchies']                      = 'commission/hierarchies';
+$route['api/commission/hierarchies/(:num)']               = 'commission/hierarchies/$1';
+$route['api/commission/salesadmin-groups']                = 'commission/salesadmin_groups';
+$route['api/commission/salesadmin-groups/(:num)']         = 'commission/salesadmin_groups/$1';
+$route['api/commission/receipts']                         = 'commission/receipts';
+$route['api/commission/receipts/(:num)']                  = 'commission/receipts/$1';
+$route['api/commission/receipts/(:num)/pdf']              = 'commission/pdf/$1';
+$route['api/commission/receipts/(:num)/email']            = 'commission/email/$1';
+$route['api/commission/chart']                            = 'commission/chart';
+$route['api/commission/recalculate']                      = 'commission/recalculate';
+
 // Generic API routes (must come after specific routes)
 $route['api/tickets/reply/(:num)'] = 'tickets/data_reply/$1';
 $route['api/delete/(:any)/(:num)'] = '$1/data/$2';

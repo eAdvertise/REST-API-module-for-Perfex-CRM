@@ -4,6 +4,7 @@ import type { JSX } from 'react/jsx-runtime'
 import ApiNavItem from './ApiNavItem.tsx'
 import { paymentsonaccountAnchor, paymentsonaccountEndpoints } from './PaymentsonaccountSection.tsx'
 import { deliveryNotesAnchor, deliveryNotesEndpoints } from './DeliveryNotesSection.tsx'
+import { commissionAnchor, commissionEndpoints } from './CommissionSection.tsx'
 
 
 // Component
@@ -17,6 +18,7 @@ import { deliveryNotesAnchor, deliveryNotesEndpoints } from './DeliveryNotesSect
                 ["Invoices", ["3", "96", "39", "122", "4", "40"]],
                 ["Guest Invoices", ["146", "147"]],
                 ["Delivery Notes", []],
+                ["Sales Commission", []],
                 ["Customers", ["5", "41", "123", "42", "97"]],
                 ["Calendar Events", ["43", "6", "98", "44", "124"]],
                 ["Common", ["45"]],
@@ -55,6 +57,7 @@ import { deliveryNotesAnchor, deliveryNotesEndpoints } from './DeliveryNotesSect
                             {title === 'Warehouse' && <WarehouseNavEntries />}
                             {title === 'Payments On Account' && <PaymentsonaccountNavEntries />}
                             {title === 'Delivery Notes' && <DeliveryNotesNavEntries />}
+                            {title === 'Sales Commission' && <CommissionNavEntries />}
                             {dataIds.map((dataId) => (
                                 <ApiNavEntry key={dataId} dataId={dataId} />
                             ))}
@@ -114,6 +117,10 @@ import { deliveryNotesAnchor, deliveryNotesEndpoints } from './DeliveryNotesSect
                     </a>
                 </li>
             )}</>;
+        }
+
+        function CommissionNavEntries() {
+            return <>{commissionEndpoints.map(([method, title]) => <li className="nav-list-item" key={`${method}-${title}`}><a href={`#${commissionAnchor(method,title)}`}><span className={`typ-name typ-${method.toLowerCase()}`}>{method}</span><span className="nav-title">{title}</span></a></li>)}</>;
         }
 
         function DeliveryNotesNavEntries() {
