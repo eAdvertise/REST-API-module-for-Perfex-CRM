@@ -75,6 +75,13 @@ class Guestinvoices extends AdminController
 			$dbCompany = $company ?: trim($firstname.' '.$lastname) ?: ('Guest'.$client_id);
 		}
 
+		hooks()->do_action('guestinvoices_guest_resolved', [
+			'client_id'  => (int) $client_id,
+			'contact_id' => (int) $contact_id,
+			'email'      => $email,
+			'company'    => $dbCompany,
+		]);
+
 		echo json_encode([
 			'success'   => true,
 			'client_id' => $client_id,
