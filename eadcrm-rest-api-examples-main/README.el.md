@@ -6,7 +6,7 @@
 
 # eAD-CRM REST API — Παραδείγματα, Postman Collection και αποσπάσματα κώδικα
 
-🌐 [English](README.md) · **Ελληνικά** · [简体中文](README.zh-CN.md) · [Español](README.es.md) · [Português (BR)](README.pt-BR.md) · [Italiano](README.it.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Türkçe](README.tr.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [العربية](README.ar.md)
+🌐 [English](README.md) · **Ελληνικά** · [עברית](README.he.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md) · [Português (BR)](README.pt-BR.md) · [Italiano](README.it.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Türkçe](README.tr.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [العربية](README.ar.md)
 
 > Έτοιμο προς χρήση **Postman collection**, **παραδείγματα κώδικα** (cURL, PHP, Python, JavaScript) και πλήρης
 > **κατάλογος πόρων** για το [REST API module του eAD-CRM](https://www.eadvertise.eu/) —

@@ -6,7 +6,7 @@
 
 # eAD-CRM REST API — Examples, Postman Collection & Code Snippets
 
-🌐 **English** · [Ελληνικά](README.el.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md) · [Português (BR)](README.pt-BR.md) · [Italiano](README.it.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Türkçe](README.tr.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [العربية](README.ar.md)
+🌐 **English** · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md) · [Português (BR)](README.pt-BR.md) · [Italiano](README.it.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Türkçe](README.tr.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [العربية](README.ar.md)
 
 > Ready-to-use **Postman collection**, **code snippets** (cURL, PHP, Python, JavaScript) and a resource
 > **catalogue** for the [REST API module for eAD-CRM](https://www.eadvertise.eu/) —

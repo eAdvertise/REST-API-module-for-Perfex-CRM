@@ -6,7 +6,7 @@
 
 # eAD-CRM REST API — Örnekler, Postman Koleksiyonu ve Kod Parçacıkları
 
-[English](README.md) · [Ελληνικά](README.el.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md) · [Português (BR)](README.pt-BR.md) · [Italiano](README.it.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · 🌐 **Türkçe** · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [العربية](README.ar.md)
+[English](README.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md) · [Português (BR)](README.pt-BR.md) · [Italiano](README.it.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · 🌐 **Türkçe** · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [العربية](README.ar.md)
 
 > [eAD-CRM için REST API modülü](https://www.eadvertise.eu/) için kullanıma hazır **Postman koleksiyonu**, **kod parçacıkları** (cURL, PHP, Python, JavaScript) ve bir kaynak
 > **kataloğu** —
