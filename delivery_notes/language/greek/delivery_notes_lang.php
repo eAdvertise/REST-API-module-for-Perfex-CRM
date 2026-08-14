@@ -278,3 +278,4 @@ $lang['original_date'] = 'Date';
 $lang['next_delivery_date'] = 'Next Date';
 $lang['cycles_done'] = 'Cycles Done';
 $lang['cycles_total'] = 'Total Cycles';
+$lang['upcoming_recurring_delivery_notes'] = 'Επαναλαμβανόμενο δελτίο αποστολής';
