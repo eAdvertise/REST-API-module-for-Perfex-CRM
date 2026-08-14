@@ -1,6 +1,6 @@
 /**
- * Perfex CRM REST API — MCP server examples (Node.js / fetch)
- * Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+ * eAD-CRM REST API — MCP server examples (Node.js / fetch)
+ * Module: https://www.eadvertise.eu/
  *
  * The MCP endpoint speaks JSON-RPC 2.0 over POST /api/mcp.
  * Unlike the CRUD resources, MCP requests are JSON (application/json),

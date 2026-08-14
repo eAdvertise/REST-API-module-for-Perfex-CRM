@@ -1,7 +1,7 @@
 <?php
 /**
- * Perfex CRM REST API — Invoices examples (PHP / cURL)
- * Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+ * eAD-CRM REST API — Invoices examples (PHP / cURL)
+ * Module: https://www.eadvertise.eu/
  *
  * No external dependencies — uses the built-in cURL extension.
  */
@@ -10,7 +10,7 @@ const BASE  = 'https://yourdomain.com/api';
 const TOKEN = 'YOUR_API_TOKEN';
 
 /** Minimal request helper. */
-function perfex_request(string $method, string $path, array $form = []): array
+function eadcrm_request(string $method, string $path, array $form = []): array
 {
     $ch = curl_init(BASE . $path);
     curl_setopt_array($ch, [
@@ -29,14 +29,14 @@ function perfex_request(string $method, string $path, array $form = []): array
 }
 
 // List all invoices
-print_r(perfex_request('GET', '/invoices'));
+print_r(eadcrm_request('GET', '/invoices'));
 
 // Get a single invoice
-print_r(perfex_request('GET', '/invoices/1'));
+print_r(eadcrm_request('GET', '/invoices/1'));
 
 // Create an invoice
 // v3 auto-calculates subtotal/total from the items[] array — just send line items.
-print_r(perfex_request('POST', '/invoices', [
+print_r(eadcrm_request('POST', '/invoices', [
     'clientid'              => 1,
     'number'               => 123,
     'date'                 => '2026-07-21',
@@ -48,9 +48,9 @@ print_r(perfex_request('POST', '/invoices', [
 ]));
 
 // Update an invoice (unknown fields are ignored)
-print_r(perfex_request('PUT', '/invoices/1', [
+print_r(eadcrm_request('PUT', '/invoices/1', [
     'duedate' => '2026-09-01',
 ]));
 
 // Delete an invoice
-print_r(perfex_request('DELETE', '/invoices/1'));
+print_r(eadcrm_request('DELETE', '/invoices/1'));

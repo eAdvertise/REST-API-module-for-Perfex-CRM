@@ -1,6 +1,6 @@
 /**
- * Perfex CRM REST API — Webhooks examples (Node.js / fetch)
- * Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+ * eAD-CRM REST API — Webhooks examples (Node.js / fetch)
+ * Module: https://www.eadvertise.eu/
  *
  * Node 18+ has global fetch & FormData. No dependencies required.
  */
@@ -29,7 +29,7 @@ async function createWebhook() {
   // events[] may be repeated once per event you want to subscribe to.
   const form = new FormData();
   form.append("name", "Ops notifier");
-  form.append("url", "https://hooks.example.com/perfex");
+  form.append("url", "https://hooks.example.com/eAD-CRM");
   form.append("events[]", "invoice_created");
   form.append("events[]", "lead_created");
   form.append("secret", "whsec_example_secret");
@@ -44,7 +44,7 @@ async function createWebhook() {
 
 async function updateWebhook(id = 3) {
   const form = new FormData();
-  form.append("url", "https://hooks.example.com/perfex-v2");
+  form.append("url", "https://hooks.example.com/eAD-CRM-v2");
 
   const res = await fetch(`${BASE}/webhooks/${id}`, {
     method: "PUT",

@@ -1,6 +1,6 @@
 # Pagination, Fields, Sorting & Date Filters
 
-Smarter list endpoints for the [REST API for Perfex CRM](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/).
+Smarter list endpoints for the [REST API for eAD-CRM](https://www.eadvertise.eu/).
 
 **v3.0** upgrades every list endpoint with opt-in pagination, column selection, sorting and
 date-range filtering. Everything is **backwards-compatible**: a request *without* any of these
@@ -140,5 +140,5 @@ curl -H "authtoken: YOUR_API_TOKEN" \
 
 ---
 
-📦 **Module:** [REST API for Perfex CRM](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/) ·
-📖 **Docs:** https://perfexcrm.themesic.com/apiguide/
+📦 **Module:** [REST API for eAD-CRM](https://www.eadvertise.eu/) ·
+📖 **Docs:** https://apidoc.eadcrm.eu/

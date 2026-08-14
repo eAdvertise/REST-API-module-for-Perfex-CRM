@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Perfex CRM REST API — v3 list/query features (cURL)
-# Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+# eAD-CRM REST API — v3 list/query features (cURL)
+# Module: https://www.eadvertise.eu/
 #
 # Demonstrates v3 query params on /customers (they apply to all list endpoints).
 # Every response carries rate-limit headers: X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset.

@@ -1,6 +1,6 @@
 """
-Perfex CRM REST API — Notes examples (Python / requests)
-Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+eAD-CRM REST API — Notes examples (Python / requests)
+Module: https://www.eadvertise.eu/
 
 Notes are polymorphic: attach them to any related entity via rel_type + rel_id.
 Common rel_type values: customer, lead, invoice, task, ticket.

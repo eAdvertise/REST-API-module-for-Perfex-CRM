@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="600" viewBox="0 0 1180 600" role="img" aria-labelledby="title desc">
+  <title id="title">eAD-CRM REST API</title><desc id="desc">Connect eAD-CRM with applications, automation platforms and AI agents.</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111827"/><stop offset="1" stop-color="#312e81"/></linearGradient><linearGradient id="accent"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#818cf8"/></linearGradient></defs>
+  <rect width="1180" height="600" rx="28" fill="url(#bg)"/><circle cx="1040" cy="80" r="210" fill="#4f46e5" opacity=".18"/><circle cx="1080" cy="530" r="260" fill="#06b6d4" opacity=".12"/>
+  <text x="64" y="92" fill="#67e8f9" font-family="Arial,sans-serif" font-size="24" font-weight="700" letter-spacing="3">CONNECT. AUTOMATE. BUILD.</text>
+  <text x="64" y="190" fill="white" font-family="Arial,sans-serif" font-size="78" font-weight="800">REST API</text><text x="64" y="258" fill="url(#accent)" font-family="Arial,sans-serif" font-size="58" font-weight="800">for eAD-CRM</text>
+  <text x="67" y="320" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="25">API v3 · OpenAPI · MCP · Webhooks · Batch · Automation</text>
+  <g fill="#e2e8f0" font-family="Arial,sans-serif" font-size="23"><text x="72" y="395">✓ Customers, leads &amp; contacts</text><text x="72" y="438">✓ Invoices, projects &amp; tasks</text><text x="72" y="481">✓ Warehouse &amp; Purchase Management</text><text x="590" y="395">✓ Payments On Account</text><text x="590" y="438">✓ Delivery Notes &amp; Commission</text><text x="590" y="481">✓ MyShopify &amp; Guest Invoices</text></g>
+  <rect x="64" y="526" width="1052" height="2" fill="#334155"/><text x="64" y="568" fill="#94a3b8" font-family="Arial,sans-serif" font-size="20">Developer examples · Postman collection · cURL · PHP · Python · JavaScript</text>
+</svg>

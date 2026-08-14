@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Perfex CRM REST API — Batch operations examples (cURL)
-# Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+# eAD-CRM REST API — Batch operations examples (cURL)
+# Module: https://www.eadvertise.eu/
 #
 # POST /batch runs up to 50 operations in one request (Content-Type: application/json).
 # Set TOKEN and BASE, then run the calls you need.

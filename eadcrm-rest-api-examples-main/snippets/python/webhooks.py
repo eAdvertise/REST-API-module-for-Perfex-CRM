@@ -1,6 +1,6 @@
 """
-Perfex CRM REST API — Webhooks examples (Python / requests)
-Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+eAD-CRM REST API — Webhooks examples (Python / requests)
+Module: https://www.eadvertise.eu/
 
 Install dependency:  pip install requests
 """
@@ -28,7 +28,7 @@ def create_webhook():
     # events[] can be repeated for each event you want to subscribe to.
     payload = {
         "name": "My integration",
-        "url": "https://hooks.example.com/perfex",
+        "url": "https://hooks.example.com/eAD-CRM",
         "events[]": ["invoice_created", "lead_created"],
         "secret": "whsec_your_signing_secret",
     }
@@ -37,7 +37,7 @@ def create_webhook():
 
 
 def update_webhook(webhook_id=3):
-    payload = {"url": "https://hooks.example.com/perfex/v2"}
+    payload = {"url": "https://hooks.example.com/eAD-CRM/v2"}
     r = requests.put(f"{BASE}/webhooks/{webhook_id}", headers=HEADERS, data=payload, timeout=30)
     return r.status_code, r.json()
 

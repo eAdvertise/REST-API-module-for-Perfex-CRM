@@ -1,7 +1,7 @@
 # Automation: Zapier, Make & n8n (Polling)
 
 No-code automation for the
-[REST API for Perfex CRM](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/).
+[REST API for eAD-CRM](https://www.eadvertise.eu/).
 
 **v3.0** adds ready-made **polling triggers** under `/api/zapier/*`, designed for platforms that pull
 for changes on a schedule — **Zapier, Make.com, n8n** and any polling-based tool. Ask "what's new or
@@ -104,5 +104,5 @@ each snippet language.
 
 ---
 
-📦 **Module:** [REST API for Perfex CRM](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/) ·
-📖 **Docs:** https://perfexcrm.themesic.com/apiguide/
+📦 **Module:** [REST API for eAD-CRM](https://www.eadvertise.eu/) ·
+📖 **Docs:** https://apidoc.eadcrm.eu/

@@ -1,7 +1,7 @@
 <?php
 /**
- * Perfex CRM REST API — Automation / polling examples (PHP / cURL)
- * Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+ * eAD-CRM REST API — Automation / polling examples (PHP / cURL)
+ * Module: https://www.eadvertise.eu/
  *
  * Ready-made polling triggers for Zapier, Make.com, n8n and any polling tool.
  *
@@ -12,7 +12,7 @@ const BASE  = 'https://yourdomain.com/api';
 const TOKEN = 'YOUR_API_TOKEN';
 
 /** Minimal request helper. */
-function perfex_request(string $method, string $path, array $form = []): array
+function eadcrm_request(string $method, string $path, array $form = []): array
 {
     $ch = curl_init(BASE . $path);
     curl_setopt_array($ch, [
@@ -31,11 +31,11 @@ function perfex_request(string $method, string $path, array $form = []): array
 }
 
 // Discover which resources can be polled
-print_r(perfex_request('GET', '/zapier/resources'));
+print_r(eadcrm_request('GET', '/zapier/resources'));
 
 // Poll a resource for records created/updated since a Unix timestamp.
 // Available resources: customers, invoices, leads, tasks, tickets.
-print_r(perfex_request('GET', '/zapier/poll/customers?since=1705312200&limit=50'));
+print_r(eadcrm_request('GET', '/zapier/poll/customers?since=1705312200&limit=50'));
 
 // Test hook — returns a small sample payload for building a Zap/scenario
-print_r(perfex_request('GET', '/zapier/test/customers'));
+print_r(eadcrm_request('GET', '/zapier/test/customers'));

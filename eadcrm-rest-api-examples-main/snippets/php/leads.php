@@ -1,7 +1,7 @@
 <?php
 /**
- * Perfex CRM REST API — Leads examples (PHP / cURL)
- * Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+ * eAD-CRM REST API — Leads examples (PHP / cURL)
+ * Module: https://www.eadvertise.eu/
  *
  * No external dependencies — uses the built-in cURL extension.
  */
@@ -10,7 +10,7 @@ const BASE  = 'https://yourdomain.com/api';
 const TOKEN = 'YOUR_API_TOKEN';
 
 /** Minimal request helper. */
-function perfex_request(string $method, string $path, array $form = []): array
+function eadcrm_request(string $method, string $path, array $form = []): array
 {
     $ch = curl_init(BASE . $path);
     curl_setopt_array($ch, [
@@ -29,13 +29,13 @@ function perfex_request(string $method, string $path, array $form = []): array
 }
 
 // List all leads
-print_r(perfex_request('GET', '/leads'));
+print_r(eadcrm_request('GET', '/leads'));
 
 // Get a single lead
-print_r(perfex_request('GET', '/leads/1'));
+print_r(eadcrm_request('GET', '/leads/1'));
 
 // Create a lead
-print_r(perfex_request('POST', '/leads', [
+print_r(eadcrm_request('POST', '/leads', [
     'name'        => 'Jane Doe',
     'email'       => 'jane@example.com',
     'source'      => 1,
@@ -47,9 +47,9 @@ print_r(perfex_request('POST', '/leads', [
 ]));
 
 // Update a lead (unknown fields are ignored)
-print_r(perfex_request('PUT', '/leads/1', [
+print_r(eadcrm_request('PUT', '/leads/1', [
     'status' => 2,
 ]));
 
 // Delete a lead
-print_r(perfex_request('DELETE', '/leads/1'));
+print_r(eadcrm_request('DELETE', '/leads/1'));
