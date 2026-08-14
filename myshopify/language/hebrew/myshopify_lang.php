@@ -88,9 +88,9 @@ $lang["myshopify"] = "MyShopify";
 $lang["myshopify_verify"] = "MyShopify Verify";
 $lang['settings_my_shopify_webhook_secret'] = 'Shopify Webhook סיגנינג סוד';
 $lang['settings_my_shopify_webhook_url'] = 'Webhook URL';
-$lang['settings_my_shopify_location_id'] = 'Shopify ינבנטורי לוקאטיונ ID';
+$lang['settings_my_shopify_location_id'] = 'Shopify מלאי לוקאטיונ ID';
 $lang['settings_my_shopify_warehouse_id'] = 'פרפקס מחסן ID';
-$lang['settings_my_shopify_sync_enabled'] = 'נאבל אוטומאטיק טוו-ואי סינקהרוניזאטיונ';
-$lang['settings_my_shopify_api_version'] = 'Shopify אדמינ API ברסיונ';
+$lang['settings_my_shopify_sync_enabled'] = 'הפעלה אוטומאטיק טוו-ואי סינקהרוניזאטיונ';
+$lang['settings_my_shopify_api_version'] = 'Shopify מנהל API ברסיונ';
 
 
