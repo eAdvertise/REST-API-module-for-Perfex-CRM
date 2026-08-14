@@ -1,7 +1,7 @@
 <?php
 /**
- * Perfex CRM REST API — Smarter list endpoints (PHP / cURL)
- * Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+ * eAD-CRM REST API — Smarter list endpoints (PHP / cURL)
+ * Module: https://www.eadvertise.eu/
  *
  * Every list endpoint accepts optional query parameters. Add them and you get a
  * { data, meta } envelope; omit them and you get the exact legacy array.
@@ -18,7 +18,7 @@ const TOKEN = 'YOUR_API_TOKEN';
  *
  * @param array $headers Extra request headers (e.g. an Idempotency-Key).
  */
-function perfex_request(string $method, string $path, array $form = [], array $headers = []): array
+function eadcrm_request(string $method, string $path, array $form = [], array $headers = []): array
 {
     $ch = curl_init(BASE . $path);
     curl_setopt_array($ch, [
@@ -39,25 +39,25 @@ function perfex_request(string $method, string $path, array $form = [], array $h
 }
 
 // Pagination — page 2, 20 per page (returns a { data, meta } envelope)
-print_r(perfex_request('GET', '/customers?page=2&per_page=20'));
+print_r(eadcrm_request('GET', '/customers?page=2&per_page=20'));
 
 // Field selection — return only id + company
-print_r(perfex_request('GET', '/customers?fields=id,company'));
+print_r(eadcrm_request('GET', '/customers?fields=id,company'));
 
 // Sorting — newest first, then company A->Z ( - = descending)
-print_r(perfex_request('GET', '/customers?sort=-datecreated,company'));
+print_r(eadcrm_request('GET', '/customers?sort=-datecreated,company'));
 
 // Date-range filter — created within 2026
-print_r(perfex_request('GET', '/customers?created_after=2026-01-01&created_before=2026-12-31'));
+print_r(eadcrm_request('GET', '/customers?created_after=2026-01-01&created_before=2026-12-31'));
 
 // Everything combined in one request
-print_r(perfex_request(
+print_r(eadcrm_request(
     'GET',
     '/customers?page=2&per_page=20&fields=id,company&sort=-datecreated,company&created_after=2026-01-01&created_before=2026-12-31'
 ));
 
 // Safe writes — send an Idempotency-Key so a retried create is not duplicated
-print_r(perfex_request('POST', '/customers', [
+print_r(eadcrm_request('POST', '/customers', [
     'company' => 'Acme LTD',
     'city'    => 'London',
     'country' => 235,

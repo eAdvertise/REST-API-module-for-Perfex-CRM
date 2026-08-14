@@ -1,33 +1,33 @@
 <p>
-  <a href="https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/">
-    <img src="assets/perfex-crm-rest-api.jpg" alt="REST API for Perfex CRM — connect Perfex CRM with AI agents, Zapier, WooCommerce, n8n and third-party apps">
+  <a href="https://www.eadvertise.eu/">
+    <img src="assets/eadcrm-rest-api-banner.svg" alt="REST API for eAD-CRM — connect eAD-CRM with AI agents, Zapier, WooCommerce, n8n and third-party apps">
   </a>
 </p>
 
-# Perfex CRM REST API — أمثلة ومجموعة Postman ومقتطفات برمجية
+# eAD-CRM REST API — أمثلة ومجموعة Postman ومقتطفات برمجية
 
-[English](README.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md) · [Português (BR)](README.pt-BR.md) · [Italiano](README.it.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Türkçe](README.tr.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · 🌐 **العربية**
+[English](README.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md) · [Português (BR)](README.pt-BR.md) · [Italiano](README.it.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Türkçe](README.tr.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · 🌐 **العربية**
 
 > **مجموعة Postman** جاهزة للاستخدام، و**مقتطفات برمجية** (cURL وPHP وPython وJavaScript)، و**دليل موارد**
-> لأجل [وحدة REST API لنظام Perfex CRM](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/) —
-> أسرع طريقة **لربط Perfex CRM بوكلاء الذكاء الاصطناعي والتطبيقات الخارجية**.
+> لأجل [وحدة REST API لنظام eAD-CRM](https://www.eadvertise.eu/) —
+> أسرع طريقة **لربط eAD-CRM بوكلاء الذكاء الاصطناعي والتطبيقات الخارجية**.
 
-[![Postman](https://img.shields.io/badge/Postman-Collection-orange?logo=postman&logoColor=white)](postman/perfex-rest-api.postman_collection.json)
-[![OpenAPI 3.0](https://img.shields.io/badge/OpenAPI-3.0-6ba539?logo=openapiinitiative&logoColor=white)](https://perfexcrm.themesic.com/apiguide/)
+[![Postman](https://img.shields.io/badge/Postman-Collection-orange?logo=postman&logoColor=white)](postman/eadcrm-rest-api.postman_collection.json)
+[![OpenAPI 3.0](https://img.shields.io/badge/OpenAPI-3.0-6ba539?logo=openapiinitiative&logoColor=white)](https://apidoc.eadcrm.eu/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Perfex CRM](https://img.shields.io/badge/Perfex%20CRM-REST%20API-2c7be5)](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/)
+[![eAD-CRM](https://img.shields.io/badge/eAD-CRM-REST%20API-2c7be5)](https://www.eadvertise.eu/)
 
-يتيح لك **Perfex CRM REST API** قراءة وكتابة العملاء والعملاء المحتملين والفواتير وعروض الأسعار والمشاريع
+يتيح لك **eAD-CRM REST API** قراءة وكتابة العملاء والعملاء المحتملين والفواتير وعروض الأسعار والمشاريع
 والمهام وغيرها عبر واجهة HTTP/JSON نظيفة — وهو مثالي **لتكامل الـ CRM** والأتمتة والتطبيقات المخصصة.
 تضيف **الإصدار v3.0** خادم **MCP لوكلاء الذكاء الاصطناعي**، و**webhooks** بمستوى إنتاجي، وعمليات **استطلاع (polling)**
 جاهزة لأجل **Zapier / Make / n8n**، وعمليات **الدفعات (batch)**، ونقاط نهاية قوائم أكثر ذكاءً. هذا المستودع هو الرفيق العملي
 لوحدة
-**[REST API for Perfex CRM](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/)**
-من **Themesic Interactive**: أمثلة جاهزة للنسخ واللصق، ومجموعة Postman قابلة للاستيراد، ودليل موارد كامل
+**[REST API for eAD-CRM](https://www.eadvertise.eu/)**
+من **eAdvertise**: أمثلة جاهزة للنسخ واللصق، ومجموعة Postman قابلة للاستيراد، ودليل موارد كامل
 لنقاط النهاية.
 
-- 🧩 **احصل على الوحدة:** https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
-- 📖 **دليل الـ API / التوثيق المباشر:** https://perfexcrm.themesic.com/apiguide/
+- 🧩 **احصل على الوحدة:** https://www.eadvertise.eu/
+- 📖 **دليل الـ API / التوثيق المباشر:** https://apidoc.eadcrm.eu/
 - 🧾 **مواصفات OpenAPI 3.0:** `GET https://yourdomain.com/api/openapi`
 
 ---
@@ -69,9 +69,9 @@
 
 ## البدء السريع
 
-كل طلب إلى Perfex CRM REST API يُصادَق عليه باستخدام ترويسة **`Authtoken`**. أنشئ رمزاً (token)
-في لوحة إدارة Perfex ضمن **API → API Management** (بعد تفعيل
-[وحدة REST API](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/))،
+كل طلب إلى eAD-CRM REST API يُصادَق عليه باستخدام ترويسة **`Authtoken`**. أنشئ رمزاً (token)
+في لوحة إدارة eAD-CRM ضمن **API → API Management** (بعد تفعيل
+[وحدة REST API](https://www.eadvertise.eu/))،
 ثم استدعِ الـ API على `https://yourdomain.com/api/...`:
 
 ```bash
@@ -83,8 +83,8 @@ curl -H "authtoken: YOUR_API_TOKEN" https://yourdomain.com/api/customers
 
 ### استخدام مجموعة Postman
 
-1. افتح Postman ← **Import** ← أفلِت الملف [`postman/perfex-rest-api.postman_collection.json`](postman/perfex-rest-api.postman_collection.json).
-2. استورد البيئة [`postman/perfex-rest-api.postman_environment.json`](postman/perfex-rest-api.postman_environment.json).
+1. افتح Postman ← **Import** ← أفلِت الملف [`postman/eadcrm-rest-api.postman_collection.json`](postman/eadcrm-rest-api.postman_collection.json).
+2. استورد البيئة [`postman/eadcrm-rest-api.postman_environment.json`](postman/eadcrm-rest-api.postman_environment.json).
 3. اضبط `base_url` على `https://yourdomain.com/api` و`authtoken` على الرمز الخاص بك.
 4. اختر أي طلب واضغط **Send**.
 
@@ -137,7 +137,7 @@ curl -H "authtoken: YOUR_API_TOKEN" https://yourdomain.com/api/customers
 | **قاعدة المعرفة** | `/api/knowledge_base` | list، get، create، update، delete؛ `/groups` |
 | **الملاحظات** | `/api/notes` | القائمة حسب `:rel_type/:rel_id`، get، create، update، delete |
 
-> حقول الطلب الدقيقة لكل مورد موثّقة في **[دليل الـ API](https://perfexcrm.themesic.com/apiguide/)**
+> حقول الطلب الدقيقة لكل مورد موثّقة في **[دليل الـ API](https://apidoc.eadcrm.eu/)**
 > الرسمي. تغطّي المقتطفات هنا أكثر التدفقات شيوعاً.
 
 ---
@@ -167,17 +167,17 @@ curl -H "authtoken: YOUR_API_TOKEN" \
 
 ## التكاملات الشائعة وحالات الاستخدام
 
-يُستخدم Perfex CRM REST API عادةً **لربط Perfex CRM بوكلاء الذكاء الاصطناعي والتطبيقات الخارجية**:
+يُستخدم eAD-CRM REST API عادةً **لربط eAD-CRM بوكلاء الذكاء الاصطناعي والتطبيقات الخارجية**:
 
 - **مساعدو الذكاء الاصطناعي (MCP)** — دع Claude أو ChatGPT أو Cursor يقرأ ويحدّث الـ CRM الخاص بك عبر `/api/mcp`.
 - **Zapier / Make / n8n** — أتمتة بدون كود عبر محفّزات استطلاع جاهزة (`/api/zapier/*`).
-- **Webhooks** — ادفع أحداث Perfex (فاتورة جديدة، عميل محتمل جديد، 124 حدثاً) إلى Slack أو Discord أو الخادم الخلفي الخاص بك، موقّعة بـ HMAC.
+- **Webhooks** — ادفع أحداث eAD-CRM (فاتورة جديدة، عميل محتمل جديد، 124 حدثاً) إلى Slack أو Discord أو الخادم الخلفي الخاص بك، موقّعة بـ HMAC.
 - **Google Sheets / Power Automate** — زامِن العملاء أو الفواتير أو المدفوعات مع جداول البيانات ولوحات المعلومات.
-- **التطبيقات والبوابات المخصّصة** — ابنِ تطبيقاً للهاتف المحمول أو بوابة عملاء فوق بيانات Perfex الخاصة بك.
+- **التطبيقات والبوابات المخصّصة** — ابنِ تطبيقاً للهاتف المحمول أو بوابة عملاء فوق بيانات eAD-CRM الخاصة بك.
 - **المحاسبة والتجارة الإلكترونية** — زامِن الفواتير والعناصر مع منصات الفوترة أو المتاجر الخارجية.
 
 كل هذه المزايا مدعومة بوحدة
-[REST API for Perfex CRM](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/).
+[REST API for eAD-CRM](https://www.eadvertise.eu/).
 
 ---
 
@@ -195,31 +195,31 @@ curl -H "authtoken: YOUR_API_TOKEN" \
 
 ## الأسئلة الشائعة
 
-**هل يمتلك Perfex CRM واجهة REST API؟**
-نعم. تضيف وحدة [REST API for Perfex CRM](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/)
+**هل يمتلك eAD-CRM واجهة REST API؟**
+نعم. تضيف وحدة [REST API for eAD-CRM](https://www.eadvertise.eu/)
 واجهة HTTP/JSON كاملة بأسلوب RESTful للعملاء والعملاء المحتملين والفواتير وعروض الأسعار والمشاريع والمهام وغيرها،
 بالإضافة إلى **خادم MCP** و**webhooks** و**batch** ونقاط نهاية **الأتمتة** في الإصدار v3.
 
-**هل يمكنني استخدام Perfex CRM مع وكلاء الذكاء الاصطناعي / ChatGPT / Claude؟**
+**هل يمكنني استخدام eAD-CRM مع وكلاء الذكاء الاصطناعي / ChatGPT / Claude؟**
 نعم — يوفّر الإصدار v3 **خادم MCP** على `POST /api/mcp` يعرض أدوات CRM مُرشَّحة حسب الصلاحيات لأي
 عميل Model Context Protocol. راجع [`docs/mcp.md`](docs/mcp.md).
 
-**كيف أصادِق مع Perfex CRM API؟**
+**كيف أصادِق مع eAD-CRM API؟**
 أرسل الرمز (token) الخاص بك في ترويسة `Authtoken` عبر HTTP (أو كمعامل استعلام `?authtoken=`). راجع
 [`docs/authentication.md`](docs/authentication.md).
 
-**ما هو عنوان URL الأساسي لأجل Perfex CRM API؟**
+**ما هو عنوان URL الأساسي لأجل eAD-CRM API؟**
 `https://yourdomain.com/api` — على سبيل المثال `https://yourdomain.com/api/customers`.
 
-**هل يمكنني ربط Perfex CRM بـ Zapier أو Make أو n8n؟**
+**هل يمكنني ربط eAD-CRM بـ Zapier أو Make أو n8n؟**
 نعم — يحتوي الإصدار v3 على محفّزات استطلاع جاهزة ضمن `/api/zapier/*`، بالإضافة إلى webhooks. راجع
 [التكاملات الشائعة](#popular-integrations--use-cases) و[`docs/automation.md`](docs/automation.md).
 
-**هل توجد مجموعة Postman لأجل Perfex CRM؟**
-نعم — استورد [`postman/perfex-rest-api.postman_collection.json`](postman/perfex-rest-api.postman_collection.json)
+**هل توجد مجموعة Postman لأجل eAD-CRM؟**
+نعم — استورد [`postman/eadcrm-rest-api.postman_collection.json`](postman/eadcrm-rest-api.postman_collection.json)
 والبيئة المُرفقة، واضبط `base_url` و`authtoken` الخاصين بك، وابدأ بإرسال الطلبات.
 
-**كيف أنشئ فاتورة عبر Perfex CRM API؟**
+**كيف أنشئ فاتورة عبر eAD-CRM API؟**
 `POST https://yourdomain.com/api/invoices` مع حقول الفاتورة ومصفوفة `items[]` — يحسب الإصدار v3 تلقائياً
 `subtotal`/`total`. راجع [`snippets/curl/invoices.sh`](snippets/curl/invoices.sh).
 
@@ -227,20 +227,20 @@ curl -H "authtoken: YOUR_API_TOKEN" \
 
 ## حول / الدعم
 
-<img src="assets/perfex-crm-rest-api-icon.png" width="64" alt="Perfex CRM REST API icon">
+<img src="assets/eadcrm-rest-api-icon.svg" width="64" alt="eAD-CRM REST API icon">
 
 هذا المستودع هو **رفيق أمثلة** للوحدة التجارية:
 
-> **[REST API for Perfex CRM — connect your Perfex CRM with third-party applications](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/)**
-> من [Themesic Interactive](https://themesic.com).
+> **[REST API for eAD-CRM — connect your eAD-CRM with third-party applications](https://www.eadvertise.eu/)**
+> من [eAdvertise](https://www.eadvertise.eu/).
 
-- 🛒 **الشراء / معرفة المزيد:** https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
-- 📖 **التوثيق:** https://perfexcrm.themesic.com/apiguide/
-- 💬 **الدعم:** https://themesic.com/support
+- 🛒 **الشراء / معرفة المزيد:** https://www.eadvertise.eu/
+- 📖 **التوثيق:** https://apidoc.eadcrm.eu/
+- 💬 **الدعم:** https://www.eadvertise.eu/
 
 المساهمات بأمثلة إضافية مُرحَّب بها — راجع [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## الترخيص
 
-الشيفرة البرمجية النموذجية في هذا المستودع منشورة بموجب [ترخيص MIT](LICENSE). "Perfex" علامة تجارية مملوكة
-لمالكها المعني؛ ووحدة REST API منتج تجاري من Themesic Interactive.
+الشيفرة البرمجية النموذجية في هذا المستودع منشورة بموجب [ترخيص MIT](LICENSE). "eAD-CRM" علامة تجارية مملوكة
+لمالكها المعني؛ ووحدة REST API منتج تجاري من eAdvertise.

@@ -1,6 +1,6 @@
 """
-Perfex CRM REST API — Invoices examples (Python / requests)
-Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+eAD-CRM REST API — Invoices examples (Python / requests)
+Module: https://www.eadvertise.eu/
 
 Install dependency:  pip install requests
 """

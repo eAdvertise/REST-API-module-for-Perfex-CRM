@@ -1,11 +1,11 @@
 # Authentication, Errors & Pagination
 
-Reference for using the [REST API for Perfex CRM](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/).
+Reference for using the [REST API for eAD-CRM](https://www.eadvertise.eu/).
 
 ## 1. Get an API token
 
-After activating the [REST API module](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/)
-in your Perfex CRM admin, go to **API → API Management** and create a token. Assign the
+After activating the [REST API module](https://www.eadvertise.eu/)
+in your eAD-CRM admin, go to **API → API Management** and create a token. Assign the
 per‑resource permissions (read / create / update / delete) that the token should be allowed to use.
 
 > Keep tokens secret. Treat them like passwords — never commit them to a public repo or share them in URLs you don't control.
@@ -80,9 +80,9 @@ curl -H "authtoken: YOUR_API_TOKEN" "https://yourdomain.com/api/customers/search
 ```
 
 The exact parameters available per resource are listed in the official
-**[API guide](https://perfexcrm.themesic.com/apiguide/)**.
+**[API guide](https://apidoc.eadcrm.eu/)**.
 
 ---
 
-📦 **Module:** [REST API for Perfex CRM](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/) ·
-📖 **Docs:** https://perfexcrm.themesic.com/apiguide/
+📦 **Module:** [REST API for eAD-CRM](https://www.eadvertise.eu/) ·
+📖 **Docs:** https://apidoc.eadcrm.eu/

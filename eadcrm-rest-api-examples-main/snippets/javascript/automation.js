@@ -1,6 +1,6 @@
 /**
- * Perfex CRM REST API — Automation / polling examples (Node.js / fetch)
- * Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+ * eAD-CRM REST API — Automation / polling examples (Node.js / fetch)
+ * Module: https://www.eadvertise.eu/
  *
  * Ready-made polling endpoints for Zapier, Make.com and n8n.
  * Node 18+ has global fetch. No dependencies required.

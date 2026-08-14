@@ -1,7 +1,7 @@
 <?php
 /**
- * Perfex CRM REST API — Batch examples (PHP / cURL)
- * Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+ * eAD-CRM REST API — Batch examples (PHP / cURL)
+ * Module: https://www.eadvertise.eu/
  *
  * Batch runs up to 50 operations in one request using the same tool names
  * as MCP. It POSTs a JSON body (Content-Type: application/json).
@@ -13,7 +13,7 @@ const BASE  = 'https://yourdomain.com/api';
 const TOKEN = 'YOUR_API_TOKEN';
 
 /** JSON request helper (sends a JSON body). */
-function perfex_request_json(string $method, string $path, array $payload = []): array
+function eadcrm_request_json(string $method, string $path, array $payload = []): array
 {
     $ch = curl_init(BASE . $path);
     curl_setopt_array($ch, [
@@ -33,7 +33,7 @@ function perfex_request_json(string $method, string $path, array $payload = []):
 }
 
 // Run several operations in a single round-trip
-print_r(perfex_request_json('POST', '/batch', [
+print_r(eadcrm_request_json('POST', '/batch', [
     'operations' => [
         ['tool' => 'customers_create', 'args' => ['company' => 'Acme LTD']],
         ['tool' => 'invoices_get',     'args' => ['id' => 1]],

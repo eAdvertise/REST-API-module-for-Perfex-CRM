@@ -1,6 +1,6 @@
 # OpenAPI 3.0 specification
 
-The REST API module describes its **entire surface - 74 paths, 144 operations -**
+The REST API module describes its **entire surface - 256 paths, 510 operations -**
 as a machine-readable OpenAPI 3.0 document, generated live by the module itself
 so it always matches the installed version.
 
@@ -8,8 +8,8 @@ so it always matches the installed version.
 
 ```bash
 curl -H "authtoken: YOUR_API_TOKEN" \
-  https://your-perfex-url/api/openapi \
-  -o perfex-rest-api.openapi.json
+  https://yourdomain.com/api/openapi \
+  -o eadcrm-rest-api.openapi.json
 ```
 
 The document reports the module version it was generated from, so you can tell
@@ -28,7 +28,7 @@ at a glance whether a spec file is current.
 
 ## Reference copy
 
-[`perfex-rest-api.openapi.json`](perfex-rest-api.openapi.json) in this folder
+[`eadcrm-rest-api.openapi.json`](eadcrm-rest-api.openapi.json) in this folder
 was exported from module **v3.0.3** with the command above. The `servers` URL
 is a placeholder - point it at your own installation. Always prefer
 regenerating from your own install after updating the module, so the spec

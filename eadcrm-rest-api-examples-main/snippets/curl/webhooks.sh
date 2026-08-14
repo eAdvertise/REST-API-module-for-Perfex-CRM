@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Perfex CRM REST API — Webhooks examples (cURL)
-# Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+# eAD-CRM REST API — Webhooks examples (cURL)
+# Module: https://www.eadvertise.eu/
 #
 # Set TOKEN and BASE, then run the calls you need.
 set -euo pipefail
@@ -18,7 +18,7 @@ curl -sS -H "authtoken: ${TOKEN}" "${BASE}/webhooks/3"
 curl -sS -X POST "${BASE}/webhooks" \
   -H "authtoken: ${TOKEN}" \
   -F "name=Order sync" \
-  -F "url=https://hooks.example.com/perfex" \
+  -F "url=https://hooks.example.com/eAD-CRM" \
   -F 'events[]=invoice_created' \
   -F 'events[]=lead_created' \
   -F "secret=whsec_xxx"

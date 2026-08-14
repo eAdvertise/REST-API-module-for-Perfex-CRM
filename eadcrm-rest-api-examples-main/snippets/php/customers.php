@@ -1,7 +1,7 @@
 <?php
 /**
- * Perfex CRM REST API — Customers examples (PHP / cURL)
- * Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+ * eAD-CRM REST API — Customers examples (PHP / cURL)
+ * Module: https://www.eadvertise.eu/
  *
  * No external dependencies — uses the built-in cURL extension.
  */
@@ -10,7 +10,7 @@ const BASE  = 'https://yourdomain.com/api';
 const TOKEN = 'YOUR_API_TOKEN';
 
 /** Minimal request helper. */
-function perfex_request(string $method, string $path, array $form = []): array
+function eadcrm_request(string $method, string $path, array $form = []): array
 {
     $ch = curl_init(BASE . $path);
     curl_setopt_array($ch, [
@@ -29,10 +29,10 @@ function perfex_request(string $method, string $path, array $form = []): array
 }
 
 // List all customers
-print_r(perfex_request('GET', '/customers'));
+print_r(eadcrm_request('GET', '/customers'));
 
 // Create a customer
-print_r(perfex_request('POST', '/customers', [
+print_r(eadcrm_request('POST', '/customers', [
     'company'     => 'Acme LTD',
     'vat'         => '123456789',
     'phonenumber' => '+44 210 7298299',

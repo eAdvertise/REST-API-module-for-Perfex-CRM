@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Perfex CRM REST API — MCP (JSON-RPC 2.0) examples (cURL)
-# Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+# eAD-CRM REST API — MCP (JSON-RPC 2.0) examples (cURL)
+# Module: https://www.eadvertise.eu/
 #
 # The MCP endpoint speaks JSON-RPC 2.0 over POST /mcp (Content-Type: application/json).
 # Set TOKEN and BASE, then run the calls you need.
