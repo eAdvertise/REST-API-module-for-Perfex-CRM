@@ -1,6 +1,6 @@
 """
-Perfex CRM REST API — Automation / polling examples (Python / requests)
-Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+eAD-CRM REST API — Automation / polling examples (Python / requests)
+Module: https://www.eadvertise.eu/
 
 Ready-made polling triggers for Zapier, Make.com and n8n under /zapier.
 Pollable resources: customers, invoices, leads, tasks, tickets.

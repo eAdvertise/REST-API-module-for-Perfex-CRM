@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Perfex CRM REST API — Notes (polymorphic) examples (cURL)
-# Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+# eAD-CRM REST API — Notes (polymorphic) examples (cURL)
+# Module: https://www.eadvertise.eu/
 #
 # Notes attach to any entity via rel_type (customer, lead, invoice, task, ticket).
 # Set TOKEN and BASE, then run the calls you need.

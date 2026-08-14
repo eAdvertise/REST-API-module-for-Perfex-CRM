@@ -116,6 +116,8 @@ class Playground extends AdminController
     {
         // Load comprehensive samples from config file
         $samples = include(dirname(__DIR__) . '/config/api_samples.php');
+        $moduleSamples = include(dirname(__DIR__) . '/config/playground_module_samples.php');
+        $samples = array_merge($samples, $moduleSamples);
         
         $this->output
             ->set_content_type('application/json')
@@ -506,6 +508,12 @@ class Playground extends AdminController
                 ]
             ]
         ];
+
+        // Optional-module endpoints live in one declarative catalog shared by
+        // the playground UI. This keeps the interactive tester aligned with
+        // the explicit API v3 routes without making this controller larger.
+        $moduleEndpoints = include(dirname(__DIR__) . '/config/playground_module_endpoints.php');
+        $endpoints = array_merge($endpoints, $moduleEndpoints);
         
         $this->output
             ->set_content_type('application/json')

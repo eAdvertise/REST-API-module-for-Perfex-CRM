@@ -1,6 +1,6 @@
 """
-Perfex CRM REST API — Batch examples (Python / requests)
-Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+eAD-CRM REST API — Batch examples (Python / requests)
+Module: https://www.eadvertise.eu/
 
 Run up to 50 operations in a single request. The batch endpoint accepts
 `json=` (application/json) and reuses the same tool names as the MCP server.

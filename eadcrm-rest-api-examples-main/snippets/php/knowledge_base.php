@@ -1,7 +1,7 @@
 <?php
 /**
- * Perfex CRM REST API — Knowledge Base examples (PHP / cURL)
- * Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+ * eAD-CRM REST API — Knowledge Base examples (PHP / cURL)
+ * Module: https://www.eadvertise.eu/
  *
  * No external dependencies — uses the built-in cURL extension.
  */
@@ -10,7 +10,7 @@ const BASE  = 'https://yourdomain.com/api';
 const TOKEN = 'YOUR_API_TOKEN';
 
 /** Minimal request helper. */
-function perfex_request(string $method, string $path, array $form = []): array
+function eadcrm_request(string $method, string $path, array $form = []): array
 {
     $ch = curl_init(BASE . $path);
     curl_setopt_array($ch, [
@@ -29,16 +29,16 @@ function perfex_request(string $method, string $path, array $form = []): array
 }
 
 // List all articles
-print_r(perfex_request('GET', '/knowledge_base'));
+print_r(eadcrm_request('GET', '/knowledge_base'));
 
 // List articles in a single group
-print_r(perfex_request('GET', '/knowledge_base?group_id=1'));
+print_r(eadcrm_request('GET', '/knowledge_base?group_id=1'));
 
 // Get a single article
-print_r(perfex_request('GET', '/knowledge_base/12'));
+print_r(eadcrm_request('GET', '/knowledge_base/12'));
 
 // Create an article
-print_r(perfex_request('POST', '/knowledge_base', [
+print_r(eadcrm_request('POST', '/knowledge_base', [
     'subject'      => 'How to reset your password',
     'description'  => '<p>Open Settings &gt; Security and click Reset.</p>',
     'articlegroup' => 1,
@@ -46,17 +46,17 @@ print_r(perfex_request('POST', '/knowledge_base', [
 ]));
 
 // Update an article (unknown fields are ignored)
-print_r(perfex_request('PUT', '/knowledge_base/12', [
+print_r(eadcrm_request('PUT', '/knowledge_base/12', [
     'active' => 0,
 ]));
 
 // Delete an article
-print_r(perfex_request('DELETE', '/knowledge_base/12'));
+print_r(eadcrm_request('DELETE', '/knowledge_base/12'));
 
 // List article groups
-print_r(perfex_request('GET', '/knowledge_base/groups'));
+print_r(eadcrm_request('GET', '/knowledge_base/groups'));
 
 // Create an article group
-print_r(perfex_request('POST', '/knowledge_base/groups', [
+print_r(eadcrm_request('POST', '/knowledge_base/groups', [
     'name' => 'Billing',
 ]));

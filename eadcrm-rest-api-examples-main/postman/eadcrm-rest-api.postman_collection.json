@@ -40602,7 +40602,7 @@
                   "key": "secret",
                   "value": "<string>",
                   "type": "text",
-                  "description": "HMAC secret. Deliveries then carry X-Perfex-Signature: t=<unix>,v1=<hmac_sha256>."
+                  "description": "HMAC secret. Deliveries then carry X-eAD-CRM-Signature: t=<unix>,v1=<hmac_sha256>."
                 },
                 {
                   "key": "timeout",
@@ -40678,7 +40678,7 @@
                     },
                     {
                       "description": {
-                        "content": "HMAC secret. Deliveries then carry X-Perfex-Signature: t=<unix>,v1=<hmac_sha256>.",
+                        "content": "HMAC secret. Deliveries then carry X-eAD-CRM-Signature: t=<unix>,v1=<hmac_sha256>.",
                         "type": "text/plain"
                       },
                       "key": "secret",
@@ -40779,7 +40779,7 @@
                     },
                     {
                       "description": {
-                        "content": "HMAC secret. Deliveries then carry X-Perfex-Signature: t=<unix>,v1=<hmac_sha256>.",
+                        "content": "HMAC secret. Deliveries then carry X-eAD-CRM-Signature: t=<unix>,v1=<hmac_sha256>.",
                         "type": "text/plain"
                       },
                       "key": "secret",
@@ -40880,7 +40880,7 @@
                     },
                     {
                       "description": {
-                        "content": "HMAC secret. Deliveries then carry X-Perfex-Signature: t=<unix>,v1=<hmac_sha256>.",
+                        "content": "HMAC secret. Deliveries then carry X-eAD-CRM-Signature: t=<unix>,v1=<hmac_sha256>.",
                         "type": "text/plain"
                       },
                       "key": "secret",
@@ -46024,6 +46024,632 @@
         }
       ],
       "event": []
+    },
+    {
+      "name": "Warehouse",
+      "description": "eAD-CRM API v3 Warehouse module examples",
+      "item": [
+        {
+          "name": "List inventory",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "authtoken",
+                "value": "{{authtoken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/warehouse/inventory?page=1&per_page=25",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "warehouse",
+                "inventory?page=1&per_page=25"
+              ]
+            },
+            "description": "List inventory"
+          },
+          "response": []
+        },
+        {
+          "name": "Create goods receipt",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "authtoken",
+                "value": "{{authtoken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/warehouse/receipts",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "warehouse",
+                "receipts"
+              ]
+            },
+            "description": "Create goods receipt",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"warehouse_id\": 1,\n  \"supplier_code\": \"SUP-1\",\n  \"newitems\": [\n    {\n      \"commodity_code\": 10,\n      \"quantities\": 5\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payments On Account",
+      "description": "eAD-CRM API v3 Payments On Account module examples",
+      "item": [
+        {
+          "name": "List receipts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "authtoken",
+                "value": "{{authtoken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/paymentsonaccount/receipts",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "paymentsonaccount",
+                "receipts"
+              ]
+            },
+            "description": "List receipts"
+          },
+          "response": []
+        },
+        {
+          "name": "Create receipt",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "authtoken",
+                "value": "{{authtoken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/paymentsonaccount/receipts",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "paymentsonaccount",
+                "receipts"
+              ]
+            },
+            "description": "Create receipt",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"client_id\": 12,\n  \"amount\": 150,\n  \"payment_mode\": \"1\",\n  \"invoice_ids\": [\n    35\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Delivery Notes",
+      "description": "eAD-CRM API v3 Delivery Notes module examples",
+      "item": [
+        {
+          "name": "List delivery notes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "authtoken",
+                "value": "{{authtoken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/delivery_notes/notes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "delivery_notes",
+                "notes"
+              ]
+            },
+            "description": "List delivery notes"
+          },
+          "response": []
+        },
+        {
+          "name": "Create delivery note",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "authtoken",
+                "value": "{{authtoken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/delivery_notes/notes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "delivery_notes",
+                "notes"
+              ]
+            },
+            "description": "Create delivery note",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientid\": 12,\n  \"currency\": 1,\n  \"date\": \"2026-08-14\",\n  \"newitems\": [\n    {\n      \"description\": \"Delivered item\",\n      \"qty\": 2,\n      \"rate\": 25\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change delivery status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "authtoken",
+                "value": "{{authtoken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/delivery_notes/notes/42/status",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "delivery_notes",
+                "notes",
+                "42",
+                "status"
+              ]
+            },
+            "description": "Change delivery status",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": 4\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Sales Commission",
+      "description": "eAD-CRM API v3 Sales Commission module examples",
+      "item": [
+        {
+          "name": "List calculated commissions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "authtoken",
+                "value": "{{authtoken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/commission/commissions?page=1&per_page=25",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "commission",
+                "commissions?page=1&per_page=25"
+              ]
+            },
+            "description": "List calculated commissions"
+          },
+          "response": []
+        },
+        {
+          "name": "Recalculate invoices",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "authtoken",
+                "value": "{{authtoken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/commission/recalculate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "commission",
+                "recalculate"
+              ]
+            },
+            "description": "Recalculate invoices",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"invoice_ids\": [\n    101,\n    102\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "MyShopify",
+      "description": "eAD-CRM API v3 MyShopify module examples",
+      "item": [
+        {
+          "name": "Synchronization logs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "authtoken",
+                "value": "{{authtoken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/myshopify/logs?status=error",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "myshopify",
+                "logs?status=error"
+              ]
+            },
+            "description": "Synchronization logs"
+          },
+          "response": []
+        },
+        {
+          "name": "Run reconciliation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "authtoken",
+                "value": "{{authtoken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/myshopify/sync",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "myshopify",
+                "sync"
+              ]
+            },
+            "description": "Run reconciliation"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Purchase Management",
+      "description": "eAD-CRM API v3 Purchase Management module examples",
+      "item": [
+        {
+          "name": "List purchase requests",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "authtoken",
+                "value": "{{authtoken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/purchase/requests",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "purchase",
+                "requests"
+              ]
+            },
+            "description": "List purchase requests"
+          },
+          "response": []
+        },
+        {
+          "name": "Create purchase request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "authtoken",
+                "value": "{{authtoken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/purchase/requests",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "purchase",
+                "requests"
+              ]
+            },
+            "description": "Create purchase request",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currency\": 1,\n  \"subtotal\": 100,\n  \"newitems\": [\n    {\n      \"item_code\": 10,\n      \"quantity\": 2,\n      \"unit_price\": 50\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add purchase-order payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "authtoken",
+                "value": "{{authtoken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/purchase/orders/42/payments",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "purchase",
+                "orders",
+                "42",
+                "payments"
+              ]
+            },
+            "description": "Add purchase-order payment",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 100,\n  \"paymentmode\": 1,\n  \"date\": \"2026-08-14\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Guest Invoices",
+      "description": "eAD-CRM API v3 Guest Invoices module examples",
+      "item": [
+        {
+          "name": "Create guest invoice",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "authtoken",
+                "value": "{{authtoken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/guest_invoices",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "guest_invoices"
+              ]
+            },
+            "description": "Create guest invoice",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"guest@example.com\",\n  \"items\": [\n    {\n      \"description\": \"Service\",\n      \"qty\": 1,\n      \"rate\": 100\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Guest checkout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "authtoken",
+                "value": "{{authtoken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/guest_invoices/checkout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "guest_invoices",
+                "checkout"
+              ]
+            },
+            "description": "Guest checkout",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"guest@example.com\",\n  \"amount\": 100,\n  \"paymentmode\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "event": [],
@@ -46057,7 +46683,7 @@
     ]
   },
   "info": {
-    "name": "Perfex CRM REST API",
+    "name": "eAD-CRM REST API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": "Generated from the module's OpenAPI document (v3.1.0). Set the base_url and authtoken collection variables, then send any request. Regenerate with: node tools/generate-postman.mjs"
   }

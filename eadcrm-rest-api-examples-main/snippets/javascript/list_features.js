@@ -1,6 +1,6 @@
 /**
- * Perfex CRM REST API — Smarter list features (Node.js / fetch)
- * Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+ * eAD-CRM REST API — Smarter list features (Node.js / fetch)
+ * Module: https://www.eadvertise.eu/
  *
  * Every list endpoint accepts optional query parameters. Add them and you get a
  * { data, meta } envelope; omit them and you get the exact legacy array.
