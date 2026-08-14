@@ -1,7 +1,7 @@
 <?php
 /**
- * Perfex CRM REST API — Webhooks examples (PHP / cURL)
- * Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+ * eAD-CRM REST API — Webhooks examples (PHP / cURL)
+ * Module: https://www.eadvertise.eu/
  *
  * No external dependencies — uses the built-in cURL extension.
  */
@@ -10,7 +10,7 @@ const BASE  = 'https://yourdomain.com/api';
 const TOKEN = 'YOUR_API_TOKEN';
 
 /** Minimal request helper. */
-function perfex_request(string $method, string $path, array $form = []): array
+function eadcrm_request(string $method, string $path, array $form = []): array
 {
     $ch = curl_init(BASE . $path);
     curl_setopt_array($ch, [
@@ -29,35 +29,35 @@ function perfex_request(string $method, string $path, array $form = []): array
 }
 
 // List all webhooks
-print_r(perfex_request('GET', '/webhooks'));
+print_r(eadcrm_request('GET', '/webhooks'));
 
 // Get a single webhook
-print_r(perfex_request('GET', '/webhooks/3'));
+print_r(eadcrm_request('GET', '/webhooks/3'));
 
 // Create a webhook
 // Subscribe to one or more of the 124 available events (see /webhooks/events).
 // Requests are delivered async with retries and signed with an HMAC secret.
-print_r(perfex_request('POST', '/webhooks', [
+print_r(eadcrm_request('POST', '/webhooks', [
     'name'      => 'My integration endpoint',
-    'url'       => 'https://hooks.example.com/perfex',
+    'url'       => 'https://hooks.example.com/eAD-CRM',
     'events[0]' => 'invoice_created',
     'events[1]' => 'lead_created',
     'secret'    => 'whsec_your_signing_secret',
 ]));
 
 // Update a webhook (unknown fields are ignored)
-print_r(perfex_request('PUT', '/webhooks/3', [
-    'url' => 'https://hooks.example.com/perfex/v2',
+print_r(eadcrm_request('PUT', '/webhooks/3', [
+    'url' => 'https://hooks.example.com/eAD-CRM/v2',
 ]));
 
 // Delete a webhook
-print_r(perfex_request('DELETE', '/webhooks/3'));
+print_r(eadcrm_request('DELETE', '/webhooks/3'));
 
 // Toggle a webhook active/inactive
-print_r(perfex_request('POST', '/webhooks/3/toggle'));
+print_r(eadcrm_request('POST', '/webhooks/3/toggle'));
 
 // Event catalogue — every event you can subscribe to
-print_r(perfex_request('GET', '/webhooks/events'));
+print_r(eadcrm_request('GET', '/webhooks/events'));
 
 // Delivery logs for a webhook (attempts, status codes, retries)
-print_r(perfex_request('GET', '/webhooks/3/logs'));
+print_r(eadcrm_request('GET', '/webhooks/3/logs'));

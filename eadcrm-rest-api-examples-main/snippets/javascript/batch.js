@@ -1,6 +1,6 @@
 /**
- * Perfex CRM REST API — Batch examples (Node.js / fetch)
- * Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+ * eAD-CRM REST API — Batch examples (Node.js / fetch)
+ * Module: https://www.eadvertise.eu/
  *
  * POST /api/batch runs up to 50 operations in a single request.
  * Each operation names an MCP-style tool plus its arguments.

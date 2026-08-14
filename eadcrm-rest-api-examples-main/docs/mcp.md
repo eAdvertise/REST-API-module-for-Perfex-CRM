@@ -1,10 +1,10 @@
 # MCP Server for AI Agents
 
 Connect Claude, ChatGPT, Cursor and other AI agents directly to your CRM with the
-[REST API for Perfex CRM](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/).
+[REST API for eAD-CRM](https://www.eadvertise.eu/).
 
 **v3.0** ships a built-in **MCP server**. The **Model Context Protocol (MCP)** is an open standard
-that lets AI agents discover and call external tools over a uniform interface. Perfex exposes its CRM
+that lets AI agents discover and call external tools over a uniform interface. eAD-CRM exposes its CRM
 as **148 permission-filtered tools** at a single JSON-RPC endpoint, so an agent can read and write
 customers, invoices, leads, tasks and more on your behalf.
 
@@ -14,7 +14,7 @@ customers, invoices, leads, tasks and more on your behalf.
 
 ## 1. Enable the MCP server
 
-In your Perfex admin, go to **Setup → API → Settings** and enable the MCP server. Then create (or
+In your eAD-CRM admin, go to **Setup → API → Settings** and enable the MCP server. Then create (or
 reuse) an API token under **API → API Management** and assign it the per-resource permissions the
 agent should have. The MCP endpoint only advertises tools the token is allowed to use.
 
@@ -29,7 +29,7 @@ config looks like this:
 ```json
 {
   "mcpServers": {
-    "perfex-crm": {
+    "eadcrm": {
       "url": "https://yourdomain.com/api/mcp",
       "headers": {
         "authtoken": "YOUR_API_TOKEN"
@@ -147,5 +147,5 @@ file in each snippet language.
 
 ---
 
-📦 **Module:** [REST API for Perfex CRM](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/) ·
-📖 **Docs:** https://perfexcrm.themesic.com/apiguide/
+📦 **Module:** [REST API for eAD-CRM](https://www.eadvertise.eu/) ·
+📖 **Docs:** https://apidoc.eadcrm.eu/

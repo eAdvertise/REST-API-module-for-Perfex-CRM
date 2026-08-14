@@ -1,6 +1,6 @@
 # Third-Party Custom Tables
 
-Read and write tables created by *other* Perfex CRM modules, without writing a custom API
+Read and write tables created by *other* eAD-CRM modules, without writing a custom API
 controller for each one.
 
 - **Base URL:** `https://yourdomain.com/api`

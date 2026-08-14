@@ -1,7 +1,7 @@
 <?php
 /**
- * Perfex CRM REST API — Notes examples (PHP / cURL)
- * Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+ * eAD-CRM REST API — Notes examples (PHP / cURL)
+ * Module: https://www.eadvertise.eu/
  *
  * Notes are polymorphic: attach them to a related entity via rel_type + rel_id.
  * Valid rel_type values include: customer, lead, invoice, task, ticket.
@@ -13,7 +13,7 @@ const BASE  = 'https://yourdomain.com/api';
 const TOKEN = 'YOUR_API_TOKEN';
 
 /** Minimal request helper. */
-function perfex_request(string $method, string $path, array $form = []): array
+function eadcrm_request(string $method, string $path, array $form = []): array
 {
     $ch = curl_init(BASE . $path);
     curl_setopt_array($ch, [
@@ -33,22 +33,22 @@ function perfex_request(string $method, string $path, array $form = []): array
 
 // List notes for a related entity — /notes/{rel_type}/{rel_id}
 // rel_type: customer, lead, invoice, task, ticket
-print_r(perfex_request('GET', '/notes/customer/1'));
+print_r(eadcrm_request('GET', '/notes/customer/1'));
 
 // Get a single note
-print_r(perfex_request('GET', '/notes/5'));
+print_r(eadcrm_request('GET', '/notes/5'));
 
 // Create a note attached to customer #1
-print_r(perfex_request('POST', '/notes', [
+print_r(eadcrm_request('POST', '/notes', [
     'rel_type'    => 'customer',
     'rel_id'      => 1,
     'description' => 'Called the client to confirm the renewal.',
 ]));
 
 // Update a note (unknown fields are ignored)
-print_r(perfex_request('PUT', '/notes/5', [
+print_r(eadcrm_request('PUT', '/notes/5', [
     'description' => 'Client confirmed renewal for 12 months.',
 ]));
 
 // Delete a note
-print_r(perfex_request('DELETE', '/notes/5'));
+print_r(eadcrm_request('DELETE', '/notes/5'));

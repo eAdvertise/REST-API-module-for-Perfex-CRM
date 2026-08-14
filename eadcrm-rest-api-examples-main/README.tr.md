@@ -1,33 +1,33 @@
 <p>
-  <a href="https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/">
-    <img src="assets/perfex-crm-rest-api.jpg" alt="REST API for Perfex CRM — connect Perfex CRM with AI agents, Zapier, WooCommerce, n8n and third-party apps">
+  <a href="https://www.eadvertise.eu/">
+    <img src="assets/eadcrm-rest-api-banner.svg" alt="REST API for eAD-CRM — connect eAD-CRM with AI agents, Zapier, WooCommerce, n8n and third-party apps">
   </a>
 </p>
 
-# Perfex CRM REST API — Örnekler, Postman Koleksiyonu ve Kod Parçacıkları
+# eAD-CRM REST API — Örnekler, Postman Koleksiyonu ve Kod Parçacıkları
 
-[English](README.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md) · [Português (BR)](README.pt-BR.md) · [Italiano](README.it.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · 🌐 **Türkçe** · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [العربية](README.ar.md)
+[English](README.md) · [Ελληνικά](README.el.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md) · [Português (BR)](README.pt-BR.md) · [Italiano](README.it.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · 🌐 **Türkçe** · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [العربية](README.ar.md)
 
-> [Perfex CRM için REST API modülü](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/) için kullanıma hazır **Postman koleksiyonu**, **kod parçacıkları** (cURL, PHP, Python, JavaScript) ve bir kaynak
+> [eAD-CRM için REST API modülü](https://www.eadvertise.eu/) için kullanıma hazır **Postman koleksiyonu**, **kod parçacıkları** (cURL, PHP, Python, JavaScript) ve bir kaynak
 > **kataloğu** —
-> **Perfex CRM'i yapay zeka ajanları ve üçüncü taraf uygulamalarla bağlamanın** en hızlı yolu.
+> **eAD-CRM'i yapay zeka ajanları ve üçüncü taraf uygulamalarla bağlamanın** en hızlı yolu.
 
-[![Postman](https://img.shields.io/badge/Postman-Collection-orange?logo=postman&logoColor=white)](postman/perfex-rest-api.postman_collection.json)
-[![OpenAPI 3.0](https://img.shields.io/badge/OpenAPI-3.0-6ba539?logo=openapiinitiative&logoColor=white)](https://perfexcrm.themesic.com/apiguide/)
+[![Postman](https://img.shields.io/badge/Postman-Collection-orange?logo=postman&logoColor=white)](postman/eadcrm-rest-api.postman_collection.json)
+[![OpenAPI 3.0](https://img.shields.io/badge/OpenAPI-3.0-6ba539?logo=openapiinitiative&logoColor=white)](https://apidoc.eadcrm.eu/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Perfex CRM](https://img.shields.io/badge/Perfex%20CRM-REST%20API-2c7be5)](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/)
+[![eAD-CRM](https://img.shields.io/badge/eAD-CRM-REST%20API-2c7be5)](https://www.eadvertise.eu/)
 
-**Perfex CRM REST API**, temiz bir HTTP/JSON arayüzü üzerinden müşterileri, potansiyel müşterileri, faturaları, teklifleri, projeleri,
+**eAD-CRM REST API**, temiz bir HTTP/JSON arayüzü üzerinden müşterileri, potansiyel müşterileri, faturaları, teklifleri, projeleri,
 görevleri ve daha fazlasını okumanıza ve yazmanıza olanak tanır — **CRM entegrasyonu**, otomasyon ve özel
 uygulamalar için mükemmeldir. **v3.0**, **yapay zeka ajanları için bir MCP sunucusu**, üretim düzeyinde **webhook'lar**, hazır **Zapier /
 Make / n8n** yoklaması (polling), **toplu (batch)** işlemler ve daha akıllı liste uç noktaları ekler. Bu depo,
-**Themesic Interactive** tarafından geliştirilen
-**[REST API for Perfex CRM](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/)**
+**eAdvertise** tarafından geliştirilen
+**[REST API for eAD-CRM](https://www.eadvertise.eu/)**
 modülünün pratik yol arkadaşıdır: kopyala-yapıştır örnekler, içe aktarılabilir bir Postman koleksiyonu ve tam bir
 uç nokta kataloğu.
 
-- 🧩 **Modülü edinin:** https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
-- 📖 **API kılavuzu / canlı dokümantasyon:** https://perfexcrm.themesic.com/apiguide/
+- 🧩 **Modülü edinin:** https://www.eadvertise.eu/
+- 📖 **API kılavuzu / canlı dokümantasyon:** https://apidoc.eadcrm.eu/
 - 🧾 **OpenAPI 3.0 şeması:** `GET https://yourdomain.com/api/openapi`
 
 ---
@@ -69,8 +69,8 @@ sıralamayı gösteren bir **list_features** dosyası bulunur.
 
 ## Hızlı başlangıç
 
-Perfex CRM REST API'sine yapılan her istek **`Authtoken`** başlığı ile kimlik doğrulaması yapar. Perfex yönetici panelinizde
-[REST API modülünü](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/)
+eAD-CRM REST API'sine yapılan her istek **`Authtoken`** başlığı ile kimlik doğrulaması yapar. eAD-CRM yönetici panelinizde
+[REST API modülünü](https://www.eadvertise.eu/)
 etkinleştirdikten sonra **API → API Management** altında bir token oluşturun,
 ardından API'yi `https://yourdomain.com/api/...` adresinden çağırın:
 
@@ -83,8 +83,8 @@ Bu, müşteri listesini JSON olarak döndürür. Başlık ile sorgu parametresi 
 
 ### Postman koleksiyonunu kullanın
 
-1. Postman'i açın → **Import** → [`postman/perfex-rest-api.postman_collection.json`](postman/perfex-rest-api.postman_collection.json) dosyasını bırakın.
-2. [`postman/perfex-rest-api.postman_environment.json`](postman/perfex-rest-api.postman_environment.json) ortamını içe aktarın.
+1. Postman'i açın → **Import** → [`postman/eadcrm-rest-api.postman_collection.json`](postman/eadcrm-rest-api.postman_collection.json) dosyasını bırakın.
+2. [`postman/eadcrm-rest-api.postman_environment.json`](postman/eadcrm-rest-api.postman_environment.json) ortamını içe aktarın.
 3. `base_url` değerini `https://yourdomain.com/api` ve `authtoken` değerini kendi token'ınıza ayarlayın.
 4. Herhangi bir isteği seçin ve **Send** düğmesine basın.
 
@@ -138,7 +138,7 @@ Tüm CRUD uç noktaları RESTful bir kurala uyar: `GET` liste, `GET /:id` tekil,
 | **Notlar** | `/api/notes` | `:rel_type/:rel_id` ile listele, getir, oluştur, güncelle, sil |
 
 > Her kaynak için tam istek alanları resmi
-> **[API kılavuzunda](https://perfexcrm.themesic.com/apiguide/)** belgelenmiştir. Buradaki parçacıklar en yaygın akışları kapsar.
+> **[API kılavuzunda](https://apidoc.eadcrm.eu/)** belgelenmiştir. Buradaki parçacıklar en yaygın akışları kapsar.
 
 ---
 
@@ -167,17 +167,17 @@ Bkz. [`docs/pagination-filtering.md`](docs/pagination-filtering.md) ve
 
 ## Popüler entegrasyonlar ve kullanım senaryoları
 
-Perfex CRM REST API'si yaygın olarak **Perfex CRM'i yapay zeka ajanları ve üçüncü taraf uygulamalarla bağlamak** için kullanılır:
+eAD-CRM REST API'si yaygın olarak **eAD-CRM'i yapay zeka ajanları ve üçüncü taraf uygulamalarla bağlamak** için kullanılır:
 
 - **Yapay zeka asistanları (MCP)** — Claude, ChatGPT veya Cursor'ın `/api/mcp` üzerinden CRM'inizi okuyup güncellemesini sağlayın.
 - **Zapier / Make / n8n** — hazır yoklama tetikleyicileri (`/api/zapier/*`) aracılığıyla kod gerektirmeyen otomasyon.
-- **Webhook'lar** — Perfex olaylarını (yeni fatura, yeni potansiyel müşteri, 124 olay) HMAC ile imzalanmış olarak Slack, Discord veya kendi arka ucunuza iletin.
+- **Webhook'lar** — eAD-CRM olaylarını (yeni fatura, yeni potansiyel müşteri, 124 olay) HMAC ile imzalanmış olarak Slack, Discord veya kendi arka ucunuza iletin.
 - **Google Sheets / Power Automate** — müşterileri, faturaları veya ödemeleri elektronik tablolar ve panolarla senkronize edin.
-- **Özel uygulamalar ve portallar** — Perfex verilerinizin üzerine bir mobil uygulama veya müşteri portalı oluşturun.
+- **Özel uygulamalar ve portallar** — eAD-CRM verilerinizin üzerine bir mobil uygulama veya müşteri portalı oluşturun.
 - **Muhasebe ve e-ticaret** — faturaları ve kalemleri harici faturalama veya mağaza platformlarıyla senkronize edin.
 
 Bunların tümü
-[REST API for Perfex CRM](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/) modülü tarafından desteklenir.
+[REST API for eAD-CRM](https://www.eadvertise.eu/) modülü tarafından desteklenir.
 
 ---
 
@@ -195,31 +195,31 @@ Token'lar **API → API Management** bölümünde oluşturulur ve kapsamlandır�
 
 ## SSS
 
-**Perfex CRM'in bir REST API'si var mı?**
-Evet. [REST API for Perfex CRM](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/)
+**eAD-CRM'in bir REST API'si var mı?**
+Evet. [REST API for eAD-CRM](https://www.eadvertise.eu/)
 modülü; müşteriler, potansiyel müşteriler, faturalar, teklifler, projeler, görevler ve daha fazlası için tam RESTful bir HTTP/JSON API'sinin yanı sıra
 bir v3 **MCP sunucusu**, **webhook'lar**, **batch** ve **otomasyon** uç noktaları ekler.
 
-**Perfex CRM'i yapay zeka ajanları / ChatGPT / Claude ile kullanabilir miyim?**
+**eAD-CRM'i yapay zeka ajanları / ChatGPT / Claude ile kullanabilir miyim?**
 Evet — v3, herhangi bir Model Context Protocol istemcisine izin filtreli CRM araçları sunan bir **MCP sunucusu** ile
 `POST /api/mcp` adresinde gelir. Bkz. [`docs/mcp.md`](docs/mcp.md).
 
-**Perfex CRM API'si ile nasıl kimlik doğrulaması yaparım?**
+**eAD-CRM API'si ile nasıl kimlik doğrulaması yaparım?**
 Token'ınızı `Authtoken` HTTP başlığında (veya bir `?authtoken=` sorgu parametresi olarak) gönderin. Bkz.
 [`docs/authentication.md`](docs/authentication.md).
 
-**Perfex CRM API'sinin temel URL'si nedir?**
+**eAD-CRM API'sinin temel URL'si nedir?**
 `https://yourdomain.com/api` — örneğin `https://yourdomain.com/api/customers`.
 
-**Perfex CRM'i Zapier, Make veya n8n'e bağlayabilir miyim?**
+**eAD-CRM'i Zapier, Make veya n8n'e bağlayabilir miyim?**
 Evet — v3'te `/api/zapier/*` altında hazır yoklama tetikleyicileri ve ayrıca webhook'lar bulunur. Bkz.
 [Popüler entegrasyonlar](#popular-integrations--use-cases) ve [`docs/automation.md`](docs/automation.md).
 
-**Perfex CRM için bir Postman koleksiyonu var mı?**
-Evet — [`postman/perfex-rest-api.postman_collection.json`](postman/perfex-rest-api.postman_collection.json)
+**eAD-CRM için bir Postman koleksiyonu var mı?**
+Evet — [`postman/eadcrm-rest-api.postman_collection.json`](postman/eadcrm-rest-api.postman_collection.json)
 dosyasını ve birlikte gelen ortamı içe aktarın, `base_url` ve `authtoken` değerlerinizi ayarlayın ve istek göndermeye başlayın.
 
-**Perfex CRM API'si aracılığıyla nasıl fatura oluştururum?**
+**eAD-CRM API'si aracılığıyla nasıl fatura oluştururum?**
 Fatura alanları ve bir `items[]` dizisi ile `POST https://yourdomain.com/api/invoices` yapın — v3,
 `subtotal`/`total` değerlerini otomatik hesaplar. Bkz. [`snippets/curl/invoices.sh`](snippets/curl/invoices.sh).
 
@@ -227,20 +227,20 @@ Fatura alanları ve bir `items[]` dizisi ile `POST https://yourdomain.com/api/in
 
 ## Hakkında / Destek
 
-<img src="assets/perfex-crm-rest-api-icon.png" width="64" alt="Perfex CRM REST API icon">
+<img src="assets/eadcrm-rest-api-icon.svg" width="64" alt="eAD-CRM REST API icon">
 
 Bu depo, ticari modülün bir **örnekler yol arkadaşıdır**:
 
-> **[REST API for Perfex CRM — connect your Perfex CRM with third-party applications](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/)**
-> [Themesic Interactive](https://themesic.com) tarafından.
+> **[REST API for eAD-CRM — connect your eAD-CRM with third-party applications](https://www.eadvertise.eu/)**
+> [eAdvertise](https://www.eadvertise.eu/) tarafından.
 
-- 🛒 **Satın alın / daha fazla bilgi:** https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
-- 📖 **Dokümantasyon:** https://perfexcrm.themesic.com/apiguide/
-- 💬 **Destek:** https://themesic.com/support
+- 🛒 **Satın alın / daha fazla bilgi:** https://www.eadvertise.eu/
+- 📖 **Dokümantasyon:** https://apidoc.eadcrm.eu/
+- 💬 **Destek:** https://www.eadvertise.eu/
 
 Ek örnek katkıları memnuniyetle karşılanır — bkz. [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Lisans
 
-Bu depodaki örnek kodlar [MIT Lisansı](LICENSE) altında yayımlanmıştır. "Perfex", ilgili sahibinin bir ticari markasıdır;
-REST API modülü Themesic Interactive'in ticari bir ürünüdür.
+Bu depodaki örnek kodlar [MIT Lisansı](LICENSE) altında yayımlanmıştır. "eAD-CRM", ilgili sahibinin bir ticari markasıdır;
+REST API modülü eAdvertise'in ticari bir ürünüdür.

@@ -1,7 +1,7 @@
 # Webhooks 2.0
 
-Push Perfex CRM events to your own backend, Slack, Discord or any HTTPS endpoint using the
-[REST API for Perfex CRM](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/).
+Push eAD-CRM events to your own backend, Slack, Discord or any HTTPS endpoint using the
+[REST API for eAD-CRM](https://www.eadvertise.eu/).
 
 **v3.0** ships production-grade webhooks: full REST management, a **124-event** catalogue, async
 delivery with retries and exponential backoff, SSRF protection, TLS verification and **HMAC-signed**
@@ -31,7 +31,7 @@ on, and a `secret` used to sign deliveries.
 curl -X POST "https://yourdomain.com/api/webhooks" \
   -H "authtoken: YOUR_API_TOKEN" \
   -F "name=Billing sync" \
-  -F "url=https://example.com/hooks/perfex" \
+  -F "url=https://example.com/hooks/eAD-CRM" \
   -F "events[]=invoice.created" \
   -F "events[]=invoice.updated" \
   -F "secret=whsec_your_signing_secret"
@@ -77,22 +77,22 @@ delivery is marked failed.
 
 | Behaviour | Detail |
 | --- | --- |
-| Transport | Async queue drained by the Perfex cron job |
+| Transport | Async queue drained by the eAD-CRM cron job |
 | Success | HTTP `2xx` from your endpoint |
 | Retries | Automatic, with exponential backoff between attempts |
 | SSRF protection | Internal/private/loopback targets are blocked |
 | TLS | Certificate verification enabled for `https://` targets |
 
-> Make sure Perfex CRM cron is configured — deliveries drain from the queue on each cron run.
+> Make sure eAD-CRM cron is configured — deliveries drain from the queue on each cron run.
 
 ## 4. HMAC-signed requests
 
-Every delivery carries an `X-Perfex-Signature` header so you can confirm the request is authentic
+Every delivery carries an `X-eAD-CRM-Signature` header so you can confirm the request is authentic
 and untampered. The signature is computed from the webhook `secret` over the timestamp and the raw
 request body:
 
 ```
-X-Perfex-Signature: t=<unix>,v1=<hmac_sha256(t + "." + rawBody)>
+X-eAD-CRM-Signature: t=<unix>,v1=<hmac_sha256(t + "." + rawBody)>
 ```
 
 - `t` — the Unix timestamp when the request was signed.
@@ -106,7 +106,7 @@ requests whose `t` is too old to blunt replay attacks.
 
 ```php
 <?php
-function verify_perfex_signature(string $rawBody, string $header, string $secret): bool {
+function verify_eadcrm_signature(string $rawBody, string $header, string $secret): bool {
     // header: "t=1753104000,v1=abc123..."
     $parts = [];
     foreach (explode(',', $header) as $piece) {
@@ -121,8 +121,8 @@ function verify_perfex_signature(string $rawBody, string $header, string $secret
 }
 
 $rawBody = file_get_contents('php://input');
-$header  = $_SERVER['HTTP_X_PERFEX_SIGNATURE'] ?? '';
-if (!verify_perfex_signature($rawBody, $header, 'whsec_your_signing_secret')) {
+$header  = $_SERVER['HTTP_X_EAD_CRM_SIGNATURE'] ?? '';
+if (!verify_eadcrm_signature($rawBody, $header, 'whsec_your_signing_secret')) {
     http_response_code(401);
     exit('invalid signature');
 }
@@ -133,7 +133,7 @@ if (!verify_perfex_signature($rawBody, $header, 'whsec_your_signing_secret')) {
 ```js
 const crypto = require("crypto");
 
-function verifyPerfexSignature(rawBody, header, secret) {
+function verifyeAD-CRMSignature(rawBody, header, secret) {
   const parts = Object.fromEntries(
     header.split(",").map((p) => p.split("="))
   );
@@ -174,7 +174,7 @@ curl -X POST -H "authtoken: YOUR_API_TOKEN" "https://yourdomain.com/api/webhooks
 
 ## Push vs. poll
 
-Webhooks are the **push** model: Perfex calls you when something happens. If your platform can only
+Webhooks are the **push** model: eAD-CRM calls you when something happens. If your platform can only
 **poll** (Zapier, Make, n8n), use the ready-made polling triggers in
 [`automation.md`](automation.md) instead. Runnable webhook examples live in
 [`snippets/curl/webhooks.sh`](../snippets/curl/webhooks.sh) and the matching `webhooks` file in each
@@ -182,5 +182,5 @@ snippet language.
 
 ---
 
-📦 **Module:** [REST API for Perfex CRM](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/) ·
-📖 **Docs:** https://perfexcrm.themesic.com/apiguide/
+📦 **Module:** [REST API for eAD-CRM](https://www.eadvertise.eu/) ·
+📖 **Docs:** https://apidoc.eadcrm.eu/

@@ -1,7 +1,7 @@
 # Errors, Status Codes, Rate Limits & Idempotency
 
 Error handling reference for the
-[REST API for Perfex CRM](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/).
+[REST API for eAD-CRM](https://www.eadvertise.eu/).
 
 Always check the **HTTP status code** first, then read the `status` boolean and any `errors` object
 in the JSON body. This page covers status codes, the v3 validation envelope, rate limiting and
@@ -118,5 +118,5 @@ See the language snippets in [`snippets/`](../snippets/) for working request exa
 
 ---
 
-📦 **Module:** [REST API for Perfex CRM](https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/) ·
-📖 **Docs:** https://perfexcrm.themesic.com/apiguide/
+📦 **Module:** [REST API for eAD-CRM](https://www.eadvertise.eu/) ·
+📖 **Docs:** https://apidoc.eadcrm.eu/

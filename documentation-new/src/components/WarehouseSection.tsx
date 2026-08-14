@@ -2,7 +2,7 @@ import React from 'react'
 
 import CopyButton from './CopyButton.tsx'
 
-const resources = [
+const resources: Array<[string, string, string]> = [
     ['warehouses', 'Warehouse locations and staff assignments', 'CRUD'],
     ['items', 'Products and variants', 'CRUD'],
     ['inventory', 'Computed stock balances', 'GET only'],
@@ -100,11 +100,16 @@ function WarehouseSection() {
                         <p>API v3 exposes all Warehouse data groups through authenticated resource endpoints. Grant the API user the Warehouse capability matching the HTTP method.</p>
                         <p>Receipt, delivery, transfer and adjustment writes use the native Warehouse model, preserving approval rules, document numbering, activity logs, hooks and inventory movements. Inventory balances cannot be written directly.</p>
                     </div>
-                    <h2 className="sub">Resources</h2>
+                    <h2 className="sub">Endpoints</h2>
                     <div className="table-responsive-wrapper"><table className="table table-hover">
-                        <thead><tr><th>Resource</th><th>Description</th><th>Methods</th></tr></thead>
-                        <tbody>{resources.map(([resource, description, methods]) => <tr key={resource}>
-                            <td><code>{resource}</code></td><td>{description}</td><td>{methods}</td>
+                        <thead><tr><th>Resource</th><th>Collection endpoint</th><th>Record endpoint</th><th>Description</th><th>Methods</th></tr></thead>
+                        <tbody><tr>
+                            <td><code>catalog</code></td><td><code>/api/warehouse</code></td><td>&mdash;</td><td>Discover resources, methods and database fields</td><td>GET only</td>
+                        </tr>{resources.map(([resource, description, methods]) => <tr key={resource}>
+                            <td><code>{resource}</code></td>
+                            <td><code>{`/api/warehouse/${resource}`}</code></td>
+                            <td><code>{`/api/warehouse/${resource}/:id`}</code></td>
+                            <td>{description}</td><td>{methods}</td>
                         </tr>)}</tbody>
                     </table></div>
                     <h2 className="sub">List filters</h2>

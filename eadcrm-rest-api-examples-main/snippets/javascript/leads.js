@@ -1,6 +1,6 @@
 /**
- * Perfex CRM REST API — Leads examples (Node.js / fetch)
- * Module: https://themesic.com/product/rest-api-module-for-perfex-crm-connect-your-perfex-crm-with-third-party-applications/
+ * eAD-CRM REST API — Leads examples (Node.js / fetch)
+ * Module: https://www.eadvertise.eu/
  *
  * Node 18+ has global fetch & FormData. No dependencies required.
  */
