@@ -7,8 +7,10 @@
           <h4 class="no-margin font-bold"><?php echo _l($title); ?></h4>
           <hr />
           <a href="<?php echo admin_url('commission/new_commission_policy'); ?>" class="btn btn-info mbot10"><?php echo _l('new'); ?></a>
+          <?php if (is_admin() || has_permission('commission_policy', '', 'create')) { ?>
           <a href="#" onclick="recalculate_modal(); return false;" class="btn btn-info mbot10"><?php echo _l('recalculate'); ?></a>
           <i class="fa fa-question-circle recalculate_tooltip" data-toggle="tooltip" title="" data-original-title="<?php echo _l('recalculate_tooltip'); ?>"></i>
+          <?php } ?>
           <div class="row">
             <div class="col-md-3">
               <?php $commission_policy_type = [ 0 => ['id' => '1', 'name' => _l('calculated_as_ladder')],
@@ -46,12 +48,12 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">
                     <span class="edit-title"><?php echo _l('recalculate'); ?></span>
                 </h4>
             </div>
-            <?php echo form_open('admin/commission/recalculate',array('id'=>'recalculate-modal')); ?>
+            <?php echo form_open(admin_url('commission/recalculate'),array('id'=>'recalculate-modal')); ?>
             <div class="modal-body">
                 <div class="row">
                   <div class="col-md-12">
@@ -66,8 +68,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
-                <button group="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+                <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
                 <?php echo form_close(); ?>
             </div>
         </div>

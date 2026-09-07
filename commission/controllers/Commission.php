@@ -7,6 +7,29 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Commission extends AdminController
 {
 	/**
+	 * Display the documentation bundled with the module.
+	 */
+	public function documentation()
+	{
+		if (!is_admin() && !has_permission('commission', '', 'view') && !has_permission('commission', '', 'view_own') && !has_permission('commission_applicable_staff', '', 'view') && !has_permission('commission_policy', '', 'view') && !has_permission('commission_receipt', '', 'view') && !has_permission('commission_setting', '', 'view')) {
+			access_denied('commission');
+		}
+
+		$documentationPath = module_dir_path(COMMISSION_MODULE_NAME, 'documentation/index.html');
+		if (!is_file($documentationPath)) {
+			show_404();
+		}
+
+		$assetUrl = module_dir_url(COMMISSION_MODULE_NAME, 'documentation/');
+		$html = file_get_contents($documentationPath);
+		$html = str_replace(['href="./', 'src="./'], ['href="' . $assetUrl, 'src="' . $assetUrl], $html);
+
+		$this->output
+			->set_content_type('text/html', 'UTF-8')
+			->set_output($html);
+	}
+
+	/**
 	 * manage commission
 	 */
 	public function manage_commission(){
@@ -597,9 +620,9 @@ class Commission extends AdminController
                 $row[] = _d($aRow['from_date']);
                 $row[] = _d($aRow['to_date']);
                 if($aRow['is_client'] == 1){
-                    $options = icon_btn('commission/delete_applicable_client/' . $aRow['applicable_staff_id'], 'remove', 'btn-danger', ['title' => _l('delete')]);
+                    $options = icon_btn('commission/delete_applicable_client/' . $aRow['applicable_staff_id'], 'fa-solid fa-trash-can', 'btn-danger _delete', ['title' => _l('delete')]);
                 }else{
-                    $options = icon_btn('commission/delete_applicable_staff/' . $aRow['applicable_staff_id'], 'remove', 'btn-danger', ['title' => _l('delete')]);
+                    $options = icon_btn('commission/delete_applicable_staff/' . $aRow['applicable_staff_id'], 'fa-solid fa-trash-can', 'btn-danger _delete', ['title' => _l('delete')]);
                 }
 
                 $row[] =  $options;
@@ -692,8 +715,8 @@ class Commission extends AdminController
                 $row[] = _d($aRow['from_date']);
                 $row[] = _d($aRow['to_date']);
 
-                $options = icon_btn('commission/update_commission_policy/' . $aRow['id'], 'edit', 'btn-default', ['title' => _l('edit')]);
-                $options .= icon_btn('commission/delete_commission_policy/' . $aRow['id'], 'remove', 'btn-danger', ['title' => _l('delete')]);
+                $options = icon_btn('commission/update_commission_policy/' . $aRow['id'], 'fa-regular fa-pen-to-square', 'btn-default', ['title' => _l('edit')]);
+                $options .= icon_btn('commission/delete_commission_policy/' . $aRow['id'], 'fa-solid fa-trash-can', 'btn-danger _delete', ['title' => _l('delete')]);
 
                 $row[] =  $options;
 
@@ -744,7 +767,7 @@ class Commission extends AdminController
      * Recalculate commission
      */
     public function recalculate(){
-        if (!has_permission('commission', '', 'create') && !is_admin() ) {
+        if (!has_permission('commission_policy', '', 'create') && !is_admin() ) {
             access_denied('commission_policy');
         }
         $this->load->model('commission_model');
@@ -756,6 +779,8 @@ class Commission extends AdminController
 
             if ($success) {
                 set_alert('success', _l('recalculate'));
+            } else {
+                set_alert('warning', _l('commission_recalculate_no_results'));
             }
         }
 
@@ -1267,8 +1292,8 @@ class Commission extends AdminController
                 $numberOutput = '<a href="' . $link . '">' . $aRow['id'] . '</a>';
 
                 $numberOutput .= '<div class="row-options">';
-                $numberOutput .= '<a href="' . $link . '">' . _l('view') . '</a>';
-                $numberOutput .= ' | <a href="' . admin_url('commission/delete_receipt/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+                $numberOutput .= '<a href="' . $link . '"><i class="fa-solid fa-eye"></i> ' . _l('view') . '</a>';
+                $numberOutput .= ' | <a href="' . admin_url('commission/delete_receipt/' . $aRow['id']) . '" class="text-danger _delete"><i class="fa-solid fa-trash-can"></i> ' . _l('delete') . '</a>';
 
                 $numberOutput .= '</div>';
 
@@ -1291,7 +1316,7 @@ class Commission extends AdminController
                         $_data  = '<span class="label label-warning">'._l('not_yet_converted').'</span>';
                     }
                 }else{
-                    $_data = '<a href="'.admin_url('expenses/list_expenses/'.$aRow['convert_expense']).'" class="btn btn-success btn-icon">'._l('view_expense').'</a>';
+                    $_data = '<a href="'.admin_url('expenses/list_expenses/'.$aRow['convert_expense']).'" class="btn btn-success btn-icon"><i class="fa-solid fa-eye"></i> '._l('view_expense').'</a>';
                 }
                 $row[]  = $_data;
 

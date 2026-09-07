@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Sales Commission module guide for eAD-CRM.">
+  <title>Sales Commission Documentation</title>
+  <link rel="stylesheet" href="./api-docs.css">
+  <link rel="stylesheet" href="./commission-docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="docs-topbar">
+    <a class="docs-brand-link" href="#overview"><strong>Sales Commission</strong><span>eAD-CRM Module Guide</span></a>
+    <div class="docs-topbar-actions"><button class="docs-search-trigger" id="focus-search" type="button">Search documentation <kbd>Ctrl K</kbd></button></div>
+  </header>
+  <button class="nav-toggle" id="nav-toggle" type="button" aria-controls="sidenav" aria-expanded="false">☰ Menu</button>
+  <div class="app-layout">
+    <nav id="sidenav" aria-label="Documentation navigation">
+      <div class="sidenav-brand"><div class="sidenav-logo"><div class="commission-mark">%</div><h3>Commission</h3><span class="sidenav-credit">eAD-CRM module</span></div></div>
+      <div class="sidenav-search-wrap"><div class="sidenav-search"><input id="docs-search" class="search" type="search" placeholder="Search sections…" aria-label="Search documentation"><button id="clear-search" class="search-reset" type="button" aria-label="Clear search">×</button></div></div>
+      <ul class="sidenav nav nav-list" id="docs-nav">
+        <li class="nav-header nav-list-item"><a href="#overview">Overview</a></li>
+        <li class="nav-list-item"><a href="#workflow"><span class="typ-name typ-get">FLOW</span><span class="nav-title">How it works</span></a></li>
+        <li class="nav-header nav-list-item"><a href="#configuration">Configuration</a></li>
+        <li class="nav-list-item"><a href="#policies"><span class="typ-name typ-post">SETUP</span><span class="nav-title">Commission policies</span></a></li>
+        <li class="nav-list-item"><a href="#staff"><span class="typ-name typ-post">STAFF</span><span class="nav-title">Applicable staff</span></a></li>
+        <li class="nav-list-item"><a href="#clients"><span class="typ-name typ-post">CLIENT</span><span class="nav-title">Applicable clients</span></a></li>
+        <li class="nav-list-item"><a href="#settings"><span class="typ-name typ-put">RULES</span><span class="nav-title">Hierarchy & settings</span></a></li>
+        <li class="nav-header nav-list-item"><a href="#operations">Operations</a></li>
+        <li class="nav-list-item"><a href="#results"><span class="typ-name typ-get">VIEW</span><span class="nav-title">Results & reports</span></a></li>
+        <li class="nav-list-item"><a href="#recalculate"><span class="typ-name typ-put">RUN</span><span class="nav-title">Recalculation</span></a></li>
+        <li class="nav-list-item"><a href="#receipts"><span class="typ-name typ-post">PAY</span><span class="nav-title">Receipts</span></a></li>
+        <li class="nav-header nav-list-item"><a href="#support">Support</a></li>
+        <li class="nav-list-item"><a href="#permissions"><span class="typ-name typ-get">ACL</span><span class="nav-title">Permissions</span></a></li>
+        <li class="nav-list-item"><a href="#troubleshooting"><span class="typ-name typ-delete">HELP</span><span class="nav-title">Troubleshooting</span></a></li>
+      </ul>
+      <div class="sidenav-footer"><span>Sales Commission · eAdvertise</span></div>
+    </nav>
+    <main id="content">
+      <section id="overview" class="intro-section"><span class="eyebrow">Sales Commission</span><h1>Commission programs in eAD-CRM</h1><p class="lead">Configure commission rules for staff and clients, calculate earnings from paid invoices, review results, and issue commission receipts from one module.</p><div class="callout callout-warning"><strong>Configure before recalculating.</strong> Confirm policy dates, assignment rules, and percentages in a staging environment before applying them to historical invoices.</div></section>
+
+      <section id="workflow"><h2>How it works</h2><article><h1>From invoice payment to receipt</h1><div class="flow-grid"><div class="flow-card"><b>Policy</b><span>Percentage, fixed, or ladder rules</span></div><div class="flow-arrow">→</div><div class="flow-card"><b>Assignment</b><span>Staff, clients, and groups</span></div><div class="flow-arrow">→</div><div class="flow-card"><b>Paid invoice</b><span>Automatic calculation</span></div><div class="flow-arrow">→</div><div class="flow-card"><b>Receipt</b><span>Record and email payment</span></div></div><p>When an invoice payment is recorded, the module selects the applicable policy and saves the calculated commission. Existing invoices can be processed with the recalculation tool.</p></article></section>
+
+      <section id="configuration"><h2>Configuration</h2>
+        <article id="policies"><h1>Create a commission policy</h1><div class="row"><div class="col-md-7 no-float"><ol><li>Open <strong>Commission → Commission Program</strong>.</li><li>Select <strong>New Commission Program</strong>.</li><li>Enter a descriptive name and effective start date.</li><li>Choose calculation by invoice or product.</li><li>Select percentage, fixed amount, or ladder calculation and complete its values.</li><li>Save, then assign the policy to staff or clients.</li></ol></div><div class="col-md-4 section-example no-float"><h3>Policy checklist</h3><pre class="code-block"><code>Name
+Effective date
+Calculation source
+Commission type
+Percentage / amount / ladder
+Recurring invoice rule</code></pre></div></div><div class="screen" role="img" aria-label="Example commission policy summary screen"><div class="screen-bar"><span class="screen-dot"></span>Commission Program</div><div class="screen-body"><div class="screen-row"><span class="screen-label">Program</span><strong>Standard Sales 10%</strong><span class="status-pill">Active</span></div><div class="screen-row"><span class="screen-label">Calculation</span><span>Percentage of invoice</span><strong>10%</strong></div><div class="screen-row"><span class="screen-label">Effective</span><span>01 January 2026</span><span>Paid invoices</span></div></div></div></article>
+        <article id="staff"><h1>Assign applicable staff</h1><div class="endpoint-line"><span class="typ typ-post">STAFF</span><span>Commission → Applicable staff</span></div><ol><li>Create an assignment and give it a recognizable name.</li><li>Select the commission policy.</li><li>Select one or more staff members.</li><li>Save the assignment and verify there are no conflicting rules for the same effective period.</li></ol><p>Staff receive commission only when they match an active assignment and the related invoice satisfies the selected policy.</p><div class="callout callout-warning"><strong>Required:</strong> creating a commission program does not assign it automatically. Add the invoice sales agent under <strong>Commission → Applicable staff</strong>, even when that staff member is already selected as the invoice salesperson.</div></article>
+        <article id="clients"><h1>Assign applicable clients</h1><div class="endpoint-line"><span class="typ typ-post">CLIENT</span><span>Commission → Applicable Client</span></div><p>Client assignments apply a commission policy to selected customers. Use this when a customer, partner, or referral relationship earns commission independently of the salesperson assignment.</p><div class="callout"><strong>Tip:</strong> use clear assignment names that include the policy and customer group so overlapping rules are easy to audit.</div></article>
+        <article id="settings"><h1>Hierarchy and general settings</h1><div class="metric-grid"><div class="metric-card"><b>Hierarchy</b><span>Assign a coordinator and a percentage of a salesperson's commission.</span></div><div class="metric-card"><b>Sales admin mapping</b><span>Connect a sales administrator with a customer group.</span></div><div class="metric-card"><b>Recurring invoices</b><span>Choose whether only the first recurring invoice is calculated.</span></div><div class="metric-card"><b>Reset data</b><span>Remove module data only after taking a database backup.</span></div></div></article>
+      </section>
+
+      <section id="operations"><h2>Operations</h2>
+        <article id="results"><h1>Review commission results</h1><div class="endpoint-line"><span class="typ typ-get">VIEW</span><span>Commission → Statistics</span></div><p>Use the table to audit invoice, salesperson, sale amount, commission amount, payment status, and calculation date. Switch to the chart for a monthly overview.</p><div class="screen" role="img" aria-label="Example commission results screen"><div class="screen-bar"><span class="screen-dot"></span>Commission Results</div><div class="screen-body"><div class="screen-row"><span class="screen-label">Invoice</span><strong>INV-000142</strong><span class="status-pill">Calculated</span></div><div class="screen-row"><span class="screen-label">Salesperson</span><span>Demo Sales User</span><span>€100.00</span></div><div class="screen-row"><span class="screen-label">Sale amount</span><span>€1,000.00</span><strong>10%</strong></div></div></div></article>
+        <article id="recalculate"><h1>Recalculate invoices</h1><ol><li>Open <strong>Commission → Statistics</strong>.</li><li>Select <strong>Recalculate</strong>.</li><li>Choose paid or partially paid invoices that have not been calculated. An invoice without a payment produces no commission amount.</li><li>Enable the historical-invoice option only when the current rules should apply to old invoices.</li><li>Run the calculation and review the resulting table.</li></ol><div class="callout callout-warning"><strong>Historical data:</strong> recalculation can apply current policy rules. Export or back up existing commission data first.</div></article>
+        <article id="receipts"><h1>Create and send commission receipts</h1><div class="row"><div class="col-md-7 no-float"><ol><li>Open <strong>Commission → Commission receipt</strong>.</li><li>Create a receipt and select unpaid commission rows.</li><li>Enter the payment date, amount, payment mode, and note.</li><li>Save to mark the selected commissions as paid.</li><li>Open the receipt to download the PDF, email the salesperson, or convert it to an expense.</li></ol></div><div class="col-md-4 section-example no-float"><h3>Before saving</h3><pre class="code-block"><code>Payment amount
+Payment date
+Payment mode
+Commission rows
+Internal note</code></pre></div></div></article>
+      </section>
+
+      <section id="support"><h2>Support</h2>
+        <article id="permissions"><h1>Staff permissions</h1><table class="table table-hover"><thead><tr><th>Capability</th><th>Controls</th></tr></thead><tbody><tr><td><code>commission</code></td><td>Own/global results and module-level access.</td></tr><tr><td><code>commission_policy</code></td><td>View, create, edit, and delete commission programs.</td></tr><tr><td><code>commission_applicable_staff</code></td><td>Manage staff and client applicability.</td></tr><tr><td><code>commission_receipt</code></td><td>View, create, and delete receipts.</td></tr><tr><td><code>commission_setting</code></td><td>View and edit hierarchy and module settings.</td></tr></tbody></table><p>Configure access under <strong>Setup → Staff → Roles</strong>. Apply least privilege, especially for policy changes, receipts, and data reset.</p></article>
+        <article id="troubleshooting"><h1>Troubleshooting</h1><table class="table table-hover"><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody><tr><td>Commission is not calculated</td><td>Confirm invoice payment, policy effective date, assignment, and staff permissions.</td></tr><tr><td>Amount is unexpected</td><td>Review invoice/product mode, ladder ranges, profit calculation, and first-invoice rules.</td></tr><tr><td>Product profit is unavailable</td><td>Activate Warehouse and confirm purchase costs exist.</td></tr><tr><td>Receipt cannot be created</td><td>Select unpaid commission rows and provide amount, date, and payment mode.</td></tr><tr><td>Email is not delivered</td><td>Check eAD-CRM email configuration, recipient address, and application logs.</td></tr><tr><td>User cannot see a menu item</td><td>Review the corresponding Commission role capability.</td></tr></tbody></table></article>
+      </section>
+      <footer><strong>Sales Commission</strong><span>eAD-CRM module documentation</span></footer>
+    </main>
+  </div>
+  <script src="./commission-docs.js"></script>
+</body>
+</html>
