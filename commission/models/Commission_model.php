@@ -20,6 +20,9 @@ class Commission_model extends App_Model {
 		if ($data['commission_policy_type'] === '') {
 			return false;
 		}
+		if (!$this->normalize_product_policy_setting($data)) {
+			return false;
+		}
 
 		$ladder_setting = [];
 		foreach ($data['from_amount'] as $key => $value) {
@@ -89,6 +92,9 @@ class Commission_model extends App_Model {
 	public function update_commission_policy($data, $id) {
 		$data['commission_policy_type'] = $this->normalize_commission_policy_type($data['commission_policy_type'] ?? '');
 		if ($data['commission_policy_type'] === '') {
+			return false;
+		}
+		if (!$this->normalize_product_policy_setting($data)) {
 			return false;
 		}
 
@@ -169,6 +175,32 @@ class Commission_model extends App_Model {
 
 		$type = (string) $type;
 		return in_array($type, ['1', '2', '3', '4'], true) ? $type : '';
+	}
+
+	/**
+	 * Validate and normalize the Handsontable payload used by product policies.
+	 *
+	 * @param array $data
+	 * @return boolean
+	 */
+	private function normalize_product_policy_setting(&$data) {
+		if ($data['commission_policy_type'] !== '3') {
+			return true;
+		}
+
+		$productSetting = json_decode((string) ($data['product_setting'] ?? ''), true);
+		if (!is_array($productSetting)) {
+			return false;
+		}
+
+		$productSetting = array_values(array_filter($productSetting, function ($row) {
+			return is_array($row) && count(array_filter($row, function ($value) {
+				return $value !== null && $value !== '';
+			})) > 0;
+		}));
+
+		$data['product_setting'] = json_encode($productSetting);
+		return true;
 	}
 
 	/**
@@ -2065,7 +2097,7 @@ class Commission_model extends App_Model {
 	 *
 	 * @return     array    The first invoices.
 	 */
-	public function get_first_invoices($staffid, $invoiceid, $max = 0, $commission_policy, $is_client = 0){
+	public function get_first_invoices($staffid, $invoiceid, $max, $commission_policy, $is_client = 0){
 		if($is_client == 1){
 			$where = 'clientid = '. $staffid;
 		}else{

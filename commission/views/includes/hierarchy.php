@@ -27,9 +27,9 @@
                  <a href="<?php echo admin_url('staff/profile/' . $hierarchy['coordinator']); ?>" target="_blank"><?php echo get_staff_full_name($hierarchy['coordinator']);  ?> </a></td>
             <td><?php echo html_entity_decode($hierarchy['percent']); ?>%</td>
             <td>
-                <a href="#" onclick="edit_hierarchy(this,<?php echo html_entity_decode($hierarchy['id']); ?>); return false;" data-salesman="<?php echo html_entity_decode($hierarchy['salesman']); ?>" data-coordinator="<?php echo html_entity_decode($hierarchy['coordinator']); ?>" data-percent="<?php echo html_entity_decode($hierarchy['percent']); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i>
+                <a href="#" onclick="edit_hierarchy(this,<?php echo html_entity_decode($hierarchy['id']); ?>); return false;" data-salesman="<?php echo html_entity_decode($hierarchy['salesman']); ?>" data-coordinator="<?php echo html_entity_decode($hierarchy['coordinator']); ?>" data-percent="<?php echo html_entity_decode($hierarchy['percent']); ?>" class="btn btn-default btn-icon"><i class="fa-regular fa-pen-to-square"></i>
                 </a>
-                <a href="<?php echo admin_url('commission/delete_hierarchy/'.$hierarchy['id']); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
+                <a href="<?php echo admin_url('commission/delete_hierarchy/'.$hierarchy['id']); ?>" class="btn btn-danger btn-icon _delete"><i class="fa-solid fa-trash-can"></i></a>
             </td>
         </tr>
         <?php } ?>

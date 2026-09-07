@@ -153,7 +153,7 @@
             <div>
             </div>
           </div>
-          <div class="row <?php if(isset($commission_policy) && $commission_policy->commission_policy_type == '3'){ echo '';}else{echo 'is_hide';}?>" id="calculated_by_the_product">
+          <div class="row <?php if(isset($commission_policy) && $commission_policy->commission_policy_type == '3'){ echo '';}else{echo 'hide';}?>" id="calculated_by_the_product">
             <div class="col-md-12">
               <h4 class="font-bold"><?php echo _l('calculated_by_the_product'); ?></h4>
                 <div id="product_setting" class="mbot10"></div>

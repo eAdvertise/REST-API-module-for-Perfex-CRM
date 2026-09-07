@@ -44,10 +44,10 @@
 							<div class="btn-group">
 								<a href="#" data-toggle="modal" data-target="#receipt_send_to_salesperson"
 								class="payment-send-to-client btn-with-tooltip btn btn-default">
-									<i class="fa fa-envelope"></i></span>
+									<i class="fa-regular fa-envelope"></i></span>
 								</a>
 								<a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<i class="fa fa-file-pdf-o"></i>
+									<i class="fa-regular fa-file-pdf"></i>
 									<?php if(is_mobile()){echo ' PDF';} ?> <span class="caret"></span>
 								</a>
 								<ul class="dropdown-menu dropdown-menu-right">
@@ -75,7 +75,7 @@
 							</div>
 							<?php if(has_permission('commission_receipt','','delete')){ ?>
 								<a href="<?php echo admin_url('commission/delete_receipt/'.$receipt->id); ?>" class="btn btn-danger _delete">
-									<i class="fa fa-remove"></i>
+									<i class="fa-solid fa-trash-can"></i>
 								</a>
 							<?php } ?>
 						</div>
