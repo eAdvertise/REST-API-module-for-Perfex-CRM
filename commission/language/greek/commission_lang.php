@@ -1,5 +1,6 @@
 <?php
 $lang['commission']  = 'Επιτροπή';
+$lang['commission_documentation'] = 'Τεκμηρίωση';
 $lang['commission_policy']  = 'Πρόγραμμα της Επιτροπής';
 $lang['calculated_by_invoice']  = 'Υπολογίζεται με τιμολόγιο';
 $lang['calculated_by_the_product']  = 'Ποσοστό προϊόντος';

@@ -7,6 +7,29 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Commission extends AdminController
 {
 	/**
+	 * Display the documentation bundled with the module.
+	 */
+	public function documentation()
+	{
+		if (!is_admin() && !has_permission('commission', '', 'view') && !has_permission('commission', '', 'view_own') && !has_permission('commission_applicable_staff', '', 'view') && !has_permission('commission_policy', '', 'view') && !has_permission('commission_receipt', '', 'view') && !has_permission('commission_setting', '', 'view')) {
+			access_denied('commission');
+		}
+
+		$documentationPath = module_dir_path(COMMISSION_MODULE_NAME, 'documentation/index.html');
+		if (!is_file($documentationPath)) {
+			show_404();
+		}
+
+		$assetUrl = module_dir_url(COMMISSION_MODULE_NAME, 'documentation/');
+		$html = file_get_contents($documentationPath);
+		$html = str_replace(['href="./', 'src="./'], ['href="' . $assetUrl, 'src="' . $assetUrl], $html);
+
+		$this->output
+			->set_content_type('text/html', 'UTF-8')
+			->set_output($html);
+	}
+
+	/**
 	 * manage commission
 	 */
 	public function manage_commission(){
