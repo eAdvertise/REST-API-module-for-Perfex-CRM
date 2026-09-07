@@ -23,9 +23,9 @@
                     ]); ?> </a>
                 <a href="<?php echo admin_url('staff/profile/' . $value['salesadmin']); ?>" target="_blank"><?php echo get_staff_full_name($value['salesadmin']);  ?> </a></td>
             <td>
-                <a href="#" onclick="edit_salesadmin_customer_group(this,<?php echo html_entity_decode($value['id']); ?>); return false;" data-customer_group="<?php echo html_entity_decode($value['customer_group']); ?>" data-salesadmin="<?php echo html_entity_decode($value['salesadmin']); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i>
+                <a href="#" onclick="edit_salesadmin_customer_group(this,<?php echo html_entity_decode($value['id']); ?>); return false;" data-customer_group="<?php echo html_entity_decode($value['customer_group']); ?>" data-salesadmin="<?php echo html_entity_decode($value['salesadmin']); ?>" class="btn btn-default btn-icon"><i class="fa-regular fa-pen-to-square"></i>
                 </a>
-                <a href="<?php echo admin_url('commission/delete_salesadmin_customer_group/'.$value['id']); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
+                <a href="<?php echo admin_url('commission/delete_salesadmin_customer_group/'.$value['id']); ?>" class="btn btn-danger btn-icon _delete"><i class="fa-solid fa-trash-can"></i></a>
             </td>
         </tr>
         <?php } ?>

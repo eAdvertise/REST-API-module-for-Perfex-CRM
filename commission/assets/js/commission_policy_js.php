@@ -193,7 +193,7 @@ $("body").on('click', '.remove_template', function() {
     $(this).parents('.template_children').remove();
 });
 
-  $('.commission-policy-form-submiter').on('click', function() {
+  $('#commission-policy-form').on('submit', function() {
     $('input[name="product_setting"]').val(JSON.stringify(hot.getData()));
   });
 
@@ -245,14 +245,6 @@ $("body").on('click', '.remove_template', function() {
     to_date: 'required',
     commission_policy_type: 'required',
    });
-
-  setTimeout(
-      function()
-      {
-        if($("div[id='calculated_by_the_product']").hasClass('is_hide')){
-          $("div[id='calculated_by_the_product']").addClass('hide');
-        }
-      }, 100);
 
   $('select[name="client_groups[]"]').on('change', function() {
     var data = {};

@@ -1,6 +1,7 @@
 <?php
 
 $lang['commission'] = 'Commission';
+$lang['commission_documentation'] = 'Documentation';
 $lang['commission_policy'] = 'Commission Program';
 $lang['calculated_by_invoice'] = 'Calculated by invoice';
 $lang['calculated_by_the_product'] = 'Percentage of Product';
@@ -22,6 +23,7 @@ $lang['commission_results'] = 'Commission results';
 $lang['report_by_table'] = 'Report by table';
 $lang['total'] = 'Total';
 $lang['recalculate'] = 'Recalculate';
+$lang['commission_recalculate_no_results'] = 'No commissions were calculated. Confirm that the selected invoices have payments and an applicable policy assignment.';
 $lang['date_sold'] = 'Date sold';
 $lang['sale_amount'] = 'Sale amount';
 $lang['recalculate_tooltip'] = 'Commission will be automatically calculated with payment, in case any invoices have not been calculated, you can use this function to calculate.';
