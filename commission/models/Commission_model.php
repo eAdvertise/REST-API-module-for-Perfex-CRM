@@ -2065,7 +2065,7 @@ class Commission_model extends App_Model {
 	 *
 	 * @return     array    The first invoices.
 	 */
-	public function get_first_invoices($staffid, $invoiceid, $max = 0, $commission_policy, $is_client = 0){
+	public function get_first_invoices($staffid, $invoiceid, $max, $commission_policy, $is_client = 0){
 		if($is_client == 1){
 			$where = 'clientid = '. $staffid;
 		}else{
