@@ -225,6 +225,25 @@ function commission_documentation_menu_item() {
 }
 
 /**
+ * Register documentation after the module menu has been assembled.
+ *
+ * A separate late admin_init callback prevents other menu callbacks from
+ * replacing the Commission children collection before this item is added.
+ */
+function commission_documentation_menu_item() {
+	$CI = &get_instance();
+	$CI->app_menu->add_sidebar_children_item('commission', [
+		'slug' => 'commission-documentation',
+		'name' => _l('commission_documentation'),
+		'icon' => 'fa fa-book',
+		'href' => admin_url('commission/documentation'),
+		'position' => 100,
+		'target' => '_blank',
+		'rel' => 'noopener noreferrer',
+	]);
+}
+
+/**
  * Init commission module permissions in setup in admin_init hook
  */
 function commission_permissions() {
