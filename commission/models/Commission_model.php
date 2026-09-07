@@ -57,7 +57,9 @@ class Commission_model extends App_Model {
 		if (!$this->check_format_date($data['from_date'])) {
 			$data['from_date'] = to_sql_date($data['from_date']);
 		}
-		if (!$this->check_format_date($data['to_date'])) {
+		if (empty($data['to_date'])) {
+			$data['to_date'] = null;
+		} elseif (!$this->check_format_date($data['to_date'])) {
 			$data['to_date'] = to_sql_date($data['to_date']);
 		}
 
@@ -126,7 +128,9 @@ class Commission_model extends App_Model {
 		if (!$this->check_format_date($data['from_date'])) {
 			$data['from_date'] = to_sql_date($data['from_date']);
 		}
-		if (!$this->check_format_date($data['to_date'])) {
+		if (empty($data['to_date'])) {
+			$data['to_date'] = null;
+		} elseif (!$this->check_format_date($data['to_date'])) {
 			$data['to_date'] = to_sql_date($data['to_date']);
 		}
 		
@@ -273,7 +277,7 @@ class Commission_model extends App_Model {
 			}
 		}
 
-		return $this->db->query('SELECT '.db_prefix().'commission_policy.name, commission_type, from_date, to_date, percent_enjoyed, amount_to_calculate, ladder_product_setting, product_setting, ladder_setting, commission_policy_type, clients, client_groups, commmission_first_invoices, number_first_invoices, percent_first_invoices FROM ' . db_prefix() . 'applicable_staff JOIN '.db_prefix().'commission_policy ON '.db_prefix().'applicable_staff.commission_policy = '.db_prefix().'commission_policy.id where applicable_staff = "'.$staff . '" and is_client = "'.$is_client.'" and from_date <= "' . $date . '" and to_date >= "' . $date . '" and IF(clients IS NOT NULL, IF(clients != "",find_in_set('.$client_id.',clients), 1=1), 1=1)'.$where_group.' order by '.db_prefix().'commission_policy.datecreated desc')->row();
+		return $this->db->query('SELECT '.db_prefix().'commission_policy.name, commission_type, from_date, to_date, percent_enjoyed, amount_to_calculate, ladder_product_setting, product_setting, ladder_setting, commission_policy_type, clients, client_groups, commmission_first_invoices, number_first_invoices, percent_first_invoices FROM ' . db_prefix() . 'applicable_staff JOIN '.db_prefix().'commission_policy ON '.db_prefix().'applicable_staff.commission_policy = '.db_prefix().'commission_policy.id where applicable_staff = "'.$staff . '" and is_client = "'.$is_client.'" and from_date <= "' . $date . '" and (to_date IS NULL OR to_date = "" OR to_date = "0000-00-00" OR to_date >= "' . $date . '") and IF(clients IS NOT NULL, IF(clients != "",find_in_set('.$client_id.',clients), 1=1), 1=1)'.$where_group.' order by '.db_prefix().'commission_policy.datecreated desc')->row();
 
 	}
 
