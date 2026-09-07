@@ -1,6 +1,7 @@
 <?php
 
 $lang['commission'] = 'Commission';
+$lang['commission_documentation'] = 'Documentation';
 $lang['commission_policy'] = 'Commission Program';
 $lang['calculated_by_invoice'] = 'Calculated by invoice';
 $lang['calculated_by_the_product'] = 'Percentage of Product';
