@@ -14,18 +14,6 @@ define('COMMISSION_MODULE_NAME', 'commission');
 define('COMMISSION_REVISION', 108);
 hooks()->add_action('admin_init', 'commission_module_init_menu_items');
 hooks()->add_action('admin_init', 'commission_permissions');
-hooks()->add_action('admin_init', static function () {
-	$CI = &get_instance();
-	$CI->app_menu->add_sidebar_children_item('commission', [
-		'slug' => 'commission-documentation',
-		'name' => _l('commission_documentation'),
-		'icon' => 'fa fa-book',
-		'href' => admin_url('commission/documentation'),
-		'position' => 100,
-		'target' => '_blank',
-		'rel' => 'noopener noreferrer',
-	]);
-}, 100);
 hooks()->add_action('app_admin_head', 'commission_add_head_components');
 hooks()->add_action('app_admin_footer', 'commission_add_footer_components');
 hooks()->add_filter('get_dashboard_widgets', 'commission_add_dashboard_widget');
@@ -152,6 +140,15 @@ function commission_module_init_menu_items() {
 			'name' => _l('commission'),
 			'icon' => 'fa fa-money',
 			'position' => 30,
+		]);
+
+		$CI->app_menu->add_sidebar_menu_item('commission-documentation', [
+			'name' => _l('commission_documentation'),
+			'icon' => 'fa fa-book',
+			'href' => admin_url('commission/documentation'),
+			'position' => 31,
+			'target' => '_blank',
+			'rel' => 'noopener noreferrer',
 		]);
 		if (has_permission('commission', '', 'view') || has_permission('commission', '', 'view_own')) {
 			$CI->app_menu->add_sidebar_children_item('commission', [
