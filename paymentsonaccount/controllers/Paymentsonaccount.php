@@ -13,7 +13,6 @@ class Paymentsonaccount extends AdminController
         if (!function_exists('send_mail_template_custom')) {
             require_once(module_dir_path(PAYMENTS_ON_ACCOUNT_MODULE_NAME, 'helpers/paymentsonaccount_mail_helper.php'));
         }
-		$this->load->model('emails_model');
     }
 
     /** Λίστα */
@@ -194,13 +193,13 @@ class Paymentsonaccount extends AdminController
                                         ? $this->currencies_model->get($client->default_currency)
                                         : get_base_currency();
 
-		// Φόρτωση του template με βάση το slug
-		$slug = 'receipt-sent-to-customer';
-		$data['template_name'] = $slug;
-		$email_template = $this->emails_model->get(['slug' => $slug, 'language' => 'english'], 'row');
+		// Fetch exactly one template. Calling Emails_model::get() with the where
+		// array as its first argument can materialize the complete templates table.
+		$data['template_name'] = 'receipt-sent-to-customer';
+		$email_template = $this->payments_on_account_model->get_receipt_email_template($client);
 		$data['email_template'] = $email_template;
-		$data['template_system_name'] = $email_template->name;
-		$data['template_id']          = $email_template->emailtemplateid;
+		$data['template_system_name'] = $email_template ? $email_template->name : '';
+		$data['template_id']          = $email_template ? $email_template->emailtemplateid : null;
 		
 		
         $mode = $this->payment_modes_model->get($receipt->payment_mode);
