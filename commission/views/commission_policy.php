@@ -72,7 +72,7 @@
                                               2 => ['id' => '3', 'name' => _l('calculated_by_the_product')],
                                               3 => ['id' => '4', 'name' => _l('calculated_product_as_ladder')]];
                 $value = (isset($commission_policy) ? $commission_policy->commission_policy_type : '');                      
-              echo render_select('commission_policy_type', $commission_policy_type,array('id','name'),'commission_policy_type', $value); ?>
+              echo render_select('commission_policy_type', $commission_policy_type,array('id','name'),'commission_policy_type', $value, ['required' => true]); ?>
             </div>
           </div>
           <div class="row <?php if(isset($commission_policy) && $commission_policy->commission_policy_type == '1'){ echo '';}else{echo 'hide';}?>" id = "calculated_as_ladder">
