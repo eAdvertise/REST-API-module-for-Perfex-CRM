@@ -345,7 +345,7 @@ class Payments_on_account_model extends App_Model
         return $allSent;
     }
 
-    private function get_receipt_email_template($client)
+    public function get_receipt_email_template($client)
     {
         $language = !empty($client->default_language) ? $client->default_language : get_option('active_language');
         if (!$language) {
