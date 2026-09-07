@@ -106,6 +106,13 @@ function commission_add_footer_components() {
 		echo '<script src="' . module_dir_url(COMMISSION_MODULE_NAME, 'assets/js/commission_dashboard.js') . '?v=' . COMMISSION_REVISION.'"></script>';
 		echo '<script src="' . module_dir_url(COMMISSION_MODULE_NAME, 'assets/plugins/highcharts/highcharts.js') . '"></script>';
 	}
+
+	// Perfex versions that do not forward menu link attributes still open the
+	// module documentation safely in a separate tab.
+	echo '<script>(function(){var link=document.querySelector(' .
+		'"#side-menu a[href$=\"/modules/commission/documentation/index.html\"], ' .
+		'#sidebar-menu a[href$=\"/modules/commission/documentation/index.html\"]");' .
+		'if(link){link.target="_blank";link.rel="noopener noreferrer";}})();</script>';
 }
 
 /**
@@ -193,6 +200,16 @@ function commission_module_init_menu_items() {
 				'position' => 6,
 			]);
 		}
+
+		$CI->app_menu->add_sidebar_children_item('commission', [
+			'slug' => 'commission-documentation',
+			'name' => _l('commission_documentation'),
+			'icon' => 'fa fa-book',
+			'href' => module_dir_url(COMMISSION_MODULE_NAME, 'documentation/index.html'),
+			'position' => 100,
+			'target' => '_blank',
+			'rel' => 'noopener noreferrer',
+		]);
 	}
 }
 
