@@ -106,6 +106,13 @@ function commission_add_footer_components() {
 		echo '<script src="' . module_dir_url(COMMISSION_MODULE_NAME, 'assets/js/commission_dashboard.js') . '?v=' . COMMISSION_REVISION.'"></script>';
 		echo '<script src="' . module_dir_url(COMMISSION_MODULE_NAME, 'assets/plugins/highcharts/highcharts.js') . '"></script>';
 	}
+
+	// Perfex versions that do not forward menu link attributes still open the
+	// module documentation safely in a separate tab.
+	echo '<script>(function(){var link=document.querySelector(' .
+		'"#side-menu a[href$=\"/admin/commission/documentation\"], ' .
+		'#sidebar-menu a[href$=\"/admin/commission/documentation\"]");' .
+		'if(link){link.target="_blank";link.rel="noopener noreferrer";}})();</script>';
 }
 
 /**
@@ -128,7 +135,7 @@ register_language_files(COMMISSION_MODULE_NAME, [COMMISSION_MODULE_NAME]);
  */
 function commission_module_init_menu_items() {
 	$CI = &get_instance();
-	if (has_permission('commission', '', 'view') || has_permission('commission', '', 'view_own') || has_permission('commission_applicable_staff', '', 'view') || has_permission('commission_policy', '', 'view')) {
+	if (is_admin() || has_permission('commission', '', 'view') || has_permission('commission', '', 'view_own') || has_permission('commission_applicable_staff', '', 'view') || has_permission('commission_policy', '', 'view') || has_permission('commission_receipt', '', 'view') || has_permission('commission_setting', '', 'view')) {
 		$CI->app_menu->add_sidebar_menu_item('commission', [
 			'name' => _l('commission'),
 			'icon' => 'fa fa-money',
@@ -193,6 +200,16 @@ function commission_module_init_menu_items() {
 				'position' => 6,
 			]);
 		}
+
+		$CI->app_menu->add_sidebar_children_item('commission', [
+			'slug' => 'commission-documentation',
+			'name' => _l('commission_documentation'),
+			'icon' => 'fa fa-book',
+			'href' => admin_url('commission/documentation'),
+			'position' => 100,
+			'target' => '_blank',
+			'rel' => 'noopener noreferrer',
+		]);
 	}
 }
 
