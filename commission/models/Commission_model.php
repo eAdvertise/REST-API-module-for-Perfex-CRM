@@ -16,6 +16,11 @@ class Commission_model extends App_Model {
 	 * @return     boolean
 	 */
 	public function add_commission_policy($data) {
+		$data['commission_policy_type'] = $this->normalize_commission_policy_type($data['commission_policy_type'] ?? '');
+		if ($data['commission_policy_type'] === '') {
+			return false;
+		}
+
 		$ladder_setting = [];
 		foreach ($data['from_amount'] as $key => $value) {
 			$node = [];
@@ -82,6 +87,11 @@ class Commission_model extends App_Model {
 	 * @return     boolean
 	 */
 	public function update_commission_policy($data, $id) {
+		$data['commission_policy_type'] = $this->normalize_commission_policy_type($data['commission_policy_type'] ?? '');
+		if ($data['commission_policy_type'] === '') {
+			return false;
+		}
+
 		$ladder_setting = [];
 		foreach ($data['from_amount'] as $key => $value) {
 			$node = [];
@@ -144,6 +154,21 @@ class Commission_model extends App_Model {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Normalize and validate the commission policy type submitted by the form.
+	 *
+	 * @param mixed $type
+	 * @return string
+	 */
+	private function normalize_commission_policy_type($type) {
+		if (is_array($type)) {
+			$type = reset($type);
+		}
+
+		$type = (string) $type;
+		return in_array($type, ['1', '2', '3', '4'], true) ? $type : '';
 	}
 
 	/**

@@ -715,8 +715,8 @@ class Commission extends AdminController
                 $row[] = _d($aRow['from_date']);
                 $row[] = _d($aRow['to_date']);
 
-                $options = icon_btn('commission/update_commission_policy/' . $aRow['id'], 'edit', 'btn-default', ['title' => _l('edit')]);
-                $options .= icon_btn('commission/delete_commission_policy/' . $aRow['id'], 'remove', 'btn-danger', ['title' => _l('delete')]);
+                $options = icon_btn('commission/update_commission_policy/' . $aRow['id'], 'fa-regular fa-pen-to-square', 'btn-default', ['title' => _l('edit')]);
+                $options .= icon_btn('commission/delete_commission_policy/' . $aRow['id'], 'fa-solid fa-trash-can', 'btn-danger _delete', ['title' => _l('delete')]);
 
                 $row[] =  $options;
 
