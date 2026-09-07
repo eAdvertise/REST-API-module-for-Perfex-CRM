@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title description"><title id="title">Email commission receipt</title><desc id="description">Send an existing receipt to one or more valid email addresses.</desc><style>
+            text { font-family: Inter, Arial, sans-serif; fill: #24364d; font-size: 16px; }
+            .brand, .badge-text { fill: #fff; font-weight: 700; }
+            .heading { fill: #10243e; font-size: 30px; font-weight: 700; }
+            .subtitle { fill: #52637a; }
+            .label { fill: #64748b; font-size: 12px; font-weight: 700; }
+            .section-title { fill: #10243e; font-weight: 700; }
+            .mono { font-family: "DejaVu Sans Mono", monospace; font-size: 15px; }
+            .code { font-family: "DejaVu Sans Mono", monospace; fill: #cdd6f4; font-size: 15px; }
+            .result-label { fill: #047857; font-size: 12px; font-weight: 700; }
+            .result { font-family: "DejaVu Sans Mono", monospace; fill: #14532d; font-size: 15px; }
+            .badge.get { fill: #0f766e; } .badge.post { fill: #2563eb; }
+            .badge.put { fill: #b45309; } .badge.delete { fill: #be123c; }
+        </style><rect width="1400" height="900" fill="#f4f7fb"/><rect width="1400" height="80" fill="#10243e"/><text x="38" y="50" class="brand">eAD CRM  /  REST API Documentation</text><text x="70" y="145" class="heading">Email commission receipt</text><text x="70" y="180" class="subtitle">Send an existing receipt to one or more valid email addresses.</text><rect x="70" y="215" width="1260" height="635" fill="#fff" stroke="#dce3ec"/><g><rect x="105" y="250" width="94" height="38" rx="3" class="badge post"/><text x="120" y="275" class="badge-text">POST</text></g><text x="225" y="278" class="mono">/api/commission/receipts/42/email</text><text x="105" y="350" class="section-title">Example request</text><rect x="105" y="375" width="1190" height="310" rx="3" fill="#1e1e2e"/><text x="130" y="412" class="code">curl -X POST &quot;https://yoursite.com/api/commission/receipts/42/email&quot; \</text><text x="130" y="445" class="code">  -H &quot;authtoken: YOUR_API_TOKEN&quot; \</text><text x="130" y="478" class="code">  -H &quot;Content-Type: application/json&quot; \</text><text x="130" y="511" class="code">  -d &apos;{</text><text x="130" y="544" class="code">    &quot;sent_to&quot;: [&quot;sales@example.com&quot;],</text><text x="130" y="577" class="code">    &quot;message&quot;: &quot;Your commission receipt&quot;</text><text x="130" y="610" class="code">  }&apos;</text><rect x="105" y="715" width="1190" height="110" rx="3" fill="#ecfdf5"/><text x="130" y="750" class="result-label">RESULT</text><text x="130" y="790" class="result">{ &quot;status&quot;: true, &quot;sent&quot;: 1 }</text></svg>
