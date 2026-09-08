@@ -20,7 +20,7 @@ define('CONTACTSPLUS_MODULE_VERSION', '2.0.0');
  * versions/classes. Remove only those two known obsolete copies before
  * Perfex builds the module migration list.
  */
-foreach (['101_version_101.php', '200_version_200.php'] as $obsoleteMigration) {
+foreach (['101_add_link_json_columns.php', '200_remote_search_link_existing.php'] as $obsoleteMigration) {
     $obsoleteMigration = __DIR__ . '/migrations/' . $obsoleteMigration;
 
     if (is_file($obsoleteMigration) && !unlink($obsoleteMigration)) {
@@ -36,7 +36,7 @@ register_language_files(CONTACTSPLUS_MODULE_NAME, [CONTACTSPLUS_MODULE_NAME]);
 function contactsplus_module_activate()
 {
     // Fresh install. Database upgrades are handled by Perfex's native module
-    // migration runner (see the version-prefixed files in migrations/).
+    // migration runner (see migrations/*_version_*.php).
     require_once __DIR__ . '/install.php';
 }
 
