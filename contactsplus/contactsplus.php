@@ -13,6 +13,21 @@ Author URI: https://www.eadvertise.eu
 define('CONTACTSPLUS_MODULE_NAME', 'contactsplus');
 define('CONTACTSPLUS_MODULE_VERSION', '2.0.0');
 
+/*
+ * Versions of 2.0.0 briefly shipped migrations under these alternative
+ * names. An archive upload does not remove old files, so both copies can be
+ * discovered and included by Perfex, resulting in duplicate migration
+ * versions/classes. Remove only those two known obsolete copies before
+ * Perfex builds the module migration list.
+ */
+foreach (['101_version_101.php', '200_version_200.php'] as $obsoleteMigration) {
+    $obsoleteMigration = __DIR__ . '/migrations/' . $obsoleteMigration;
+
+    if (is_file($obsoleteMigration) && !unlink($obsoleteMigration)) {
+        log_message('error', 'ContactsPlus could not remove obsolete migration: ' . $obsoleteMigration);
+    }
+}
+
 // --- Hooks registration ---
 register_activation_hook(CONTACTSPLUS_MODULE_NAME, 'contactsplus_module_activate');
 register_uninstall_hook(CONTACTSPLUS_MODULE_NAME, 'contactsplus_module_uninstall');
@@ -20,81 +35,14 @@ register_language_files(CONTACTSPLUS_MODULE_NAME, [CONTACTSPLUS_MODULE_NAME]);
 
 function contactsplus_module_activate()
 {
-    // Fresh install (creates base tables)
+    // Fresh install. Database upgrades are handled by Perfex's native module
+    // migration runner (see the version-prefixed files in migrations/).
     require_once __DIR__ . '/install.php';
-
-    // 1) Τρέξε sanity πάντα (διορθώνει σχήμα idempotently)
-    $sanity = __DIR__ . '/migrations/schema_sanity.php';
-    if (file_exists($sanity)) {
-        require_once $sanity;
-        if (function_exists('contactsplus_schema_sanity')) {
-            contactsplus_schema_sanity();
-        }
-    }
-
-    // 2) Τρέξε τυχόν migrations που λείπουν
-    contactsplus_maybe_run_migrations();
-
-    // 3) Στο τέλος γράψε την τρέχουσα έκδοση
-    update_option('contactsplus_module_version', CONTACTSPLUS_MODULE_VERSION);
 }
 
 function contactsplus_module_uninstall()
 {
     require_once __DIR__ . '/uninstall.php';
-}
-
-// --- MIGRATIONS RUNNER (τρέχει σε κάθε admin load, αλλά εφαρμόζει μόνο όταν χρειάζεται) ---
-hooks()->add_action('admin_init', 'contactsplus_maybe_run_migrations');
-
-function contactsplus_maybe_run_migrations()
-{
-    // 0) Πάντα-ασφάλεια: schema sanity
-    $sanity = __DIR__ . '/migrations/schema_sanity.php';
-    if (file_exists($sanity)) {
-        require_once $sanity;
-        if (function_exists('contactsplus_schema_sanity')) {
-            contactsplus_schema_sanity();
-        }
-    }
-
-    // 1) Installed version
-    $installed = get_option('contactsplus_module_version');
-    if (!$installed) {
-        $installed = '0.0.0';
-    }
-
-    // 2) Migrations
-    $migrations = [
-        '1.0.1' => [
-            'file' => __DIR__ . '/migrations/101_add_link_json_columns.php',
-            'func' => 'contactsplus_migration_101',
-        ],
-        '2.0.0' => [
-            'file' => __DIR__ . '/migrations/200_remote_search_link_existing.php',
-            'func' => 'contactsplus_migration_200',
-        ],
-    ];
-
-    // 3) Run pending migrations
-    foreach ($migrations as $ver => $mig) {
-        if (version_compare($installed, $ver, '<')) {
-            if (file_exists($mig['file'])) {
-                require_once $mig['file'];
-                if (function_exists($mig['func'])) {
-                    call_user_func($mig['func']);
-                }
-            }
-
-            update_option('contactsplus_module_version', $ver);
-            $installed = $ver;
-        }
-    }
-
-    // 4) Always sync final version with module version
-    if ($installed !== CONTACTSPLUS_MODULE_VERSION) {
-        update_option('contactsplus_module_version', CONTACTSPLUS_MODULE_VERSION);
-    }
 }
 
 // ----------------------------------------------------------
