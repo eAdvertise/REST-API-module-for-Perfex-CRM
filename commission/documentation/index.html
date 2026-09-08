@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Sales Commission module guide for Perfex CRM.">
+  <meta name="description" content="Sales Commission module guide for eAD-CRM.">
   <title>Sales Commission Documentation</title>
   <link rel="stylesheet" href="./api-docs.css">
   <link rel="stylesheet" href="./commission-docs.css">
@@ -11,13 +11,13 @@
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
   <header class="docs-topbar">
-    <a class="docs-brand-link" href="#overview"><strong>Sales Commission</strong><span>Perfex CRM Module Guide</span></a>
+    <a class="docs-brand-link" href="#overview"><strong>Sales Commission</strong><span>eAD-CRM Module Guide</span></a>
     <div class="docs-topbar-actions"><button class="docs-search-trigger" id="focus-search" type="button">Search documentation <kbd>Ctrl K</kbd></button></div>
   </header>
   <button class="nav-toggle" id="nav-toggle" type="button" aria-controls="sidenav" aria-expanded="false">☰ Menu</button>
   <div class="app-layout">
     <nav id="sidenav" aria-label="Documentation navigation">
-      <div class="sidenav-brand"><div class="sidenav-logo"><div class="commission-mark">%</div><h3>Commission</h3><span class="sidenav-credit">Perfex CRM module</span></div></div>
+      <div class="sidenav-brand"><div class="sidenav-logo"><div class="commission-mark">%</div><h3>Commission</h3><span class="sidenav-credit">eAD-CRM module</span></div></div>
       <div class="sidenav-search-wrap"><div class="sidenav-search"><input id="docs-search" class="search" type="search" placeholder="Search sections…" aria-label="Search documentation"><button id="clear-search" class="search-reset" type="button" aria-label="Clear search">×</button></div></div>
       <ul class="sidenav nav nav-list" id="docs-nav">
         <li class="nav-header nav-list-item"><a href="#overview">Overview</a></li>
@@ -38,7 +38,7 @@
       <div class="sidenav-footer"><span>Sales Commission · eAdvertise</span></div>
     </nav>
     <main id="content">
-      <section id="overview" class="intro-section"><span class="eyebrow">Sales Commission</span><h1>Commission programs in Perfex CRM</h1><p class="lead">Configure commission rules for staff and clients, calculate earnings from paid invoices, review results, and issue commission receipts from one module.</p><div class="callout callout-warning"><strong>Configure before recalculating.</strong> Confirm policy dates, assignment rules, and percentages in a staging environment before applying them to historical invoices.</div></section>
+      <section id="overview" class="intro-section"><span class="eyebrow">Sales Commission</span><h1>Commission programs in eAD-CRM</h1><p class="lead">Configure commission rules for staff and clients, calculate earnings from paid invoices, review results, and issue commission receipts from one module.</p><div class="callout callout-warning"><strong>Configure before recalculating.</strong> Confirm policy dates, assignment rules, and percentages in a staging environment before applying them to historical invoices.</div></section>
 
       <section id="workflow"><h2>How it works</h2><article><h1>From invoice payment to receipt</h1><div class="flow-grid"><div class="flow-card"><b>Policy</b><span>Percentage, fixed, or ladder rules</span></div><div class="flow-arrow">→</div><div class="flow-card"><b>Assignment</b><span>Staff, clients, and groups</span></div><div class="flow-arrow">→</div><div class="flow-card"><b>Paid invoice</b><span>Automatic calculation</span></div><div class="flow-arrow">→</div><div class="flow-card"><b>Receipt</b><span>Record and email payment</span></div></div><p>When an invoice payment is recorded, the module selects the applicable policy and saves the calculated commission. Existing invoices can be processed with the recalculation tool.</p></article></section>
 
@@ -66,9 +66,9 @@ Internal note</code></pre></div></div></article>
 
       <section id="support"><h2>Support</h2>
         <article id="permissions"><h1>Staff permissions</h1><table class="table table-hover"><thead><tr><th>Capability</th><th>Controls</th></tr></thead><tbody><tr><td><code>commission</code></td><td>Own/global results and module-level access.</td></tr><tr><td><code>commission_policy</code></td><td>View, create, edit, and delete commission programs.</td></tr><tr><td><code>commission_applicable_staff</code></td><td>Manage staff and client applicability.</td></tr><tr><td><code>commission_receipt</code></td><td>View, create, and delete receipts.</td></tr><tr><td><code>commission_setting</code></td><td>View and edit hierarchy and module settings.</td></tr></tbody></table><p>Configure access under <strong>Setup → Staff → Roles</strong>. Apply least privilege, especially for policy changes, receipts, and data reset.</p></article>
-        <article id="troubleshooting"><h1>Troubleshooting</h1><table class="table table-hover"><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody><tr><td>Commission is not calculated</td><td>Confirm invoice payment, policy effective date, assignment, and staff permissions.</td></tr><tr><td>Amount is unexpected</td><td>Review invoice/product mode, ladder ranges, profit calculation, and first-invoice rules.</td></tr><tr><td>Product profit is unavailable</td><td>Activate Warehouse and confirm purchase costs exist.</td></tr><tr><td>Receipt cannot be created</td><td>Select unpaid commission rows and provide amount, date, and payment mode.</td></tr><tr><td>Email is not delivered</td><td>Check Perfex email configuration, recipient address, and application logs.</td></tr><tr><td>User cannot see a menu item</td><td>Review the corresponding Commission role capability.</td></tr></tbody></table></article>
+        <article id="troubleshooting"><h1>Troubleshooting</h1><table class="table table-hover"><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody><tr><td>Commission is not calculated</td><td>Confirm invoice payment, policy effective date, assignment, and staff permissions.</td></tr><tr><td>Amount is unexpected</td><td>Review invoice/product mode, ladder ranges, profit calculation, and first-invoice rules.</td></tr><tr><td>Product profit is unavailable</td><td>Activate Warehouse and confirm purchase costs exist.</td></tr><tr><td>Receipt cannot be created</td><td>Select unpaid commission rows and provide amount, date, and payment mode.</td></tr><tr><td>Email is not delivered</td><td>Check eAD-CRM email configuration, recipient address, and application logs.</td></tr><tr><td>User cannot see a menu item</td><td>Review the corresponding Commission role capability.</td></tr></tbody></table></article>
       </section>
-      <footer><strong>Sales Commission</strong><span>Perfex CRM module documentation</span></footer>
+      <footer><strong>Sales Commission</strong><span>eAD-CRM module documentation</span></footer>
     </main>
   </div>
   <script src="./commission-docs.js"></script>
