@@ -13,21 +13,6 @@ Author URI: https://www.eadvertise.eu
 define('CONTACTSPLUS_MODULE_NAME', 'contactsplus');
 define('CONTACTSPLUS_MODULE_VERSION', '2.0.0');
 
-/*
- * Versions of 2.0.0 briefly shipped migrations under these alternative
- * names. An archive upload does not remove old files, so both copies can be
- * discovered and included by Perfex, resulting in duplicate migration
- * versions/classes. Remove only those two known obsolete copies before
- * Perfex builds the module migration list.
- */
-foreach (['101_add_link_json_columns.php', '200_remote_search_link_existing.php'] as $obsoleteMigration) {
-    $obsoleteMigration = __DIR__ . '/migrations/' . $obsoleteMigration;
-
-    if (is_file($obsoleteMigration) && !unlink($obsoleteMigration)) {
-        log_message('error', 'ContactsPlus could not remove obsolete migration: ' . $obsoleteMigration);
-    }
-}
-
 // --- Hooks registration ---
 register_activation_hook(CONTACTSPLUS_MODULE_NAME, 'contactsplus_module_activate');
 register_uninstall_hook(CONTACTSPLUS_MODULE_NAME, 'contactsplus_module_uninstall');
