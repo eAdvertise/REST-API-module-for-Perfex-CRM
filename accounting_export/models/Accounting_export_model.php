@@ -150,7 +150,7 @@ class Accounting_export_model extends App_Model
 					$item['company'],
 					$item
 				),
-				'net_amount'        => $item['total'],
+				'net_amount'        => $item['subtotal'],
 				'tax_code'          => $settings['accounting_export_invoice_tax_code'],
 				'tax_amount'        => $item['total_tax'],
 			], $settings);
@@ -188,7 +188,7 @@ class Accounting_export_model extends App_Model
 					$item['company'],
 					$item
 				),
-				'net_amount'        => $item['total'],
+				'net_amount'        => $item['subtotal'],
 				'tax_code'          => $settings['accounting_export_credit_note_tax_code'],
 				'tax_amount'        => $item['total_tax'],
 			], $settings);
