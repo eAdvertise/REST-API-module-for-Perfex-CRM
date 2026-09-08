@@ -345,7 +345,7 @@ class Payments_on_account_model extends App_Model
         return $allSent;
     }
 
-    private function get_receipt_email_template($client)
+    public function get_receipt_email_template($client)
     {
         $language = !empty($client->default_language) ? $client->default_language : get_option('active_language');
         if (!$language) {
@@ -575,10 +575,7 @@ class Payments_on_account_model extends App_Model
         }
     }
 
-    /**
-     * Δημιουργεί core payment με προτεραιότητα:
-     * process_payment -> add -> fallback direct insert. Επιστρέφει payment_id.
-     */
+    /** Δημιουργεί payment μέσω του core model και επιστρέφει το payment ID. */
     private function create_core_invoice_payment(int $invoice_id, float $amount, array $meta): int
 	{
 		$this->load->model('payments_model');
@@ -595,12 +592,17 @@ class Payments_on_account_model extends App_Model
 			'paymentmode'      => (string)($meta['payment_mode']   ?? ''),
 			'paymentmethod'    => (string)($meta['payment_method'] ?? ''),
 			'transactionid'    => (string)($meta['transaction_id'] ?? ''),
-			'note'             => (string)($meta['note'] ?? ''), // <<<<
-			'do_not_send_email'=> 1,
-			'send_email'       => 0,
+			'note'             => (string)($meta['note'] ?? ''),
+			// This is the flag understood and removed by Perfex Payments_model::add().
+			'do_not_send_email_template' => true,
 		];
 
-		// ... (τα υπόλοιπα ίδια όπως τα έχεις)
+		try {
+			return (int)$this->payments_model->add($data);
+		} catch (\Throwable $e) {
+			log_message('error', 'Receipt core payment failed for invoice '.$invoice_id.': '.$e->getMessage());
+			return 0;
+		}
 	}
 
 
@@ -690,8 +692,13 @@ class Payments_on_account_model extends App_Model
 		// === Bridge + JSON ===
 		$applied_total = 0.0;
 		$this->db->trans_start();
+		$applied_rows = [];
 		foreach ($final as $i => $row) {
+			if (empty($res['created_ids'][$i])) {
+				continue;
+			}
 			$applied_total += (float)$row['amount'];
+			$applied_rows[] = $row;
 			$this->db->insert(db_prefix().'receipt_invoice_applications', [
 				'receipt_id'        => $receipt_id,
 				'invoice_id'        => (int)$row['invoice_id'],
@@ -702,7 +709,7 @@ class Payments_on_account_model extends App_Model
 		}
 		$this->db->where('id', $receipt_id)
 				 ->update(db_prefix().'receipts', [
-					 'invoices_applied' => json_encode($final, JSON_UNESCAPED_UNICODE),
+					 'invoices_applied' => json_encode($applied_rows, JSON_UNESCAPED_UNICODE),
 				 ]);
 		$this->db->trans_complete();
 
@@ -841,78 +848,18 @@ class Payments_on_account_model extends App_Model
         }
     }
 
-    /**
-     * Δημιουργεί ΠΟΛΛΑ core payments με 1 κλήση μέσω add_batch_payment (core),
-     * διαφορετικά κάνει fallback σε process_payment/add ανά γραμμή.
-     *
-     * @param array $allocs Array από ['invoice_id'=>int,'amount'=>float]
-     * @param array $meta   ['payment_mode','payment_method','payment_date','transaction_id','note']
-     * @return array        ['created_ids'=>int[], 'created_count'=>int]
-     */
+    /** Δημιουργεί core payments ανά invoice ώστε να διατηρούνται τα payment IDs. */
     private function create_core_batch_payments(array $allocs, array $meta): array
 	{
-		$this->load->model('payments_model');
-
-		// 1) Προσπάθεια με add_batch_payment
-		if (method_exists($this->payments_model, 'add_batch_payment')) {
-			$post = [
-				'date'          => $meta['payment_date'] ?? date('Y-m-d'),
-				'paymentmode'   => (string)($meta['payment_mode'] ?? ''),
-				'paymentmethod' => (string)($meta['payment_method'] ?? ''),
-				'transactionid' => (string)($meta['transaction_id'] ?? ''), // κοινό για όλες (ok)
-				'note'              => (string)($meta['note'] ?? ''),           // <<<< MARKER PASSES HERE
-				'do_not_send_email' => 1,
-				'send_email'        => 0,
-				'invoice'           => [],
-				'amount'            => [],
-			];
-			foreach ($allocs as $a) {
-				$inv = (int)($a['invoice_id'] ?? 0);
-				$amt = (float)($a['amount'] ?? 0);
-				if ($inv > 0 && $amt > 0) {
-					$post['invoice'][] = $inv;
-					$post['amount'][]  = $amt;
-				}
-			}
-
-			try {
-				$total = (int)$this->payments_model->add_batch_payment($post);
-				if ($total > 0) {
-					foreach ($post['invoice'] as $iid) { $this->refresh_invoice_status((int)$iid); }
-					return ['created_ids' => [], 'created_count' => $total];
-				}
-			} catch (\Throwable $e) { /* fallback */ }
-		}
-
-		// 2) Fallback ανά γραμμή
 		$created = [];
-		foreach ($allocs as $a) {
+		foreach ($allocs as $index => $a) {
 			$invoice_id = (int)($a['invoice_id'] ?? 0);
 			$amount     = (float)($a['amount'] ?? 0);
 			if ($invoice_id <= 0 || $amount <= 0) continue;
 
-			$record = [
-				'invoiceid'     => $invoice_id,
-				'amount'        => $amount,
-				'date'          => $meta['payment_date'] ?? date('Y-m-d'),
-				'paymentmode'   => (string)($meta['payment_mode'] ?? ''),
-				'paymentmethod' => (string)($meta['payment_method'] ?? ''),
-				'transactionid' => (string)($meta['transaction_id'] ?? ''), // μπορεί να μείνει κενό
-				'note'              => (string)($meta['note'] ?? ''),           // <<<< MARKER PASSES HERE
-				'do_not_send_email' => 1,
-				'send_email'        => 0,
-			];
-
-			$pid = 0;
-			if (method_exists($this->payments_model, 'process_payment')) {
-				try { $pid = (int)$this->payments_model->process_payment($record); } catch (\Throwable $e) { $pid = 0; }
-			}
-			if (!$pid && method_exists($this->payments_model, 'add')) {
-				try { $pid = (int)$this->payments_model->add($record); } catch (\Throwable $e) { $pid = 0; }
-			}
+			$pid = $this->create_core_invoice_payment($invoice_id, $amount, $meta);
 			if ($pid) {
-				$created[] = $pid;
-				$this->refresh_invoice_status($invoice_id);
+				$created[$index] = $pid;
 			}
 		}
 
