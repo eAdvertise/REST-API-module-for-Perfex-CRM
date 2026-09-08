@@ -149,7 +149,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 <?php $this->load->view('contactsplus/contacts/create_modal', ['client_id' => $client_id]); ?>
 <?php $this->load->view('contactsplus/contacts/link_existing_modal', ['client_id' => $client_id]); ?>
-<?php init_tail(); ?>
 <script>
 (function($){
   "use strict";
@@ -206,8 +205,31 @@ defined('BASEPATH') or exit('No direct script access allowed');
   // Link Existing: remote load dropdown
   // -------------------------------
   var $select = $('#contactsplus_contact_select');
+  var $linkModal = $('#contactsplus_link_modal');
   var selectedId = null;
   var cpSearchTimer = null;
+  var contactsRequest = null;
+  var linkModalTrigger = null;
+
+  function contactPickerAvailable(){
+    return $select.length && typeof $.fn.selectpicker === 'function';
+  }
+
+  function initContactPicker(){
+    if (!contactPickerAvailable()) return false;
+
+    // Customer tabs may be injected after Perfex has run init_selectpicker().
+    // In that case the element has the class but no bootstrap-select instance.
+    if (!$select.data('selectpicker') && !$select.data('bs.select')) {
+      $select.selectpicker();
+    }
+
+    return true;
+  }
+
+  function refreshContactPicker(){
+    if (initContactPicker()) $select.selectpicker('refresh');
+  }
 
   function buildOptionLabel(it){
     var label = it.text || '';
@@ -217,7 +239,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
   }
 
   function loadContacts(q, preserveSelected){
-    $.getJSON(SEARCH_URL, { client_id: CLIENT_ID, q: q || '' })
+    if (contactsRequest && contactsRequest.readyState !== 4) {
+      contactsRequest.abort();
+    }
+
+    contactsRequest = $.getJSON(SEARCH_URL, { client_id: CLIENT_ID, q: q || '' })
       .done(function(resp){
         var list = (resp && resp.results) ? resp.results : [];
         var prev = preserveSelected ? ($select.val() || selectedId) : null;
@@ -237,20 +263,34 @@ defined('BASEPATH') or exit('No direct script access allowed');
           $select.append(opt);
         });
 
-        $select.selectpicker('refresh');
+        refreshContactPicker();
 
         if (prev) {
-          $select.selectpicker('val', String(prev));
+          if ($.fn.selectpicker) {
+            $select.selectpicker('val', String(prev));
+          } else {
+            $select.val(String(prev));
+          }
           selectedId = String(prev);
         }
       })
-      .fail(function(){
+      .fail(function(xhr, status){
+        if (status === 'abort') return;
         $select.empty();
-        $select.selectpicker('refresh');
+        refreshContactPicker();
+      })
+      .always(function(){
+        contactsRequest = null;
       });
   }
 
-  $('#contactsplus_link_modal').on('shown.bs.modal', function(){
+  $linkModal.off('.contactsplusLink');
+  $linkModal.on('show.bs.modal.contactsplusLink', function(){
+    linkModalTrigger = document.activeElement;
+  });
+
+  $linkModal.on('shown.bs.modal.contactsplusLink', function(){
+    initContactPicker();
     loadContacts('', true);
 
     setTimeout(function(){
@@ -267,11 +307,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
     }, 150);
   });
 
-  $('#contactsplus_link_modal').on('hidden.bs.modal', function(){
+  $linkModal.on('hide.bs.modal.contactsplusLink', function(){
     clearTimeout(cpSearchTimer);
+    if (contactsRequest && contactsRequest.readyState !== 4) {
+      contactsRequest.abort();
+    }
+    if ($.contains(this, document.activeElement)) {
+      document.activeElement.blur();
+    }
   });
 
-  $select.on('changed.bs.select', function(){
+  $linkModal.on('hidden.bs.modal.contactsplusLink', function(){
+    if (linkModalTrigger && typeof linkModalTrigger.focus === 'function') {
+      linkModalTrigger.focus();
+    }
+    linkModalTrigger = null;
+  });
+
+  $select.off('changed.bs.select.contactsplusLink').on('changed.bs.select.contactsplusLink', function(){
     selectedId = $(this).val();
   });
 
