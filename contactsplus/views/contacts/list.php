@@ -211,10 +211,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
   var contactsRequest = null;
   var linkModalTrigger = null;
 
-  function refreshContactPicker(){
-    if ($.fn.selectpicker && $select.length) {
-      $select.selectpicker('refresh');
+  function contactPickerAvailable(){
+    return $select.length && typeof $.fn.selectpicker === 'function';
+  }
+
+  function initContactPicker(){
+    if (!contactPickerAvailable()) return false;
+
+    // Customer tabs may be injected after Perfex has run init_selectpicker().
+    // In that case the element has the class but no bootstrap-select instance.
+    if (!$select.data('selectpicker') && !$select.data('bs.select')) {
+      $select.selectpicker();
     }
+
+    return true;
+  }
+
+  function refreshContactPicker(){
+    if (initContactPicker()) $select.selectpicker('refresh');
   }
 
   function buildOptionLabel(it){
@@ -276,6 +290,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
   });
 
   $linkModal.on('shown.bs.modal.contactsplusLink', function(){
+    initContactPicker();
     loadContacts('', true);
 
     setTimeout(function(){
