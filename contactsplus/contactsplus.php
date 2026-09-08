@@ -21,7 +21,7 @@ register_language_files(CONTACTSPLUS_MODULE_NAME, [CONTACTSPLUS_MODULE_NAME]);
 function contactsplus_module_activate()
 {
     // Fresh install. Database upgrades are handled by Perfex's native module
-    // migration runner (see the version-prefixed files in migrations/).
+    // migration runner (see migrations/*_version_*.php).
     require_once __DIR__ . '/install.php';
 }
 
