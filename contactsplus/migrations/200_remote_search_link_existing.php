@@ -1,14 +1,11 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-/**
- * ContactsPlus v2.0.0
- * No schema changes required.
- * Keeps versioning consistent for the release that fixes:
- * - remote search in "Link Existing Contact" modal
- * - initial load no longer biased by alphabetical first batch
- */
-function contactsplus_migration_200()
+class Migration_Version_200 extends App_module_migration
 {
-    return true;
+    public function up()
+    {
+        // Version 2.0.0 contains application changes only. Perfex still needs
+        // this migration to advance its stored module database version.
+    }
 }
