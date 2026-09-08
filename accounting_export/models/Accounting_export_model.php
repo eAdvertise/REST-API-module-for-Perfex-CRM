@@ -150,7 +150,7 @@ class Accounting_export_model extends App_Model
 					$item['company'],
 					$item
 				),
-				'net_amount'        => $item['subtotal'],
+				'net_amount'        => $this->calculate_net_amount($item['total'], $item['total_tax']),
 				'tax_code'          => $settings['accounting_export_invoice_tax_code'],
 				'tax_amount'        => $item['total_tax'],
 			], $settings);
@@ -188,7 +188,7 @@ class Accounting_export_model extends App_Model
 					$item['company'],
 					$item
 				),
-				'net_amount'        => $item['subtotal'],
+				'net_amount'        => $this->calculate_net_amount($item['total'], $item['total_tax']),
 				'tax_code'          => $settings['accounting_export_credit_note_tax_code'],
 				'tax_amount'        => $item['total_tax'],
 			], $settings);
@@ -296,6 +296,11 @@ class Accounting_export_model extends App_Model
 
 		return $rows;
 	}
+	protected function calculate_net_amount($total, $tax_amount)
+	{
+		return $this->normalize_numeric_amount($total) - $this->normalize_numeric_amount($tax_amount);
+	}
+
 	protected function normalize_numeric_amount($amount)
 	{
 		if ($amount === null || $amount === '') {
