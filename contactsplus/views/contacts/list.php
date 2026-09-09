@@ -150,9 +150,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <?php $this->load->view('contactsplus/contacts/create_modal', ['client_id' => $client_id]); ?>
 <?php $this->load->view('contactsplus/contacts/link_existing_modal', ['client_id' => $client_id]); ?>
 <script>
+(function contactsplusBoot(){
+if (!window.jQuery) {
+  window.setTimeout(contactsplusBoot, 50);
+  return;
+}
+if (window.contactsplusListInitialized) return;
+window.contactsplusListInitialized = true;
+
 (function($){
   "use strict";
-  if(!$) return; // safety
   // -------------------------------
   // Globals / Endpoints
   // -------------------------------
@@ -699,4 +706,5 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	});
 
 })(window.jQuery);
+})();
 </script>

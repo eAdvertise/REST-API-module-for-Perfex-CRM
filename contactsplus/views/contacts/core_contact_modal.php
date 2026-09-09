@@ -217,10 +217,18 @@ if (!isset($calling_code)) { $calling_code = ''; }
 </div>
 
 <script>
+(function contactsplusCoreModalBoot(){
+  if (!window.jQuery) {
+    window.setTimeout(contactsplusCoreModalBoot, 50);
+    return;
+  }
+
 (function($){
   "use strict";
   // Αντιστοίχιση default email notifications με βάση τα permissions (όπως στο core)
-  $('#contactsplus_core_contact').on('shown.bs.modal', function(){
+  $('#contactsplus_core_contact')
+    .off('shown.bs.modal.contactsplusCore')
+    .on('shown.bs.modal.contactsplusCore', function(){
     var $form = $('#contactsplus-core-contact-form');
     // χαλάρωσε το required στο email
     var $email = $form.find('input[name="email"]');
@@ -236,5 +244,6 @@ if (!isset($calling_code)) { $calling_code = ''; }
   });
 
   // ΠΡΟΣΟΧΗ: Δεν υπάρχει πλέον submit handler εδώ.
-})(jQuery);
+})(window.jQuery);
+})();
 </script>
