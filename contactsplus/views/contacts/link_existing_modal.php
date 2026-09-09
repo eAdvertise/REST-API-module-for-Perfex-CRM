@@ -37,13 +37,13 @@ if (function_exists('get_client_contact_email_templates')) {
 }
 ?>
 
-<div class="modal fade" id="contactsplus_link_modal" tabindex="-1" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
+<div class="modal fade" id="contactsplus_link_modal" tabindex="-1" role="dialog" aria-labelledby="contactsplus_link_modal_title">
+	<div class="modal-dialog modal-lg" role="document">
 	<div class="modal-content">
 
 		<div class="modal-header">
 		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
-		  <h4 class="modal-title"><?= _l('contactsplus_modal_link_existing'); ?></h4>
+		  <h4 class="modal-title" id="contactsplus_link_modal_title"><?= _l('contactsplus_modal_link_existing'); ?></h4>
 		  <small class="text-muted"><?= isset($client_id) && $client_id ? '#'.(int)$client_id : '' ?></small>
 		</div>
 
