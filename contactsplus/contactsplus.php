@@ -171,7 +171,17 @@ hooks()->add_action('app_admin_footer', function () {
         'select[name="sent_to[]"]', // το δικό σου modal
         'select[name="sent_to"]',
         'select[name="contact[]"]',
-        'select[name="contact"]'
+        'select[name="contact"]',
+        'select[name="contacts[]"]'
+      ];
+
+      // Several Perfex releases render recipients as checkboxes instead of
+      // a select. These controls also let us infer the client from a core
+      // contact when the modal has no hidden client_id field.
+      var CONTACT_INPUT_SELECTORS = [
+        'input[name="sent_to[]"]',
+        'input[name="contact[]"]',
+        'input[name="contacts[]"]'
       ];
 
       var EXTRA_EMAILS = [
@@ -199,6 +209,8 @@ hooks()->add_action('app_admin_footer', function () {
           var n = toInt($m.find('input[name="'+names[i]+'"]').val());
           if (n) return n;
         }
+        var pageMatch = window.location.pathname.match(/\/clients\/client\/(\d+)/);
+        if (pageMatch) return toInt(pageMatch[1]);
         return 0;
       }
 
@@ -242,6 +254,38 @@ hooks()->add_action('app_admin_footer', function () {
           $g.append($opt);
         });
         if (typeof $sel.selectpicker === 'function'){ $sel.selectpicker('refresh'); }
+      }
+
+      function renderCpRecipients($m, $anchor, emails){
+        var $panel = $m.find('[data-contactsplus-recipients="1"]');
+        if (!$panel.length) {
+          $panel = $('<div>', {
+            'class': 'form-group contactsplus-email-recipients',
+            'data-contactsplus-recipients': '1'
+          });
+          $panel.append($('<label>', { text: CP_GROUP_LABEL }));
+          $panel.append($('<div>', { 'class': 'contactsplus-email-options' }));
+
+          var $group = $anchor.length ? $anchor.first().closest('.form-group') : $();
+          if ($group.length) $panel.insertAfter($group);
+          else $m.find('.modal-body').first().prepend($panel);
+        }
+
+        var $options = $panel.find('.contactsplus-email-options').empty();
+        emails.forEach(function(row){
+          var email = row && row.email ? String(row.email).trim() : '';
+          if (!email) return;
+          var id = 'cp_modal_email_' + Math.random().toString(36).slice(2);
+          var $label = $('<label>', { 'class': 'checkbox-inline', 'for': id });
+          $('<input>', {
+            type: 'checkbox', id: id, value: email,
+            'class': 'contactsplus-email-choice'
+          }).appendTo($label);
+          $label.append(document.createTextNode(' ' + (row.label || email)));
+          $options.append($label);
+        });
+
+        $panel.toggle($options.children().length > 0);
       }
 
       function fetchCpEmails(args, cb){
@@ -332,7 +376,7 @@ hooks()->add_action('app_admin_footer', function () {
         }
 
         $form.on('submit', function(){
-          var sel = getSelectValue($sel) || [];
+          var sel = $sel.length ? (getSelectValue($sel) || []) : [];
           if (!Array.isArray(sel)) sel = [sel];
 
           var cpEmails = [];
@@ -349,9 +393,14 @@ hooks()->add_action('app_admin_footer', function () {
             }
           });
 
-          if (typeof $sel.selectpicker === 'function'){
+          $m.find('.contactsplus-email-choice:checked').each(function(){
+            var email = String($(this).val() || '').trim();
+            if (email && cpEmails.indexOf(email) === -1) cpEmails.push(email);
+          });
+
+          if ($sel.length && typeof $sel.selectpicker === 'function'){
             $sel.selectpicker('val', keep);
-          } else {
+          } else if ($sel.length) {
             if ($sel.prop('multiple')) { $sel.val(keep); } else { $sel.val(keep.length ? keep[0] : ''); }
           }
 
@@ -361,7 +410,8 @@ hooks()->add_action('app_admin_footer', function () {
 
       function enhance($m){
         var $sel = qSelIn($m, CONTACT_SELECTORS);
-        if (!$sel.length) return;
+        var $contactInputs = qSelIn($m, CONTACT_INPUT_SELECTORS);
+        if (!$sel.length && !$contactInputs.length) return;
 
         var ctx = detectContext($m);
         var clientId = detectClientId($m);
@@ -370,12 +420,14 @@ hooks()->add_action('app_admin_footer', function () {
         if (clientId > 0) {
           args.client_id = clientId;
         } else {
-          var val = $sel.val();
+          var val = $sel.length ? $sel.val() : $contactInputs.filter(':checked').first().val();
           var coreCid = null;
           if (val && (Array.isArray(val) ? val.length>0 : true)) {
             coreCid = Array.isArray(val) ? val[0] : val;
           } else {
-            var $first = $sel.find('option[value]').first();
+            var $first = $sel.length
+              ? $sel.find('option[value]').first()
+              : $contactInputs.filter('[value]').first();
             if ($first.length) coreCid = $first.val();
           }
           var intCid = parseInt(coreCid, 10);
@@ -387,7 +439,8 @@ hooks()->add_action('app_admin_footer', function () {
         }
 
         fetchCpEmails(args, function(list){
-          addCpOptions($sel, list);
+          if ($sel.length) addCpOptions($sel, list);
+          else renderCpRecipients($m, $contactInputs, list);
         });
         bindSubmit($m, $sel);
       }
