@@ -18,7 +18,7 @@ class Contactsplus extends AdminController
     {
         // Permission: admin ή staff με δικαίωμα προβολής πελατών ή contactsplus_manage
         $allowed = false;
-        if (function_exists('staff_can') && staff_can('contactsplus_manage')) $allowed = true;
+        if (function_exists('staff_can') && staff_can('contactsplus_manage', 'contactsplus')) $allowed = true;
         if (function_exists('has_permission') && has_permission('customers', '', 'view')) $allowed = true;
         if (is_admin()) $allowed = true;
         if (!$allowed) { show_404(); }
@@ -85,7 +85,7 @@ class Contactsplus extends AdminController
         // permission: admin ή view customers ή contactsplus_manage
         $allowed = is_admin()
             || (function_exists('has_permission') && has_permission('customers', '', 'view'))
-            || (function_exists('staff_can') && staff_can('contactsplus_manage'));
+            || (function_exists('staff_can') && staff_can('contactsplus_manage', 'contactsplus'));
 
         if (!$allowed) {
             show_404();
