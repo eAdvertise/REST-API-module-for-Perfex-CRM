@@ -458,27 +458,38 @@ class Api extends AdminController
 			return $this->json(['ok'=>false,'error'=>'client_id or contact_id required'], 400);
 		}
 
-		// Optional: context-based filtering key mapping for Contacts+
-		// Τα keys στο email_notif_json του link είναι σε στυλ core:
-		// invoice_emails, estimate_emails, credit_note_emails, project_emails, ticket_emails, task_emails, contract_emails
-		// Δεν υπάρχει ειδικό "payment", οπότε για payments/receipts θα χρησιμοποιήσουμε invoice_emails σαν proxy.
-		$ctxKey = null;
+		// Context-based notification filtering for Contacts+. Accept both the
+		// core *_emails keys and legacy short keys saved by the Link Existing
+		// modal. Payments, receipts and statements follow the invoice setting;
+		// proposals follow estimates.
+        $ctxKeys = [];
 		switch ($context) {
-			case 'invoice':        $ctxKey = 'invoice_emails'; break;
-			case 'estimate':       $ctxKey = 'estimate_emails'; break;
-			case 'credit_note':    $ctxKey = 'credit_note_emails'; break;
-			case 'proposal':       $ctxKey = null; break; // δεν υπάρχει ειδικό flag -> μη φιλτράρεις
-			case 'delivery_note':  $ctxKey = 'invoice_emails'; break; // κοντινότερο proxy
-			case 'payment':        $ctxKey = 'invoice_emails'; break; // κοντινότερο proxy
-			case 'poa_statement':  $ctxKey = 'invoice_emails'; break; // κοντινότερο proxy
-			default:               $ctxKey = null;
+			case 'invoice':
+			case 'payment':
+			case 'receipt':
+			case 'poa_statement':
+				$ctxKeys = ['invoice_emails', 'invoice', 'invoices'];
+				break;
+			case 'estimate':
+			case 'proposal':
+				$ctxKeys = ['estimate_emails', 'estimate', 'estimates'];
+				break;
+			case 'credit_note':
+				$ctxKeys = ['credit_note_emails', 'credit_note', 'credit_notes'];
+				break;
+			case 'delivery_note':
+				$ctxKeys = [
+					'delivery_note_emails', 'delivery_note', 'delivery_notes',
+					'waybill_emails', 'waybill', 'waybills',
+				];
+				break;
 		}
 
 		// Φέρε Contacts+ emails για τον πελάτη
 		// κριτήρια:
 		//  - link.notifications = 1
 		//  - pmc.email IS NOT NULL & valid
-		//  - αν υπάρχει email_notif_json -> πρέπει να περιέχει το ctxKey (αν δόθηκε)
+		//  - το email_notif_json πρέπει να επιτρέπει το συγκεκριμένο context
 		$this->db->from($pref.'pmc_contact_company as l');
 		$this->db->join($pref.'pmc_contacts as c', 'c.id = l.contact_id', 'inner');
 		$this->db->where('l.client_id', $client_id);
@@ -490,23 +501,20 @@ class Api extends AdminController
 		$out = [];
 		foreach ($links as $r) {
 			// context filter
-			if ($ctxKey) {
-				if (!empty($r['email_notif_json'])) {
-					$jn = json_decode($r['email_notif_json'], true);
-					if (is_array($jn)) {
-						// μπορεί να είναι associative {invoice_emails:1,...} ή array
-						$has = false;
-						if (array_keys($jn) !== range(0, count($jn)-1)) {
-							// assoc
-							$has = !empty($jn[$ctxKey]);
-						} else {
-							// indexed
-							$has = in_array($ctxKey, array_map('strval', $jn), true);
-						}
-						if (!$has) continue;
+			if ($ctxKeys) {
+				$notifications = json_decode((string)$r['email_notif_json'], true);
+				if (!is_array($notifications)) $notifications = [];
+
+				$enabledKeys = [];
+				foreach ($notifications as $key => $value) {
+					if (is_int($key)) {
+						$enabledKeys[] = (string)$value;
+					} elseif (!empty($value)) {
+						$enabledKeys[] = (string)$key;
 					}
 				}
-				// αν δεν έχει email_notif_json καθόλου, τον αφήνουμε να περάσει (χαλαρό default)
+
+				if (!array_intersect($ctxKeys, $enabledKeys)) continue;
 			}
 
 			$email = trim((string)$r['email']);

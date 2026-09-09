@@ -20,81 +20,14 @@ register_language_files(CONTACTSPLUS_MODULE_NAME, [CONTACTSPLUS_MODULE_NAME]);
 
 function contactsplus_module_activate()
 {
-    // Fresh install (creates base tables)
+    // Fresh install. Database upgrades are handled by Perfex's native module
+    // migration runner (see migrations/*_version_*.php).
     require_once __DIR__ . '/install.php';
-
-    // 1) Τρέξε sanity πάντα (διορθώνει σχήμα idempotently)
-    $sanity = __DIR__ . '/migrations/schema_sanity.php';
-    if (file_exists($sanity)) {
-        require_once $sanity;
-        if (function_exists('contactsplus_schema_sanity')) {
-            contactsplus_schema_sanity();
-        }
-    }
-
-    // 2) Τρέξε τυχόν migrations που λείπουν
-    contactsplus_maybe_run_migrations();
-
-    // 3) Στο τέλος γράψε την τρέχουσα έκδοση
-    update_option('contactsplus_module_version', CONTACTSPLUS_MODULE_VERSION);
 }
 
 function contactsplus_module_uninstall()
 {
     require_once __DIR__ . '/uninstall.php';
-}
-
-// --- MIGRATIONS RUNNER (τρέχει σε κάθε admin load, αλλά εφαρμόζει μόνο όταν χρειάζεται) ---
-hooks()->add_action('admin_init', 'contactsplus_maybe_run_migrations');
-
-function contactsplus_maybe_run_migrations()
-{
-    // 0) Πάντα-ασφάλεια: schema sanity
-    $sanity = __DIR__ . '/migrations/schema_sanity.php';
-    if (file_exists($sanity)) {
-        require_once $sanity;
-        if (function_exists('contactsplus_schema_sanity')) {
-            contactsplus_schema_sanity();
-        }
-    }
-
-    // 1) Installed version
-    $installed = get_option('contactsplus_module_version');
-    if (!$installed) {
-        $installed = '0.0.0';
-    }
-
-    // 2) Migrations
-    $migrations = [
-        '1.0.1' => [
-            'file' => __DIR__ . '/migrations/101_add_link_json_columns.php',
-            'func' => 'contactsplus_migration_101',
-        ],
-        '2.0.0' => [
-            'file' => __DIR__ . '/migrations/200_remote_search_link_existing.php',
-            'func' => 'contactsplus_migration_200',
-        ],
-    ];
-
-    // 3) Run pending migrations
-    foreach ($migrations as $ver => $mig) {
-        if (version_compare($installed, $ver, '<')) {
-            if (file_exists($mig['file'])) {
-                require_once $mig['file'];
-                if (function_exists($mig['func'])) {
-                    call_user_func($mig['func']);
-                }
-            }
-
-            update_option('contactsplus_module_version', $ver);
-            $installed = $ver;
-        }
-    }
-
-    // 4) Always sync final version with module version
-    if ($installed !== CONTACTSPLUS_MODULE_VERSION) {
-        update_option('contactsplus_module_version', CONTACTSPLUS_MODULE_VERSION);
-    }
 }
 
 // ----------------------------------------------------------
@@ -223,22 +156,25 @@ hooks()->add_action('app_admin_footer', function () {
 
       var CP_API = <?= json_encode(admin_url('contactsplus/api/emails_for_client')); ?>;
 
-      // Τα ακριβή modals που ανέφερες
-      var MODALS = [
-        '#invoice_send_to_client_modal',
-        '#credit_note_send_to_client_modal',
-        '#proposal_send_to_customer',
-        '#estimate_send_to_client_modal',
-        '#poa_statement_send_to_client',
-        '#delivery_note_send_to_client_modal',
-        '#payment_send_to_client'
-      ].join(',');
-
       var CONTACT_SELECTORS = [
+        'select[name="send_to[]"]',
+        'select[name="send_to"]',
         'select[name="sent_to[]"]', // το δικό σου modal
         'select[name="sent_to"]',
+        'select[name="recipients[]"]',
         'select[name="contact[]"]',
-        'select[name="contact"]'
+        'select[name="contact"]',
+        'select[name="contacts[]"]'
+      ];
+
+      // Several Perfex releases render recipients as checkboxes instead of
+      // a select. These controls also let us infer the client from a core
+      // contact when the modal has no hidden client_id field.
+      var CONTACT_INPUT_SELECTORS = [
+        'input[name="send_to[]"]',
+        'input[name="sent_to[]"]',
+        'input[name="contact[]"]',
+        'input[name="contacts[]"]'
       ];
 
       var EXTRA_EMAILS = [
@@ -266,17 +202,23 @@ hooks()->add_action('app_admin_footer', function () {
           var n = toInt($m.find('input[name="'+names[i]+'"]').val());
           if (n) return n;
         }
+        var pageMatch = window.location.pathname.match(/\/clients\/client\/(\d+)/);
+        if (pageMatch) return toInt(pageMatch[1]);
         return 0;
       }
 
       function detectContext($m){
         var id = ($m.attr('id')||'').toLowerCase();
-        if (id.indexOf('invoice')>-1)       return 'invoice';
         if (id.indexOf('credit_note')>-1)   return 'credit_note';
+        if (id.indexOf('credit-note')>-1)   return 'credit_note';
+        if (id.indexOf('invoice')>-1)       return 'invoice';
         if (id.indexOf('proposal')>-1)      return 'proposal';
         if (id.indexOf('estimate')>-1)      return 'estimate';
-        if (id.indexOf('poa_statement')>-1) return 'poa_statement';
+        if (id.indexOf('statement')>-1)     return 'poa_statement';
         if (id.indexOf('delivery_note')>-1) return 'delivery_note';
+        if (id.indexOf('delivery-note')>-1) return 'delivery_note';
+        if (id.indexOf('waybill')>-1)       return 'delivery_note';
+        if (id.indexOf('receipt')>-1)       return 'receipt';
         if (id.indexOf('payment')>-1)       return 'payment';
         return 'generic';
       }
@@ -309,6 +251,38 @@ hooks()->add_action('app_admin_footer', function () {
           $g.append($opt);
         });
         if (typeof $sel.selectpicker === 'function'){ $sel.selectpicker('refresh'); }
+      }
+
+      function renderCpRecipients($m, $anchor, emails){
+        var $panel = $m.find('[data-contactsplus-recipients="1"]');
+        if (!$panel.length) {
+          $panel = $('<div>', {
+            'class': 'form-group contactsplus-email-recipients',
+            'data-contactsplus-recipients': '1'
+          });
+          $panel.append($('<label>', { text: CP_GROUP_LABEL }));
+          $panel.append($('<div>', { 'class': 'contactsplus-email-options' }));
+
+          var $group = $anchor.length ? $anchor.first().closest('.form-group') : $();
+          if ($group.length) $panel.insertAfter($group);
+          else $m.find('.modal-body').first().prepend($panel);
+        }
+
+        var $options = $panel.find('.contactsplus-email-options').empty();
+        emails.forEach(function(row){
+          var email = row && row.email ? String(row.email).trim() : '';
+          if (!email) return;
+          var id = 'cp_modal_email_' + Math.random().toString(36).slice(2);
+          var $label = $('<label>', { 'class': 'checkbox-inline', 'for': id });
+          $('<input>', {
+            type: 'checkbox', id: id, value: email,
+            'class': 'contactsplus-email-choice'
+          }).appendTo($label);
+          $label.append(document.createTextNode(' ' + (row.label || email)));
+          $options.append($label);
+        });
+
+        $panel.toggle($options.children().length > 0);
       }
 
       function fetchCpEmails(args, cb){
@@ -399,7 +373,7 @@ hooks()->add_action('app_admin_footer', function () {
         }
 
         $form.on('submit', function(){
-          var sel = getSelectValue($sel) || [];
+          var sel = $sel.length ? (getSelectValue($sel) || []) : [];
           if (!Array.isArray(sel)) sel = [sel];
 
           var cpEmails = [];
@@ -416,9 +390,14 @@ hooks()->add_action('app_admin_footer', function () {
             }
           });
 
-          if (typeof $sel.selectpicker === 'function'){
+          $m.find('.contactsplus-email-choice:checked').each(function(){
+            var email = String($(this).val() || '').trim();
+            if (email && cpEmails.indexOf(email) === -1) cpEmails.push(email);
+          });
+
+          if ($sel.length && typeof $sel.selectpicker === 'function'){
             $sel.selectpicker('val', keep);
-          } else {
+          } else if ($sel.length) {
             if ($sel.prop('multiple')) { $sel.val(keep); } else { $sel.val(keep.length ? keep[0] : ''); }
           }
 
@@ -428,7 +407,8 @@ hooks()->add_action('app_admin_footer', function () {
 
       function enhance($m){
         var $sel = qSelIn($m, CONTACT_SELECTORS);
-        if (!$sel.length) return;
+        var $contactInputs = qSelIn($m, CONTACT_INPUT_SELECTORS);
+        if (!$sel.length && !$contactInputs.length) return;
 
         var ctx = detectContext($m);
         var clientId = detectClientId($m);
@@ -437,12 +417,14 @@ hooks()->add_action('app_admin_footer', function () {
         if (clientId > 0) {
           args.client_id = clientId;
         } else {
-          var val = $sel.val();
+          var val = $sel.length ? $sel.val() : $contactInputs.filter(':checked').first().val();
           var coreCid = null;
           if (val && (Array.isArray(val) ? val.length>0 : true)) {
             coreCid = Array.isArray(val) ? val[0] : val;
           } else {
-            var $first = $sel.find('option[value]').first();
+            var $first = $sel.length
+              ? $sel.find('option[value]').first()
+              : $contactInputs.filter('[value]').first();
             if ($first.length) coreCid = $first.val();
           }
           var intCid = parseInt(coreCid, 10);
@@ -453,22 +435,36 @@ hooks()->add_action('app_admin_footer', function () {
           }
         }
 
+        var requestKey = ctx + ':' + (args.client_id || ('contact:' + args.contact_id));
+        if ($m.data('contactsplusEmailRequest') === requestKey) {
+          bindSubmit($m, $sel);
+          return;
+        }
+        $m.data('contactsplusEmailRequest', requestKey);
+
         fetchCpEmails(args, function(list){
-          addCpOptions($sel, list);
+          if ($sel.length) addCpOptions($sel, list);
+          else renderCpRecipients($m, $contactInputs, list);
         });
         bindSubmit($m, $sel);
       }
 
-      $(document).on('shown.bs.modal', MODALS, function(){
+      // Listen to every modal and let enhance() opt in only when it finds a
+      // supported recipient control. This covers custom statement/waybill
+      // modal IDs as well as IDs renamed between Perfex releases.
+      $(document)
+        .off('shown.bs.modal.contactsplusEmails', '.modal')
+        .on('shown.bs.modal.contactsplusEmails', '.modal', function(){
         var $m = $(this);
         try {
           enhance($m);
           setTimeout(function(){ try{ enhance($m); }catch(e){} }, 350);
+          setTimeout(function(){ try{ enhance($m); }catch(e){} }, 1000);
         } catch(e){}
       });
 
       setTimeout(function(){
-        $(MODALS).filter('.in, .show').each(function(){ try{ enhance($(this)); }catch(e){} });
+        $('.modal.in, .modal.show').each(function(){ try{ enhance($(this)); }catch(e){} });
       }, 600);
 
     })();
