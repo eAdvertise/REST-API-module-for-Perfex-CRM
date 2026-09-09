@@ -156,17 +156,6 @@ hooks()->add_action('app_admin_footer', function () {
 
       var CP_API = <?= json_encode(admin_url('contactsplus/api/emails_for_client')); ?>;
 
-      // Τα ακριβή modals που ανέφερες
-      var MODALS = [
-        '#invoice_send_to_client_modal',
-        '#credit_note_send_to_client_modal',
-        '#proposal_send_to_customer',
-        '#estimate_send_to_client_modal',
-        '#poa_statement_send_to_client',
-        '#delivery_note_send_to_client_modal',
-        '#payment_send_to_client'
-      ].join(',');
-
       var CONTACT_SELECTORS = [
         'select[name="send_to[]"]',
         'select[name="send_to"]',
@@ -220,12 +209,16 @@ hooks()->add_action('app_admin_footer', function () {
 
       function detectContext($m){
         var id = ($m.attr('id')||'').toLowerCase();
-        if (id.indexOf('invoice')>-1)       return 'invoice';
         if (id.indexOf('credit_note')>-1)   return 'credit_note';
+        if (id.indexOf('credit-note')>-1)   return 'credit_note';
+        if (id.indexOf('invoice')>-1)       return 'invoice';
         if (id.indexOf('proposal')>-1)      return 'proposal';
         if (id.indexOf('estimate')>-1)      return 'estimate';
-        if (id.indexOf('poa_statement')>-1) return 'poa_statement';
+        if (id.indexOf('statement')>-1)     return 'poa_statement';
         if (id.indexOf('delivery_note')>-1) return 'delivery_note';
+        if (id.indexOf('delivery-note')>-1) return 'delivery_note';
+        if (id.indexOf('waybill')>-1)       return 'delivery_note';
+        if (id.indexOf('receipt')>-1)       return 'receipt';
         if (id.indexOf('payment')>-1)       return 'payment';
         return 'generic';
       }
@@ -258,6 +251,38 @@ hooks()->add_action('app_admin_footer', function () {
           $g.append($opt);
         });
         if (typeof $sel.selectpicker === 'function'){ $sel.selectpicker('refresh'); }
+      }
+
+      function renderCpRecipients($m, $anchor, emails){
+        var $panel = $m.find('[data-contactsplus-recipients="1"]');
+        if (!$panel.length) {
+          $panel = $('<div>', {
+            'class': 'form-group contactsplus-email-recipients',
+            'data-contactsplus-recipients': '1'
+          });
+          $panel.append($('<label>', { text: CP_GROUP_LABEL }));
+          $panel.append($('<div>', { 'class': 'contactsplus-email-options' }));
+
+          var $group = $anchor.length ? $anchor.first().closest('.form-group') : $();
+          if ($group.length) $panel.insertAfter($group);
+          else $m.find('.modal-body').first().prepend($panel);
+        }
+
+        var $options = $panel.find('.contactsplus-email-options').empty();
+        emails.forEach(function(row){
+          var email = row && row.email ? String(row.email).trim() : '';
+          if (!email) return;
+          var id = 'cp_modal_email_' + Math.random().toString(36).slice(2);
+          var $label = $('<label>', { 'class': 'checkbox-inline', 'for': id });
+          $('<input>', {
+            type: 'checkbox', id: id, value: email,
+            'class': 'contactsplus-email-choice'
+          }).appendTo($label);
+          $label.append(document.createTextNode(' ' + (row.label || email)));
+          $options.append($label);
+        });
+
+        $panel.toggle($options.children().length > 0);
       }
 
       function renderCpRecipients($m, $anchor, emails){
@@ -474,6 +499,13 @@ hooks()->add_action('app_admin_footer', function () {
           }
         }
 
+        var requestKey = ctx + ':' + (args.client_id || ('contact:' + args.contact_id));
+        if ($m.data('contactsplusEmailRequest') === requestKey) {
+          bindSubmit($m, $sel);
+          return;
+        }
+        $m.data('contactsplusEmailRequest', requestKey);
+
         fetchCpEmails(args, function(list){
           if ($sel.length) addCpOptions($sel, list);
           else renderCpRecipients($m, $contactInputs, list);
@@ -481,16 +513,22 @@ hooks()->add_action('app_admin_footer', function () {
         bindSubmit($m, $sel);
       }
 
-      $(document).on('shown.bs.modal', MODALS, function(){
+      // Listen to every modal and let enhance() opt in only when it finds a
+      // supported recipient control. This covers custom statement/waybill
+      // modal IDs as well as IDs renamed between Perfex releases.
+      $(document)
+        .off('shown.bs.modal.contactsplusEmails', '.modal')
+        .on('shown.bs.modal.contactsplusEmails', '.modal', function(){
         var $m = $(this);
         try {
           enhance($m);
           setTimeout(function(){ try{ enhance($m); }catch(e){} }, 350);
+          setTimeout(function(){ try{ enhance($m); }catch(e){} }, 1000);
         } catch(e){}
       });
 
       setTimeout(function(){
-        $(MODALS).filter('.in, .show').each(function(){ try{ enhance($(this)); }catch(e){} });
+        $('.modal.in, .modal.show').each(function(){ try{ enhance($(this)); }catch(e){} });
       }, 600);
 
     })();

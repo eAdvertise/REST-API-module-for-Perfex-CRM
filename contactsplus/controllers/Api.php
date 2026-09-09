@@ -478,7 +478,10 @@ class Api extends AdminController
 				$ctxKeys = ['credit_note_emails', 'credit_note', 'credit_notes'];
 				break;
 			case 'delivery_note':
-				$ctxKeys = ['delivery_note_emails', 'delivery_note', 'delivery_notes'];
+				$ctxKeys = [
+					'delivery_note_emails', 'delivery_note', 'delivery_notes',
+					'waybill_emails', 'waybill', 'waybills',
+				];
 				break;
 		}
 
