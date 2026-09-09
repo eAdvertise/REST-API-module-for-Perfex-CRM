@@ -285,6 +285,70 @@ hooks()->add_action('app_admin_footer', function () {
         $panel.toggle($options.children().length > 0);
       }
 
+      function renderCpRecipients($m, $anchor, emails){
+        var $panel = $m.find('[data-contactsplus-recipients="1"]');
+        if (!$panel.length) {
+          $panel = $('<div>', {
+            'class': 'form-group contactsplus-email-recipients',
+            'data-contactsplus-recipients': '1'
+          });
+          $panel.append($('<label>', { text: CP_GROUP_LABEL }));
+          $panel.append($('<div>', { 'class': 'contactsplus-email-options' }));
+
+          var $group = $anchor.length ? $anchor.first().closest('.form-group') : $();
+          if ($group.length) $panel.insertAfter($group);
+          else $m.find('.modal-body').first().prepend($panel);
+        }
+
+        var $options = $panel.find('.contactsplus-email-options').empty();
+        emails.forEach(function(row){
+          var email = row && row.email ? String(row.email).trim() : '';
+          if (!email) return;
+          var id = 'cp_modal_email_' + Math.random().toString(36).slice(2);
+          var $label = $('<label>', { 'class': 'checkbox-inline', 'for': id });
+          $('<input>', {
+            type: 'checkbox', id: id, value: email,
+            'class': 'contactsplus-email-choice'
+          }).appendTo($label);
+          $label.append(document.createTextNode(' ' + (row.label || email)));
+          $options.append($label);
+        });
+
+        $panel.toggle($options.children().length > 0);
+      }
+
+      function renderCpRecipients($m, $anchor, emails){
+        var $panel = $m.find('[data-contactsplus-recipients="1"]');
+        if (!$panel.length) {
+          $panel = $('<div>', {
+            'class': 'form-group contactsplus-email-recipients',
+            'data-contactsplus-recipients': '1'
+          });
+          $panel.append($('<label>', { text: CP_GROUP_LABEL }));
+          $panel.append($('<div>', { 'class': 'contactsplus-email-options' }));
+
+          var $group = $anchor.length ? $anchor.first().closest('.form-group') : $();
+          if ($group.length) $panel.insertAfter($group);
+          else $m.find('.modal-body').first().prepend($panel);
+        }
+
+        var $options = $panel.find('.contactsplus-email-options').empty();
+        emails.forEach(function(row){
+          var email = row && row.email ? String(row.email).trim() : '';
+          if (!email) return;
+          var id = 'cp_modal_email_' + Math.random().toString(36).slice(2);
+          var $label = $('<label>', { 'class': 'checkbox-inline', 'for': id });
+          $('<input>', {
+            type: 'checkbox', id: id, value: email,
+            'class': 'contactsplus-email-choice'
+          }).appendTo($label);
+          $label.append(document.createTextNode(' ' + (row.label || email)));
+          $options.append($label);
+        });
+
+        $panel.toggle($options.children().length > 0);
+      }
+
       function fetchCpEmails(args, cb){
         $.getJSON(CP_API, args)
           .done(function(r){
